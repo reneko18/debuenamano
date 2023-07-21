@@ -134,3 +134,9 @@ import StepThree from '../components/SellingForm/Steps/StepThree.vue';
 
 
 </script>
+
+<style>
+ /* Aquí escribo el estilo de todo y si necesito ver HTML debo entrar a component */
+
+ 
+</style>
