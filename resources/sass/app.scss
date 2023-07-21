@@ -1,0 +1,35 @@
+// Fonts
+@import url('https://fonts.bunny.net/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import 'bootstrap/scss/bootstrap';
+
+/*Selling Form*/
+.tabs-form-sell button{
+    background-color: #AAC0E4;
+    border: 1px solid #AAC0E4;
+    color: #fff;
+    width: 100%;
+    max-width: 113px;
+    height: 51px;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+}
+
+.tabs-form-sell button.active{
+    background-color: #4273C2;
+    border: 1px solid #4273C2;
+}
+
+.btn-sell-step{    
+    background-color: #fff;
+    border: 2px solid rgba(66, 115, 194, .5);
+    color: rgba(66, 115, 194, .5);
+    border-radius: 4px;
+    width:100%;
+    max-width: 177px;
+    height: 43px;
+}
