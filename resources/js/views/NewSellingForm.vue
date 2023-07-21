@@ -139,9 +139,9 @@ import StepThree from '../components/SellingForm/Steps/StepThree.vue';
  /* Aquí escribo el estilo de todo y si necesito ver HTML debo entrar a component */
 
  li {
-    color: #99cc00;
-    font-weight: bold;
-    font-style: italic;
+    color: blue;
+    font-weight: 400;
+    text-transform: capitalize;
  }
 
  
