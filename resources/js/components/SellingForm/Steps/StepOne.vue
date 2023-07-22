@@ -1,8 +1,12 @@
 <template>
-                <h2>Cuéntanos ¿Qué artículo quieres vender?</h2>
-                <p class="bajada-h2">Nombra tu artículo, selecciona una categoría, características que le corresponda y danos una breve descripción.</p>
                 <div class="row">
-                    <div class="col-6">
+                    <div class=" col-lg-7 col-md-12">
+                        <h2>Cuéntanos ¿Qué artículo quieres vender?</h2>
+                        <p class="bajada-h2">Nombra tu artículo, selecciona una categoría, características que le corresponda y danos una breve descripción.</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-5 col-md-12">
                         <div>
                             <label for="productName" class="form-label">Nombre*</label>
                             <input type="text" class="form-control" id="productName" placeholder="Nombre del artículo" v-model="formData.name">
@@ -27,7 +31,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-6">
+                    <div class="col-lg-7 col-md-12">
                         <div class="row">
                             <div class="col-md-2">
                                 <label for="age-pro" class="form-label">Edad</label>
@@ -66,7 +70,7 @@
                     </div>
                 </div>
                 <!-- <button class="btn btn-primary mt-3" @click="validateStepOne">Continuar</button>-->
-                <button class="btn btn-primary" @click="nextStep">Continuar</button>
+                <button class="btn boton-principal" @click="nextStep">Continuar</button>
 
 </template>
 <script>

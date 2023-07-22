@@ -5,7 +5,7 @@
     </section>
     <section class="container">
         <div class="row">
-            <div class="col-4 nav-pasos">
+            <div class="col-3 nav-pasos">
                 <h3 class="titulo-paso-activo">Presentación</h3>
                 
                     <li v-for="(link, index) in linksPresentation" @click="clickMenu(index)">
@@ -13,7 +13,7 @@
                     </li>
 
             </div>
-            <div class="col-8 modulo-pasos">
+            <div class="col-9 modulo-pasos">
                     <!-- <component
                         :is="formSteps[currentStep]" :nextStep="nextStep"  
                         :formValues="values"                  
@@ -236,7 +236,7 @@ h2{
     border-radius: 2px;
     border: 1.2px solid #C0C6B9;
     background: #fff;
-    padding: 12px;
+    padding: 10px;
  }
 
 .form-control::placeholder {
@@ -257,5 +257,22 @@ h2{
     border-color:#728C54!important;
     box-shadow: 0px 1px 2px 0px rgba(39, 48, 29, 0.15);
     background: #fff;
+}
+
+/* BOTONES */
+.boton-principal {
+    color:#D29C37;
+    border-radius: 4px;
+    border: 2px solid #D29C37;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 15px;
+    line-height: 15px;
+    font-weight: 700;
+    padding: 16px 32px;
+}
+
+.boton-principal:hover {
+    background-color:#D29C37;
+    color: #F8FAF7;
 }
 </style>

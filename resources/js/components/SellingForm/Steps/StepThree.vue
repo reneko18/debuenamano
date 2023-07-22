@@ -1,9 +1,13 @@
 <template>
-        <h2>Medidas y peso aproximado del artículo</h2>
-        <p class="bajada-h2">Esto nos ayudará a mostrar las dimensiones precisas en la descripción y garantizar una experiencia de compra sin sorpresas.</p>
+        <div class="row">
+          <div class=" col-lg-7 col-md-12">
+            <h2>Medidas y peso aproximado del artículo</h2>
+            <p class="bajada-h2">Esto nos ayudará a mostrar las dimensiones precisas en la descripción y garantizar una experiencia de compra sin sorpresas.</p>
+          </div>
+        </div>
         <input type="text" class="form-control" placeholder="Test field" v-model="formData.test">
         <button class="btn btn-primary" @click="prevStep">Previous</button>
-        <button class="btn btn-primary" @click="submitForm">Submit</button>
+        <button class="btn boton-principal" @click="submitForm">Submit</button>
 </template>
 <script>
 import { useFormStore } from '../../../stores/values';
