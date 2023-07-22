@@ -1,6 +1,6 @@
 <template>
                 <h2>Cuéntanos ¿Qué artículo quieres vender?</h2>
-                <p>Nombra tu artículo, selecciona una categoría, características que le corresponda y danos una breve descripción.</p>
+                <p class="bajada-h2">Nombra tu artículo, selecciona una categoría, características que le corresponda y danos una breve descripción.</p>
                 <div class="row">
                     <div class="col-6">
                         <div>

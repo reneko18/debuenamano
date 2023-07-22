@@ -1,18 +1,19 @@
 <template>
     <section class="container">
         <h1>Formulario de Publicación</h1>
-        <p>Completa el formulario con los detalles de tu artículo. Cuanta más información proporciones, mejor será la experiencia de nuestros compradores al conocer tu producto.</p>
+        <p class="bajada-h1">Completa el formulario con los detalles de tu artículo. Cuanta más información proporciones, mejor será la experiencia de nuestros compradores al conocer tu producto.</p>
     </section>
     <section class="container">
         <div class="row">
-            <div class="col-4 d-flex flex-column">
-                <h3>Presentación</h3>
-                <li v-for="(link, index) in linksPresentation" @click="clickMenu(index)">
-                    {{ link }}
-                </li>
+            <div class="col-4 nav-pasos">
+                <h3 class="titulo-paso-activo">Presentación</h3>
+                
+                    <li v-for="(link, index) in linksPresentation" @click="clickMenu(index)">
+                        {{ link }}
+                    </li>
 
             </div>
-            <div class="col-8">
+            <div class="col-8 modulo-pasos">
                     <!-- <component
                         :is="formSteps[currentStep]" :nextStep="nextStep"  
                         :formValues="values"                  
@@ -138,5 +139,123 @@ import StepThree from '../components/SellingForm/Steps/StepThree.vue';
 <style>
  /* Aquí escribo el estilo de todo y si necesito ver HTML debo entrar a component */
 
- 
+/* TIPOGRAFÍA ****************************************************** */
+body { 
+    font-family: 'Inter', sans-serif;
+    color: #1B1F22;
+    background-color: #fff;
+}
+
+h1, h2, h3, h4 { font-family: 'Quicksand', sans-serif; }
+
+h1 {
+    color: #1B1F22;
+    font-size: 36px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+ }
+
+h2{
+    color: #1B1F22;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 30px;
+}
+
+ .bajada-h1 {
+    font-family: 'Inter', sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 26px;
+    margin-bottom: 54px;
+ }
+
+ .bajada-h2{
+    color:#1B1F22;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 22px;
+    margin-bottom: 32px;
+}
+
+.titulo-paso-activo {
+    color: #728C54;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    margin-bottom: 16px;
+}
+
+/* NAVEGACIÓN ****************************************************** */
+
+.nav-pasos { list-style-type: none; } 
+
+ .nav-pasos li {
+    color: #1B1F22;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 18px;
+    margin-bottom: 4px;
+    padding: 4px 8px;
+    display: block;/* No funciona */
+    background: #fff;
+    border-radius: 8px;
+ }
+
+ .nav-pasos li:nth-child(2) {
+    color: #fff;
+    background: #D29C37;
+    display: inline-block; /* No funciona */
+ }
+
+ .modulo-pasos{
+    border-radius: 6px;
+    background: #F8FAF7;
+    padding: 40px 20px;
+    box-shadow: 0px 2px 4px 0px rgba(10, 13, 8, 0.10);
+ }
+
+ /* FORMULARIOS ****************************************************** */
+
+ label {
+    font-family: 'Quicksand', sans-serif;
+    color:#1B1F22;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 16px;
+ }
+
+.form-select, .form-control {
+    margin-bottom: 24px;
+    border-radius: 2px;
+    border: 1.2px solid #C0C6B9;
+    background: #fff;
+    padding: 12px;
+ }
+
+.form-control::placeholder {
+    color: #1B1F22;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    font-family: 'Inter', sans-serif;
+}
+
+.form-control:focus {
+    border-color:#728C54!important;
+    box-shadow: 0px 1px 2px 0px rgba(39, 48, 29, 0.15);
+    background: #fff;
+}
+
+.form-select:focus {
+    border-color:#728C54!important;
+    box-shadow: 0px 1px 2px 0px rgba(39, 48, 29, 0.15);
+    background: #fff;
+}
 </style>

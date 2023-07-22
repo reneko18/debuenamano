@@ -1,6 +1,6 @@
 <template>
         <h2>Medidas y peso aproximado del artículo</h2>
-        <p>Esto nos ayudará a mostrar las dimensiones precisas en la descripción y garantizar una experiencia de compra sin sorpresas.</p>
+        <p class="bajada-h2">Esto nos ayudará a mostrar las dimensiones precisas en la descripción y garantizar una experiencia de compra sin sorpresas.</p>
         <input type="text" class="form-control" placeholder="Test field" v-model="formData.test">
         <button class="btn btn-primary" @click="prevStep">Previous</button>
         <button class="btn btn-primary" @click="submitForm">Submit</button>

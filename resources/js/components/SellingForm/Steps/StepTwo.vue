@@ -1,6 +1,6 @@
 <template>
         <h2>Si es posible, indícanos la marca y el modelo de tu artículo</h2>
-        <p>Al proporcionar información específica aumentas las posibilidades de que una persona encuentre rápidamente tu producto. </p>
+        <p class="bajada-h2">Al proporcionar información específica aumentas las posibilidades de que una persona encuentre rápidamente tu producto. </p>
         <div class="row">
             <div class="col-6">
                 <div>
