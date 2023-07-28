@@ -19,8 +19,7 @@
                 </div>
             </div>
         </div>
-        <!-- <button class="btn btn-primary mt-3" @click="nextStepChild">Continuar</button> -->
-        <button class="btn btn-primary" @click="prevStep">Anterior</button>
+        <!-- <button class="btn btn-primary mt-3" @click="nextStepChild">Continuar</button> -->       
         <button class="btn boton-principal" @click="nextStep">Continuar</button>
 </template>
 <script>
@@ -41,25 +40,25 @@ props: ['nextStep'],
   },*/
 
   //Test Code
-    setup() {
+    emits: ['next-step'],
+    setup(_, { emit }) {
     const formStore = useFormStore();
 
     const formData = formStore.formData;
 
     const nextStep = () => {
       formStore.setFormData(formData);
-      this.$emit('next-step');
+      emit('next-step');
     };
 
-    const prevStep = () => {
-      // Emit an event to notify the parent component to move to the previous step
+    /*const prevStep = () => {     
       this.$emit('prev-step');
-    };
+    };*/
 
     return {
       formData,
       nextStep,
-      prevStep,
+      //prevStep,
     };
   },
 }

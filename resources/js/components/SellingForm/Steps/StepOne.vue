@@ -1,11 +1,12 @@
 <template>
-                <div class="row">
+<div class="modulo-pasos">
+        <div class="row">
                     <div class=" col-lg-7 col-md-12">
                         <h2>Cuéntanos ¿Qué artículo quieres vender?</h2>
                         <p class="bajada-h2">Nombra tu artículo, selecciona una categoría, características que le corresponda y danos una breve descripción.</p>
                     </div>
-                </div>
-                <div class="row">
+        </div>
+        <div class="row">
                     <div class="col-lg-5 col-md-12">
                         <div>
                             <label for="productName" class="form-label">Nombre*</label>
@@ -65,12 +66,14 @@
                         </div>
                         <div>
                             <label for="desc-pro" class="form-label">Breve descripción*</label>
-                            <textarea class="form-control" placeholder="Describe el artículo..."></textarea>                           
+                            <textarea class="form-control" placeholder="Describe el artículo..."></textarea>                          
                         </div>
                     </div>
-                </div>
-                <!-- <button class="btn btn-primary mt-3" @click="validateStepOne">Continuar</button>-->
-                <button class="btn boton-principal" @click="nextStep">Continuar</button>
+        </div>
+        <!-- <button class="btn btn-primary mt-3" @click="validateStepOne">Continuar</button>-->
+        <button class="btn boton-principal" @click="nextStep">Continuar</button>
+</div>
+
 
 </template>
 <script>
@@ -120,7 +123,8 @@ props: ['nextStep'],
     },
   },*/
   //Test Code
-  setup() {
+  emits: ['next-step'],
+  setup(_, { emit }) {
     const formStore = useFormStore();
 
     const formData = formStore.formData;
@@ -131,7 +135,7 @@ props: ['nextStep'],
       // You can use an event bus, Vue's built-in event system, or a global store
       // For simplicity, we'll use a custom event here.
       // Alternatively, you can use Vue's router to handle navigation between steps.
-      this.$emit('next-step');
+      emit('next-step');
     };
 
     return {

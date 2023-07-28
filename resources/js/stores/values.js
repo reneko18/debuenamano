@@ -12,12 +12,12 @@ export const useFormStore = defineStore('form', {
       setFormData(formData) {
         this.formData = { ...this.formData, ...formData };
       },
-      resetForm() {
+      /*resetForm() {
         this.formData = {
           name: '',
           brand: '',
           test: '',
         };
-      },
+      },*/
     }
 });

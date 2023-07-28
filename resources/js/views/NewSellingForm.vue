@@ -7,26 +7,25 @@
         <div class="row">
             <div class="col-3 nav-pasos">
                 <h3 class="titulo-paso-activo">Presentación</h3>
-                
                     <li v-for="(link, index) in linksPresentation" @click="clickMenu(index)">
-                        {{ link }}
+                            {{ link }}
                     </li>
-
             </div>
-            <div class="col-9 modulo-pasos">
+            <div class="col-9">
                     <!-- <component
                         :is="formSteps[currentStep]" :nextStep="nextStep"  
                         :formValues="values"                  
                     ></component>  -->
                     <!--<component :is="currentStepComponent" @next-step="nextStep" @prev-step="prevStep" @reset-form="resetForm" />   -->      
-                    <component :is="formSteps[currentStep]" @next-step="nextStep" @prev-step="prevStep" @reset-form="resetForm" />        
+                    <!--<component :is="formSteps[currentStep]" @next-step="nextStep" @prev-step="prevStep" @reset-form="resetForm" /> -->     
+                    <component :is="formSteps[currentStep]" @next-step="nextStep"/>  
             </div>
             
         </div>
     </section>
    
 </template>
-<script setup>
+<script>
 /*import { useFormStore } from '../stores/values';
 
 import StepOne from '../components/SellingForm/Steps/StepOne.vue';
@@ -77,57 +76,74 @@ import StepOne from '../components/SellingForm/Steps/StepOne.vue';
 import StepTwo from '../components/SellingForm/Steps/StepTwo.vue';
 import StepThree from '../components/SellingForm/Steps/StepThree.vue';
 
+export default {
+  /*components: {
+    StepOne,
+    StepTwo,
+    StepThree,
+  },*/
+   setup() {
+        const formStore = useFormStore();
 
-    const formStore = useFormStore();
+        // Use a ref to keep track of the current step
+        const currentStep = ref(0);
+        const formData = formStore.formData;
 
-    // Use a ref to keep track of the current step
-    const currentStep = ref(0);
-    const formData = formStore.formData;
+        const nextStep = () => {
+        // Increment the current step and move to the next step component
+        currentStep.value++;
+        };
 
-    const nextStep = () => {
-      // Increment the current step and move to the next step component
-      currentStep.value++;
-    };
+        /*const prevStep = () => {
+        currentStep.value--;
+        };*/
 
-    const prevStep = () => {
-      // Decrement the current step and move to the previous step component
-      currentStep.value--;
-    };
+        /*const resetForm = () => {
+        currentStep.value = 1;
+        };*/
+        const formSteps = [
+            StepOne,
+            StepTwo,
+            StepThree,
+        ];
 
-    const resetForm = () => {
-      // Reset the current step and form data when the form is submitted
-      currentStep.value = 1;
-    };
-    const formSteps = [
-        StepOne,
-        StepTwo,
-        StepThree,
-    ];
+        const linksPresentation = [
+            'Artículo',
+            'Marca',
+            'Dimensiones'
+        ];
 
-    const linksPresentation = [
-        'Artículo',
-        'Marca',
-        'Dimensiones'
-    ];
+        // Map the current step to the corresponding step component
+        /*const currentStepComponent = () => {
+        switch (currentStep.value) {
+            case 1:
+            return StepOne;
+            case 2:
+            return StepTwo;
+            case 3:
+            return StepThree;
+            default:
+            return null;
+        }
+        };*/
 
-    // Map the current step to the corresponding step component
-    /*const currentStepComponent = () => {
-      switch (currentStep.value) {
-        case 0:
-          return StepOne;
-        case 1:
-          return StepTwo;
-        case 2:
-          return StepThree;
-        default:
-          return null;
-      }
-    };*/
+        const clickMenu = (index) => {  
+            currentStep.value = index;                       
+        }
 
-    const clickMenu = (index) => {  
-        currentStep.value = index        
-    }
+        return {
+            //currentStepComponent,
+            nextStep,
+            clickMenu,
+            currentStep,
+            linksPresentation,
+            formSteps,
+        };
 
+   }
+}
+
+    
 
 
 
@@ -208,10 +224,15 @@ h2{
     border-radius: 8px;
  }
 
- .nav-pasos li:nth-child(2) {
+ /*.nav-pasos li:nth-child(2) {
     color: #fff;
     background: #D29C37;
-    display: inline-block; /* No funciona */
+    display: inline-block;  No funciona 
+ }*/
+
+ .active{
+    color: #fff;
+    background: #D29C37;
  }
 
  .modulo-pasos{
