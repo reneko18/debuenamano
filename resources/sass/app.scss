@@ -7,7 +7,256 @@
 // Bootstrap
 @import 'bootstrap/scss/bootstrap';
 
-/*Selling Form*/
+/* GENERAL ****************************************************** */
+body { 
+    font-family: 'Inter', sans-serif;
+    color: #1B1F22;
+    background-color: #fff;
+    padding-top: 11.25rem;
+}
+
+
+/* TIPOGRAFÍA ****************************************************** */
+
+h1, h2, h3, h4 { font-family: 'Quicksand', sans-serif; }
+
+h1 {
+    color: #1B1F22;
+    font-size: 36px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+ }
+
+h2{
+    color: #1B1F22;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 30px;
+}
+
+ .bajada-h1 {
+    font-family: 'Inter', sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 26px;
+    margin-bottom: 54px;
+ }
+
+ .bajada-h2{
+    color:#1B1F22;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 22px;
+    margin-bottom: 32px;
+}
+
+.titulo-paso-activo {
+    color: #728C54;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    margin-bottom: 16px;
+}
+
+/* HEADER */
+
+.top-header{
+    background-color: #344026;
+    padding: 8px 0;
+}
+
+.top-header .iconos {
+    padding: 0;
+    margin: 0;
+}
+
+.top-header .iconos li {
+    display: inline-block;
+    margin-left: 16px;
+}
+
+.top-header .iconos li a svg {
+    height: 16px;
+    width: auto;
+    fill: #fff;
+}
+
+.top-header .iconos li a:hover path {
+    fill: #D29C37;
+    stroke: #D29C37;
+}
+
+.header {
+    background: #fff;
+    box-shadow: 0px 2px 4px 0px rgba(27, 31, 34, 0.10);
+    padding: 15px 0;
+}
+
+.navbar-brand { 
+    width: 120px;
+    height: 120px;
+    padding: 0;
+    top: 8px;
+    border-radius: 50%;
+    box-shadow: 0px 1px 3px 0px rgba(27, 31, 34, 0.30);
+    background-color: #fff;
+}
+
+.navbar-brand img {
+    width: 100%;
+    height: auto;
+    -webkit-transition-duration: .85s;
+    -moz-transition-duration: .85s;
+    -o-transition-duration: .85s;
+    transition-duration: .85s;
+    -webkit-transition-property: -webkit-transform;
+    -moz-transition-property: -moz-transform;
+    -o-transition-property: -o-transform;
+    transition-property: transform;  
+}
+
+.navbar-brand img:hover {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+    -webkit-transition-duration: 1s;
+    -moz-transition-duration: 1s;
+    -o-transition-duration: 1s;
+    transition-duration: 1s;
+}
+
+.header .navbar-nav .nav-item {
+    margin-left: 7px;
+}
+
+.header .navbar-nav .nav-item .nav-link,
+.header .navbar-nav .nav-item .icono-buscar {
+    color: #030304;
+    font-size: 0.9rem;
+    font-style: normal;
+    font-weight: 400;
+    padding: 12px 24px;
+    background-color: #fff;
+    border-radius: 4px; 
+    transition: .25s ease-in-out;
+    -webkit-transition:.25s ease-in-out;
+    -moz-transition: .25s ease-in-out;
+    -ms-transition: .25s ease-in-out;
+    -o-transition: .25s ease-in-out; 
+}
+
+.header .navbar-nav .nav-item .nav-link:hover,
+.header .navbar-nav .nav-item .nav-link .activo,
+.header .navbar-nav .nav-item .icono-buscar:hover {
+   background-color: #728C54;
+   color: #fff;
+}
+
+.icono-buscar:hover > svg path {
+    stroke: #fff;
+ }
+
+/* SUB-NAV ****************************************************** */
+
+.breadcrumb { margin-top: 20px; margin-bottom: 60px; }
+.breadcrumb .breadcrumb-item a { color: #C0C6B9; text-decoration: none; }
+.breadcrumb-item.active, .breadcrumb .breadcrumb-item a:hover, .breadcrumb-item + .breadcrumb-item::before { color: #728C54; }
+
+.nav-pasos { list-style-type: none; } 
+
+ .nav-pasos li {
+    color: #1B1F22;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 18px;
+    margin-bottom: 4px;
+    padding: 4px 8px;
+    display: block;/* No funciona */
+    background: #fff;
+    border-radius: 8px;
+ }
+
+ .nav-pasos li:nth-child(2) {
+    color: #fff;
+    background: #D29C37;
+    display: inline-block;
+ }
+
+ .activo {
+    color: #fff;
+    background: #D29C37;
+ }
+
+ .modulo-pasos{
+    border-radius: 6px;
+    background: #F8FAF7;
+    padding: 40px 20px;
+    box-shadow: 0px 2px 4px 0px rgba(10, 13, 8, 0.10);
+ }
+
+ /* FORMULARIOS ****************************************************** */
+
+ label {
+    font-family: 'Quicksand', sans-serif;
+    color:#1B1F22;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 16px;
+ }
+
+.form-select, .form-control {
+    margin-bottom: 24px;
+    border-radius: 2px;
+    border: 1.2px solid #C0C6B9;
+    background: #fff;
+    padding: 10px;
+ }
+
+.form-control::placeholder {
+    color: #1B1F22;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    font-family: 'Inter', sans-serif;
+}
+
+.form-control:focus {
+    border-color:#728C54!important;
+    box-shadow: 0px 1px 2px 0px rgba(39, 48, 29, 0.15);
+    background: #fff;
+}
+
+.form-select:focus {
+    border-color:#728C54!important;
+    box-shadow: 0px 1px 2px 0px rgba(39, 48, 29, 0.15);
+    background: #fff;
+}
+
+/* BOTONES ****************************************************** */
+.boton-principal {
+    color:#D29C37;
+    border-radius: 4px;
+    border: 2px solid #D29C37;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 15px;
+    line-height: 15px;
+    font-weight: 700;
+    padding: 16px 32px;
+}
+
+.boton-principal:hover {
+    background-color:#D29C37;
+    color: #F8FAF7;
+}
+
+/* SELLING FORM ****************************************************** */
 .tabs-form-sell button{
     background-color: #AAC0E4;
     border: 1px solid #AAC0E4;
@@ -19,7 +268,7 @@
     border-top-right-radius: 6px;
 }
 
-.tabs-form-sell button.active{
+.tabs-form-sell button.activo{
     background-color: #4273C2;
     border: 1px solid #4273C2;
 }
@@ -35,15 +284,39 @@
 }
 
 
-/*Header*/
-.top-header{
+
+
+
+/*FOOTER ****************************************************** */
+footer { 
+    margin-top: 160px;
     background-color: #344026;
+    color: #fff;
 }
 
-/*Footer*/
+footer a { color: #fff; }
+
 .top-footer{
     background-color: #344026;
+    padding: 90px 0 100px 0;
+    border-top: 1px dashed #728C54!important;
+    border-width: 1.3px;
+    box-shadow: 1px 0px 2px rgba(16, 34, 40, 0.30);
+    border-bottom: 1px dashed #D29C37!important;
 }
+
+.top-footer p { font-family: 'Quicksand', sans-serif; margin-top: 15px; }
+.top-footer h2 { font-family: 'Quicksand', sans-serif; font-size: 16px; color: #D29C37; font-weight: 800; }
+.top-footer .nav-footer { padding-left: 0; }
+.top-footer .nav-footer li { padding-left: 0; list-style-type: none; }
+.top-footer .nav-footer li a { font-size: 13px; text-decoration: none; display: inline-block; margin-bottom: 12px; }
+.top-footer .nav-footer li a:hover { color: #D29C37; text-decoration: underline; } 
+
 .bottom-footer{
     background-color: #D29C37;
+    padding: 12px 0;
 }
+.bottom-footer .nav-bottom-footer { padding:0; margin: 0; }
+.bottom-footer .nav-bottom-footer li { padding-left: 0; list-style-type: none; display: inline; }
+.bottom-footer .nav-bottom-footer li a { font-size: 13px; text-decoration: none; margin-left: 12px; }
+.bottom-footer .nav-bottom-footer li a:hover { color: #344026; text-decoration: underline; } 
