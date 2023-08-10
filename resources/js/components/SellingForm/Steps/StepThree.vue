@@ -7,7 +7,7 @@
       </div>
     </div>
     <input type="text" class="form-control" placeholder="Test field" v-model="formData.test">
-    <button class="btn btn-primary">Submit</button>  
+    <button class="btn boton-principal">Continuar</button>
   </div>   
 </template>
 <script>
