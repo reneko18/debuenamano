@@ -12,4 +12,9 @@ class SingleProductController extends Controller
     {
         return view('product.shop-product-basic', compact('product'));
     }
+
+    public function singleShow()
+    {
+        return view('product.single');
+    }
 }

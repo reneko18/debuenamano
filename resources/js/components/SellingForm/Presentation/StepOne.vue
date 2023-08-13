@@ -69,10 +69,13 @@
                             <textarea class="form-control" placeholder="Describe el artículo..."></textarea>                          
                         </div>
                     </div>
-        </div>
-        <!-- <button class="btn btn-primary mt-3" @click="validateStepOne">Continuar</button>-->
-        <button class="btn boton-principal" @click="nextStep">Continuar</button>
+        </div>   
+        
 </div>
+<div class="d-flex justify-content-end mt-4">
+ <button class="btn boton-principal" @click="nextStep">Continuar <font-awesome-icon :icon="['fas', 'chevron-right']" /></button>
+</div>
+
 
 
 </template>
@@ -80,49 +83,6 @@
 import { useFormStore } from '../../../stores/values';
 
 export default {
-/*setup(){
-    const formStore = useFormStore();
-
-    const formData = formStore.formData;
-
-    return {
-      formData,
-    };
-},
-emits: ['child-data'],
-data(){
-  return {
-    formData:{
-        name:'',
-    },
-    validate: false,
-    msg:{
-       name:'',
-    }
-  }
-},
-props: ['nextStep'],
-  methods: {
-    nextStepChild() {
-      formStore.setFormData(formData);
-      this.nextStep();
-    },
-    validateStepOne(){
-        if (_.isEmpty(this.formData.name)){  
-            this.validate = false                   
-            this.msg.name= 'Por favor rellena este campo'
-        }
-        else{
-            this.msg.name = ''
-            this.validate = true 
-            this.nextStepChild()
-        }
-    },
-    sendDataToParent() {
-      this.$emit('child-data', this.validate);
-    },
-  },*/
-  //Test Code
   emits: ['next-step'],
   setup(_, { emit }) {
     const formStore = useFormStore();
@@ -131,10 +91,6 @@ props: ['nextStep'],
 
     const nextStep = () => {
       formStore.setFormData(formData);
-      // Emit an event to notify the parent component to move to the next step
-      // You can use an event bus, Vue's built-in event system, or a global store
-      // For simplicity, we'll use a custom event here.
-      // Alternatively, you can use Vue's router to handle navigation between steps.
       emit('next-step');
     };
 

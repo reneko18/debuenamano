@@ -183,15 +183,9 @@ h2{
     border-radius: 8px;
  }
 
- .nav-pasos li:nth-child(2) {
-    color: #fff;
-    background: #D29C37;
-    display: inline-block;
- }
-
- .activo {
-    color: #fff;
-    background: #D29C37;
+ .nav-pasos .active{
+    color: #fff !important;
+    background: #D29C37 !important;
  }
 
  .modulo-pasos{

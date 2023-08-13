@@ -21,7 +21,7 @@
       </div>
     </div>
     <!-- <button class="btn btn-primary mt-3" @click="nextStepChild">Continuar</button> -->       
-    <button class="btn boton-principal" @click="nextStep">Continuar</button>
+    <button class="btn boton-principal" @click="nextStep">Continuar <font-awesome-icon :icon="['fas', 'chevron-right']" /></button>
   </div>
 </template>
 <script>
@@ -29,19 +29,6 @@ import { useFormStore } from '../../../stores/values';
 
 export default {
 
-/*data(){
-  return {
-
-  }
-},
-props: ['nextStep'],
-  methods: {
-    nextStepChild() {      
-      this.nextStep();
-    },
-  },*/
-
-  //Test Code
     emits: ['next-step'],
     setup(_, { emit }) {
     const formStore = useFormStore();
@@ -53,14 +40,9 @@ props: ['nextStep'],
       emit('next-step');
     };
 
-    /*const prevStep = () => {     
-      this.$emit('prev-step');
-    };*/
-
     return {
       formData,
       nextStep,
-      //prevStep,
     };
   },
 }

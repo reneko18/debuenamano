@@ -11,9 +11,11 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 /* import specific icons */
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons'
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
+import { faPenToSquare } from '@fortawesome/free-regular-svg-icons'
 
 /* add icons to the library */
-library.add(faChevronRight)
+library.add(faChevronRight,faArrowRight,faPenToSquare)
 
 const app = createApp({});
 const pinia = createPinia();

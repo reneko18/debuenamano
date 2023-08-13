@@ -38,3 +38,5 @@ Route::get('/productos/{product}',[SingleProductController::class, 'show'])->nam
 Route::get('/formulario-venta',[SellingFormController::class,'showform'])->name('sellingformold.show');
 
 Route::get('/new-formulario-venta',[SellingFormController::class,'show'])->name('sellingform.show');
+
+Route::get('/single-product',[SingleProductController::class,'singleShow'])->name('single.show');

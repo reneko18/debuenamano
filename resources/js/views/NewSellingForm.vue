@@ -6,19 +6,26 @@
     <section class="container">
         <div class="row">
             <div class="col-3 nav-pasos">
-                <h3 class="titulo-paso-activo">Presentación</h3>
-                    <li v-for="(link, index) in linksPresentation" @click="clickMenu(index)">
-                            {{ link }}
-                    </li>
+                <!--<h3 class="titulo-paso-activo">Presentación</h3>
+                <li v-for="(link, index) in linksPresentation"  :key="index" :class="{ 'active': currentStep === index }">
+                    <span @click="clickMenu(index)">{{ link }}</span>
+                </li>
+                <h3 class="titulo-paso-activo">Estado</h3>
+                <li v-for="(linkStatu, index) in linksStatus" :key="index">
+                    <span>{{ linkStatu }}</span>
+                </li>
+                -->
+                <ul class="titulo-paso-activo" v-for="(item, index) in linkCollection" :key="index">
+                      <li>{{ item.title }}</li>
+                    <ul>
+                        <li v-for="(linkTitle, linkIndex) in item.links.titles" :key="linkIndex" :class="{ 'active': currentStep === item.links.number[linkIndex] }">
+                            <span @click="clickMenu(item.links.number[linkIndex])">{{ linkTitle }}</span>
+                        </li>
+                    </ul>
+                </ul>
             </div>
             <div class="col-9">
-                    <!-- <component
-                        :is="formSteps[currentStep]" :nextStep="nextStep"  
-                        :formValues="values"                  
-                    ></component>  -->
-                    <!--<component :is="currentStepComponent" @next-step="nextStep" @prev-step="prevStep" @reset-form="resetForm" />   -->      
-                    <!--<component :is="formSteps[currentStep]" @next-step="nextStep" @prev-step="prevStep" @reset-form="resetForm" /> -->     
-                    <component :is="formSteps[currentStep]" @next-step="nextStep"/>  
+                <component :is="formSteps[currentStep]" @next-step="nextStep"/>  
             </div>
             
         </div>
@@ -26,117 +33,102 @@
    
 </template>
 <script>
-/*import { useFormStore } from '../stores/values';
-
-import StepOne from '../components/SellingForm/Steps/StepOne.vue';
-import StepTwo from '../components/SellingForm/Steps/StepTwo.vue';
-import StepThree from '../components/SellingForm/Steps/StepThree.vue';
-import useForm from '../composables/formValues';
-
-import { ref } from 'vue';
-
-    const formStore = useFormStore();
-
-    const formData = formStore.formData;
-
-    const currentStep = ref(0);
-    const formSteps = [
-        StepOne,
-        StepTwo,
-        StepThree,
-    ];
-    const{
-        values
-    } = useForm();
-
-    const receivedData = ""
-
-    const linksPresentation = [
-        'Artículo',
-        'Marca',
-        'Dimensiones'
-    ];
-
-    const nextStep = () => {
-        currentStep.value++;
-    }
-
-    const previousStep = () => {
-        currentStep.value--;
-    }
-
-    const clickMenu = (index) => {  
-        currentStep.value = index        
-    }*/
 
 import { ref } from 'vue';
 import { useFormStore } from '../stores/values';
 
-import StepOne from '../components/SellingForm/Steps/StepOne.vue';
-import StepTwo from '../components/SellingForm/Steps/StepTwo.vue';
-import StepThree from '../components/SellingForm/Steps/StepThree.vue';
+import StepOnePre from '../components/SellingForm/Presentation/StepOne.vue';
+import StepTwoPre from '../components/SellingForm/Presentation/StepTwo.vue';
+import StepThreePre from '../components/SellingForm/Presentation/StepThree.vue';
+import StepOneStat from '../components/SellingForm/Status/StepOne.vue';
+import StepTwoStat from '../components/SellingForm/Status/StepTwo.vue';
+import StepOnePhoto from '../components/SellingForm/Photos/StepOne.vue';
+import StepOneDP from '../components/SellingForm/DeliveryAndPrice/StepOne.vue';
+import StepTwoDP from '../components/SellingForm/DeliveryAndPrice/StepTwo.vue';
+import StepThreeDP from '../components/SellingForm/DeliveryAndPrice/StepThree.vue';
 
 export default {
-  /*components: {
-    StepOne,
-    StepTwo,
-    StepThree,
-  },*/
    setup() {
         const formStore = useFormStore();
 
-        // Use a ref to keep track of the current step
         const currentStep = ref(0);
         const formData = formStore.formData;
 
         const nextStep = () => {
-        // Increment the current step and move to the next step component
         currentStep.value++;
         };
 
-        /*const prevStep = () => {
-        currentStep.value--;
-        };*/
-
-        /*const resetForm = () => {
-        currentStep.value = 1;
-        };*/
         const formSteps = [
-            StepOne,
-            StepTwo,
-            StepThree,
+            StepOnePre,
+            StepTwoPre,
+            StepThreePre,
+            StepOneStat,
+            StepTwoStat,
+            StepOnePhoto,
+            StepOneDP,
+            StepTwoDP,
+            StepThreeDP,
         ];
 
-        const linksPresentation = [
+        const linkCollection = ref([
+            {
+                title: 'Presentación',
+                links: {
+                    titles: ['Artículo', 'Marca', 'Dimensiones'],
+                    number: [0,1,2]
+                }
+            },
+            {
+                title: 'Estado',
+                links: {
+                    titles: ['Uso', 'Observaciones'],
+                    number: [3,4]
+                }
+            },  
+            {
+                title: 'Fotografías',
+                links:{
+                    titles:['Adjuntar'],
+                    number:[5]
+                }
+            },
+            {
+                title: 'Despacho y precio',
+                links:{
+                    titles:['Despacho','Precio','Cuenta depósito'],
+                    number:[6,7,8]
+                }
+            },
+            {
+                title:'Resumen',
+                links:{
+                    titles:['Resumen'],
+                    number:[9]
+                }
+            }
+        ]);
+        /*const linksPresentation = [
             'Artículo',
             'Marca',
             'Dimensiones'
         ];
+        const linksStatus = [
+            'Uso',
+            'Observaciones',
+        ];*/
 
-        // Map the current step to the corresponding step component
-        /*const currentStepComponent = () => {
-        switch (currentStep.value) {
-            case 1:
-            return StepOne;
-            case 2:
-            return StepTwo;
-            case 3:
-            return StepThree;
-            default:
-            return null;
-        }
-        };*/
 
-        const clickMenu = (index) => {  
-            currentStep.value = index;                       
+        const clickMenu = (stepNumber) => {  
+            currentStep.value = stepNumber;                       
         }
 
         return {
-            //currentStepComponent,
             nextStep,
             clickMenu,
             currentStep,
-            linksPresentation,
+            //linksPresentation,
+            //linksStatus,
+            linkCollection,
             formSteps,
         };
 
