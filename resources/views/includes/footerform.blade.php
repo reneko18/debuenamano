@@ -56,10 +56,10 @@
     </div>
     <div class="bottom-footer">
         <div class="container mx-auto row">
-            <div class="col-7">
+            <div class="col-md-2">
                 <span>DBM - {{ date('Y') }}</span>
             </div>
-            <div class="col-5">
+            <div class="col-md-10 d-flex justify-content-end">
             <ul class="nav-bottom-footer">
                 <li><a href="#">Políticas de devolución</a></li>
                 <li><a href="#">Políticas de privacidad</a></li>
