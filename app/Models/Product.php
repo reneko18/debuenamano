@@ -23,4 +23,9 @@ class Product extends Model
    {       
        return $this->belongsTo(StatusProduct::class);
    }
+
+   public function address()
+   {
+       return $this->hasOne(Address::class);
+   }
 }

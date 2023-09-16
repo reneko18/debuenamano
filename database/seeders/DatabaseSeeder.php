@@ -19,7 +19,10 @@ class DatabaseSeeder extends Seeder
     { 
         User::factory(10)->create();
         $this->call(CategoriesTableSeeder::class);
+        $this->call(SubCategoriesTableSeeder::class);
         $this->call(StatusProductsTableSeeder::class);
         Product::factory(40)->create();
+        $this->call(RegionsTableSeeder::class);
+        $this->call(CitiesTableSeeder::class);
     }
 }

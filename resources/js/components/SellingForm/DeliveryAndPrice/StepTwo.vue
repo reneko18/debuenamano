@@ -7,28 +7,62 @@
                 </div>
             </div>
             <div class="col-lg-5 col-md-12">
-                <input type="text" class="form-control" id="priceItem" placeholder="Precio">
+                  <input type="text" class="form-control" id="priceItem" placeholder="Precio" v-model="formData.stepSevenPrice" @input="feeDBM">
                 <div class="row">
                     <div class="col">
-                        <p>-$21.250</p>
-                        <p>-$3.500</p>
-                        <p>$60.250</p>
+                        <p>-${{ fee }}</p>   
+                        <p>${{ finalAmount }}</p>
                     </div>
                     <div class="col">
-                        <p>Comisión DBM 25%</p>
-                        <p>Retiro a domicilio</p>
+                        <p>Comisión DBM 25%</p>                  
                         <p>Tu ganancia</p>
                     </div>
                 </div>
             </div> 
-
-            <button class="btn boton-principal">Continuar <font-awesome-icon :icon="['fas', 'chevron-right']" /></button>
     </div>
-    </template>
-    <script>
-    export default {
-        setup() {
-            
-        },
+    <div class="d-flex justify-content-end mt-4">
+      <button class="btn boton-principal" @click="nextStep">Continuar <font-awesome-icon :icon="['fas', 'chevron-right']" /></button>
+    </div>
+</template>
+<script>
+import { useFormStore } from '../../../stores/values';
+import { onMounted } from 'vue';
+export default {
+  data() {
+        return {   
+            fee: 0,
+            finalAmount:0,
+        };
+    },
+    setup(_, { emit }) {
+    const mainStep = 4;
+
+    const formStore = useFormStore();
+    const formData = formStore.formData;
+
+    onMounted(() => {
+      emit('constant-emitted', mainStep); 
+    });
+
+    const nextStep = () => {
+      formStore.setFormData(formData);
+      emit('next-step');
+    };
+
+    return {
+      formData,
+      nextStep,
+    };
+  },
+  methods:{
+    feeDBM(){
+      this.fee = this.formData.stepSevenPrice * 0.25;
+      this.fee = Math.round(this.fee);
+      this.finalAmount = this.formData.stepSevenPrice - this.fee
+      this.fee = this.fee.toLocaleString();
+      this.finalAmount = this.finalAmount.toLocaleString();
+      
     }
-    </script>
+  },
+}
+</script>

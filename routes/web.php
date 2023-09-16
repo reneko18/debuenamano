@@ -6,6 +6,7 @@ use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\frontend\SellingFormController;
 use App\Http\Controllers\frontend\ShopController;
 use App\Http\Controllers\frontend\SingleProductController;
+use App\Http\Controllers\admin\TestController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,6 +28,7 @@ Route::prefix('admin')->group( function(){
     Route::get('dashboard', [DashboardController::class, 'index'])->name('admin.index');
     Route::resource('productos', ProductController::class);
     Route::resource('users', UserController::class);
+    Route::resource('tests', TestController::class);
 });
 
 

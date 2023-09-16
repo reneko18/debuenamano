@@ -30,6 +30,7 @@ return new class extends Migration
             $table->text('remark');
             $table->text('advice');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('address_id');
             $table->timestamps();
         });
     }

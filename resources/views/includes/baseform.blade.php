@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://kit.fontawesome.com/fff2c97c92.js" crossorigin="anonymous"></script>
     @vite('resources/sass/app.scss')
     <title>@yield('title')</title>
 </head>
@@ -13,6 +14,6 @@
     @include('includes.footerform')
     @vite('resources/js/app.js')
     <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
-    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.0/TweenMax.min.js"></script>    
 </body>
 </html>

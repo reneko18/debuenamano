@@ -10,30 +10,36 @@
       <div class="col-lg-6 col-md-12">
         <div>
           <label for="brandName" class="form-label">Marca*</label>
-          <input type="text" v-model="formData.brand" class="form-control" id="brandName" placeholder="Ingresa el nombre de la marca">
+          <input type="text" class="form-control" id="brandName" placeholder="Ingresa el nombre de la marca" v-model="formData.stepTwoBrand">
         </div>
       </div>
       <div class="col-lg-6 col-md-12">
         <div>
           <label for="modelName" class="form-label">Modelo</label>
-          <input type="text" class="form-control" id="modelName" placeholder="Ingresa el modelo del artículo">
+          <input type="text" class="form-control" id="modelName" placeholder="Ingresa el modelo del artículo" v-model="formData.stepTwoModel">
         </div>
       </div>
     </div>
-    <!-- <button class="btn btn-primary mt-3" @click="nextStepChild">Continuar</button> -->       
-    <button class="btn boton-principal" @click="nextStep">Continuar <font-awesome-icon :icon="['fas', 'chevron-right']" /></button>
+  </div>
+  <div class="d-flex justify-content-end mt-4">
+      <button class="btn boton-principal" @click="nextStep">Continuar <font-awesome-icon :icon="['fas', 'chevron-right']" /></button>
   </div>
 </template>
 <script>
 import { useFormStore } from '../../../stores/values';
-
+import { onMounted } from 'vue';
 export default {
 
-    emits: ['next-step'],
+  emits: ['nextStep', 'constant-emitted'],
     setup(_, { emit }) {
+    const mainStep = 1;
     const formStore = useFormStore();
 
     const formData = formStore.formData;
+
+    onMounted(() => {
+      emit('constant-emitted', mainStep); 
+    });
 
     const nextStep = () => {
       formStore.setFormData(formData);
