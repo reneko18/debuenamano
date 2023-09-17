@@ -19,7 +19,7 @@
                         rows="4"
                         maxlength="280"   
                         ></textarea>
-                        <span class="character-count-badge">{{ characterCountObs }}/280</span>                           
+                        <span class="character-count-badge">{{ characterCountObs }}/280 caracteres</span>                           
                     </div>
                 </div>
                 <div class="col-lg-7 col-md-12">
@@ -34,7 +34,7 @@
                         rows="4"
                         maxlength="280"  
                         ></textarea> 
-                        <span class="character-count-badge">{{ characterCountReco }}/280</span>                          
+                        <span class="character-count-badge">{{ characterCountReco }}/280 caracteres</span>                          
                     </div>
                 </div>
             </div>

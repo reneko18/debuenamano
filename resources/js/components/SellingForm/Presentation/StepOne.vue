@@ -17,7 +17,7 @@
                          <div class="position-relative" v-click-outside-element="closeDropdown">
                             <div class="position-relative div-cat">
                               <label for="testCat" class="form-label">Categoría*</label>
-                              <input id="testCat" type="text" class="form-control cat-select" :value="formData.testCat" @click="showAndCloseDropdown" readonly>
+                              <input id="testCat" type="text" class="form-control cat-select" :value="formData.stepOneCategory" @click="showAndCloseDropdown" readonly>
                               <i class="fa-solid fa-chevron-down" @click="showAndCloseDropdown"></i>
                             </div>          
                             <div id="dropdown-cats">
@@ -101,7 +101,7 @@
                                 rows="4"
                                 maxlength="280"                            
                                 ></textarea>  
-                                <span class="character-count-badge">{{ characterCount }}/280</span>    
+                                <span class="character-count-badge">{{ characterCount }}/280 caracteres</span>    
                             </div>                                        
                         </div>
                     </div>

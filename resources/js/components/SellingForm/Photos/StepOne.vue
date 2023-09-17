@@ -215,7 +215,7 @@ export default {
     max-width:80px;
     height:80px;
     margin-right:1rem;
-    object-fit: cover;
+    object-fit: fill;
 }
 .cont-images-result .row-results p{
     margin-bottom:0;
@@ -236,6 +236,9 @@ export default {
     font-weight:600;
     color:#1B1F22;
     margin-right:4rem;
+}
+.cont-images-result .row-results .second .fa-trash-can{
+    height: 1.4em;
 }
 .cont-images-result .row-results .second .fa-trash-can path{
     fill:#728C54;
