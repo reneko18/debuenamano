@@ -7,32 +7,24 @@
                     </div>
         </div>
         <div class="row">
-                    <div class="col-lg-5 col-md-12">
+                    <div class="col-lg-5 col-md-12 left-column">
                         <div>
                             <label for="productName" class="form-label">Nombre*</label>
                             <input type="text" class="form-control" id="productName" placeholder="Nombre del artículo" v-model="formData.stepOneName">
                             <!--<p v-if="msg.name">{{ msg.name }}</p>-->
                         </div>
-                        <div>                            
-                            <label for="productCat1" class="form-label">Categoría*</label>
-                            <select id="productCat1" class="form-select" v-model="formData.stepOneCategory">
-                              <option selected>Selecciona una categoría</option>
-                              <optgroup v-for="category in categories" :label="category.name" :key="category.id">
-                                <option v-for="subcategory in category.subcategories" :value="subcategory.id" :key="subcategory.id">{{ subcategory.name }}</option>
-                              </optgroup>
-                            </select>
-                         </div>
+
                          <div class="position-relative" v-click-outside-element="closeDropdown">
                             <div class="position-relative div-cat">
                               <label for="testCat" class="form-label">Categoría*</label>
-                              <input type="text" class="form-control cat-select" :value="formData.testCat" @click="showAndCloseDropdown" readonly>
+                              <input id="testCat" type="text" class="form-control cat-select" :value="formData.testCat" @click="showAndCloseDropdown" readonly>
                               <i class="fa-solid fa-chevron-down" @click="showAndCloseDropdown"></i>
                             </div>          
                             <div id="dropdown-cats">
                               <div class="accordion" id="accordionCategories">
                                   <div v-for="category in categories">                   
                                         <div v-if="category.subcategories == ''" class="cat-sin-hijo">
-                                          <input :id="'cat-' + category.id" class="btn-check" :value="category.name" type="radio" name="categoria" v-model="formData.testCat">
+                                          <input :id="'cat-' + category.id" class="btn-check" :value="category.name" type="radio" name="categoria" v-model="formData.stepOneCategory">
                                           <label :for="'cat-' + category.id" class="btn">{{category.name}}</label>     
                                         </div>
                                         <h2 v-else class="accordion-header">
@@ -44,7 +36,7 @@
                                           <div class="accordion-body">
                                             <div v-for="subcategory in category.subcategories">
                                               <div v-if="category.id == subcategory.category_id">
-                                                  <input :id="'subcat-' + subcategory.id" class="btn-check" :value="subcategory.name" type="radio" name="categoria" v-model="formData.testCat">
+                                                  <input :id="'subcat-' + subcategory.id" class="btn-check" :value="subcategory.name" type="radio" name="categoria" v-model="formData.stepOneCategory">
                                                   <label :for="'subcat-' + subcategory.id" class="btn">{{subcategory.name}}</label>                                                                                           
                                               </div>
                                             </div>
@@ -54,7 +46,7 @@
                               </div>
                             </div> 
                          </div>                 
-                        <div>
+                        <div class="cont-genre">
                             <label for="productGenre" class="form-label">Género</label>
                             <select id="productGenre" class="form-select" v-model="formData.stepOneGenre">
                               <option selected>Seleccione un género</option>
@@ -101,6 +93,7 @@
                             <label for="desc-pro" class="form-label">Breve descripción*</label>
                             <div class="position-relative">
                                 <textarea 
+                                id="desc-pro"
                                 class="form-control" placeholder="Describe el artículo..."
                                 v-model="formData.stepOneProductDescription"
                                 @input="updateCharacterCount"
@@ -123,13 +116,12 @@
 </template>
 <script>
 import { useFormStore } from '../../../stores/values';
-import { onMounted } from 'vue';
+import { computed,onMounted } from 'vue';
 
 export default {
   emits: ['nextStep', 'constant-emitted'],
   data() {
     return {
-      characterCount: 0,
       categories: [],
       showSecondSelect: true,
       dropdown: false,
@@ -159,8 +151,8 @@ export default {
   setup(_, { emit }) {
     const mainStep = 1;
     const formStore = useFormStore();
-
     const formData = formStore.formData;
+    const characterCount = computed(() => formStore.characterCount);
 
     onMounted(() => {
       emit('constant-emitted', mainStep);
@@ -171,17 +163,20 @@ export default {
       emit('next-step');
     };
 
+    const updateCharacterCount = () => {
+      const textWithoutSpaces = formData.stepOneProductDescription.replace(/\s/g, '');
+      const newCharacterCount = textWithoutSpaces.length;
+      formStore.setCharacterCount(newCharacterCount);
+    };
+
     return {
+      characterCount,
       formData,
       nextStep,
+      updateCharacterCount,
     };
   },
   methods: {
-    updateCharacterCount() {
-      // Remove spaces and count characters
-      const textWithoutSpaces = this.formData.stepOneProductDescription.replace(/\s/g, '');
-      this.characterCount = textWithoutSpaces.length;
-    },
     generateDataBsTarget(categoryId) {
       // Generate the dynamic data-bs-target value
       return `#panel-${categoryId}`;

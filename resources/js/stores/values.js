@@ -3,7 +3,6 @@ import { defineStore } from 'pinia';
 export const useFormStore = defineStore('form', {
     state: () => ({
         formData: {
-          testCat:'',
           stepOneName: '',
           stepOneCategory: '',
           stepOneGenre: '',
@@ -44,10 +43,14 @@ export const useFormStore = defineStore('form', {
           stepEightRut: '',
           stepEightBankType: '',
         },
+        characterCount: 0,
     }),
     actions: {
       setFormData(formData) {
         this.formData = { ...this.formData, ...formData };
+      },
+      setCharacterCount(count) {
+        this.characterCount = count;
       },
       /*resetForm() {
         this.formData = {
