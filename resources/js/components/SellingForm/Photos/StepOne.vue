@@ -93,19 +93,19 @@ export default {
 
     const { getRootProps, getInputProps, ...rest } = useDropzone({ onDrop, onDragEnter: () => (isDragActive.value = true), onDragLeave: () => (isDragActive.value = false), onDropAccepted: () => (isDragActive.value = false) });
 
+    function deleteImage(index) {
+      uploadedImages.value.splice(index, 1);
+    }
+
     return {
       isDragActive,
       getRootProps,
       getInputProps,
       uploadedImages,
+      deleteImage,
       ...rest,
     };
   },
-  methods:{
-    deleteImage(index) {
-        uploadedImages.splice(index, 1);
-    },
-  }
 }
 </script>
 <style scoped>
@@ -212,8 +212,10 @@ export default {
 }
 .cont-images-result .row-results img{
     width:100%;
-    max-width:32px;
+    max-width:80px;
+    height:80px;
     margin-right:1rem;
+    object-fit: cover;
 }
 .cont-images-result .row-results p{
     margin-bottom:0;

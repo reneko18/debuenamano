@@ -97,6 +97,7 @@
                                 class="form-control" placeholder="Describe el artículo..."
                                 v-model="formData.stepOneProductDescription"
                                 @input="updateCharacterCount"
+                                :style="{ height: textareaHeight + 'px' }"
                                 rows="4"
                                 maxlength="280"                            
                                 ></textarea>  
@@ -126,6 +127,7 @@ export default {
       showSecondSelect: true,
       dropdown: false,
       activeTrigger: false,
+      textareaHeight: 100,
     };
   },
   watch: {
@@ -136,6 +138,9 @@ export default {
                 this.showSecondSelect = true; // Show the second select
             }
         }
+  },
+  updated() {
+    this.updateTextareaHeight();
   },
   created() {
     // Make an Axios GET request to your API
@@ -226,21 +231,18 @@ export default {
                 ease: Power2.easeOut
             });
       }, 
+      updateTextareaHeight() {
+            const catHeight = document.querySelector('.cat-select').offsetHeight + 24;
+            const genreHeight = document.querySelector('.cont-genre').offsetHeight;
+            const leftHeight = catHeight + genreHeight;
+
+            // Update the textareaHeight data property to match the left column height
+            this.textareaHeight = leftHeight;
+      },
   },
 }
 </script>
 <style scoped>
-  .character-count-badge {
-  position: absolute;
-  bottom: 8px;
-  right: 8px;
-  padding: 2px 8px;
-  background-color: #f8f9fa;
-  border: 1px solid #ced4da;
-  border-radius: 4px;
-  font-size: 12px;
-  line-height: 1;
-}
 .cat-select{
   cursor: pointer;
 }

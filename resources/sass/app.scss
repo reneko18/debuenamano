@@ -244,6 +244,19 @@ h2{
 .modulo-pasos textarea{
     resize: none;
 }
+
+/*New Code Form*/
+.character-count-badge {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    padding: 2px 8px;
+    background-color: #f8f9fa;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 12px;
+    line-height: 1;
+  }
   
 
 /* BOTONES ****************************************************** */

@@ -44,6 +44,8 @@ export const useFormStore = defineStore('form', {
           stepEightBankType: '',
         },
         characterCount: 0,
+        characterCountObs: 0,
+        characterCountReco: 0,
     }),
     actions: {
       setFormData(formData) {
@@ -51,6 +53,12 @@ export const useFormStore = defineStore('form', {
       },
       setCharacterCount(count) {
         this.characterCount = count;
+      },
+      setCharacterCountObs(count) {
+        this.characterCountObs = count;
+      },
+      setCharacterCountReco(count) {
+        this.characterCountReco = count;
       },
       /*resetForm() {
         this.formData = {
