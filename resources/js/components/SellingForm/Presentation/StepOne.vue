@@ -59,7 +59,7 @@
                     <div class="col-lg-7 col-md-12">
                         <div class="row">
                             <div class="col-md-2">
-                                <label for="age-pro" class="form-label">Edad</label>
+                                <label for="age-pro" class="form-label rango-edad">Rango de edad de tu articulo*</label>
                                 <input type="text" class="form-control" placeholder="00" id="age-pro" v-model="formData.stepOneAgeIni">
                             </div>
                             <div class="col-md-4">
@@ -72,7 +72,7 @@
                                   <option value="Años">Años</option>
                                 </select>
                             </div>
-                            <div class="col-md-1 d-flex flex-column justify-content-center" v-show="showSecondSelect">
+                            <div class="col-md-1 col-a flex-column justify-content-center" v-show="showSecondSelect">
                                 <span>a</span>
                             </div>
                             <div class="col-md-2" v-show="showSecondSelect">
@@ -242,76 +242,3 @@ export default {
   },
 }
 </script>
-<style scoped>
-.cat-select{
-  cursor: pointer;
-}
-.div-cat i{
-  cursor: pointer;
-  position: absolute;
-  z-index: 999;
-  top: 58%;
-  right: 15px;
-  font-size: 12px;
-}
-#dropdown-cats{
-    opacity: 0;
-    visibility: hidden;
-    position: absolute;
-    top: 74px;
-    left: 0;
-    right: 0;
-    padding: 0 5px;
-    z-index: 999;
-    background-color:#fff;
-}
-#dropdown-cats h2 button{
-  padding: 0.6rem 1.25rem;
-  background-color: #fff;
-}
-#dropdown-cats h2 button, .cat-sin-hijo label{
-  font-family: 'Inter', sans-serif;
-  font-size:14px;
-  font-weight: 400;
-  color:#1B1F22;
-}
-.cat-sin-hijo label, #dropdown-cats .accordion-body label{
-  font-family: 'Inter', sans-serif;
-  width:100%;
-  height: auto;
-  text-align:left;
-  padding: 0.6rem 1.25rem; 
-  border-radius:0;
-}
-#dropdown-cats .accordion-button:focus{
-box-shadow: none;
-border-color:unset;
-background-color:#fff;
-}
-#dropdown-cats .accordion-button:not(.collapsed){
-box-shadow: none;
-border-color:unset;
-background-color:#728C54;
-color: #F9FAFA;
-}
-
-#dropdown-cats .btn-check:checked + .btn{
-  background-color: #C0C6B9;
-  border-color:transparent;
-  color:#1B1F22;
-}
-/*#dropdown-cats .cat-sin-hijo .btn-check:checked + .btn{
-  background-color:#728C54;
-  color: #F9FAFA;
-}*/
-#dropdown-cats .accordion-body{
-padding:0;
-}
-#dropdown-cats .accordion-button::after{
-    font: var(--fa-font-solid);
-    content: '\f078';
-    background-image: none;
-    line-height: 20px;
-    width: 14px;
-}
-</style>

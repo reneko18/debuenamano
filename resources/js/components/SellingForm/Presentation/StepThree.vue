@@ -5,54 +5,72 @@
           <h2>01 Medidas y peso aproximado del artículo</h2>
           <p class="bajada-h2">Esto nos ayudará a mostrar las dimensiones precisas en la descripción y garantizar una experiencia de compra sin sorpresas.</p>
         </div>
-        <div class="row">
-          <div class="col-md-1">
-              <label for="height-pro" class="form-label">Alto</label>
-              <input type="text" class="form-control" placeholder="0,0" id="height-pro" v-model="formData.stepThreeHeight">
+        <div class="row-main-dim">
+          <div class="row-child-dim">
+            <div class="col-dim">
+                <label for="height-pro" class="form-label">Alto*</label>
+                <input type="text" class="form-control" placeholder="0,0" id="height-pro" v-model="formData.stepThreeHeight">
+            </div>
+            <div class="col-dim">
+                <label for="unh-pro" class="form-label"></label>
+                <select id="unh-pro" class="form-select" v-model="formData.stepThreeHeightUnit">
+                    <option selected>Seleccione</option>
+                    <option value="cm">cm</option>
+                    <option value="in">in</option>
+                </select>
+            </div>
           </div>
-          <div class="col-md-1">
-              <label for="unh-pro" class="form-label"></label>
-              <select id="unh-pro" class="form-select" v-model="formData.stepThreeHeightUnit">
-                  <option selected>Seleccione</option>
-                  <option value="cm">cm</option>
-                  <option value="in">in</option>
-              </select>
+          <div class="row-child-dim">
+            <div class="col-dim">
+                <label for="width-pro" class="form-label">Ancho*</label>
+                <input type="text" class="form-control" placeholder="0,0" id="width-pro" v-model="formData.stepThreeWidth">
+            </div>
+            <div class="col-dim">
+                <label for="unw-pro" class="form-label"></label>
+                <select id="unw-pro" class="form-select" v-model="formData.stepThreeWidthUnit">
+                    <option selected>Seleccione</option>
+                    <option value="cm">cm</option>
+                    <option value="in">in</option>
+                </select>
+            </div>
           </div>
-          <div class="col-md-1">
-              <label for="width-pro" class="form-label">Ancho</label>
-              <input type="text" class="form-control" placeholder="0,0" id="width-pro" v-model="formData.stepThreeWidth">
+          <div class="row-child-dim">
+            <div class="col-dim">
+                <label for="long-pro" class="form-label">Largo*</label>
+                <input type="text" class="form-control" placeholder="0,0" id="long-pro" v-model="formData.stepThreeLong">
+            </div>
+            <div class="col-dim">
+                <label for="unl-pro" class="form-label"></label>
+                <select id="unl-pro" class="form-select" v-model="formData.stepThreeLongUnit">
+                    <option selected>Seleccione</option>
+                    <option value="cm">cm</option>
+                    <option value="in">in</option>
+                </select>
+            </div>
           </div>
-          <div class="col-md-1">
-              <label for="unw-pro" class="form-label"></label>
-              <select id="unw-pro" class="form-select" v-model="formData.stepThreeWidthUnit">
-                  <option selected>Seleccione</option>
-                  <option value="cm">cm</option>
-                  <option value="in">in</option>
-              </select>
-          </div>
-          <div class="col-md-1">
-              <label for="long-pro" class="form-label">Largo</label>
-              <input type="text" class="form-control" placeholder="0,0" id="long-pro" v-model="formData.stepThreeLong">
-          </div>
-          <div class="col-md-1">
-              <label for="unl-pro" class="form-label"></label>
-              <select id="unl-pro" class="form-select" v-model="formData.stepThreeLongUnit">
-                  <option selected>Seleccione</option>
-                  <option value="cm">cm</option>
-                  <option value="in">in</option>
-              </select>
-          </div>
-          <div class="col-md-1">
-              <label for="weight-pro" class="form-label">Peso</label>
-              <input type="text" class="form-control" placeholder="0,0" id="weight-pro" v-model="formData.stepThreeWeight">
-          </div>
-          <div class="col-md-1">
-              <label for="unwe-pro" class="form-label"></label>
-              <select id="unwe-pro" class="form-select" v-model="formData.stepThreeWeightUnit">
-                  <option selected>Seleccione</option>
-                  <option value="cm">cm</option>
-                  <option value="in">in</option>
-              </select>
+          <div class="row-child-dim">
+            <div class="col-dim">
+                <label for="weight-pro" class="form-label">Peso</label>
+                <input type="text" class="form-control" placeholder="0,0" id="weight-pro" v-model="formData.stepThreeWeight">
+            </div>
+            <div class="col-dim position-relative">
+                <label for="unwe-pro" class="form-label"></label>
+                <select id="unwe-pro" class="form-select" v-model="formData.stepThreeWeightUnit">
+                    <option selected>Seleccione</option>
+                    <option value="g">g</option>
+                    <option value="Kg">Kg</option>
+                </select>
+                <!-- Custom Tooltip -->
+                <div class="info-tool">
+                  <svg version="1.1" id="info-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                    viewBox="0 0 17 17" style="enable-background:new 0 0 17 17;" xml:space="preserve" @mouseenter="showTooltip = true" @mouseleave="showTooltip = false">    
+                    <path class="st0" d="M8.5,16c4.1,0,7.5-3.4,7.5-7.5C16,4.4,12.6,1,8.5,1C4.4,1,1,4.4,1,8.5C1,12.6,4.4,16,8.5,16z"/>
+                    <path class="st0" d="M8.5,11.5v-3"/>
+                    <path class="st0" d="M8.5,5.5L8.5,5.5"/>
+                  </svg>
+                </div>
+                <div class="custom-tooltip" v-if="showTooltip"><p>El peso del artículo es importante. Si no lo tienes a mano, te sugerimos buscar el dato en el sitio web del proveedor.</p></div>
+            </div>
           </div>
       </div>
     </div>
@@ -185,7 +203,11 @@
 import { useFormStore } from '../../../stores/values';
 import { onMounted } from 'vue';
 export default {
-
+    data() {
+      return {
+        showTooltip: false,
+      };
+    },
     emits: ['next-step','constant-emitted'],
     setup(_, { emit }) {
     const mainStep = 1;
@@ -209,61 +231,3 @@ export default {
   },
 }
 </script>
-<style scoped>
-.cont-dimen-1{
-  margin-bottom:4rem;
-}
-.cont-dimen-2 label{
-  width:100%;
-  height: auto;
-  background-color:#fff;
-  border-radius:2px;
-  border: 1px dashed #C0C6B9;
-  padding: 1.8rem 1rem;
-  margin-bottom:1rem;
-}
-.cont-dimen-2 label:hover{
-  background-color:#fff;
-  border-radius:2px;
-  border: 1px dashed #C0C6B9;
-}
-.cont-dimen-2 .col-det{
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-.cont-dimen-2 .size-tit{
-  font-size:9px;
-  font-weight:700;
-  color: #454545;
-  text-transform: uppercase;
-  line-height:14px;
-  margin-bottom:2px;
-}
-.cont-dimen-2 .size{
-  font-family: 'Quicksand', sans-serif;
-  font-size: 18px;
-  font-weight:700;
-  color: #728C54;
-  line-height:16px;
-}
-.cont-dimen-2 .un-tit{
-  font-size:14px;
-  font-weight:700;
-  color:#454545;
-  line-height:14px;
-  margin-bottom:4px;
-}
-.cont-dimen-2 .un{
-  font-size:14px;
-  font-weight: 400;
-  color:#1B1F22;
-  line-height:14px;
-}
-.cont-dimen-2 .btn-check:checked + .btn{
-  background-color: #728C54;
-}
-.cont-dimen-2 .btn-check:checked + .btn span{
-  color:#fff;
-}
-</style>

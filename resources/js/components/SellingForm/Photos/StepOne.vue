@@ -14,7 +14,7 @@
                                 </svg>
                                 <span>Tips para tomar buenas fotografías</span>
                             </a>
-                            <a href="#" class="d-flex link-w-img align-items-center">
+                            <a href="https://tinypng.com/" target="_blank" class="d-flex link-w-img align-items-center">
                                 <font-awesome-icon :icon="['fas', 'arrow-right']" />
                                 <span>Sitio web para reducir el peso de tus imágenes</span>
                             </a>
@@ -30,7 +30,7 @@
                                 <path class="st0" d="M21.8,9.1l-6.9-6.9L7.9,9.1"/>
                                 <path class="st0" d="M14.8,2.2v16.7"/>
                             </svg>
-                            <h3 v-if="isDragActive">Drag and drop activo</h3>
+                            <h3 v-if="isDragActive">Suelta las fotos aquí</h3>
                             <h3 v-else>Arrastra y suelta tus fotos aquí</h3>
                             <h4>Archivos soportados JPG, PNG</h4>
                             <h4>o</h4>
