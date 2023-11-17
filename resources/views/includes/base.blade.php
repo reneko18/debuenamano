@@ -36,6 +36,8 @@
 	<!-- Modernizer JS -->
 	<script src="{{ url('lezada/js/vendor/modernizr-2.8.3.min.js')}}"></script>
 
+	
+
 </head>
 
 
@@ -64,7 +66,7 @@
 
 	<!-- Main JS -->
 	<script src="{{ url('lezada/js/main.js')}}"></script>
-
+	
 </body>
 
 </html>

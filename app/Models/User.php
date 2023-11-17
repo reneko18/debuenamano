@@ -46,4 +46,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Product::class,'user_id','id');
     }
+
+    public function bankDetail()
+    {
+        return $this->hasOne(BankDetail::class);
+    }
 }

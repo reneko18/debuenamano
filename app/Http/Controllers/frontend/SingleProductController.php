@@ -13,8 +13,11 @@ class SingleProductController extends Controller
         return view('product.shop-product-basic', compact('product'));
     }
 
-    public function singleShow()
+    public function singleShow(Product $product)
     {
-        return view('product.single');
+        $allp = Product::all()->random(4);
+        return view('product.single', compact('product','allp'));
     }
+
+
 }

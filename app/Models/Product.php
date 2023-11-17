@@ -19,13 +19,23 @@ class Product extends Model
        return $this->belongsTo(Category::class);
    }
 
-   public function status()
-   {       
-       return $this->belongsTo(StatusProduct::class);
-   }
-
    public function address()
    {
        return $this->hasOne(Address::class);
+   }
+
+   public function galleries()
+   {
+       return $this->hasMany(ProductGallery::class);
+   }
+
+   public function deliveryInformation()
+   {
+       return $this->hasOne(DeliveryInformation::class);
+   }
+
+   public function getRouteKeyName()
+   {
+       return 'slug';
    }
 }

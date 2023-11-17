@@ -1,131 +1,372 @@
 <template>
     <div class="modulo-pasos">
-            <div class="row">
-                <div class=" col-lg-7 col-md-12">
-                    <h2>Envío o retiro del artículo</h2>
-                    <p class="bajada-h2">Una vez que tu artículo sea vendido, lo enviarás a la sucursal del courier o prefieres que gestionemos su retiro.</p>
-                    <p>Llevas el articulo a la sucursal o prefieres que gestionemos el retiro</p>
+        <div class="row">
+            <div class="col-lg-7 col-md-12">
+                <h2>Envío o retiro del artículo</h2>
+                <p class="bajada-h2">
+                    Una vez que tu artículo sea vendido, ¿lo dejarás en la
+                    sucursal de Chilexpress más cercana o prefieres que
+                    gestionemos el retiro en tu domicilio? La elección es tuya.
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4">
+                <div class="cont-option-delivery">
+                    <input
+                        type="radio"
+                        class="btn-check"
+                        name="delivery-option"
+                        id="chilexpress"
+                        value="Chilexpress"
+                        v-model="formData.stepSevenOptionDelivery"
+                    />
+                    <label
+                        class="btn"
+                        for="chilexpress"
+                        @click="toggleSection('chilexpress')"
+                    >
+                        <span>LO LLEVO A LA</span>
+                        <span>Sucursal de Chilexpress</span>
+                    </label>
+                </div>
+                <div class="cont-option-delivery">
+                    <input
+                        type="radio"
+                        class="btn-check"
+                        name="delivery-option"
+                        id="house"
+                        value="Domicilio"
+                        v-model="formData.stepSevenOptionDelivery"
+                    />
+                    <label
+                        class="btn"
+                        for="house"
+                        @click="toggleSection('house')"
+                    >
+                        <span>PREFIERO EL RETIRO</span>
+                        <span>Retiro a domicilio</span>
+                    </label>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-lg-4 col-md-12">
-                    <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" role="switch" id="sucursalYes">
-                        <label class="form-check-label" for="sucursalYes">Sí, puedo llevarlo a la sucursal</label>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-12">
-                    <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" role="switch" id="sucursalNo">
-                        <label class="form-check-label" for="sucursalNo">No, prefiero que vengan a retirarlo (costo adicional $3.500)</label>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-12">
-                    <p>*Ten presente que la persona que compre tu artículo eligirá si desea que el envío sea por Chilexpress o Blue Express</p>
-                </div>
-            </div> 
-            
-            <div>
-                <p>El artículo será retirado en la siguiente dirección:</p>
-            </div>  
-            <div class="row">
-                <div class="col-lg-7 col-md-12">
-                    <div>
-                        <label for="addName" class="form-label">Dirección</label>
-                        <input type="text" class="form-control" id="addName" placeholder="Direccion" v-model="formData.stepSixAddress">
-                    </div>
-                </div>
-                <div class="col-lg-5 col-md-12">
-                    <div>
-                        <label for="contPhone" class="form-label">Contacto nombre + fono </label>
-                        <input type="text" class="form-control" id="contPhone" placeholder="--" v-model="formData.stepSixContact">
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-4 col-md-12">
-                    <label for="region-pro">Región</label>
-                    <select id="region" class="form-select" v-model="formData.stepSixRegion" @change="loadCities">
-                        <option value="" disabled>Seleccione una region</option>
-                        <option v-for="region in regions" :value="{ id: region.id, name: region.name }">{{ region.name }}</option>
+            <div class="col-8">
+                <div v-if="selectedSection === 'chilexpress'">
+                    <p>
+                        Super, necesitamos selecciones la sucursal a la que
+                        llevarías el artículo, esto nos permitirá calcular el
+                        costo del envío para la persona que compre tu producto:
+                    </p>
+                    <label for="region" class="form-label">Tu región *</label>
+                    <select
+                        id="region"
+                        class="form-select"
+                        v-model="selected.region"
+                    >
+                        <option disabled selected value="">
+                            Selecciona una región
+                        </option>
+                        <option :value="r.regionId" v-for="r in regions">
+                            {{ r.regionName }}
+                        </option>
+                    </select>
+                    <label for="city" class="form-label">Tu comuna *</label>
+                    <select
+                        id="city"
+                        class="form-select"
+                        v-model="selected.city"
+                    >
+                        <option disabled selected value="">
+                            Selecciona tu comuna
+                        </option>
+                        <option :value="com.countyName" v-for="com in cities">
+                            {{ com.countyName }}
+                        </option>
+                    </select>
+                    <label for="offices" class="form-label"
+                        >Sucursal de Chilexpress *</label
+                    >
+                    <select
+                        id="offices"
+                        class="form-select"
+                        v-model="formData.stepSevenChilexpressOffice"
+                    >
+                        <option disabled selected value="">
+                            Selecciona una sucursal
+                        </option>
+                        <option
+                            :value="offi.officeName"
+                            v-for="offi in offices"
+                        >
+                            {{ offi.officeName }}
+                        </option>
                     </select>
                 </div>
-                <div class="col-lg-4 col-md-12">
-                    <label for="comuna-pro">Comuna</label>
-                    <select id="comuna-pro" class="form-select" v-model="formData.stepSixCity">
-                        <option value="" disabled>Seleccione una ciudad</option>
-                        <option v-for="city in cities" :value="{ id: city.id, name: city.name }">{{ city.name }}</option>
-                    </select>
-                </div>
-
-                <div class="col-lg-4 col-md-12">
-                    <a href="#">
-                        <font-awesome-icon :icon="['far', 'pen-to-square']" />
-                        <span>Cambiar dirección</span>
-                    </a>
+                <div v-else-if="selectedSection === 'house'">
+                    <p>
+                        Nos ajustamos a tus necesidades, ingresa la dirección
+                        del lugar donde se encuentra el artículo y asegúrate de
+                        que este correctamente embalado el día que vaya a
+                        retirarlo Chilexpress:
+                    </p>
+                    <div>
+                        <label for="street" class="form-label"
+                            >Calle / Avenida</label
+                        >
+                        <input
+                            type="text"
+                            id="street"
+                            class="form-control"
+                            placeholder="Ingresa tu dirección"
+                            v-model="formData.stepSevenStreet"
+                        />
+                    </div>
+                    <div>
+                        <label for="number" class="form-label">Nª</label>
+                        <input
+                            type="text"
+                            id="number"
+                            class="form-control"
+                            placeholder="Ingresa el número"
+                            v-model="formData.stepSevenStreetNumber"
+                        />
+                    </div>
+                    <div>
+                        <label for="regionHouse" class="form-label"
+                            >Tu región *</label
+                        >
+                        <select
+                            id="regionHouse"
+                            class="form-select"
+                            v-model="selected.region"
+                        >
+                            <option disabled selected value="">
+                                Selecciona una región
+                            </option>
+                            <option :value="r.regionId" v-for="r in regions">
+                                {{ r.regionName }}
+                            </option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="cityHouse" class="form-label"
+                            >Tu comuna *</label
+                        >
+                        <select
+                            id="cityHouse"
+                            class="form-select"
+                            v-model="selected.city"
+                        >
+                            <option disabled selected value="">
+                                Selecciona tu comuna
+                            </option>
+                            <option
+                                :value="com.countyName"
+                                v-for="com in cities"
+                            >
+                                {{ com.countyName }}
+                            </option>
+                        </select>
+                    </div>
                 </div>
             </div>
+        </div>
     </div>
     <div class="d-flex justify-content-end mt-4">
-      <button class="btn boton-principal" @click="nextStep">Continuar <font-awesome-icon :icon="['fas', 'chevron-right']" /></button>
+        <button class="btn boton-principal" @click="nextStep">
+            Continuar <font-awesome-icon :icon="['fas', 'chevron-right']" />
+        </button>
     </div>
 </template>
 <script>
-import { useFormStore } from '../../../stores/values';
-import { onMounted } from 'vue';
+import { useFormStore } from "../../../stores/values";
+import { onMounted, watch, ref } from "vue";
 export default {
     data() {
         return {
-            cities: [],
-            regions: [], // Populate this with the list of regions initially.
+            regions: [],
+            selected: {
+                region: "",
+                city: "",
+                street: "",
+            },
+            selectedSection: "chilexpress",
+            loading: false,
         };
     },
     setup(_, { emit }) {
+        const selectedRef = ref({
+            region: "",
+            city: "",
+        });
+        const lastSelected = ref({
+            region: "",
+            city: "",
+        });
+        const cities = ref([]);
+        const offices = ref([]);
         const mainStep = 4;
 
         const formStore = useFormStore();
         const formData = formStore.formData;
 
-        onMounted(() => {
-        emit('constant-emitted', mainStep); 
-        });
-
         const nextStep = () => {
-        formStore.setFormData(formData);
-        emit('next-step');
+            formStore.setFormData(formData);
+            emit("next-step");
         };
+
+        const getComunasChilexpress = async function () {
+            const apiKey = "570f3f00500c433a9b2b94e7b4803c1b";
+            const apiUrl =
+                "https://testservices.wschilexpress.com/georeference/api/v1.0/coverage-areas";
+
+            try {
+                const response = await axios.get(apiUrl, {
+                    params: {
+                        api_key: apiKey,
+                        RegionCode: selectedRef.value.region,
+                        type: 1,
+                    },
+                });
+                cities.value = response.data.coverageAreas;
+            } catch (error) {
+                console.error("Error fetching cities:", error);
+            }
+        };
+
+        const getCoberturaOptions = async function () {
+            const apiUrl =
+                "https://testservices.wschilexpress.com/georeference/api/v1.0/offices?Type=0";
+            const regionCode = selectedRef.value.region;
+            const cityName = selectedRef.value.city;
+
+            try {
+                const response = await axios.get(apiUrl, {
+                    headers: {
+                        "Cache-Control": "no-cache",
+                        "Ocp-Apim-Subscription-Key":
+                            "570f3f00500c433a9b2b94e7b4803c1b",
+                    },
+                    params: {
+                        RegionCode: regionCode,
+                        CountyName: cityName,
+                    },
+                });
+
+                console.log(response.status);
+                console.log(response.data.offices);
+                offices.value = response.data.offices;
+            } catch (error) {
+                console.error("Error:", error);
+            }
+        };
+
+        onMounted(() => {
+            emit("constant-emitted", mainStep);
+            watch(
+                () => selectedRef.value.region,
+                (newRegion) => {
+                    if (newRegion !== lastSelected.value.region) {
+                        getComunasChilexpress.call(this);
+                        lastSelected.value.region = newRegion;
+                    }
+                    formData.stepSevenRegion = lastSelected.value.region;
+                }
+            );
+
+            watch(
+                () => selectedRef.value.city,
+                (newCity) => {
+                    if (newCity !== lastSelected.value.city) {
+                        getCoberturaOptions.call(this);
+                        lastSelected.value.city = newCity;
+                    }
+                    formData.stepSevenCity = lastSelected.value.city;
+                }
+            );
+
+            watch(
+                () => formData.stepSevenOptionDelivery,
+                (newOptionDelivery) => {
+                    if (newOptionDelivery === "Domicilio") {
+                        formData.stepSevenChilexpressOffice = "";
+                    }
+                }
+            );
+        });
 
         return {
-        formData,
-        nextStep,
+            formData,
+            nextStep,
+            selected: selectedRef.value,
+            loading: ref(false),
+            cities,
+            offices,
         };
-
-    },
-    created() {
-    axios.get('/api/regions')
-        .then(response => {
-            this.regions = response.data;
-            console.log(this.regions);
-        })
-        .catch(error => {
-            console.error(error);
-        });
     },
     methods: {
-        loadCities() {
-            if (this.formData.stepSixRegion.id) {
-                axios.get(`/api/cities/${this.formData.stepSixRegion.id}`)
-                    .then(response => {
-                        this.cities = response.data;
-                    })
-                    .catch(error => {
-                        console.error(error);
-                    });
-            } else {
-                // Clear the cities if no region is selected.
-                this.cities = [];
+        async getRegionsChilexpress() {
+            try {
+                const apiKey = "570f3f00500c433a9b2b94e7b4803c1b";
+                const apiUrl =
+                    "https://testservices.wschilexpress.com/georeference/api/v1.0/regions";
+
+                this.loading = true;
+                const response = await axios.get(apiUrl, {
+                    params: {
+                        api_key: apiKey,
+                    },
+                });
+
+                this.regions = response.data.regions;
+            } catch (error) {
+                console.error("Error fetching regions:", error);
+            } finally {
+                this.loading = false;
             }
         },
+        toggleSection(section) {
+            this.selectedSection = section;
+        },
     },
-}
+    mounted() {
+        this.getRegionsChilexpress();
+    },
+};
 </script>
+
+<style scoped>
+.cont-option-delivery label {
+    display: flex;
+    flex-direction: column;
+    align-items: baseline;
+    width: 100%;
+    height: auto;
+    background-color: #fff;
+    border-radius: 2px;
+    border: 1px dashed #c0c6b9;
+    padding: 1.8rem 1rem;
+    margin-bottom: 1rem;
+}
+.cont-option-delivery label span:first-child {
+    font-size: 9px;
+    font-weight: 700;
+    color: #454545;
+    line-height: 14px;
+    margin-bottom: 2px;
+}
+
+.cont-option-delivery label span:last-child {
+    font-family: "Quicksand", sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: #728c54;
+    line-height: 16px;
+}
+
+.cont-option-delivery .btn-check:checked + .btn {
+    background-color: #728c54;
+}
+.cont-option-delivery .btn-check:checked + .btn span {
+    color: #fff;
+}
+</style>

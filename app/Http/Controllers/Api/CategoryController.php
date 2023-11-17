@@ -11,8 +11,9 @@ class CategoryController extends Controller
     public function index()
     {
         // Retrieve parent categories with associated subcategories
-        $categories = Category::with('subcategories')->get();
+        $categories = Category::with('children')->whereNull('parent_id')->get();
 
         return response()->json(['categories' => $categories]);
+        
     }
 }
