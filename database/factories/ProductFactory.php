@@ -22,6 +22,10 @@ class ProductFactory extends Factory
         $unit = fake()->randomElement(['cm','in']);
         $unitW = fake()->randomElement(['g','Kg']);
         $deliveryBox = fake()->randomElement(['Pequeño','Standard','Grande','Extra']);
+        $publish_status = fake()->randomElement(['En revision','Guardado/borrador']);
+        $selling_status = fake()->randomElement(['Vendido','En courier', 'Entregado','Finalizado']);
+        $randomString = fake()->bothify('??????');
+        $sku = 'DBM-' . $randomString;
 
         return [
             'name' => fake()->realTextBetween(10,25),
@@ -48,28 +52,14 @@ class ProductFactory extends Factory
             'used_time_unit' => fake()->numberBetween(1,31),
             'remark' => fake()->realTextBetween(10,25),
             'advice' => fake()->realTextBetween(10,25),
-
-
-            /*
-            'sku' => 'DBN-' . fake()->randomNumber(3,true),
             'price' => fake()->randomNumber(5,true),
-            
-               
-            'used_time' => fake()->numberBetween(2,true) . ' meses',
-            'status_id' => fake()->numberBetween(1,5),
-            
-            'length' => fake()->randomNumber(2,true),
-            'width' => fake()->randomNumber(2,true),
-            'height' => fake()->randomNumber(2,true),
-            'weight' => fake()->randomNumber(2,true),
-            'remark' => fake()->realText(180),
-            'advice' => fake()->realText(180),
             'user_id' => fake()->numberBetween(1,10),
-            'address_id' => fake()->numberBetween(1,10),
+            'publish_status' => $publish_status,
+            'selling_status' => $selling_status,
+            'sku' => $sku,
             'slug' => Str::slug(fake()->realTextBetween(10,25)),
             'meta_title' => fake()->realTextBetween(5,10),
             'meta_description' => fake()->realText(180),
-            */
         ];
     }
 }

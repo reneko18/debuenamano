@@ -14,24 +14,21 @@ use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    //ES PARA QUE SOLO LOS USUARIOS LOGEADOS PUEDAN CREAR PRODUCTOS, ESTO ES PARA TODOS LOS METODOS PRESENTES ACA
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(Request $request)
     {
+
         $product = new Product();
         //Presentacion
         $product->name = $request->input('stepOneNameProduct');
@@ -65,6 +62,11 @@ class ProductController extends Controller
         //Precio
         $product->price = $request->input('stepEightPrice');
 
+        //Usuario
+         // Associate the product with the currently logged-in user
+        $user = auth()->user();
+        $product->user()->associate($user);
+
      
         $product->save();
 
@@ -78,6 +80,16 @@ class ProductController extends Controller
         $deliveryInformation->address_number = $request->input('stepSevenStreetNumber');
 
         $product->deliveryInformation()->save($deliveryInformation);
+
+        $bankDetails = new BankDetail();
+        $bankDetails->user_id = auth()->id();
+        $bankDetails->full_name = $request->input('stepNineName');
+        $bankDetails->bank = $request->input('stepNineBank');
+        $bankDetails->account_number = $request->input('stepNineBankNumber');
+        $bankDetails->rut = $request->input('stepNineRut');
+        $bankDetails->account_type = $request->input('stepNineBankType');   
+
+        $product->user->bankDetail()->save($bankDetails);
 
         $imagesData = $request->input('stepSixPhoto');
 
@@ -100,9 +112,13 @@ class ProductController extends Controller
                 'alt' => $name,
                 'position' => null,
             ]);
-        }
+        } 
+        
 
         return response()->json(['message' => 'Product and images uploaded successfully']);
+        
+
+      
     }
         
     
@@ -139,6 +155,14 @@ class ProductController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function getProductsByUserId($user_id)
+    {
+        // Assuming you have a 'products' table with a 'user_id' column
+        $products = Product::where('user_id', $user_id)->get();
+
+        return response()->json($products);
     }
 
 

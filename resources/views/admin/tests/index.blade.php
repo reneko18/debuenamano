@@ -29,49 +29,13 @@
                 <div class="col-12">
                   <div class="card">
                     <div class="card-header">
-                      <h3 class="card-title">DataTable with default features</h3>
+                      <h3 class="card-title">Test Tabs</h3>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                      <table id="example1" class="table table-bordered table-striped">
-                        <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nombre</th>
-                            <th>Categoria</th>
-                            <th>Género</th>
-                            <th>Edad inicial:</th>
-                            <th>Edad Final:</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($test as $t)
-                                <tr>
-                                    <td>{{ $t->id }}</td>
-                                    <td>{{ $t->name }}</td>
-                                    <td>{{ $t->category }}</td>
-                                    <td>{{ $t->genre }}</td>
-                                    <td>{{ $t->ageini }} {{ $t->agedateini }}</td>
-                                    <td>{{ $t->agefin }} {{ $t->agedatefin }}</td>
-                                    <td>
-                                      <div>
-                                        <a href="#" title="Ver producto" target="_blank"><i class="fas fa-eye"></i></a>
-                                      </div>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                        <tfoot>
-                        <tr>
-                          <th>ID</th>
-                          <th>Nombre</th>
-                          <th>Categoria</th>
-                          <th>Género</th>
-                          <th>Edad inicial:</th>
-                          <th>Edad Final:</th>
-                        </tr>
-                        </tfoot>
-                      </table>
+                      <div id="app">
+                        <test-tabs-table/>
+                      </div>
                     </div>
                     <!-- /.card-body -->
                   </div>
@@ -88,29 +52,8 @@
   </div>
   <!-- /.content-wrapper -->
 
-  @push('script-datatables')
-  <!-- DataTables  & Plugins -->
-    <script src="{{ url('adminlte/plugins/datatables/jquery.dataTables.min.js')}}"></script>
-    <script src="{{ url('adminlte/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
-    <script src="{{ url('adminlte/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
-    <script src="{{ url('adminlte/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
-    <script src="{{ url('adminlte/plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
-    <script src="{{ url('adminlte/plugins/datatables-buttons/js/buttons.bootstrap4.min.js')}}"></script>
-    <script src="{{ url('adminlte/plugins/jszip/jszip.min.js')}}"></script>
-    <script src="{{ url('adminlte/plugins/pdfmake/pdfmake.min.js')}}"></script>
-    <script src="{{ url('adminlte/plugins/pdfmake/vfs_fonts.js')}}"></script>
-    <script src="{{ url('adminlte/plugins/datatables-buttons/js/buttons.html5.min.js')}}"></script>
-    <script src="{{ url('adminlte/plugins/datatables-buttons/js/buttons.print.min.js')}}"></script>
-    <script src="{{ url('adminlte/plugins/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
-    <!-- Page specific script -->
-<script>
-    $(function () {
-      $("#example1").DataTable({
-        "responsive": true, "lengthChange": false, "autoWidth": false,
-        "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],       
-      }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    });
-  </script>
+  @push('test-prime-vue')
+  @vite('resources/js/app.js')
   @endpush
 @endsection
 

@@ -50,8 +50,15 @@
                         <span class="precio">$ {{ number_format($product->price,0,',', '.') }}</span>
                     </div>
                     <div class="col-8 d-flex justify-content-end">					
-							<add-cart-product :product-id="{{ $product->id }}"/>						
-							{{-- <a href="{{ route("checkout.index",$product->slug) }}" class="btn boton-principal">añadir a tu carro</a> --}}                      
+						<form method="POST" action="{{ route('cart.add', ['product' => $product->slug]) }}">
+							@csrf
+								<button type="submit" class="btn boton-principal">añadir a tu carro</button>
+						</form>
+						@if(session('success'))
+							<div class="alert alert-success">
+								{{ session('success') }}
+							</div>
+						@endif                     
                         <button class="btn boton-favoritos">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="16" viewBox="0 0 18 16" fill="none">
                                 <path d="M15.6215 1.57252C13.7867 0.0089339 11.058 0.290179 9.37385 2.02787L8.71426 2.70755L8.05468 2.02787C6.3739 0.290179 3.64181 0.0089339 1.80702 1.57252C-0.295619 3.36713 -0.406108 6.58806 1.47555 8.53333L7.95423 15.2229C8.37275 15.6549 9.05243 15.6549 9.47094 15.2229L15.9496 8.53333C17.8346 6.58806 17.7241 3.36713 15.6215 1.57252Z"/>
@@ -98,7 +105,7 @@
                                         </div>
                                         <div>
                                             <span class="title-in-tab">Estado</span>
-                                            <span class="txt-in-tab">{{ $product->status->name }}</span>
+                                            <span class="txt-in-tab">{{ $product->status }}</span>
                                         </div>
                                     </div>
                                     <div class="col">

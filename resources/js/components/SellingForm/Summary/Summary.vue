@@ -597,8 +597,16 @@ export default {
         },
         submitForm() {
             console.log(this.formData);
+            const csrfToken = document.head.querySelector(
+                'meta[name="csrf-token"]'
+            ).content;
+            console.log("CSRF Token:", csrfToken);
             axios
-                .post("/api/product/store", this.formData)
+                .post("/api/product/store", this.formData, {
+                    headers: {
+                        "X-CSRF-TOKEN": csrfToken,
+                    },
+                })
                 .then((res) => {
                     console.log(res);
                     window.location.href = "/";

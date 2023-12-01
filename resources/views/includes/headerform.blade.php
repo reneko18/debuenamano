@@ -1,6 +1,26 @@
 <header class="fixed-top">
     <div class="top-header">
         <div class="container d-flex justify-content-end">
+                    @auth
+                        @if(isset($cartCount) && $cartCount > 0)
+                            <a href="{{ route('cart.index') }}" style="color: #fff; text-decoration: none;">Cart ({{ $cartCount }} items)</a>
+                        @else
+                            <p>Your cart is empty.</p>
+                        @endif
+                    @else
+        
+                    <a href="{{ route('cart.index') }}" style="color:#fff;text-decoration:none;">Cart ({{ count(Session::get('cart', [])) }} items)</a>
+                @endauth
+                @auth
+                    <div style="color:#fff;">
+                        Bienvenido, {{ auth()->user()->name }}!
+                        @if(auth()->user()->hasRole('customer'))
+                            (Cliente)
+                        @elseif(auth()->user()->hasRole('admin'))
+                            (Admin)
+                        @endif
+                    </div>
+                @endauth
                 <ul class="iconos">
                     <li><a class="user" href="#">
                         <svg xmlns="http://www.w3.org/2000/svg" width="15" height="17" viewBox="0 0 15 17" fill="none">
@@ -21,9 +41,6 @@
                         </a>
                     </li> 
                 </ul>           
-            </div>
-            <div id="appH">
-                <cart-header/>
             </div>
         </div>
     </div>

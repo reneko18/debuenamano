@@ -36,7 +36,6 @@
 
   @stack('dropzone-js-css')
   @stack('select2-css')
-  
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">

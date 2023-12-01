@@ -27,16 +27,15 @@ Carrito - De Buena Mano
 @endpush
 
 @section('content')
-<div id="app">
-    <cart-page/>
-</div>
 <div class="shopping-cart-area mb-130">
     <div class="container">
         <div class="row">
             <div class="col-lg-12 mb-30">
                 <!--=======  cart table  =======-->
-
                 <div class="cart-table-container">
+                    @if(empty($cartItems))
+                        <p>Your cart is empty.</p>
+                    @else  
                     <table class="cart-table">
                         <thead>
                             <tr>
@@ -48,6 +47,7 @@ Carrito - De Buena Mano
                         </thead>
 
                         <tbody>
+                            @foreach($cartItems as $item)
                             <tr>
                                 <td class="product-thumbnail">
                                     <a href="shop-product-basic.html">
@@ -55,23 +55,25 @@ Carrito - De Buena Mano
                                     </a>
                                 </td>
                                 <td class="product-name">
-                                    <a href="shop-product-basic.html">Black Fabric Watch</a>
-                                    <span class="product-variation">Color: Black</span>
+                                    <a href="/single-product/{{ $item['slug'] }}">{{ $item['name'] }}</a>         
                                 </td>
 
-                                <td class="product-price"><span class="price">$100.00</span></td>
+                                <td class="product-price"><span class="price">{{ $item['price'] }}</span></td>
 
 
-                                <td class="total-price"><span class="price">$100.00</span></td>
+                                <td class="total-price"><span class="price">{{ $item['price'] }}</span></td>
 
                                 <td class="product-remove">
-                                    <a href="#">
-                                        <i class="ion-android-close"></i>
-                                    </a>
+                                    <form method="POST" action="{{ route('cart.remove', ['product' => $item['slug']]) }}">
+                                        @csrf
+                                        <button type="submit"><i class="ion-android-close"></i></button>
+                                    </form>        
                                 </td>
                             </tr>
+                            @endforeach
                         </tbody>
                     </table>
+                    @endif
                 </div>
 
                 <!--=======  End of cart table  =======-->
@@ -104,17 +106,20 @@ Carrito - De Buena Mano
 
                     <table class="cart-calculation-table mb-30">
                         <tr>
-                            <th>SUBTOTAL</th>
-                            <td class="subtotal">$100.00</td>
-                        </tr>
-                        <tr>
                             <th>TOTAL</th>
-                            <td class="total">$100.00</td>
+                            <td class="total">{{ $totalPrice }}</td>
                         </tr>
                     </table>
 
                     <div class="cart-calculation-button text-center">
-                        <button class="lezada-button lezada-button--medium">proceed to checkout</button>
+                        <form action="{{ route('create.webpay') }}" method="post">
+                            @csrf
+                            <input type="hidden" name="buy_order" value="{{ $buyOrder }}">
+                            <input type="hidden" name="session_id" value="{{ $sessionId }}">
+                            <input type="hidden" name="amount" value="{{ $totalPrice }}">
+                            <input type="hidden" name="return_url" value="{{ url('/') }}/checkout/returnUrl">
+                            <button type="submit" class="lezada-button lezada-button--medium">Checkout</button>
+                        </form>
                     </div>
                 </div>
             </div>

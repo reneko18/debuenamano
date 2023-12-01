@@ -16,6 +16,7 @@ use App\Http\Controllers\frontend\CartController;
 use App\Http\Controllers\frontend\CheckoutController;
 use App\Http\Controllers\frontend\ChilexpressController;
 use App\Http\Controllers\frontend\WebpayPlusController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,6 +29,13 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+//Test Dashboard
+Route::get('/dashboard/user',[UserController::class,'admin'])->name('dashboard.client');
+
+Route::get('/new-formulario-venta',[SellingFormController::class,'show'])->name('sellingform.show')->middleware('auth');
+
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -52,9 +60,11 @@ Route::get('/productos/{product}',[SingleProductController::class, 'show'])->nam
 
 Route::get('/formulario-venta',[SellingFormController::class,'showform'])->name('sellingformold.show');
 
-Route::get('/new-formulario-venta',[SellingFormController::class,'show'])->name('sellingform.show');
 
+//Single que ocupo
 Route::get('/single-product/{product}',[SingleProductController::class,'singleShow'])->name('single.show');
+//Tienda Test
+Route::get('/shop',[SingleProductController::class,'loop'])->name('loop.index');
 
 
 //Image for authors
@@ -93,7 +103,18 @@ Route::get('/pagination', function () {
     return view('tests.pagination');
 });
 
-//Test Cart
-Route::get('/cart', function () { 
-    return view('cart.index');
+
+//CART MIDDLEWARE
+Route::middleware(['check.user.type'])->group(function () {
+    Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+    Route::post('/cart/add/{product}', [CartController::class, 'add'])->name('cart.add');
+    Route::post('/cart/remove/{product}', [CartController::class, 'remove'])->name('cart.remove');
 });
+
+
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('auth');
+
+

@@ -1,19 +1,10 @@
-import { createRouter, createWebHistory } from 'vue-router';
-import CartPage from "../components/Cart/CartPage.vue";
+import { createRouter, createWebHistory } from "vue-router";
 
-const routes = [
-  {
-    path: '/',
-    name: 'cart',
-    component: CartPage,
-    props: true, 
-  },
-  
-];
+const routes = [];
 
 const router = createRouter({
-  history: createWebHistory(),
-  routes,
+    history: createWebHistory(),
+    routes,
 });
 
 export default router;

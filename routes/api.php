@@ -23,12 +23,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+//Test products by ID
+Route::get('/table/{user_id}', [ProductController::class, 'getProductsByUserId']);
+
+Route::post('/product/store', [ProductController::class, 'store'])->middleware('api');
+
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
 
-Route::post('/product/store', [ProductController::class,'store']);
+
+
 
 //API Regions and cities
 Route::get('/regions', [RegionController::class,'index']);
@@ -51,6 +58,8 @@ Route::get('/cart/count',[CartController::class,'count'])->name('cart.count');
 
 //Cart Controller Products 
 Route::apiResource('/cart', CartController::class);
+
+
 
 
 

@@ -17,6 +17,10 @@ const vuetify = createVuetify({
 import PrimeVue from "primevue/config";
 import router from "./router/router";
 
+import "primevue/resources/themes/lara-light-blue/theme.css"; // Replace with your desired theme
+import "primeicons/primeicons.css";
+import "primeflex/primeflex.css";
+
 /*Vue Click outside*/
 import vueClickOutsideElement from "vue-click-outside-element";
 
@@ -46,6 +50,8 @@ import PostAdminTable from "./components/Post/PostAdminTable.vue";
 import AddCartProduct from "./components/Cart/AddCartProduct.vue";
 import CartHeader from "./components/Cart/CartHeader.vue";
 import CartPage from "./components/Cart/CartPage.vue";
+import TestTabTable from "./components/Post/TestTabsTable.vue";
+import AdminUser from "./views/AdminUser.vue";
 
 app.use(pinia);
 app.use(vuetify);
@@ -60,5 +66,7 @@ app.component("chilexpress", Chilexpress);
 app.component("add-cart-product", AddCartProduct);
 app.component("cart-page", CartPage);
 app.component("cart-header", CartHeader);
+app.component("test-tabs-table", TestTabTable);
+app.component("admin-user", AdminUser);
 app.component("font-awesome-icon", FontAwesomeIcon);
 app.mount("#app");

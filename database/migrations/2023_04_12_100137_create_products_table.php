@@ -40,6 +40,9 @@ return new class extends Migration
             $table->text('remark');
             $table->text('advice');
             $table->string('price');  
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->string('publish_status')->nullable();
+            $table->string('selling_status')->nullable();
             
             //Para después testear los siguientes datos (todo sera nullable)
             $table->string('sku')->nullable();
@@ -48,7 +51,7 @@ return new class extends Migration
                      
 
          
-            $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade');
+            
             //$table->foreignId('user_id')->constrained()->onDelete('cascade')->nullable();
             $table->foreignId('address_id')->nullable();
             $table->string('slug')->nullable();
