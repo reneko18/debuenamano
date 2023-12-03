@@ -16,6 +16,8 @@ use App\Http\Controllers\frontend\CartController;
 use App\Http\Controllers\frontend\CheckoutController;
 use App\Http\Controllers\frontend\ChilexpressController;
 use App\Http\Controllers\frontend\WebpayPlusController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PagesController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -111,10 +113,20 @@ Route::middleware(['check.user.type'])->group(function () {
     Route::post('/cart/remove/{product}', [CartController::class, 'remove'])->name('cart.remove');
 });
 
+//Rutas para Carlos
+Route::get('/inicio',[PagesController::class, 'inicio'])->name('inicio');
+Route::get('/nosotros',[PagesController::class, 'nosotros'])->name('nosotros');
+
+Route::fallback(function () {
+    return view('404');
+});
+
 
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('auth');
+Route::get('/home', [HomeController::class, 'index'])->name('home')->middleware('auth');
+
+
 
 
