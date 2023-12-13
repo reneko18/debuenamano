@@ -28,6 +28,14 @@
   <link rel="stylesheet" href="{{ url('adminlte/plugins/daterangepicker/daterangepicker.css')}}">
   <!-- summernote -->
   <link rel="stylesheet" href="{{ url('adminlte/plugins/summernote/summernote-bs4.min.css')}}">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="{{ url('adminlte/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="{{ url('adminlte/css/custom-css.css')}}"> 
+
+
+  @stack('dropzone-js-css')
+  @stack('select2-css')
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -92,6 +100,11 @@
 <script src="{{ url('adminlte/dist/js/adminlte.js')}}"></script>
 
 @stack('script-datatables')
+@stack('dropzone-js')
+@stack('ckeditor')
+@stack('select2-js')
+@stack('test-prime-vue')
+
 
 </body>
 </html>

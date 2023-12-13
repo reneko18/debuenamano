@@ -55,7 +55,7 @@
                                     <td>$ {{ number_format($p->price,0,',', '.') }}</td>
                                     <td>
                                       <div>
-                                        <a href="{{ route("product.show",$p->id) }}" title="Ver producto" target="_blank"><i class="fas fa-eye"></i></a>
+                                        <a href="{{ route("single.show",$p->slug) }}" title="Ver producto" target="_blank"><i class="fas fa-eye"></i></a>
                                       </div>
                                     </td>
                                 </tr>
