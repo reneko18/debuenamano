@@ -15,6 +15,14 @@ body {
     padding-top: 11.25rem;
 }
 
+/* MÁRGENES ****************************************************** */
+
+.mt-30 { margin-top: 30px;}
+.mr-10 { margin-right: 10px; }
+.mb-30 { margin-bottom: 30px; }
+.mb-60 { margin-bottom: 60px; }
+
+
 
 /* TIPOGRAFÍA ****************************************************** */
 
@@ -195,6 +203,12 @@ h2{
     box-shadow: 0px 2px 4px 0px rgba(10, 13, 8, 0.10);
  }
 
+ .navbar-toggler {
+    display: block;
+    margin-left: auto;
+}
+
+
  /* FORMULARIOS ****************************************************** */
 
  label {
@@ -234,6 +248,7 @@ h2{
 }
 
 /* BOTONES ****************************************************** */
+
 .boton-principal {
     color:#D29C37;
     border-radius: 4px;
@@ -249,6 +264,34 @@ h2{
     background-color:#D29C37;
     color: #F8FAF7;
 }
+
+.boton-favoritos {
+    border-radius: 4px;
+    border: 2px solid #C0C6B9;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 15px;
+    line-height: 15px;
+    font-weight: 700;
+    padding: 16px 32px;
+    margin-left: 20px;
+    display: inline-block;
+}
+
+.boton-favoritos svg {
+    height: 15px;
+    width: auto;
+    fill:#C0C6B9;
+}
+
+.boton-favoritos:hover path {
+    fill: #fff;
+}
+
+.boton-favoritos:hover {
+    background-color:#8CA76D;
+    color: #fff;
+}
+
 
 /* SELLING FORM ****************************************************** */
 .tabs-form-sell button{
@@ -281,7 +324,7 @@ h2{
 
 
 
-/*FOOTER ****************************************************** */
+/*FOOTER *******************************************************/
 footer { 
     margin-top: 160px;
     background-color: #344026;
@@ -314,3 +357,52 @@ footer a { color: #fff; }
 .bottom-footer .nav-bottom-footer li { padding-left: 0; list-style-type: none; display: inline; }
 .bottom-footer .nav-bottom-footer li a { font-size: 13px; text-decoration: none; margin-left: 12px; }
 .bottom-footer .nav-bottom-footer li a:hover { color: #344026; text-decoration: underline; } 
+
+/* SINGLE PRODUCT *******************************************************/
+
+.encabezado-producto{
+    margin-bottom: 40px;
+}
+
+.encabezado-producto h1 {
+    color: #8CA76D;
+}
+
+.encabezado-producto .sku {
+    font-size: 10px;
+}
+
+.encabezado-producto .descripcion {
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 22px;
+    padding-top: 20px;
+    margin-bottom: 0;
+}
+
+.bg-blanco-verdoso {
+    background: #F9FAFA;
+    padding: 20px;
+}
+
+.detalle-producto h3, .detalle-producto h2 {
+    font-size: 15px;
+    line-height: 15px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    padding: 0;
+}
+
+.detalle-producto span, .detalle-producto p {
+    font-weight: 300;
+    font-size: 15px;
+}
+
+.detalle-producto span b {
+    font-weight: 500;
+}
+
+.precio {
+    font-size: 30px;
+    font-weight: 700;
+}
