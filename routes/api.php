@@ -55,6 +55,7 @@ Route::get('/cart/count',[CartController::class,'count'])->name('cart.count');
 //Cart Controller Products 
 Route::apiResource('/cart', CartController::class);
 
+//Comentario en rutas para Carlos
 
 
 
