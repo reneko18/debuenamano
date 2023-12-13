@@ -33,10 +33,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
-
-
-
 //API Regions and cities
 Route::get('/regions', [RegionController::class,'index']);
 Route::get('/cities/{region}', [CityController::class,'index']);
