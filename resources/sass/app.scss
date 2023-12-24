@@ -19,12 +19,18 @@ body {
     padding-top: 11.25rem;
 }
 
+
 /* MÁRGENES ****************************************************** */
 
 .mt-30 { margin-top: 30px;}
+.mt-60 { margin-top: 60px;}
 .mr-10 { margin-right: 10px; }
+.mt-130 { margin-top: 130px; }
 .mb-30 { margin-bottom: 30px; }
+.mb-40 { margin-bottom: 40px; }
 .mb-60 { margin-bottom: 60px; }
+.ptb-60 { padding: 60px 0;}
+
 
 
 /* TIPOGRAFÍA ****************************************************** */
@@ -48,8 +54,88 @@ h2 {
     color: #1b1f22;
     font-size: 24px;
     font-weight: 700;
-    line-height: 30px;
+    line-height: 32px;
 }
+
+.hero h1 {
+    font-size: 48px;
+    line-height: 54px;;
+}
+
+.hero p {
+    font-size: 20px;
+    line-height: 26px;
+    font-weight: 300;
+}
+
+:root {
+    /* The intrinsic width of the underline stroke (in pixels). This is 
+   * the same as the height of the cap images. Don't specify the
+   * units! This is because of some of the calculations we do later on. */
+  --underline-intrinsic-width: 8;
+
+  /* The actual width of the underline stroke we want to render (in pixels).
+   * You can modify this, and the sizing and positioning should be calculated
+   * accordingly. Again, Don't specify the units! */
+  --underline-width: 8;
+
+  /* The colour used to draw the underline. It should match the colour
+   * used in the cap images... unfortunately we can't modify the SVG
+   * fill via CSS because it's a background image. */
+  --underline-color: #C0C6B9;
+
+  /* We need to know the width of the cap images so that we
+   * can position everything on the x axis accordingly. */
+  --underline-cap-width: 4px;
+
+  /* The border is positioned relative to the bottom of the line.
+   * We can move it upwards a little to create an overlap effect. */
+  --underline-offset-y: -8px;
+
+  /* The padding to add to the x axis. By default, the caps would be
+   * aligned with the beginning and end of the line. */
+  --underline-padding-x: 0.12em;
+
+  /* The cap images to use that form the left and right rounded
+   * shape. I guess these could be any shape, they don't
+   * necessarily have to be round 🙂.
+   */
+
+    --cap-image-left: url(../../public/img/left.svg);
+    --cap-image-right: url(../../public/img/right.svg);
+  }
+
+.titular {
+    color: #1b1f22;
+    font-size: 40px;
+    display: inline;
+    --underline-width-scale: calc(var(--underline-width) / var(--underline-intrinsic-width));
+    padding: 0 calc(var(--underline-padding-x) + calc(var(--underline-cap-width) * var(--underline-width-scale)));
+    box-decoration-break: clone;
+    background-repeat: no-repeat;
+    background-image: linear-gradient(
+            180deg,
+            var(--underline-color),
+            var(--underline-color)
+          ),
+          var(--cap-image-left), var(--cap-image-right);
+        background-position-x: calc(
+            var(--underline-cap-width) * var(--underline-width-scale)
+          ),
+          0, 100%;
+        background-position-y: calc(100% - var(--underline-offset-y) * -1);
+        background-size: calc(
+              100% -
+                calc(var(--underline-cap-width) * var(--underline-width-scale) * 2)
+            )
+            calc(var(--underline-width) * 1px),
+          auto calc(var(--underline-width) * 1px),
+          auto calc(var(--underline-width) * 1px);
+  }
+  
+
+
+
 
 .bajada-h1 {
     font-family: "Inter", sans-serif;
@@ -521,6 +607,23 @@ label {
     color: #F8FAF7;
 }
 
+.boton-secundario {
+    color: #728c54;
+    border-radius: 4px;
+    border: 2px solid #728c54;
+    font-family: "Quicksand", sans-serif;
+    font-size: 15px;
+    line-height: 15px;
+    font-weight: 700;
+    padding: 16px 32px;
+    text-decoration: none;
+}
+
+.boton-secundario:hover {
+    background-color: #728c54;
+    color: #F8FAF7;
+}
+
 .boton-favoritos {
     border-radius: 4px;
     border: 2px solid #C0C6B9;
@@ -656,8 +759,14 @@ footer a {
 }
 
 .bg-blanco-verdoso {
-    background: #F9FAFA;
+    background: #F9FAFA!important;
     padding: 20px;
+}
+
+.bg-negro-verdoso {
+    background: #1B1F22;
+    padding: 20px;
+    color: #F9FAFA!important;
 }
 
 .detalle-producto h3, .detalle-producto h2 {
@@ -681,3 +790,60 @@ footer a {
     font-size: 30px;
     font-weight: 700;
 }
+
+/* Banner */
+.banner-dbm {
+    background-color: #1B1F22;
+    color: #F9FAFA;
+    padding: 30px 0;
+}
+
+.banner-dbm h3 {
+    font-size: 20px;
+    font-weight: bold;
+    padding-bottom: 4px;
+    margin: 0;
+}
+
+.banner-dbm p {
+    font-size: 16px;
+    font-weight: 300;
+    margin: 0;
+}
+
+/* Links ****************************************************** */
+
+.enlace {
+   font-size: 15px;
+   color: #1B1F22;
+   font-weight: 500;
+} 
+
+.enlace:hover {
+    color: #D6A549;
+ } 
+
+.bg-gris {
+    background-color: #F9FAFA;
+}
+
+
+/* Frases fuerza ****************************************************** */
+
+.titular-frase {
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 26px;
+    color: #F9FAFA;
+    font-family: "Inter", sans-serif;
+}
+
+#parallax {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background-image: url(../../public/img/cuna.png), url(../../public/img/elipse.svg), url(../../public/img/bordado.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-position: 50% 50%;
+  }
