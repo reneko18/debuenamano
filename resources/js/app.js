@@ -33,11 +33,18 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 /* import specific icons */
 import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 import { faTrashCan } from "@fortawesome/free-regular-svg-icons";
 
 /* add icons to the library */
-library.add(faChevronRight, faArrowRight, faPenToSquare, faTrashCan);
+library.add(
+    faChevronRight,
+    faArrowRight,
+    faArrowLeft,
+    faPenToSquare,
+    faTrashCan
+);
 
 const app = createApp({});
 const pinia = createPinia();
@@ -52,6 +59,7 @@ import CartHeader from "./components/Cart/CartHeader.vue";
 import CartPage from "./components/Cart/CartPage.vue";
 import TestTabTable from "./components/Post/TestTabsTable.vue";
 import AdminUser from "./views/AdminUser.vue";
+import Slider from "./components/Home/Slider.vue";
 
 app.use(pinia);
 app.use(vuetify);
@@ -68,5 +76,6 @@ app.component("cart-page", CartPage);
 app.component("cart-header", CartHeader);
 app.component("test-tabs-table", TestTabTable);
 app.component("admin-user", AdminUser);
+app.component("slider-home", Slider);
 app.component("font-awesome-icon", FontAwesomeIcon);
 app.mount("#app");

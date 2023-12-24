@@ -19,7 +19,9 @@
     @vite('resources/js/app.js')
     @stack('script-copy-link')
     <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.0/TweenMax.min.js"></script> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.0/TweenMax.min.js"></script>
+    <script src="js/main.js"></script> <!-- Resource jQuery -->
     @stack('lezada-js')
+    @stack('hola')
 </body>
 </html>
