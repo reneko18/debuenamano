@@ -48,10 +48,56 @@
 <section class="mt-130">
     <div class="container">
         <div class="row">
+            <div class="d-flex justify-content-around align-items-center text-center">
+                <div>
+                    <img src="icons/cuenta.svg" alt="icono Creas tu cuenta en DBM">
+                    <h3 class="pt-3">Creas tu cuenta en DBM</h3>
+                </div>
+                <div>
+                    <img src="icons/form.svg" alt="icono Completas el form de publicación">
+                    <h3 class="pt-3">Completas el form de publicación</h3>
+                </div>
+                <div>
+                    <img src="icons/verificacion.svg" alt="icono Verificamos y publicamos tu producto">
+                    <h3 class="pt-3">Verificamos y publicamos tu producto</h3>
+                </div>
+                <div>
+                    <img src="icons/venta.svg" alt="icono Te avisamos que fue vendido">
+                    <h3 class="pt-3">Te avisamos que fue vendido</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="mt-130">
+    <div class="container">
+        <div class="row">
             <div class="d-flex justify-content-between align-items-center">
                 <div><h2 class='titular'>Nuestro Blog</h2></div>
                 <div><a href="#" class="enlace">visita el blog</a></div>
             </div>             
+        </div>
+    </div>
+</section>
+
+<!-- GRADIENTE LINEAL PARA TENER BLANCO EN TOP AND BOTTOM -->
+<section class="mt-130 bg-negro-verdoso">
+    <div class="container ptb-130">
+        <div class="row relative">
+            <div class="col-md-5">
+                <h2 class="pb-2">Tu comunidad de reutilización y crianza</h2>
+                <p class="pb-5">Hemos creado una <b>plataforma digital chilena</b> donde podrás comprar y vender productos nuevos y de segunda mano con poco uso en muy buenas condiciones para bebés, niñas y niños de hasta 5 años.</p>
+                <a href="#" class="boton-principal">visita el blog</a>
+            </div>
+            <div class="col-md-5">
+                <img src="img/dbm_comunidad.png" alt="Tu comunidad de reutilización y crianza">
+            </div>
+            <!--
+            <div class="col-md-5 img-superpuesta">
+                <img src="img/dbm_comunidad.png" alt="Tu comunidad de reutilización y crianza">
+            </div>
+            -->           
         </div>
     </div>
 </section>

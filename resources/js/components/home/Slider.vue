@@ -1,36 +1,45 @@
 <!-- Carousel.vue -->
 <template>
     <div class="carousel">
-        <button @click="prevSlide">
-            <font-awesome-icon :icon="['fas', 'arrow-left']" />
-        </button>
         <div class="slide-container">
             <transition name="fade" mode="out-in">
                 <div :key="currentSlide" class="slide-ele">
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-md-8">
                             <img
                                 :src="slides[currentSlide - 1].image"
                                 alt="Slide Image"
                             />
                         </div>
-                        <div class="col-6">
-                            <h2>{{ slides[currentSlide - 1].title }}</h2>
-                            <p>{{ slides[currentSlide - 1].description }}</p>
-                            <a href="#" class="btn btn-primary"
-                                >Ver todos los artículos
-                                <font-awesome-icon
-                                    :icon="['fas', 'chevron-right']"
-                            /></a>
-                            <h2>1</h2>
+                        <div class="carousel-info-dbm">
+                            <div class="col-md-5">
+                                <div class="nav-carousel-dbm text-right">
+                                    <button @click="prevSlide">
+                                        <font-awesome-icon :icon="['fa', 'angle-left']" />
+                                    </button>
+                                    <button @click="nextSlide">
+                                        <font-awesome-icon :icon="['fa', 'angle-right']" />
+                                    </button>
+                                </div>
+                                <div class="carousel-caption-dbm text-left">
+                                    <h2 class="pr-80">{{ slides[currentSlide - 1].title }}</h2>
+                                    <p class="pb-3">{{ slides[currentSlide - 1].description }}</p>
+                                    <a href="#" class="boton-principal"
+                                    >Ver todos los artículos
+                                    <font-awesome-icon
+                                        :icon="['fas', 'chevron-right']"
+                                    /></a>
+                                    <div class="contador text-right pt-3">
+                                        <span>1/5</span>
+                                    </div>   
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </transition>
         </div>
-        <button @click="nextSlide">
-            <font-awesome-icon :icon="['fas', 'arrow-right']" />
-        </button>
+        
     </div>
 </template>
 
@@ -90,14 +99,10 @@ const prevSlide = () => {
 }
 
 .slide-container {
-    margin: 20px;
 }
 
 .slide-ele {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    
 }
 
 img {
@@ -105,7 +110,32 @@ img {
     height: auto;
 }
 
+.carousel-info-dbm{
+    position: absolute;
+    top:5%;
+    left: 50%;
+}
+.carousel-caption-dbm{
+    background: #F9FAFA;
+    padding: 100px 80px;
+}
+
 button {
     margin: 5px;
+}
+
+.nav-carousel-dbm{
+ margin-bottom: 10px;
+}
+.nav-carousel-dbm button {
+    background: transparent;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+
+}
+.nav-carousel-dbm button:hover {
+    background: #728C54;
+    color: #fff;
 }
 </style>
