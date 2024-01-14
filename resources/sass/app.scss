@@ -866,3 +866,10 @@ footer a {
     background-position: center;
     background-position: 50% 50%;
   }
+
+.img-superpuesta {
+   position: absolute;
+   z-index: 999;
+   right: 0;
+   top:-120%;
+}
