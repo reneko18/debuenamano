@@ -6,6 +6,7 @@ namespace Database\Seeders;
 
 use App\Models\Author;
 use App\Models\AuthorImage;
+use App\Models\Order;
 use App\Models\Post;
 use App\Models\PostCategory;
 use App\Models\Product;
@@ -26,8 +27,11 @@ class DatabaseSeeder extends Seeder
         $this->call(RolesTableSeeder::class);
         User::factory(10)->withCustomerRole()->create();
         $this->call(CategoriesTableSeeder::class);       
+        $this->call(ProductContactTableSeeder::class);       
         //$this->call(StatusProductsTableSeeder::class);
         Product::factory(40)->create();
+        Order::factory(20)->create();
+        $this->call(ProductContactProductSeeder::class);
         $this->call(RegionsTableSeeder::class);
         $this->call(CitiesTableSeeder::class);
         Author::factory(10)->create();

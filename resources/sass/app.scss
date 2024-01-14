@@ -814,3 +814,46 @@ footer a {
     font-size: 28px;
     color: #344026;
 }
+
+/**CSS TEST PARALLAX***********************************/
+.bg-parallax {
+    background-color: #1d1e22;
+}
+#parallax {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background-image: url(https://raw.githubusercontent.com/oscicen/oscicen.github.io/master/img/depth-3.png),
+        url(https://raw.githubusercontent.com/oscicen/oscicen.github.io/master/img/depth-2.png),
+        url(https://raw.githubusercontent.com/oscicen/oscicen.github.io/master/img/depth-1.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-position: 50% 50%;
+}
+h1.parallax-txt {
+    position: absolute;
+    top: 47%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    font-family: "Arial";
+    text-transform: uppercase;
+    opacity: 0.2;
+    font-size: 70px;
+}
+/*CSS ADMIN USER******************************************/
+#profil-img {
+    display: flex;
+    width: 100px;
+    height: 100px;
+    background-color: #728c54;
+    border-radius: 50%;
+    justify-content: center;
+    align-items: center;
+}
+
+#profil-img .img-profile {
+    width: 100%;
+    max-width: 35px;
+    height: 39px;
+}

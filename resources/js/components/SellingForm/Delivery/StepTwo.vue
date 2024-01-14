@@ -160,9 +160,10 @@ export default {
             isValidRUT: false,
         };
     },
+    emits: ["next-step", "constant-emitted", "active-subtitles"],
     setup(_, { emit }) {
         const mainStep = 4;
-
+        const subValue = 4;
         const formStore = useFormStore();
         const formData = formStore.formData;
 
@@ -173,6 +174,7 @@ export default {
         const nextStep = () => {
             formStore.setFormData(formData);
             emit("next-step");
+            emit("active-subtitles", subValue);
         };
 
         return {

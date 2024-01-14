@@ -11,4 +11,9 @@ class DashboardController extends Controller
     {
         return view('admin.index');
     }
+
+    public function panel()
+    {
+        return view('admin.newadmin');
+    }
 }

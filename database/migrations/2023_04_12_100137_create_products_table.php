@@ -43,7 +43,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('publish_status')->nullable();
             $table->string('selling_status')->nullable();
-            
+            $table->string('admin_status')->nullable();            
             //Para después testear los siguientes datos (todo sera nullable)
             $table->string('sku')->nullable();
                       

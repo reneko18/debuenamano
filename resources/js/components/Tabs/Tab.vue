@@ -7,7 +7,7 @@
 <script>
 import { inject } from "vue";
 export default {
-    props: ["title"],
+    props: ["title", "icon"],
     setup() {
         const selectedTitle = inject("selectedTitle");
 

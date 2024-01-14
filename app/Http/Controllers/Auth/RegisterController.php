@@ -32,6 +32,11 @@ class RegisterController extends Controller
      * @var string
      */
     protected $redirectTo = RouteServiceProvider::HOME;
+    //Modificartion for redirect users after register to the dashboard
+    // protected function registered($user)
+    // {
+    //     return redirect()->route('dashboard.client', ['user' => $user]);
+    // }
 
     /**
      * Create a new controller instance.

@@ -7,10 +7,16 @@ use App\Models\BankDetail;
 use App\Models\DeliveryInformation;
 use App\Models\Product;
 use App\Models\ProductGallery;
+use App\Models\User;
 use Illuminate\Http\Request;
+
+use Illuminate\Support\Str;
+use Carbon\Carbon;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
+
 
 class ProductController extends Controller
 {
@@ -61,6 +67,12 @@ class ProductController extends Controller
         $product->advice = $request->input('stepFiveAdvice');
         //Precio
         $product->price = $request->input('stepEightPrice');
+        //Publish Status
+        $product->publish_status = "En revisión";
+        //Slug
+        $slug = Str::slug($product->name,'-')."-";
+        $slug .= Carbon::now()->timestamp;
+        $product->slug = $slug;
 
         //Usuario
          // Associate the product with the currently logged-in user
@@ -96,7 +108,7 @@ class ProductController extends Controller
         foreach ($imagesData as $imageData) {
             $src =  str_replace('data:image/png;base64,', '', $imageData['src']); 
             $name = $imageData['name'];
-            $name = preg_replace('/[^\w\d\.\-_]/', '_', $name) . '.png';           
+            $name = preg_replace('/[^\w\d\.\-_]/', '_', $name);           
 
 
             // Save the image to the public folder
@@ -157,15 +169,111 @@ class ProductController extends Controller
         //
     }
 
-    public function getProductsByUserId($user_id)
+    public function getProductsPublishedByUserId($user_id)
     {
-        // Assuming you have a 'products' table with a 'user_id' column
-        $products = Product::where('user_id', $user_id)->get();
+    // Assuming you have a 'products' table with a 'user_id' and 'publish_status' column
+    $products = Product::with('category')
+        ->where('user_id', $user_id)
+        ->whereIn('publish_status', ['Guardado/borrador', 'En revisión'])
+        ->get();
+
+    return response()->json($products);
+    }
+
+    public function getProductsDisplayedByUserId($user_id)
+    {
+    // Assuming you have a 'products' table with a 'user_id' and 'publish_status' column
+    $products = Product::with('category')
+        ->where('user_id', $user_id)
+        ->whereIn('publish_status', ['En vitrina'])
+        ->get();
+
+    return response()->json($products);
+    }
+
+    public function getProductsPurchasedByUserId($user_id)
+    {
+        // Retrieve the user
+        $user = User::find($user_id);
+
+        if (!$user) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+
+        // Get the orders for the user and eager load the product details along with the order
+        $orders = $user->orders()->with('product.category')->get();
+
+        // Extract products from orders and include status information
+        $products = $orders->map(function ($order) {
+            return [
+                'product' => $order->product,
+                'status' => $order->status, // Assuming the status is directly in the orders table
+            ];
+        });
 
         return response()->json($products);
     }
 
+    public function getProductsByPublishStatus()
+    {
+        $products = Product::with('productContacts', 'category', 'user')
+            ->where('publish_status', 'En Vitrina')
+            ->get();
+    
+        $productsWithSellerFullName = $products->map(function ($product) {
+            $editUrl = route('productos.edit', $product->slug);
+            return [
+                'product' => $product,
+                'editUrl' => $editUrl,
+                'sellerFullName' => $product->user ? "{$product->user->name} {$product->user->lastname}" : null,
+                'sellerMail' => $product->user ? "{$product->user->email}" : null,
+            ];
+        });
+    
+        return response()->json($productsWithSellerFullName);
+    }
 
+    public function getProductsAdminPublishedByUserId()
+    {
+        $products = Product::with('category', 'user')  
+            ->whereIn('publish_status', ['En revisión'])
+            ->get();
+    
+        $productsWithEditUrl = $products->map(function ($product) {
+            $editUrl = route('productos.edit', $product->slug);
+            return [
+                'product' => $product,
+                'editUrl' => $editUrl,
+                'sellerFullName' => $product->user ? "{$product->user->name} {$product->user->lastname}" : null,
+            ];
+        });
+    
+        return response()->json($productsWithEditUrl);
+    }
+    
+
+    public function updateSellingStatus(Product $product)
+    {
+        try {   
+            // Assuming the request body has a 'selling_status' field
+            $product->update(['selling_status' => request('selling_status')]);
+    
+            return response()->json(['message' => 'Product updated successfully']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to update product'], 500);
+        }
+    }
+
+    public function updateMediaSelection(Product $product)
+    {
+        try {   
+            // Assuming the request body has a 'selling_status' field
+            $product->productContacts()->sync(request('product_contacts'));    
+            return response()->json(['message' => 'Product updated successfully']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to update product'], 500);
+        }
+    }
     
 
 

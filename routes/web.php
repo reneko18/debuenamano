@@ -4,6 +4,7 @@ use App\Http\Controllers\admin\AuthorController;
 use App\Http\Controllers\admin\AuthorImageController;
 use App\Http\Controllers\admin\DashboardController;
 use App\Http\Controllers\admin\ImageUploadController;
+use App\Http\Controllers\admin\InvoiceController;
 use App\Http\Controllers\admin\PostCategoryController;
 use App\Http\Controllers\admin\PostController;
 use App\Http\Controllers\admin\ProductController;
@@ -11,7 +12,6 @@ use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\frontend\SellingFormController;
 use App\Http\Controllers\frontend\ShopController;
 use App\Http\Controllers\frontend\SingleProductController;
-use App\Http\Controllers\admin\TestController;
 use App\Http\Controllers\frontend\CartController;
 use App\Http\Controllers\frontend\CheckoutController;
 use App\Http\Controllers\frontend\ChilexpressController;
@@ -33,7 +33,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 //Test Dashboard
-Route::get('/dashboard/user',[UserController::class,'admin'])->name('dashboard.client');
+Route::get('/dashboard/user/{user}',[UserController::class,'adminUser'])->name('dashboard.client');
 
 Route::get('/new-formulario-venta',[SellingFormController::class,'show'])->name('sellingform.show')->middleware('auth');
 
@@ -45,9 +45,10 @@ Route::get('/', function () {
 
 Route::prefix('admin')->group( function(){
     Route::get('dashboard', [DashboardController::class, 'index'])->name('admin.index');
+    Route::get('panel', [DashboardController::class, 'panel'])->name('admin.panel');
     Route::resource('productos', ProductController::class);
     Route::resource('users', UserController::class);
-    Route::resource('tests', TestController::class);
+    Route::resource('invoices', InvoiceController::class);
     Route::resource('posts', PostController::class);
     Route::resource('authors', AuthorController::class);
     Route::get('authors/{author}/editimage', [AuthorController::class, 'editimage'])->name('authors.editimage');

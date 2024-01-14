@@ -317,9 +317,10 @@ export default {
             showTooltip: false,
         };
     },
-    emits: ["next-step", "constant-emitted"],
+    emits: ["next-step", "constant-emitted", "active-subtitles"],
     setup(_, { emit }) {
         const mainStep = 1;
+        const subValue = 1;
         const formStore = useFormStore();
 
         const formData = formStore.formData;
@@ -331,6 +332,7 @@ export default {
         const nextStep = () => {
             formStore.setFormData(formData);
             emit("next-step");
+            emit("active-subtitles", subValue);
         };
 
         return {

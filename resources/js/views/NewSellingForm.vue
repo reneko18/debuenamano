@@ -74,6 +74,7 @@
                     :is="formSteps[currentStep]"
                     @next-step="nextStep"
                     @constant-emitted="handleMainStep"
+                    @active-subtitles="handleSubStep"
                 />
             </div>
         </div>
@@ -88,10 +89,10 @@ import StepTwoPre from "../components/SellingForm/Presentation/StepTwo.vue";
 import StepThreePre from "../components/SellingForm/Presentation/StepThree.vue";
 import StepOneStat from "../components/SellingForm/Status/StepOne.vue";
 import StepTwoStat from "../components/SellingForm/Status/StepTwo.vue";
+import StepThreeStat from "../components/SellingForm/Status/StepThree.vue";
 import StepOnePhoto from "../components/SellingForm/Photos/StepOne.vue";
-import StepOneDP from "../components/SellingForm/DeliveryAndPrice/StepOne.vue";
-import StepTwoDP from "../components/SellingForm/DeliveryAndPrice/StepTwo.vue";
-import StepThreeDP from "../components/SellingForm/DeliveryAndPrice/StepThree.vue";
+import StepOneDP from "../components/SellingForm/Delivery/StepOne.vue";
+import StepTwoDP from "../components/SellingForm/Delivery/StepTwo.vue";
 import Summary from "../components/SellingForm/Summary/Summary.vue";
 
 export default {
@@ -119,10 +120,10 @@ export default {
             StepThreePre,
             StepOneStat,
             StepTwoStat,
+            StepThreeStat,
             StepOnePhoto,
             StepOneDP,
             StepTwoDP,
-            StepThreeDP,
             Summary,
         ];
 
@@ -145,30 +146,30 @@ export default {
                     firstComp: 3,
                 },
                 links: {
-                    titles: ["Uso", "Observaciones"],
-                    number: [3, 4],
+                    titles: ["Uso", "Observaciones", "Precio"],
+                    number: [3, 4, 5],
                 },
             },
             {
                 mainTitle: {
                     name: "Fotografías",
                     number: 3,
-                    firstComp: 5,
+                    firstComp: 6,
                 },
                 links: {
                     titles: ["Adjuntar"],
-                    number: [5],
+                    number: [6],
                 },
             },
             {
                 mainTitle: {
-                    name: "Despacho y precio",
+                    name: "Despacho",
                     number: 4,
                     firstComp: 6,
                 },
                 links: {
-                    titles: ["Despacho", "Precio", "Cuenta depósito"],
-                    number: [6, 7, 8],
+                    titles: ["Despacho", "Cuenta depósito"],
+                    number: [7, 8],
                 },
             },
             {
@@ -206,6 +207,9 @@ export default {
     methods: {
         handleMainStep(mainStep) {
             this.receivedConstant = mainStep;
+        },
+        handleSubStep(subStep) {
+            this.activeTitles = subStep;
         },
         expandItem(index) {
             this.expandedItem = index;

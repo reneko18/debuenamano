@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
    use HasFactory;
+
+   // In your Product model
+protected $fillable = ['name', 'user_id','selling_status', 'product_contacts'];
+
    
    public function user()
    {       
@@ -37,6 +41,16 @@ class Product extends Model
    public function carts()
    {
        return $this->belongsToMany(Cart::class);
+   }
+
+   public function productContacts()
+   {
+       return $this->belongsToMany(ProductContact::class, 'product_contact_product');
+   }
+
+   public function order()
+   {
+       return $this->hasOne(Order::class);
    }
 
    public function getRouteKeyName()

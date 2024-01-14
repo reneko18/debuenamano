@@ -74,6 +74,7 @@
 import { useFormStore } from "../../../stores/values";
 import { onMounted } from "vue";
 export default {
+    emits: ["next-step", "constant-emitted"],
     setup(_, { emit }) {
         const mainStep = 2;
 

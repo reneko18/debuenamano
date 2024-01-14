@@ -292,6 +292,10 @@ export default {
                     }
                 }
             );
+            //Modi para mantener el dato activo (region)
+            if (selectedRef.value.region != null) {
+                selectedRef.value.region = formData.stepSevenRegion;
+            }
         });
 
         return {

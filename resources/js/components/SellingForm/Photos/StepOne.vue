@@ -102,8 +102,10 @@ import { useDropzone } from "vue3-dropzone";
 import { useFormStore } from "../../../stores/values";
 export default {
     name: "UseDropzoneDemo",
+    emits: ["next-step", "constant-emitted", "active-subtitles"],
     setup(_, { emit }) {
         const mainStep = 3;
+        const subValue = 3;
         const formStore = useFormStore();
 
         const formData = formStore.formData;
@@ -111,6 +113,7 @@ export default {
         const nextStep = () => {
             formStore.setFormData(formData);
             emit("next-step");
+            emit("active-subtitles", subValue);
         };
 
         const isDragActive = ref(false); // Add ref for isDragActive

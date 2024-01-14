@@ -22,8 +22,9 @@ class ProductFactory extends Factory
         $unit = fake()->randomElement(['cm','in']);
         $unitW = fake()->randomElement(['g','Kg']);
         $deliveryBox = fake()->randomElement(['Pequeño','Standard','Grande','Extra']);
-        $publish_status = fake()->randomElement(['En revision','Guardado/borrador']);
-        $selling_status = fake()->randomElement(['Vendido','En courier', 'Entregado','Finalizado']);
+        $publish_status = fake()->randomElement(['En vitrina','En revisión','Guardado/borrador']);
+        $selling_status = fake()->randomElement(['Sí','Pendiente']);
+        $admin_status = fake()->randomElement(['Vendido','En courier', 'Entregado','Finalizado']);
         $randomString = fake()->bothify('??????');
         $sku = 'DBM-' . $randomString;
 
@@ -56,6 +57,7 @@ class ProductFactory extends Factory
             'user_id' => fake()->numberBetween(1,10),
             'publish_status' => $publish_status,
             'selling_status' => $selling_status,
+            'admin_status' => $admin_status,     
             'sku' => $sku,
             'slug' => Str::slug(fake()->realTextBetween(10,25)),
             'meta_title' => fake()->realTextBetween(5,10),

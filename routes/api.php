@@ -24,9 +24,25 @@ use Illuminate\Support\Facades\Route;
 */
 
 //Test products by ID
-Route::get('/table/{user_id}', [ProductController::class, 'getProductsByUserId']);
+Route::get('/table/publish/{user_id}', [ProductController::class, 'getProductsPublishedByUserId']);
+Route::get('/table/display/{user_id}', [ProductController::class, 'getProductsDisplayedByUserId']);
+Route::get('/table/purchase/{user_id}', [ProductController::class, 'getProductsPurchasedByUserId']);
+
+//Test Admin by Case
+Route::get('/table/adminpublish', [ProductController::class, 'getProductsAdminPublishedByUserId']);
+
+//Get products En Vitirina
+Route::get('/vitrina',[ProductController::class, 'getProductsByPublishStatus']);
 
 Route::post('/product/store', [ProductController::class, 'store'])->middleware('api');
+
+
+
+//Update product selling status
+Route::put('/products/status/{product}', [ProductController::class, 'updateSellingStatus']);
+
+//Update product contact (Mail, Whatsapp, Teléfono)
+Route::put('/products/contact/{product}', [ProductController::class, 'updateMediaSelection']);
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

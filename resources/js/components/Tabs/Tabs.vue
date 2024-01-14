@@ -2,11 +2,12 @@
     <div class="tabs">
         <ul class="tabs__header">
             <li
-                v-for="title in tabTitles"
+                v-for="(title, index) in tabTitles"
                 :key="title"
-                :class="{ selected: title == selectedTitle }"
+                :class="{ selected: title === selectedTitle }"
                 @click="selectedTitle = title"
             >
+                <i :class="tabTitlesIcon[index]"></i>
                 {{ title }}
             </li>
         </ul>
@@ -18,13 +19,20 @@
 import { ref, provide } from "vue";
 export default {
     setup(props, { slots }) {
-        const tabTitles = ref(slots.default().map((tab) => tab.props.title));
+        const tabs = slots.default();
+        const tabTitles = ref(tabs.map((tab) => tab.props.title));
+        const tabTitlesIcon = ref(tabs.map((tab) => tab.props.icon));
+
+        // const tabTitles = ref(slots.default().map((tab) => tab.props.title));
+        // const tabTitlesIcon = ref(slots.default().map((tab) => tab.props.icon));
         const selectedTitle = ref(tabTitles.value[0]);
 
         provide("selectedTitle", selectedTitle);
         return {
             selectedTitle,
             tabTitles,
+            tabTitlesIcon,
+            tabs,
         };
     },
 };

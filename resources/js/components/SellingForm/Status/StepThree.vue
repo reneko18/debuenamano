@@ -40,6 +40,7 @@
 import { useFormStore } from "../../../stores/values";
 import { onMounted } from "vue";
 export default {
+    emits: ["next-step", "constant-emitted", "active-subtitles"],
     data() {
         return {
             fee: 0,
@@ -48,7 +49,7 @@ export default {
     },
     setup(_, { emit }) {
         const mainStep = 4;
-
+        const subValue = 2;
         const formStore = useFormStore();
         const formData = formStore.formData;
 
@@ -59,6 +60,7 @@ export default {
         const nextStep = () => {
             formStore.setFormData(formData);
             emit("next-step");
+            emit("active-subtitles", subValue);
         };
 
         return {
