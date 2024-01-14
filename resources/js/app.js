@@ -38,23 +38,20 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 import { faTrashCan } from "@fortawesome/free-regular-svg-icons";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { faEye } from "@fortawesome/free-regular-svg-icons";
+import { faAngleLeft } from "@fortawesome/free-regular-svg-icons";
+import { faAngleRight } from "@fortawesome/free-regular-svg-icons";
 
 /* add icons to the library */
 library.add(
     faChevronRight,
-
     faArrowRight,
     faArrowLeft,
-
-    faArrowLeft,
     faPenToSquare,
-
     faTrashCan,
     faPlus,
     faMagnifyingGlass,
