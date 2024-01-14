@@ -72,6 +72,7 @@ Route::get('/cart/count',[CartController::class,'count'])->name('cart.count');
 Route::apiResource('/cart', CartController::class);
 
 //Comentario en rutas para Carlos
+// Recibido René 10-4
 
 
 

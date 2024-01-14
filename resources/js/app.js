@@ -31,8 +31,13 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 /* import specific icons */
-import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
+import {
+    faAngleLeft,
+    faAngleRight,
+    faChevronRight,
+} from "@fortawesome/free-solid-svg-icons";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 import { faTrashCan } from "@fortawesome/free-regular-svg-icons";
@@ -43,13 +48,19 @@ import { faEye } from "@fortawesome/free-regular-svg-icons";
 /* add icons to the library */
 library.add(
     faChevronRight,
+
     faArrowRight,
     faArrowLeft,
+
+    faArrowLeft,
     faPenToSquare,
+
     faTrashCan,
     faPlus,
     faMagnifyingGlass,
-    faEye
+    faEye,
+    faAngleLeft,
+    faAngleRight
 );
 
 const app = createApp({});
