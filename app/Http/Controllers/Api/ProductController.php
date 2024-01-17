@@ -110,9 +110,9 @@ class ProductController extends Controller
             $name = $imageData['name'];
             $name = preg_replace('/[^\w\d\.\-_]/', '_', $name);           
 
-
+            
             // Save the image to the public folder
-            $imagePath = public_path('images/products_images/' . $name);
+            $imagePath = public_path('images/products_images/' . $name );
             $decodedImage = base64_decode($src);
 
             file_put_contents($imagePath, $decodedImage);
@@ -172,7 +172,7 @@ class ProductController extends Controller
     public function getProductsPublishedByUserId($user_id)
     {
     // Assuming you have a 'products' table with a 'user_id' and 'publish_status' column
-    $products = Product::with('category')
+    $products = Product::with('category','galleries')
         ->where('user_id', $user_id)
         ->whereIn('publish_status', ['Guardado/borrador', 'En revisión'])
         ->get();

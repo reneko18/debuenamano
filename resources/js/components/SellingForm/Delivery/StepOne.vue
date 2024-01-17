@@ -181,6 +181,7 @@
 import { useFormStore } from "../../../stores/values";
 import { onMounted, watch, ref } from "vue";
 export default {
+    emits: ["next-step", "constant-emitted", "active-subtitles"],
     data() {
         return {
             regions: [],
@@ -205,6 +206,7 @@ export default {
         const cities = ref([]);
         const offices = ref([]);
         const mainStep = 4;
+        const subValue = 4;
 
         const formStore = useFormStore();
         const formData = formStore.formData;
@@ -212,6 +214,7 @@ export default {
         const nextStep = () => {
             formStore.setFormData(formData);
             emit("next-step");
+            emit("active-subtitles", subValue);
         };
 
         const getComunasChilexpress = async function () {
@@ -295,6 +298,10 @@ export default {
             //Modi para mantener el dato activo (region)
             if (selectedRef.value.region != null) {
                 selectedRef.value.region = formData.stepSevenRegion;
+            }
+            //Modi para mantener el dato activo (comuna)
+            if (selectedRef.value.city != null) {
+                selectedRef.value.city = formData.stepSevenCity;
             }
         });
 

@@ -4,7 +4,7 @@ Admin Usuario - De Buena Mano
 @endsection
 
 @section('content')
-<section class="container-fluid">
+<section class="container-fluid p-pages pb-5">
     <div class="container mx-auto">
         <div class="col-8">
             <h2>Panel de administración</h2>

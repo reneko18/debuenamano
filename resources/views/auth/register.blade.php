@@ -1,7 +1,7 @@
 @extends('includes.baseform')
 
 @section('content')
-<div class="container">
+<div class="container p-pages pb-5">
     <div class="row">
         <div class="col-6"> 
             <h1>Registro</h1>  

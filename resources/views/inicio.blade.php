@@ -105,7 +105,7 @@
 
 @endsection
 
-@push('hola')
+@push('dbm-parallax')
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {

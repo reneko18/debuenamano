@@ -28,7 +28,24 @@
                 'publish_status',
             ]"
         >
-            <Column field="name" header="Articulo" :filter="true"></Column>
+            <Column field="image" header="Imagen">
+                <template #body="slotProps">
+                    <img
+                        class="img-fluid img-product"
+                        :src="'/' + slotProps.data.galleries[0].url"
+                        :alt="slotProps.data.galleries[0].alt"
+                    />
+                </template>
+            </Column>
+            <Column field="name" header="Articulo" :filter="true">
+                <template #body="slotProps">
+                    <a
+                        :href="'/single-product/' + slotProps.data.slug"
+                        target="_blank"
+                        >{{ slotProps.data.name }}</a
+                    >
+                </template>
+            </Column>
             <Column
                 :field="getCategoryName"
                 header="Categoria"
@@ -152,5 +169,8 @@ onMounted(() => {
     font-size: 14px;
     font-weight: 400;
     color: #1b1f22;
+}
+.img-product {
+    max-width: 80px;
 }
 </style>

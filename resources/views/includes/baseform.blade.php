@@ -23,7 +23,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.2/croppie.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     @stack('lezada-js')
-    @stack('parallax')
+    @stack('dbm-parallax')
     @stack('img-profil')
 </body>
 </html>

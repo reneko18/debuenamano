@@ -12,7 +12,7 @@
             <a class="nav-link" href="#">Comprar</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Vender</a>
+            <a class="nav-link" href="{{ route('sellingform.show')}}">Vender</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">DBM</a>

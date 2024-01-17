@@ -27,10 +27,14 @@
 @endpush
 
 @section('content')
-    <section class="container">
+    <section class="container p-pages pb-5">
         <div class="row">
             <div class="col-md-6">
-                <img class="img-fluid" src="{{ asset('img/test-img-single.png') }}" alt="test-img-single">
+				@if(($product->galleries->get(0)) == null)
+					<img class="first-img-proj" src="{{ asset('img/test-img-single.png') }}" alt="">  
+				@else
+					<img class="first-img-proj" src="{{ asset($product->galleries->get(0)->url)}}" alt=""> 
+				@endif                 
             </div>
             <div class="col-md-6">
                 <div class="encabezado-producto bg-blanco-verdoso">

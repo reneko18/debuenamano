@@ -150,6 +150,7 @@
                             >Rango de edad de tu articulo*</label
                         >
                         <input
+                            v-show="showSecondSelect"
                             type="number"
                             class="form-control"
                             placeholder="00"

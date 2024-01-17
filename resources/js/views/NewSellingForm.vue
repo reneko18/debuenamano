@@ -165,7 +165,7 @@ export default {
                 mainTitle: {
                     name: "Despacho",
                     number: 4,
-                    firstComp: 6,
+                    firstComp: 7,
                 },
                 links: {
                     titles: ["Despacho", "Cuenta depósito"],

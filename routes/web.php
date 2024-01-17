@@ -39,10 +39,6 @@ Route::get('/new-formulario-venta',[SellingFormController::class,'show'])->name(
 
 
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Route::prefix('admin')->group( function(){
     Route::get('dashboard', [DashboardController::class, 'index'])->name('admin.index');
     Route::get('panel', [DashboardController::class, 'panel'])->name('admin.panel');
@@ -115,7 +111,7 @@ Route::middleware(['check.user.type'])->group(function () {
 });
 
 //Rutas para Carlos
-Route::get('/inicio',[PagesController::class, 'inicio'])->name('inicio');
+Route::get('/',[PagesController::class, 'inicio'])->name('inicio');
 Route::get('/nosotros',[PagesController::class, 'nosotros'])->name('nosotros');
 
 Route::fallback(function () {
