@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @stack('post-seo')
-    <script src="https://kit.fontawesome.com/fff2c97c92.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/0a363a0ee9.js" crossorigin="anonymous"></script>
     @stack('material-icons')
     @stack('lezada-css')
     @vite('resources/sass/app.scss')

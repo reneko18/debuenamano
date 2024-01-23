@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('chile_office')->nullable();
             $table->string('address')->nullable();
             $table->string('address_number')->nullable();
+            $table->string('dpto_house')->nullable();
             $table->timestamps();
         });
     }

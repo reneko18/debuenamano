@@ -2,7 +2,7 @@
 <template>
     <div class="carousel">
         <div class="slide-container">
-            <transition name="fade" mode="out-in">
+            <transition name="slide" mode="out-in">
                 <div :key="currentSlide" class="slide-ele">
                     <div class="row">
                         <div class="col-md-8">
@@ -144,5 +144,20 @@ button {
 .nav-carousel-dbm button:hover {
     background: #728c54;
     color: #fff;
+}
+
+.slide-enter-active,
+.slide-leave-active {
+    transition: opacity 0.5s;
+}
+
+.slide-enter,
+.slide-leave-to {
+    opacity: 0;
+}
+
+.slide-enter-to,
+.slide-leave {
+    opacity: 1;
 }
 </style>

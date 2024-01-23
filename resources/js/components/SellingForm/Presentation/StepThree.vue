@@ -28,9 +28,6 @@
                             class="form-select"
                             v-model="formData.stepThreeHeightUnit"
                         >
-                            <option disabled selected value="">
-                                Seleccione
-                            </option>
                             <option value="cm">cm</option>
                             <option value="in">in</option>
                         </select>
@@ -54,9 +51,6 @@
                             class="form-select"
                             v-model="formData.stepThreeWidthUnit"
                         >
-                            <option disabled selected value="">
-                                Seleccione
-                            </option>
                             <option value="cm">cm</option>
                             <option value="in">in</option>
                         </select>
@@ -80,9 +74,6 @@
                             class="form-select"
                             v-model="formData.stepThreeLengthUnit"
                         >
-                            <option disabled selected value="">
-                                Seleccione
-                            </option>
                             <option value="cm">cm</option>
                             <option value="in">in</option>
                         </select>
@@ -106,9 +97,6 @@
                             class="form-select"
                             v-model="formData.stepThreeWeightUnit"
                         >
-                            <option disabled selected value="">
-                                Seleccione
-                            </option>
                             <option value="g">g</option>
                             <option value="Kg">Kg</option>
                         </select>

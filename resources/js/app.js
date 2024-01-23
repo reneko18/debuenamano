@@ -3,17 +3,7 @@ import "@mdi/font/css/materialdesignicons.css";
 
 import { createApp } from "vue";
 import { createPinia } from "pinia";
-import "vuetify/styles";
-import { createVuetify } from "vuetify";
-import * as components from "vuetify/components";
-import * as directives from "vuetify/directives";
-const vuetify = createVuetify({
-    components,
-    directives,
-    icons: {
-        iconfont: "mdi", // This sets the iconfont to use MDI icons
-    },
-});
+
 import PrimeVue from "primevue/config";
 import router from "./router/router";
 
@@ -32,6 +22,7 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 /* import specific icons */
 import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
+import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
@@ -44,6 +35,7 @@ import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
 
 /* add icons to the library */
 library.add(
+    faChevronDown,
     faChevronRight,
     faArrowRight,
     faArrowLeft,
@@ -72,7 +64,6 @@ import AdminView from "./views/AdminView.vue";
 import Slider from "./components/Home/Slider.vue";
 
 app.use(pinia);
-app.use(vuetify);
 app.use(PrimeVue);
 app.use(vueClickOutsideElement);
 app.use(router);

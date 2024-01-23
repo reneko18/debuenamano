@@ -16,12 +16,9 @@
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">DBM</a>
-          </li>
+          </li> 
           <li class="nav-item">
-            <a class="nav-link" href="#">Donar</a>
-          </li>   
-          <li class="nav-item">
-            <a class="nav-link" href="#">Blog</a>
+            <a class="nav-link" href="{{ route('post.blog')}}">Blog</a>
           </li> 
           <li class="nav-item">
             <a class="nav-link icono-buscar" href="#">

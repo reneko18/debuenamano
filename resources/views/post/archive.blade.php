@@ -7,7 +7,7 @@
 @endpush
 
 @section('content')
-    <section class="container-fluid breadcrumb-sec">
+    <section class="container-fluid breadcrumb-sec p-pages pb-5">
         <div class="container">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">

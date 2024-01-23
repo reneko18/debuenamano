@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 @endpush
 @section('content')
-    <section class="container-fluid breadcrumb-sec">
+    <section class="container-fluid breadcrumb-sec p-pages pb-5">
       <div class="container">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">

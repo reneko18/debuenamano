@@ -90,6 +90,7 @@ class ProductController extends Controller
         $deliveryInformation->chile_office = $request->input('stepSevenChilexpressOffice');
         $deliveryInformation->address = $request->input('stepSevenStreet');
         $deliveryInformation->address_number = $request->input('stepSevenStreetNumber');
+        $deliveryInformation->dpto_house = $request->input('stepSevenStreetDptoHouse');
 
         $product->deliveryInformation()->save($deliveryInformation);
 

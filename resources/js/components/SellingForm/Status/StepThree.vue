@@ -10,21 +10,25 @@
             </div>
         </div>
         <div class="col-lg-5 col-md-12">
-            <input
-                type="text"
-                class="form-control"
-                id="priceItem"
-                placeholder="Precio"
-                v-model="formData.stepEightPrice"
-                @input="feeDBM"
-            />
+            <div class="input-group mb-3">
+                <span class="input-group-text">$</span>
+                <input
+                    type="text"
+                    class="form-control input-precio"
+                    id="priceItem"
+                    placeholder="Precio"
+                    v-model="formData.stepEightPrice"
+                    @input="feeDBM"
+                    v-price-format
+                />
+            </div>
             <div class="row">
                 <div class="col">
-                    <p>-${{ fee }}</p>
-                    <p>${{ finalAmount }}</p>
+                    <p>-${{ formData.stepEightPriceFee }}</p>
+                    <p>${{ formData.stepEightPriceFinalAmount }}</p>
                 </div>
                 <div class="col">
-                    <p>Comisión DBM 25%</p>
+                    <p>Comisión DBM 22%</p>
                     <p>Tu ganancia</p>
                 </div>
             </div>
@@ -39,7 +43,32 @@
 <script>
 import { useFormStore } from "../../../stores/values";
 import { onMounted } from "vue";
+const priceFormatDirective = {
+    mounted(el, binding) {
+        const context = binding.instance;
+
+        el.addEventListener("input", function (e) {
+            // Remove non-numeric characters
+            const value = e.target.value.replace(/[^0-9]/g, "");
+
+            // Insert a point separator for thousands
+            const formattedValue = value.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+
+            // Set the formatted value as a string
+            e.target.value = formattedValue;
+
+            // Save the formatted string to formData.stepEightPrice
+            // If you need to save the numeric value, convert it back to a number
+            // context.formData.stepEightPrice = parseFloat(value);
+            context.formData.stepEightPrice = formattedValue;
+        });
+    },
+};
+
 export default {
+    directives: {
+        "price-format": priceFormatDirective,
+    },
     emits: ["next-step", "constant-emitted", "active-subtitles"],
     data() {
         return {
@@ -70,11 +99,18 @@ export default {
     },
     methods: {
         feeDBM() {
-            this.fee = this.formData.stepEightPrice * 0.25;
-            this.fee = Math.round(this.fee);
-            this.finalAmount = this.formData.stepEightPrice - this.fee;
-            this.fee = this.fee.toLocaleString();
-            this.finalAmount = this.finalAmount.toLocaleString();
+            // Remove dots to get the raw number for calculations
+            const rawPrice = this.formData.stepEightPrice.replace(/[.]/g, "");
+            this.fee = Math.round(rawPrice * 0.22);
+            this.finalAmount = rawPrice - this.fee;
+
+            // Convert numeric values to strings and format with point as separator and no decimal places
+            this.formData.stepEightPriceFee = this.fee
+                .toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            this.formData.stepEightPriceFinalAmount = this.finalAmount
+                .toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
         },
     },
 };

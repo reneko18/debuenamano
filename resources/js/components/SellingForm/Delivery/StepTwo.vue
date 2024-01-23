@@ -33,7 +33,9 @@
                         class="form-select"
                         v-model="formData.stepNineBank"
                     >
-                        <option selected>Elige el banco</option>
+                        <option disabled selected value="">
+                            Elige el banco
+                        </option>
                         <option value="Banco BICE">Banco BICE</option>
                         <option value="Banco Consorcio">Banco Consorcio</option>
                         <option value="Banco Corpbanca">Banco Corpbanca</option>
@@ -112,7 +114,9 @@
                         class="form-select"
                         v-model="formData.stepNineBankType"
                     >
-                        <option selected>Elige el tipo de cuenta</option>
+                        <option disabled selected value="">
+                            Elige el tipo de cuenta
+                        </option>
                         <option value="Cuenta Vista">Cuenta Vista</option>
                         <option value="Cuenta Corriente">
                             Cuenta Corriente

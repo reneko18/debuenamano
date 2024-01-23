@@ -41,10 +41,10 @@
                             readonly
                             placeholder="Seleccione una categoría"
                         />
-                        <i
-                            class="fa-solid fa-chevron-down"
+                        <font-awesome-icon
+                            :icon="['fas', 'chevron-down']"
                             @click="showAndCloseDropdown"
-                        ></i>
+                        />
                     </div>
                     <div id="dropdown-cats">
                         <div class="accordion" id="accordionCategories">
@@ -165,9 +165,6 @@
                             class="form-select"
                             v-model="formData.stepOneAgeDateIni"
                         >
-                            <option disabled selected value="">
-                                Seleccione
-                            </option>
                             <option value="Recién nacido">Recién nacido</option>
                             <option value="Semanas">Semanas</option>
                             <option value="Meses">Meses</option>
@@ -197,9 +194,6 @@
                             class="form-select"
                             v-model="formData.stepOneAgeDateFin"
                         >
-                            <option disabled selected value="">
-                                Seleccione
-                            </option>
                             <option value="Semanas">Semanas</option>
                             <option value="Meses">Meses</option>
                             <option value="Años">Años</option>
@@ -237,7 +231,7 @@
 </template>
 <script>
 import { useFormStore } from "../../../stores/values";
-import { computed, onMounted } from "vue";
+import { ref, computed, onMounted } from "vue";
 
 export default {
     emits: ["nextStep", "constant-emitted"],
@@ -268,7 +262,6 @@ export default {
             .get("/api/categories")
             .then((response) => {
                 this.categories = response.data.categories;
-                console.log(this.categories);
             })
             .catch((error) => {
                 console.error("Error fetching categories:", error);
@@ -278,7 +271,8 @@ export default {
         const mainStep = 1;
         const formStore = useFormStore();
         const formData = formStore.formData;
-        const characterCount = computed(() => formStore.characterCount);
+        // const characterCount = computed(() => formStore.characterCount);
+        const characterCount = ref(0);
 
         onMounted(() => {
             emit("constant-emitted", mainStep);
@@ -289,11 +283,17 @@ export default {
             emit("next-step");
         };
 
+        // const updateCharacterCount = () => {
+        //     // // const textWithoutSpaces =
+        //     // //     formData.stepOneDescriptionProduct.replace(/\s/g, "");
+        //     // const newCharacterCount = textWithoutSpaces.length;
+        //     // formStore.setCharacterCount(newCharacterCount);
+        // };
+
         const updateCharacterCount = () => {
-            const textWithoutSpaces =
-                formData.stepOneDescriptionProduct.replace(/\s/g, "");
-            const newCharacterCount = textWithoutSpaces.length;
-            formStore.setCharacterCount(newCharacterCount);
+            const text = formData.stepOneDescriptionProduct;
+            const newCharacterCount = text.length;
+            characterCount.value = newCharacterCount;
         };
 
         return {

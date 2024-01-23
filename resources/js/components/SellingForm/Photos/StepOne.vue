@@ -65,7 +65,15 @@
                 <h4>Archivos soportados JPG, PNG</h4>
                 <h4>o</h4>
                 <input v-bind="getInputProps()" />
-                <button @click="open">buscar archivos</button>
+                <button class="btn" @click="openFileInput">
+                    buscar archivos
+                </button>
+                <input
+                    ref="fileInput"
+                    type="file"
+                    style="display: none"
+                    v-bind="getInputProps()"
+                />
                 <p>Peso máximo 2MB</p>
             </div>
             <div class="cont-images-result">
@@ -81,7 +89,7 @@
                     </div>
                     <div class="second">
                         <p>{{ image.size }}</p>
-                        <button @click="deleteImage(index)">
+                        <button class="btn" @click="deleteImage(index)">
                             <font-awesome-icon :icon="['far', 'trash-can']" />
                         </button>
                     </div>
@@ -136,6 +144,12 @@ export default {
             console.log(acceptedFiles);
             console.log(rejectedFiles);
         }*/
+        const fileInput = ref(null);
+        const openFileInput = () => {
+            if (fileInput.value) {
+                fileInput.value.click();
+            }
+        };
 
         function onDrop(acceptedFiles, rejectedFiles) {
             Promise.all(
@@ -185,6 +199,8 @@ export default {
         });
 
         return {
+            fileInput,
+            openFileInput,
             isDragActive,
             getRootProps,
             getInputProps,

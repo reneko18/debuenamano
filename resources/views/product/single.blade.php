@@ -31,9 +31,9 @@
         <div class="row">
             <div class="col-md-6">
 				@if(($product->galleries->get(0)) == null)
-					<img class="first-img-proj" src="{{ asset('img/test-img-single.png') }}" alt="">  
+					<img class="first-img-proj img-fluid" src="{{ asset('img/image-dummy-products.png') }}" alt="">  
 				@else
-					<img class="first-img-proj" src="{{ asset($product->galleries->get(0)->url)}}" alt=""> 
+					<img class="first-img-proj img-fluid" src="{{ asset($product->galleries->get(0)->url)}}" alt=""> 
 				@endif                 
             </div>
             <div class="col-md-6">

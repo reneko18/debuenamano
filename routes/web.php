@@ -77,8 +77,9 @@ Route::post('image-upload', [ImageUploadController::class, 'storeImage'])->name(
 Route::post('post/{post}/photo',[PostController::class, 'storeImage'])->name('mainimage.store');
 Route::delete('post/{post}',[PostController::class, 'destroyImage'])->name('mainimage.destroy');
 
-//Blog Route
+//Blog Routes
 Route::get('/blog',[PostController::class, 'blog'])->name('post.blog');
+Route::get('/entradas/{post}',[PostController::class, 'show'])->name('post.show');
 
 //Test API Chilexpress Route
 Route::get('/chilexpress',[ChilexpressController::class, 'index'])->name('api.index');

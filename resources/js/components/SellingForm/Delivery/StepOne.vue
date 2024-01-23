@@ -50,7 +50,7 @@
                 </div>
             </div>
             <div class="col-8">
-                <div v-if="selectedSection === 'chilexpress'">
+                <div v-if="formData.stepSevenSelectedSection === 'chilexpress'">
                     <p>
                         Super, necesitamos selecciones la sucursal a la que
                         llevarías el artículo, esto nos permitirá calcular el
@@ -101,7 +101,7 @@
                         </option>
                     </select>
                 </div>
-                <div v-else-if="selectedSection === 'house'">
+                <div v-else-if="formData.stepSevenSelectedSection === 'house'">
                     <p>
                         Nos ajustamos a tus necesidades, ingresa la dirección
                         del lugar donde se encuentra el artículo y asegúrate de
@@ -128,6 +128,18 @@
                             class="form-control"
                             placeholder="Ingresa el número"
                             v-model="formData.stepSevenStreetNumber"
+                        />
+                    </div>
+                    <div>
+                        <label for="dptoHouse" class="form-label"
+                            >Depto/casa</label
+                        >
+                        <input
+                            type="text"
+                            id="dptoHouse"
+                            class="form-control"
+                            placeholder="Ingresa los datos"
+                            v-model="formData.stepSevenStreetDptoHouse"
                         />
                     </div>
                     <div>
@@ -181,7 +193,7 @@
 import { useFormStore } from "../../../stores/values";
 import { onMounted, watch, ref } from "vue";
 export default {
-    emits: ["next-step", "constant-emitted", "active-subtitles"],
+    emits: ["next-step", "constant-emitted"],
     data() {
         return {
             regions: [],
@@ -190,7 +202,6 @@ export default {
                 city: "",
                 street: "",
             },
-            selectedSection: "chilexpress",
             loading: false,
         };
     },
@@ -206,7 +217,6 @@ export default {
         const cities = ref([]);
         const offices = ref([]);
         const mainStep = 4;
-        const subValue = 4;
 
         const formStore = useFormStore();
         const formData = formStore.formData;
@@ -214,7 +224,6 @@ export default {
         const nextStep = () => {
             formStore.setFormData(formData);
             emit("next-step");
-            emit("active-subtitles", subValue);
         };
 
         const getComunasChilexpress = async function () {
@@ -336,7 +345,7 @@ export default {
             }
         },
         toggleSection(section) {
-            this.selectedSection = section;
+            this.formData.stepSevenSelectedSection = section;
         },
     },
     mounted() {

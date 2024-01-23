@@ -533,7 +533,11 @@
                     </div>
                 </div>
                 <div class="col-8">
-                    <div v-if="selectedSection === 'Chilexpress'">
+                    <div
+                        v-if="
+                            formData.stepSevenSelectedSection === 'Chilexpress'
+                        "
+                    >
                         <label for="region" class="form-label"
                             >Tu región *</label
                         >
@@ -584,7 +588,11 @@
                             </option>
                         </select>
                     </div>
-                    <div v-else-if="selectedSection === 'Domicilio'">
+                    <div
+                        v-else-if="
+                            formData.stepSevenSelectedSection === 'Domicilio'
+                        "
+                    >
                         <div>
                             <label for="street" class="form-label"
                                 >Calle / Avenida</label
@@ -672,11 +680,12 @@
                     placeholder="Precio"
                     v-model="formData.stepEightPrice"
                     @input="feeDBM"
+                    v-price-format
                 />
                 <div class="row">
                     <div class="col">
-                        <p>-${{ fee }}</p>
-                        <p>${{ finalAmount }}</p>
+                        <p>-${{ formData.stepEightPriceFee }}</p>
+                        <p>${{ formData.stepEightPriceFinalAmount }}</p>
                     </div>
                     <div class="col">
                         <p>Comisión DBM 25%</p>
@@ -807,7 +816,31 @@
 import { ref, computed, onMounted, watch } from "vue";
 import { useDropzone } from "vue3-dropzone";
 import { useFormStore } from "../../../stores/values";
+const priceFormatDirective = {
+    mounted(el, binding) {
+        const context = binding.instance;
+
+        el.addEventListener("input", function (e) {
+            // Remove non-numeric characters
+            const value = e.target.value.replace(/[^0-9]/g, "");
+
+            // Insert a point separator for thousands
+            const formattedValue = value.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+
+            // Set the formatted value as a string
+            e.target.value = formattedValue;
+
+            // Save the formatted string to formData.stepEightPrice
+            // If you need to save the numeric value, convert it back to a number
+            // context.formData.stepEightPrice = parseFloat(value);
+            context.formData.stepEightPrice = formattedValue;
+        });
+    },
+};
 export default {
+    directives: {
+        "price-format": priceFormatDirective,
+    },
     name: "UseDropzoneDemo",
     data() {
         return {
@@ -823,7 +856,6 @@ export default {
                 city: "",
                 street: "",
             },
-            // selectedSection: "",
             loading: false,
             //Precio
             fee: 0,
@@ -836,10 +868,12 @@ export default {
         const mainStep = 5;
         const formStore = useFormStore();
         const formData = formStore.formData;
-        const characterCount = computed(() => formStore.characterCount);
-        const characterCountObs = computed(() => formStore.characterCountObs);
-        const characterCountReco = computed(() => formStore.characterCountReco);
-        const selectedSection = ref(formData?.stepSevenOptionDelivery);
+        // const characterCount = computed(() => formStore.characterCount);
+        // const characterCountObs = computed(() => formStore.characterCountObs);
+        // const characterCountReco = computed(() => formStore.characterCountReco);
+        const characterCount = ref(formData.stepOneDescriptionProduct.length);
+        const characterCountObs = ref(formData.stepFiveDetails.length);
+        const characterCountReco = ref(formData.stepFiveAdvice.length);
         //Photos
         const isDragActive = ref(false);
         function onDrop(acceptedFiles, rejectedFiles) {
@@ -889,27 +923,36 @@ export default {
             emit("constant-emitted", mainStep);
         });
         const updateCharacterCount = () => {
-            const textWithoutSpaces =
-                formData.stepOneDescriptionProduct.replace(/\s/g, "");
-            const newCharacterCount = textWithoutSpaces.length;
-            formStore.setCharacterCount(newCharacterCount);
+            // const textWithoutSpaces =
+            //     formData.stepOneDescriptionProduct.replace(/\s/g, "");
+            // const newCharacterCount = textWithoutSpaces.length;
+            // formStore.setCharacterCount(newCharacterCount);
+            const text = formData.stepOneDescriptionProduct;
+            const newCharacterCount = text.length;
+            characterCount.value = newCharacterCount;
         };
         const updateCharacterCountObs = () => {
-            const textWithoutSpacesObs = formData.stepFiveDetails.replace(
-                /\s/g,
-                ""
-            );
-            const newCharacterCountObs = textWithoutSpacesObs.length;
-            formStore.setCharacterCountObs(newCharacterCountObs);
+            // const textWithoutSpacesObs = formData.stepFiveDetails.replace(
+            //     /\s/g,
+            //     ""
+            // );
+            // const newCharacterCountObs = textWithoutSpacesObs.length;
+            // formStore.setCharacterCountObs(newCharacterCountObs);
+            const text = formData.stepFiveDetails;
+            const newCharacterCount = text.length;
+            characterCountObs.value = newCharacterCount;
         };
 
         const updateCharacterCountReco = () => {
-            const textWithoutSpacesReco = formData.stepFiveAdvice.replace(
-                /\s/g,
-                ""
-            );
-            const newCharacterCountReco = textWithoutSpacesReco.length;
-            formStore.setCharacterCountReco(newCharacterCountReco);
+            // const textWithoutSpacesReco = formData.stepFiveAdvice.replace(
+            //     /\s/g,
+            //     ""
+            // );
+            // const newCharacterCountReco = textWithoutSpacesReco.length;
+            // formStore.setCharacterCountReco(newCharacterCountReco);
+            const text = formData.stepFiveAdvice;
+            const newCharacterCount = text.length;
+            characterCountReco.value = newCharacterCount;
         };
         //Despacho
         const selectedRef = ref({
@@ -998,6 +1041,14 @@ export default {
                     }
                 }
             );
+            //Modi para mantener el dato activo (region)
+            if (selectedRef.value.region != null) {
+                selectedRef.value.region = formData.stepSevenRegion;
+            }
+            //Modi para mantener el dato activo (comuna)
+            if (selectedRef.value.city != null) {
+                selectedRef.value.city = formData.stepSevenCity;
+            }
         });
         return {
             characterCount,
@@ -1008,7 +1059,6 @@ export default {
             updateCharacterCountObs,
             updateCharacterCountReco,
             //Despacho
-            selectedSection,
             selected: selectedRef.value,
             loading: ref(false),
             cities,
@@ -1099,25 +1149,29 @@ export default {
             // Update the textareaHeight data property to match the left column height
             this.textareaHeight = leftHeight;
         },
-        submitForm() {
-            console.log(this.formData);
-            const csrfToken = document.head.querySelector(
-                'meta[name="csrf-token"]'
-            ).content;
-            console.log("CSRF Token:", csrfToken);
-            axios
-                .post("/api/product/store", this.formData, {
-                    headers: {
-                        "X-CSRF-TOKEN": csrfToken,
-                    },
-                })
-                .then((res) => {
-                    console.log(res);
-                    window.location.href = "/";
-                })
-                .catch((error) => {
-                    console.log(error.response.data);
-                });
+        async submitForm() {
+            try {
+                console.log(this.formData);
+                const csrfToken = document.head.querySelector(
+                    'meta[name="csrf-token"]'
+                ).content;
+                console.log("CSRF Token:", csrfToken);
+
+                const response = await axios.post(
+                    "/api/product/store",
+                    this.formData,
+                    {
+                        headers: {
+                            "X-CSRF-TOKEN": csrfToken,
+                        },
+                    }
+                );
+
+                console.log(response);
+                window.location.href = "/";
+            } catch (error) {
+                console.error(error.response.data);
+            }
         },
         //Despachos
         async getRegionsChilexpress() {
@@ -1141,15 +1195,22 @@ export default {
             }
         },
         toggleSection(section) {
-            this.selectedSection = section;
+            this.formData.stepSevenSelectedSection = section;
         },
         //Precio
         feeDBM() {
-            this.fee = this.formData.stepEightPrice * 0.25;
-            this.fee = Math.round(this.fee);
-            this.finalAmount = this.formData.stepEightPrice - this.fee;
-            this.fee = this.fee.toLocaleString();
-            this.finalAmount = this.finalAmount.toLocaleString();
+            // Remove dots to get the raw number for calculations
+            const rawPrice = this.formData.stepEightPrice.replace(/[.]/g, "");
+            this.fee = Math.round(rawPrice * 0.22);
+            this.finalAmount = rawPrice - this.fee;
+
+            // Convert numeric values to strings and format with point as separator and no decimal places
+            this.formData.stepEightPriceFee = this.fee
+                .toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            this.formData.stepEightPriceFinalAmount = this.finalAmount
+                .toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
         },
         //Cuenta Bancaria
         formatAndValidateRUT() {
