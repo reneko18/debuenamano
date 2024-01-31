@@ -22,6 +22,9 @@ class User extends Authenticatable
         'name',
         'lastname',
         'email',
+        'slug',
+        'phone',
+        'birthdate',
         'password',
     ];
 
@@ -57,5 +60,10 @@ class User extends Authenticatable
     public function orders()
     {
         return $this->hasMany(Order::class);
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
     }
 }

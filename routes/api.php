@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\RegionController;
 use App\Http\Controllers\Api\TestController;
+use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -36,7 +37,11 @@ Route::get('/vitrina',[ProductController::class, 'getProductsByPublishStatus']);
 
 Route::post('/product/store', [ProductController::class, 'store'])->middleware('api');
 
+//Edit product
+Route::get('/products/edit/{product}',[Productcontroller::class,'editProduct']);
 
+//Update Product Status
+Route::put('/product/updatestatus/{product}',[ProductController::class,'updateProductStatus']);
 
 //Update product selling status
 Route::put('/products/status/{product}', [ProductController::class, 'updateSellingStatus']);
@@ -65,14 +70,19 @@ Route::get('/postscategories', [PostCategoryController::class,'index']);
 //API Authors
 Route::get('/authors', [AuthorController::class,'index']);
 
+//API User Dashboard
+Route::get('/user/{user}', [UserController::class,'index']);
+Route::put('/user/{user}/updatepersinfo', [UserController::class,'updatepersinfo']);
+Route::put('/user/{user}/updatepass', [UserController::class,'updatepass']);
+Route::put('/user/{user}/bankdetails', [UserController::class,'bankdetails']);
+
 //Count Products
 Route::get('/cart/count',[CartController::class,'count'])->name('cart.count');
 
 //Cart Controller Products 
 Route::apiResource('/cart', CartController::class);
 
-//Comentario en rutas para Carlos
-// Recibido René 10-4
+
 
 
 

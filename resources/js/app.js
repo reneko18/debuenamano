@@ -29,6 +29,7 @@ import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 import { faTrashCan } from "@fortawesome/free-regular-svg-icons";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 import { faEye } from "@fortawesome/free-regular-svg-icons";
 import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
 import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
@@ -44,6 +45,7 @@ library.add(
     faPlus,
     faMagnifyingGlass,
     faEye,
+    faEyeSlash,
     faAngleLeft,
     faAngleRight
 );
@@ -62,9 +64,10 @@ import CartPage from "./components/Cart/CartPage.vue";
 import AdminUser from "./views/AdminUser.vue";
 import AdminView from "./views/AdminView.vue";
 import Slider from "./components/Home/Slider.vue";
+import AdminProductEdit from "./views/AdminProductEdit.vue";
+import NewAdmin from "./views/NewAdmin.vue";
 
 app.use(pinia);
-app.use(PrimeVue);
 app.use(vueClickOutsideElement);
 app.use(router);
 app.component("new-selling-form-product", NewSellingForm);
@@ -77,6 +80,14 @@ app.component("cart-page", CartPage);
 app.component("cart-header", CartHeader);
 app.component("admin-user", AdminUser);
 app.component("admin-view", AdminView);
+app.component("admin-product-edit", AdminProductEdit);
+app.component("new-admin", NewAdmin);
 app.component("slider-home", Slider);
 app.component("font-awesome-icon", FontAwesomeIcon);
+app.use(PrimeVue,{
+    locale: {
+        monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octobre', 'Noviembre', 'Diciembre'],
+        dateFormat: 'dd/mm/yy',
+    }
+});
 app.mount("#app");

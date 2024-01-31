@@ -37,7 +37,18 @@ class LoginController extends Controller
         $user = Auth::user();
 
         // Return the desired route with the user parameter
-        return route('dashboard.client', ['user' => $user]);
+        // return route('dashboard.client', ['user' => $user]);
+        // Check if the user has the 'admin' role
+        if ($user->hasRole('admin')) {
+        // Redirect admin to the admin dashboard
+            return route('admin.index');
+        } elseif ($user->hasRole('customer')) {
+            // Redirect customer to the client dashboard
+            return route('dashboard.client', ['user' => $user]);
+        } else {
+            // If the user doesn't have any specific role, you can provide a default route
+            return route('inicio');
+        }
     }
 
     //For the Logout

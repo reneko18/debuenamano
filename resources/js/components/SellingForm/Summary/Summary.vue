@@ -138,27 +138,23 @@
                 </div>
             </div>
             <div class="col-6">
-                <div class="row">
-                    <div class="col-md-2">
-                        <label for="age-pro" class="form-label rango-edad"
-                            >Rango de edad*</label
-                        >
-                        <input
-                            type="text"
-                            class="form-control"
+                <span class="tit-age-range">Rango de edad de tu articulo*</span>
+                <div class="row row-age-range">  
+                    <div class="col-md-2" v-if="formData.stepOneShowFirstInput">
+                        <input                            
+                            type="number"
+                            class="form-control"                           
                             placeholder="00"
                             id="age-pro"
                             v-model="formData.stepOneAgeIni"
                         />
                     </div>
-                    <div class="col-md-4">
-                        <label for="neonat-pro" class="form-label"></label>
+                    <div class="col-md-4">   
                         <select
                             id="neonat-pro"
-                            class="form-select"
+                            class="form-select"                            
                             v-model="formData.stepOneAgeDateIni"
                         >
-                            <option selected>Seleccione</option>
                             <option value="Recién nacido">Recién nacido</option>
                             <option value="Semanas">Semanas</option>
                             <option value="Meses">Meses</option>
@@ -166,29 +162,25 @@
                         </select>
                     </div>
                     <div
-                        class="col-md-1 col-a flex-column justify-content-center"
-                        v-show="showSecondSelect"
+                        class="col-md-1 col-a flex-column justify-content-center"   
                     >
                         <span>a</span>
                     </div>
-                    <div class="col-md-2" v-show="showSecondSelect">
-                        <label for="month-pro" class="form-label"></label>
+                    <div class="col-md-2">  
                         <input
-                            type="text"
-                            class="form-control"
+                            type="number"
+                            class="form-control"                           
                             placeholder="00"
                             id="month-pro"
                             v-model="formData.stepOneAgeFin"
                         />
                     </div>
-                    <div class="col-md-3" v-show="showSecondSelect">
-                        <label for="monthsel-pro" class="form-label"></label>
+                    <div class="col-md-3">              
                         <select
                             id="monthsel-pro"
-                            class="form-select"
+                            class="form-select"                           
                             v-model="formData.stepOneAgeDateFin"
                         >
-                            <option selected>Seleccione</option>
                             <option value="Semanas">Semanas</option>
                             <option value="Meses">Meses</option>
                             <option value="Años">Años</option>
@@ -490,12 +482,15 @@
             </div>
         </div>
         <div>
-            <h2>Despacho</h2>
+            <h2>Origen del Despacho</h2>
         </div>
         <div class="modulo-pasos">
             <div class="row">
                 <div class="col-4">
-                    <div class="cont-option-delivery">
+                    <div 
+                        class="cont-option-delivery" 
+                        v-if="formData.stepSevenSelectedSection === 'Chilexpress'"
+                    >
                         <input
                             type="radio"
                             class="btn-check"
@@ -506,14 +501,16 @@
                         />
                         <label
                             class="btn"
-                            for="chilexpress"
-                            @click="toggleSection('Chilexpress')"
+                            for="chilexpress" 
                         >
                             <span>LO LLEVO A LA</span>
                             <span>Sucursal de Chilexpress</span>
                         </label>
                     </div>
-                    <div class="cont-option-delivery">
+                    <div 
+                        class="cont-option-delivery"  
+                        v-else-if="formData.stepSevenSelectedSection === 'Domicilio'"
+                    >
                         <input
                             type="radio"
                             class="btn-check"
@@ -525,7 +522,6 @@
                         <label
                             class="btn"
                             for="house"
-                            @click="toggleSection('Domicilio')"
                         >
                             <span>PREFIERO EL RETIRO</span>
                             <span>Retiro a domicilio</span>
@@ -613,6 +609,18 @@
                                 class="form-control"
                                 placeholder="Ingresa el número"
                                 v-model="formData.stepSevenStreetNumber"
+                            />
+                        </div>
+                        <div>
+                            <label for="dptoHouse" class="form-label"
+                                >Depto/casa</label
+                            >
+                            <input
+                                type="text"
+                                id="dptoHouse"
+                                class="form-control"
+                                placeholder="Ingresa los datos"
+                                v-model="formData.stepSevenStreetDptoHouse"
                             />
                         </div>
                         <div>
@@ -785,8 +793,8 @@
                         v-model="formData.stepNineRut"
                         @input="formatAndValidateRUT"
                     />
-                    <div v-if="isValidRUT" class="text-success">Valid RUT</div>
-                    <div v-else class="text-danger">Invalid RUT</div>
+                    <!-- <div v-if="isValidRUT" class="text-success">Valid RUT</div>
+                    <div v-else class="text-danger">Invalid RUT</div> -->
                 </div>
                 <div>
                     <label for="infoPayTypeAccount" class="form-label"
@@ -861,7 +869,7 @@ export default {
             fee: 0,
             finalAmount: 0,
             //Cuenta Bancaria
-            isValidRUT: false,
+            // isValidRUT: false,
         };
     },
     setup(_, { emit }) {
@@ -1074,9 +1082,9 @@ export default {
     watch: {
         "formData.stepOneAgeDateIni": function (newValue, oldValue) {
             if (newValue === "Recién nacido") {
-                this.showSecondSelect = false; // Hide the second select
+                this.formData.stepOneShowFirstInput = false; // Hide the second select
             } else {
-                this.showSecondSelect = true; // Show the second select
+                this.formData.stepOneShowFirstInput = true; // Show the second select
             }
         },
     },
@@ -1194,9 +1202,6 @@ export default {
                 this.loading = false;
             }
         },
-        toggleSection(section) {
-            this.formData.stepSevenSelectedSection = section;
-        },
         //Precio
         feeDBM() {
             // Remove dots to get the raw number for calculations
@@ -1248,15 +1253,15 @@ export default {
 
             const expectedVerificationDigit = 11 - (sum % 11);
 
-            if (expectedVerificationDigit === 11) {
-                this.isValidRUT = verificationDigit === "0";
-            } else if (expectedVerificationDigit === 10) {
-                this.isValidRUT = verificationDigit === "K";
-            } else {
-                this.isValidRUT =
-                    parseInt(verificationDigit, 10) ===
-                    expectedVerificationDigit;
-            }
+            // if (expectedVerificationDigit === 11) {
+            //     this.isValidRUT = verificationDigit === "0";
+            // } else if (expectedVerificationDigit === 10) {
+            //     this.isValidRUT = verificationDigit === "K";
+            // } else {
+            //     this.isValidRUT =
+            //         parseInt(verificationDigit, 10) ===
+            //         expectedVerificationDigit;
+            // }
         },
     },
     mounted() {

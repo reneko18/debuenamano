@@ -56,7 +56,7 @@ import DataTable from "primevue/datatable";
 import Column from "primevue/column";
 import Tag from "primevue/tag";
 const props = defineProps({
-    user_id: { type: Number, default: "" },
+    userId: { type: Number, default: "" },
 });
 const products = ref([]);
 const emit = defineEmits(["update-products-displayed-count"]);
@@ -114,7 +114,7 @@ const getSeverity = (status) => {
 };
 
 onMounted(() => {
-    fetchData(props.user_id);
+    fetchData(props.userId);
 });
 </script>
 <style scoped>

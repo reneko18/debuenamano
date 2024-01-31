@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg header">
     <div class="container"> 
-        <a class="navbar-brand position-absolute" href="#">
+        <a class="navbar-brand position-absolute" href="{{ route('inicio')}}">
             <img src="{{ asset('/img/logo-dbm.svg')}}" alt="logo de buena mano">
         </a>          
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarForm" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

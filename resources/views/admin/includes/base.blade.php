@@ -104,6 +104,7 @@
 @stack('ckeditor')
 @stack('select2-js')
 @stack('test-prime-vue')
+@stack('tween-max')
 
 
 </body>

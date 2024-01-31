@@ -98,12 +98,12 @@
                         type="text"
                         class="form-control"
                         id="infoPayRut"
-                        placeholder="Rut"
+                        placeholder="Ej: 12.345.678-K"
                         v-model="formData.stepNineRut"
                         @input="formatAndValidateRUT"
                     />
-                    <div v-if="isValidRUT" class="text-success">Valid RUT</div>
-                    <div v-else class="text-danger">Invalid RUT</div>
+                    <!-- <div v-if="isValidRUT" class="text-success">Valid RUT</div>
+                    <div v-else class="text-danger">Invalid RUT</div> -->
                 </div>
                 <div>
                     <label for="infoPayTypeAccount" class="form-label"
@@ -159,11 +159,11 @@
 import { useFormStore } from "../../../stores/values";
 import { onMounted } from "vue";
 export default {
-    data() {
-        return {
-            isValidRUT: false,
-        };
-    },
+    // data() {
+    //     return {
+    //         isValidRUT: false,
+    //     };
+    // },
     emits: ["next-step", "constant-emitted", "active-subtitles"],
     setup(_, { emit }) {
         const mainStep = 4;
@@ -222,15 +222,15 @@ export default {
 
             const expectedVerificationDigit = 11 - (sum % 11);
 
-            if (expectedVerificationDigit === 11) {
-                this.isValidRUT = verificationDigit === "0";
-            } else if (expectedVerificationDigit === 10) {
-                this.isValidRUT = verificationDigit === "K";
-            } else {
-                this.isValidRUT =
-                    parseInt(verificationDigit, 10) ===
-                    expectedVerificationDigit;
-            }
+            // if (expectedVerificationDigit === 11) {
+            //     this.isValidRUT = verificationDigit === "0";
+            // } else if (expectedVerificationDigit === 10) {
+            //     this.isValidRUT = verificationDigit === "K";
+            // } else {
+            //     this.isValidRUT =
+            //         parseInt(verificationDigit, 10) ===
+            //         expectedVerificationDigit;
+            // }
         },
     },
 };

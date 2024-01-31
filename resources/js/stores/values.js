@@ -6,6 +6,7 @@ export const useFormStore = defineStore("form", {
             stepOneNameProduct: "",
             stepOneCategoryProduct: "",
             stepOneGenre: "",
+            stepOneShowFirstInput:true,
             stepOneAgeIni: "",
             stepOneAgeDateIni: "Meses",
             stepOneAgeFin: "",
@@ -24,13 +25,13 @@ export const useFormStore = defineStore("form", {
             stepThreeBox: "",
             stepFourState: "",
             stepFourUsageTime: "",
-            stepFourUsageUnit: "",
+            stepFourUsageUnit: "Dias",
             stepFiveDetails: "",
             stepFiveAdvice: "",
             //Photo
             stepSixPhoto: [],
             //Delivery and price Step 1
-            stepSevenSelectedSection: "chilexpress",
+            stepSevenSelectedSection: "Chilexpress",
             stepSevenOptionDelivery: "Chilexpress",
             stepSevenRegion: "",
             stepSevenCity: "",

@@ -9,7 +9,7 @@
                     aria-label="Default select example"
                     v-model="selected.postcategories"
                 >
-                    <option value="">Todas las categorias</option>
+                    <option :value="[]">Todas las categorias</option>
                     <option :value="pcat.id" v-for="pcat in postscats">
                         {{ pcat.name }}
                     </option>
@@ -22,7 +22,7 @@
                     class="form-select"
                     v-model="selected.authors"
                 >
-                    <option value="">Todos los autores</option>
+                    <option :value="[]">Todos los autores</option>
                     <option :value="aut.id" v-for="aut in authors">
                         {{ aut.firstname }} {{ aut.lastname }}
                     </option>
@@ -47,7 +47,7 @@
         <div class="col col-post" v-for="post in posts">
             <div class="card">
                 <div class="card-header">
-                    <a :href="'/entradas/' + post.slug">
+                    <a :href="'/entradas/' + post.slug" class="link-post-archive">
                         <img :src="post.main_img" class="card-img" alt="" />
                     </a>
                 </div>
@@ -62,7 +62,9 @@
                         </div>
                         <span class="date">{{ formatDate(post.date) }}</span>
                     </div>
-                    <h2 class="card-title">{{ post.title }}</h2>
+                    <a :href="'/entradas/' + post.slug" class="link-post-archive"> 
+                        <h2 class="card-title">{{ post.title }}</h2>
+                    </a>
                     <p>{{ truncatedContent(post.content) }}</p>
 
                     <span class="cat-meta" v-for="cats in post.postcategories">
@@ -71,10 +73,12 @@
                 </div>
             </div>
         </div>
-        <Bootstrap5Pagination
-            :data="posts"
-            @pagination-change-page="loadPosts"
-        />
+        <template>
+            <Bootstrap5Pagination
+                :data="posts"
+                @pagination-change-page="loadPosts"
+            />
+        </template>
     </div>
 </template>
 <script>
@@ -111,7 +115,7 @@ export default {
     methods: {
         loadPosts: function (page = 1) {
             axios
-                .get("/api/posts", {
+                .get('/api/posts?page=' + page, {
                     params: this.selected,
                 })
                 .then((response) => {
@@ -146,7 +150,7 @@ export default {
                 });
         },
         truncatedContent(content) {
-            const maxLength = 220;
+            const maxLength = 200;
             if (content.length <= maxLength) {
                 return content;
             } else {

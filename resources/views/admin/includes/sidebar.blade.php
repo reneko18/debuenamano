@@ -170,6 +170,22 @@
             </ul>
           </li>
         </ul>
+        <ul class="nav nav-pills nav-sidebar">
+          <li class="nav-item">
+            <a 
+              href="href={{ route('logout') }}" 
+              class="nav-link"
+              onclick="event.preventDefault();
+              document.getElementById('logout-form').submit();"
+            >
+              <i class="nav-icon fas fa-question-circle"></i>  
+              <p>Logout</p>  
+              <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                @csrf               
+              </form>              
+            </a>
+          </li>
+        </ul>
       </nav>
       <!-- /.sidebar-menu -->
     </div>

@@ -12,7 +12,7 @@ use App\Models\PostCategory;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Database\Seeder;
-
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -26,6 +26,15 @@ class DatabaseSeeder extends Seeder
 
         $this->call(RolesTableSeeder::class);
         User::factory(10)->withCustomerRole()->create();
+        User::factory()->create([
+            'name'  => 'Admin',
+            'lastname'  => 'DBM',
+            'email' => 'admin@dbm.cl', 
+            'slug' => 'admin-dbm', 
+            'password' => Hash::make('admin'), 
+            'birthdate' => '',
+            'phone' => '',
+        ])->assignRole('admin');
         $this->call(CategoriesTableSeeder::class);       
         $this->call(ProductContactTableSeeder::class);       
         //$this->call(StatusProductsTableSeeder::class);

@@ -1,4 +1,4 @@
-<template>
+<template>    
     <div class="modulo-pasos">
         <div class="row">
             <div class="col-lg-7 col-md-12">
@@ -17,11 +17,14 @@
                     <input
                         type="text"
                         class="form-control"
+                        :class="errorMessageName ? 'is-invalid-dbm' : ''"
                         id="productName"
                         placeholder="Nombre del artículo"
                         v-model="formData.stepOneNameProduct"
                     />
-                    <!--<p v-if="msg.name">{{ msg.name }}</p>-->
+                    <div v-if="errorMessageName" class="invalid-dbm">
+                        {{ errorMessageName }}
+                    </div>
                 </div>
 
                 <div
@@ -36,6 +39,7 @@
                             id="testCat"
                             type="text"
                             class="form-control cat-select"
+                            :class="errorMessageCat ? 'is-invalid-dbm' : ''"
                             :value="formData.stepOneCategoryProduct.name"
                             @click="showAndCloseDropdown"
                             readonly
@@ -124,7 +128,10 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div>            
+                    </div>
+                    <div v-if="errorMessageCat" class="invalid-dbm">
+                        {{ errorMessageCat }}
                     </div>
                 </div>
                 <div class="cont-genre">
@@ -144,25 +151,22 @@
                 </div>
             </div>
             <div class="col-lg-7 col-md-12">
-                <div class="row">
-                    <div class="col-md-2">
-                        <label for="age-pro" class="form-label rango-edad"
-                            >Rango de edad de tu articulo*</label
-                        >
-                        <input
-                            v-show="showSecondSelect"
+                <span class="tit-age-range">Rango de edad de tu articulo*</span>
+                <div class="row row-age-range" :class="errorMessageRange ? 'error-dbm' : ''">  
+                    <div class="col-md-2" v-if="formData.stepOneShowFirstInput">
+                        <input                            
                             type="number"
                             class="form-control"
+                            :class="errorMessageRange ? 'is-invalid-dbm' : ''"
                             placeholder="00"
                             id="age-pro"
                             v-model="formData.stepOneAgeIni"
                         />
                     </div>
-                    <div class="col-md-4">
-                        <label for="neonat-pro" class="form-label"></label>
+                    <div class="col-md-4">   
                         <select
                             id="neonat-pro"
-                            class="form-select"
+                            class="form-select"                            
                             v-model="formData.stepOneAgeDateIni"
                         >
                             <option value="Recién nacido">Recién nacido</option>
@@ -172,26 +176,24 @@
                         </select>
                     </div>
                     <div
-                        class="col-md-1 col-a flex-column justify-content-center"
-                        v-show="showSecondSelect"
+                        class="col-md-1 col-a flex-column justify-content-center"   
                     >
                         <span>a</span>
                     </div>
-                    <div class="col-md-2" v-show="showSecondSelect">
-                        <label for="month-pro" class="form-label"></label>
+                    <div class="col-md-2">  
                         <input
                             type="number"
                             class="form-control"
+                            :class="errorMessageRange ? 'is-invalid-dbm' : ''"
                             placeholder="00"
                             id="month-pro"
                             v-model="formData.stepOneAgeFin"
                         />
                     </div>
-                    <div class="col-md-3" v-show="showSecondSelect">
-                        <label for="monthsel-pro" class="form-label"></label>
+                    <div class="col-md-3">              
                         <select
                             id="monthsel-pro"
-                            class="form-select"
+                            class="form-select"                           
                             v-model="formData.stepOneAgeDateFin"
                         >
                             <option value="Semanas">Semanas</option>
@@ -200,6 +202,10 @@
                         </select>
                     </div>
                 </div>
+                <div v-if="errorMessageRange" class="invalid-dbm">
+                    {{ errorMessageRange }}
+                </div>
+
                 <div>
                     <label for="desc-pro" class="form-label"
                         >Breve descripción*</label
@@ -208,6 +214,7 @@
                         <textarea
                             id="desc-pro"
                             class="form-control"
+                            :class="errorMessageDesc ? 'is-invalid-dbm' : ''"
                             placeholder="Describe el artículo..."
                             v-model="formData.stepOneDescriptionProduct"
                             @input="updateCharacterCount"
@@ -218,6 +225,9 @@
                         <span class="character-count-badge"
                             >{{ characterCount }}/280 caracteres</span
                         >
+                        <div v-if="errorMessageDesc" class="invalid-dbm">
+                            {{ errorMessageDesc }}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -237,19 +247,18 @@ export default {
     emits: ["nextStep", "constant-emitted"],
     data() {
         return {
-            categories: [],
-            showSecondSelect: true,
+            categories: [],            
             dropdown: false,
             activeTrigger: false,
-            textareaHeight: 100,
+            textareaHeight: 100,            
         };
     },
     watch: {
         "formData.stepOneAgeDateIni": function (newValue, oldValue) {
             if (newValue === "Recién nacido") {
-                this.showSecondSelect = false; // Hide the second select
+                this.formData.stepOneShowFirstInput = false; // Hide the second select
             } else {
-                this.showSecondSelect = true; // Show the second select
+                this.formData.stepOneShowFirstInput = true; // Show the second select
             }
         },
     },
@@ -273,12 +282,43 @@ export default {
         const formData = formStore.formData;
         // const characterCount = computed(() => formStore.characterCount);
         const characterCount = ref(0);
+        const errorMessageName = ref('');
+        const errorMessageCat = ref('');
+        const errorMessageRange = ref('');
+        const errorMessageDesc = ref('');
 
         onMounted(() => {
             emit("constant-emitted", mainStep);
         });
 
         const nextStep = () => {
+            if (!formData.stepOneNameProduct) {
+                // Set an error message and prevent the form from proceeding
+                errorMessageName.value = "Por favor, ingrese un nombre para el artículo.";
+                return;
+            }
+
+            if (!formData.stepOneCategoryProduct) {
+                // Set an error message and prevent the form from proceeding
+                errorMessageCat.value = "Por favor, ingrese una categoría.";
+                return;
+            }
+            if (!formData.stepOneAgeFin) {
+                // Set an error message and prevent the form from proceeding
+                errorMessageRange.value = "Por favor, complete todos los campos de rango de edad.";
+                return;
+            }
+            if (!formData.stepOneDescriptionProduct) {
+                // Set an error message and prevent the form from proceeding
+                errorMessageDesc.value = "Por favor, ingrese una descripción para el artículo.";
+                return;
+            }
+
+            errorMessageName.value = null;
+            errorMessageCat.value = null;
+            errorMessageRange.value = null;
+            errorMessageDesc.value = null;
+
             formStore.setFormData(formData);
             emit("next-step");
         };
@@ -298,8 +338,12 @@ export default {
 
         return {
             characterCount,
-            formData,
-            nextStep,
+            formData, 
+            errorMessageName,
+            errorMessageCat,
+            errorMessageRange,
+            errorMessageDesc,
+            nextStep,           
             updateCharacterCount,
         };
     },

@@ -20,6 +20,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PagesController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Spatie\Permission\Middlewares\RoleMiddleware;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,9 +40,9 @@ Route::get('/new-formulario-venta',[SellingFormController::class,'show'])->name(
 
 
 
-Route::prefix('admin')->group( function(){
+Route::prefix('admin')->middleware(['auth', 'role:admin'])->group( function(){
     Route::get('dashboard', [DashboardController::class, 'index'])->name('admin.index');
-    Route::get('panel', [DashboardController::class, 'panel'])->name('admin.panel');
+    Route::get('newadmin',[DashboardController::class,'newindex'])->name('newadmin.index');
     Route::resource('productos', ProductController::class);
     Route::resource('users', UserController::class);
     Route::resource('invoices', InvoiceController::class);
@@ -114,12 +115,6 @@ Route::middleware(['check.user.type'])->group(function () {
 //Rutas para Carlos
 Route::get('/',[PagesController::class, 'inicio'])->name('inicio');
 Route::get('/nosotros',[PagesController::class, 'nosotros'])->name('nosotros');
-
-Route::fallback(function () {
-    return view('404');
-});
-
-
 
 Auth::routes();
 

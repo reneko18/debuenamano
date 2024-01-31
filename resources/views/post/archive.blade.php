@@ -7,16 +7,6 @@
 @endpush
 
 @section('content')
-    <section class="container-fluid breadcrumb-sec p-pages pb-5">
-        <div class="container">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#">Inicio</a></li>
-                <li class="breadcrumb-item active">Blog</li>
-            </ol>
-        </nav>
-        </div>
-    </section>
     <section class="container-fluid first-sec-blog">
         <div class="container mx-auto d-flex align-items-center">
             <div class="row">
@@ -29,8 +19,17 @@
             </div>
         </div>        
     </section>
+    <section class="container-fluid breadcrumb-sec">
+        <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">Inicio</a></li>
+                <li class="breadcrumb-item active">Blog</li>
+            </ol>
+        </nav>
+        </div>
+    </section>
     <section class="container-fluid second-sec-blog py-5">
-        <h2 class="text-center py-5">Vue JS</h2>
         <div id="app">
             <posts-loop></posts-loop>
         </div>

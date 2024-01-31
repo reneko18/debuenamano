@@ -10,7 +10,19 @@ class Product extends Model
    use HasFactory;
 
    // In your Product model
-protected $fillable = ['name', 'user_id','selling_status', 'product_contacts'];
+protected $fillable = [
+    'name', 
+    'user_id',
+    'genre',
+    'age_ini',
+    'age_date_ini',
+    'age_fin',
+    'age_date_fin',
+    'description',
+    'publish_status',
+    'selling_status', 
+    'product_contacts'
+];
 
    
    public function user()

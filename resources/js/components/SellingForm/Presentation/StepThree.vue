@@ -16,6 +16,7 @@
                         <input
                             type="text"
                             class="form-control"
+                            :class="errorMessageSize ? 'is-invalid-dbm' : ''"
                             placeholder="0,0"
                             id="height-pro"
                             v-model="formData.stepThreeHeight"
@@ -25,7 +26,7 @@
                         <label for="unh-pro" class="form-label"></label>
                         <select
                             id="unh-pro"
-                            class="form-select"
+                            class="form-select"                      
                             v-model="formData.stepThreeHeightUnit"
                         >
                             <option value="cm">cm</option>
@@ -39,6 +40,7 @@
                         <input
                             type="text"
                             class="form-control"
+                            :class="errorMessageSize ? 'is-invalid-dbm' : ''"
                             placeholder="0,0"
                             id="width-pro"
                             v-model="formData.stepThreeWidth"
@@ -48,7 +50,7 @@
                         <label for="unw-pro" class="form-label"></label>
                         <select
                             id="unw-pro"
-                            class="form-select"
+                            class="form-select"                  
                             v-model="formData.stepThreeWidthUnit"
                         >
                             <option value="cm">cm</option>
@@ -62,6 +64,7 @@
                         <input
                             type="text"
                             class="form-control"
+                            :class="errorMessageSize ? 'is-invalid-dbm' : ''"
                             placeholder="0,0"
                             id="long-pro"
                             v-model="formData.stepThreeLength"
@@ -71,7 +74,7 @@
                         <label for="unl-pro" class="form-label"></label>
                         <select
                             id="unl-pro"
-                            class="form-select"
+                            class="form-select"                   
                             v-model="formData.stepThreeLengthUnit"
                         >
                             <option value="cm">cm</option>
@@ -85,6 +88,7 @@
                         <input
                             type="text"
                             class="form-control"
+                            :class="errorMessageSize ? 'is-invalid-dbm' : ''"
                             placeholder="0,0"
                             id="weight-pro"
                             v-model="formData.stepThreeWeight"
@@ -94,7 +98,7 @@
                         <label for="unwe-pro" class="form-label"></label>
                         <select
                             id="unwe-pro"
-                            class="form-select"
+                            class="form-select"                 
                             v-model="formData.stepThreeWeightUnit"
                         >
                             <option value="g">g</option>
@@ -132,6 +136,9 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div v-if="errorMessageSize" class="invalid-dbm">
+                    {{ errorMessageSize }}
             </div>
         </div>
         <div class="cont-dimen-2">
@@ -298,7 +305,7 @@
 </template>
 <script>
 import { useFormStore } from "../../../stores/values";
-import { onMounted } from "vue";
+import { ref,onMounted } from "vue";
 export default {
     data() {
         return {
@@ -313,11 +320,20 @@ export default {
 
         const formData = formStore.formData;
 
+        const errorMessageSize = ref('');
+
         onMounted(() => {
             emit("constant-emitted", mainStep);
         });
 
         const nextStep = () => {
+            if (!formData.stepThreeHeight || !formData.stepThreeWidth ||  !formData.stepThreeLength || !formData.stepThreeWeight) {
+                // Set an error message and prevent the form from proceeding
+                errorMessageSize.value = "Por favor, complete todos los campos para las dimensiones.";
+                return;
+            }
+            errorMessageSize.value = null;
+
             formStore.setFormData(formData);
             emit("next-step");
             emit("active-subtitles", subValue);
@@ -325,6 +341,7 @@ export default {
 
         return {
             formData,
+            errorMessageSize,
             nextStep,
         };
     },

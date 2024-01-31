@@ -34,13 +34,9 @@ class ProductController extends Controller
 
 
 
-    public function edit()
-    {
+    public function edit(Product $producto)
+    {    
+        return view('admin.products.edit', compact('producto'));
+    }    
 
-    }
-
-    public function update()
-    {
-
-    }
 }

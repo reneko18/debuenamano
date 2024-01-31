@@ -24,7 +24,7 @@
                     <label
                         class="btn"
                         for="chilexpress"
-                        @click="toggleSection('chilexpress')"
+                        @click="toggleSection('Chilexpress')"
                     >
                         <span>LO LLEVO A LA</span>
                         <span>Sucursal de Chilexpress</span>
@@ -42,7 +42,7 @@
                     <label
                         class="btn"
                         for="house"
-                        @click="toggleSection('house')"
+                        @click="toggleSection('Domicilio')"
                     >
                         <span>PREFIERO EL RETIRO</span>
                         <span>Retiro a domicilio</span>
@@ -50,16 +50,18 @@
                 </div>
             </div>
             <div class="col-8">
-                <div v-if="formData.stepSevenSelectedSection === 'chilexpress'">
+                <div v-if="formData.stepSevenSelectedSection === 'Chilexpress'">
                     <p>
                         Super, necesitamos selecciones la sucursal a la que
                         llevarías el artículo, esto nos permitirá calcular el
                         costo del envío para la persona que compre tu producto:
                     </p>
+
                     <label for="region" class="form-label">Tu región *</label>
                     <select
                         id="region"
                         class="form-select"
+                        :class="errorMessageRegion ? 'is-invalid-dbm' : ''"
                         v-model="selected.region"
                     >
                         <option disabled selected value="">
@@ -69,10 +71,15 @@
                             {{ r.regionName }}
                         </option>
                     </select>
+                    <div v-if="errorMessageRegion" class="invalid-dbm">
+                        {{ errorMessageRegion }}
+                    </div>
+
                     <label for="city" class="form-label">Tu comuna *</label>
                     <select
                         id="city"
                         class="form-select"
+                        :class="errorMessageCity ? 'is-invalid-dbm' : ''"
                         v-model="selected.city"
                     >
                         <option disabled selected value="">
@@ -82,12 +89,17 @@
                             {{ com.countyName }}
                         </option>
                     </select>
+                    <div v-if="errorMessageCity" class="invalid-dbm">
+                        {{ errorMessageCity }}
+                    </div>
+
                     <label for="offices" class="form-label"
                         >Sucursal de Chilexpress *</label
                     >
                     <select
                         id="offices"
                         class="form-select"
+                        :class="errorMessageOficina ? 'is-invalid-dbm' : ''"
                         v-model="formData.stepSevenChilexpressOffice"
                     >
                         <option disabled selected value="">
@@ -100,8 +112,16 @@
                             {{ offi.officeName }}
                         </option>
                     </select>
+                    <div v-if="errorMessageOficina" class="invalid-dbm">
+                        {{ errorMessageOficina }}
+                    </div>
+
                 </div>
-                <div v-else-if="formData.stepSevenSelectedSection === 'house'">
+                <div
+                    v-else-if="
+                        formData.stepSevenSelectedSection === 'Domicilio'
+                    "
+                >
                     <p>
                         Nos ajustamos a tus necesidades, ingresa la dirección
                         del lugar donde se encuentra el artículo y asegúrate de
@@ -142,6 +162,7 @@
                             v-model="formData.stepSevenStreetDptoHouse"
                         />
                     </div>
+
                     <div>
                         <label for="regionHouse" class="form-label"
                             >Tu región *</label
@@ -149,6 +170,7 @@
                         <select
                             id="regionHouse"
                             class="form-select"
+                            :class="errorMessageRegionHouse ? 'is-invalid-dbm' : ''"
                             v-model="selected.region"
                         >
                             <option disabled selected value="">
@@ -158,7 +180,11 @@
                                 {{ r.regionName }}
                             </option>
                         </select>
+                        <div v-if="errorMessageRegionHouse" class="invalid-dbm">
+                            {{ errorMessageRegionHouse }}
+                        </div>
                     </div>
+
                     <div>
                         <label for="cityHouse" class="form-label"
                             >Tu comuna *</label
@@ -166,6 +192,7 @@
                         <select
                             id="cityHouse"
                             class="form-select"
+                            :class="errorMessageCityHouse ? 'is-invalid-dbm' : ''"
                             v-model="selected.city"
                         >
                             <option disabled selected value="">
@@ -178,6 +205,9 @@
                                 {{ com.countyName }}
                             </option>
                         </select>
+                        <div v-if="errorMessageCityHouse" class="invalid-dbm">
+                            {{ errorMessageCityHouse }}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -218,10 +248,49 @@ export default {
         const offices = ref([]);
         const mainStep = 4;
 
+        const errorMessageRegion = ref('');
+        const errorMessageCity = ref('');
+        const errorMessageOficina = ref('');
+        const errorMessageRegionHouse = ref('');
+        const errorMessageCityHouse = ref('');
+
         const formStore = useFormStore();
         const formData = formStore.formData;
 
         const nextStep = () => {
+            if (formData.stepSevenSelectedSection === 'Chilexpress' && !formData.stepSevenRegion) {
+                // Set an error message and prevent the form from proceeding
+                errorMessageRegion.value = "Por favor, seleccione una region.";
+                return;
+            }
+
+            if (formData.stepSevenSelectedSection === 'Chilexpress' && !formData.stepSevenCity) {
+                // Set an error message and prevent the form from proceeding
+                errorMessageCity.value = "Por favor, seleccione una ciudad.";
+                return;
+            }
+            if (formData.stepSevenSelectedSection === 'Chilexpress' && !formData.stepSevenChilexpressOffice) {
+                // Set an error message and prevent the form from proceeding
+                errorMessageOficina.value = "Por favor, seleccione una oficina";
+                return;
+            }
+
+            if (formData.stepSevenSelectedSection === 'Domicilio' && !formData.stepSevenRegion) {
+                // Set an error message and prevent the form from proceeding
+                errorMessageRegionHouse.value = "Por favor, seleccione una region.";
+                return;
+            }
+            if (formData.stepSevenSelectedSection === 'Domicilio' && !formData.stepSevenCity) {
+                // Set an error message and prevent the form from proceeding
+                errorMessageCityHouse.value = "Por favor, seleccione una ciudad.";
+                return;
+            }
+
+            errorMessageRegion.value = null;
+            errorMessageCity.value = null;
+            errorMessageOficina.value = null;
+            errorMessageRegionHouse.value = null;
+            errorMessageCityHouse.value = null;
             formStore.setFormData(formData);
             emit("next-step");
         };
@@ -319,6 +388,11 @@ export default {
             nextStep,
             selected: selectedRef.value,
             loading: ref(false),
+            errorMessageRegion,
+            errorMessageCity,
+            errorMessageOficina,
+            errorMessageRegionHouse,
+            errorMessageCityHouse,
             cities,
             offices,
         };

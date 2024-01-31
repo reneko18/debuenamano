@@ -12,11 +12,11 @@
     @vite('resources/sass/app.scss')
     <title>@yield('title')</title>
 </head>
-<body id="app">    
+<body id="app">
+    @vite('resources/js/app.js')    
     @include('includes.headerform')
     @yield('content')
     @include('includes.footerform')
-    @vite('resources/js/app.js')
     @stack('script-copy-link')
     <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.0/TweenMax.min.js"></script> 
@@ -25,5 +25,6 @@
     @stack('lezada-js')
     @stack('dbm-parallax')
     @stack('img-profil')
+    @stack('password-eye')
 </body>
 </html>

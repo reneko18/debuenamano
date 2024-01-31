@@ -22,14 +22,14 @@
                     v-price-format
                 />
             </div>
-            <div class="row">
+            <div class="row row-income">
                 <div class="col">
-                    <p>-${{ formData.stepEightPriceFee }}</p>
-                    <p>${{ formData.stepEightPriceFinalAmount }}</p>
+                    <p>- $ {{ formData.stepEightPriceFee }}</p>
+                    <p><strong class="price-income">$ {{ formData.stepEightPriceFinalAmount }}</strong></p>
                 </div>
-                <div class="col">
+                <div class="col text-right">
                     <p>Comisión DBM 22%</p>
-                    <p>Tu ganancia</p>
+                    <p><strong>Tu ganancia</strong></p>
                 </div>
             </div>
         </div>

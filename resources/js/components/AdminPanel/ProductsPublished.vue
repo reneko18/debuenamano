@@ -67,8 +67,9 @@ const fetchData = async () => {
                 : null,
             formattedPrice: formatPrice(item.product.price),
             sellerFullName: item.sellerFullName,
-            editUrl: item.editUrl,
-        }));
+            // editUrl: item.editUrl,
+            editUrl: `/admin/productos/${item.product.slug}/edit`,            
+        }));       
     } catch (error) {
         console.error("Error fetching data:", error);
     }

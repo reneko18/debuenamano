@@ -20,12 +20,19 @@ class UserFactory extends Factory
     public function definition()
     {
      
+        $name = fake()->firstName();
+        $lastname = fake()->lastName();
+        $timestamp = now()->timestamp;
+    
         return [
-            'name' => fake()->firstName(),
-            'lastname' => fake()->lastName(),
+            'name' => $name,
+            'lastname' => $lastname,
             'email' => fake()->unique()->safeEmail(),
+            'slug' => Str::slug($name . '-' . $lastname . '-' . $timestamp),
+            'phone' => fake()->randomNumber(8, true),
+            'birthdate' => fake()->date('d/m/Y'),
             'email_verified_at' => now(),
-            'password' => '$2y$10$1JKjp0qas0YI6bWdiMsVC.fpgesuZ3Mvc694slkKRFSgZeIMdvSBC',
+            'password' => '$2y$10$1JKjp0qas0YI6bWdiMsVC.fpgesuZ3Mvc694slkKRFSgZeIMdvSBC', 
             'remember_token' => Str::random(10),
         ];
     }

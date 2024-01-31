@@ -29,7 +29,7 @@ Admin Usuario - De Buena Mano
 <section class="container-fluid">
     <div class="container mx-auto">
         <div id="app">
-            <admin-user :user_id="{{ $user->id }}"/>
+            <admin-user :user-id="{{ $user->id }}" :user-slug="'{{ $user->slug }}'"/>
         </div>
     </div>
 </section>

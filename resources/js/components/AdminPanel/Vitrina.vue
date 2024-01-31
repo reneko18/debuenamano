@@ -144,7 +144,8 @@ const fetchProducts = async () => {
             ...item.product,
             sellerFullName: item.sellerFullName,
             sellerMail: item.sellerMail,
-            editUrl: item.editUrl,
+            // editUrl: item.editUrl,
+            editUrl: `/single-product/${item.product.slug}`,  
             categoryName: item.product.category
                 ? item.product.category.name
                 : null,

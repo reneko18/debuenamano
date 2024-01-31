@@ -22,7 +22,7 @@
                         </div>
                     </div>
 
-                    <div class="mb-3">
+                    {{-- <div class="mb-3">
                         <label for="password" class="form-label">{{ __('Password') }}</label>
 
                         <div>
@@ -34,7 +34,24 @@
                                 </span>
                             @enderror
                         </div>
+                    </div> --}}
+
+                    <div class="form-group row mb-3">
+                        <label for="password" class="mb-2">{{ __('Password') }}</label>
+                    
+                        <div class="input-group">
+                            <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">                        
+                            <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                                <i class="fa fa-eye" aria-hidden="true"></i>
+                            </button>                
+                        </div>
+                        @error('password')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
                     </div>
+                    
 
                     <div class="mb-3">
                         <div class="d-flex align-tems-center justify-content-between">
@@ -65,3 +82,18 @@
     </div>
 </div>
 @endsection
+
+@push('password-eye')
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const passwordInput = document.getElementById('password');
+            const togglePasswordButton = document.getElementById('togglePassword');
+
+            togglePasswordButton.addEventListener('click', function () {
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', type);
+            });
+        });
+    </script>
+@endpush
+

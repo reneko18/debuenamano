@@ -65,10 +65,15 @@ class ProductController extends Controller
         //Observaciones
         $product->remark = $request->input('stepFiveDetails');
         $product->advice = $request->input('stepFiveAdvice');
-        //Precio
-        $product->price = $request->input('stepEightPrice');
+        // Precio
+        $priceString = $request->input('stepEightPrice');
+        $priceFormatted = (float)str_replace('.', '', $priceString);
+        // Formato Precio
+        $product->price = $priceFormatted;
         //Publish Status
         $product->publish_status = "En revisión";
+        //SKU
+        $product->sku = $this->generateSKU($request->input('stepOneCategoryProduct.name'));
         //Slug
         $slug = Str::slug($product->name,'-')."-";
         $slug .= Carbon::now()->timestamp;
@@ -132,6 +137,29 @@ class ProductController extends Controller
         
 
       
+    }
+
+    public function generateSKU($categoryName)
+    {
+        // Get the first 3 letters of the category name in uppercase
+        $categoryPrefix = strtoupper(substr($categoryName, 0, 3));
+
+        // Get the current date in the format 27012024
+        $currentDate = Carbon::now()->format('dmY');
+
+        // Initial SKU with category prefix and current date
+        $sku = $categoryPrefix . '-' . $currentDate;
+
+        // Check if any existing products have the same SKU
+        $existingProducts = Product::where('sku', 'like', $sku . '%')->get();
+
+        // If there are existing products with the same SKU, add a suffix
+        if ($existingProducts->count() > 0) {
+            $suffix = $existingProducts->count() + 1;
+            $sku .= '-' . $suffix;
+        }
+
+        return $sku;
     }
         
     
@@ -275,6 +303,44 @@ class ProductController extends Controller
             return response()->json(['error' => 'Failed to update product'], 500);
         }
     }
+
+    // public function editProduct($product_id) 
+    // {
+    //     $product = Product::find($product_id);
+    //     return response()->json($product);
+    // }
+
+    public function editProduct(Product $product) 
+    {
+        // Load the "category" relationship along with the product
+        $product->load('category');
+    
+        // Return the product with the category included in the JSON response
+        return response()->json($product);
+    }
+
+    public function updateProductStatus(Product $product)
+    {
+        try {   
+            $requestData = request()->only([
+                'name',
+                'genre',
+                'age_ini',
+                'age_date_ini',
+                'age_fin',
+                'age_date_fin',
+                'description',
+                'publish_status',          
+            ]);
+            
+            $product->update($requestData);
+    
+            return response()->json(['message' => 'Product updated successfully']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to update product'], 500);
+        }
+    }
+
     
 
 

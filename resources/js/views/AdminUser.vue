@@ -20,7 +20,7 @@
         <Tabs>
             <Tab title="Publicaciones" icon="fa-regular fa-eye">
                 <published
-                    :user_id="user_id"
+                    :user-id="userId"
                     @update-products-published-count="
                         updateProductsPublishedCount
                     "
@@ -29,7 +29,7 @@
 
             <Tab title="En vitrina">
                 <displayed
-                    :user_id="user_id"
+                    :user-id="userId"
                     @update-products-displayed-count="
                         updateProductsDisplayedCount
                     "
@@ -38,14 +38,16 @@
 
             <Tab title="Tus compras">
                 <purchased
-                    :user_id="user_id"
+                    :user-id="userId"
                     @update-products-purchased-count="
                         updateProductsPurchasedCount
                     "
                 />
             </Tab>
             <Tab title="Favoritos"><h1>Tab 3</h1> </Tab>
-            <Tab title="Tu Cuenta"> <my-account /> </Tab>
+            <Tab title="Tu Cuenta"> 
+                <my-account :user-id="userId" :user-slug="userSlug" />
+            </Tab>
         </Tabs>
     </div>
 </template>
@@ -58,7 +60,8 @@ import Displayed from "../components/UserAdmin/Displayed.vue";
 import Purchased from "../components/UserAdmin/Purchased.vue";
 import MyAccount from "../components/UserAdmin/MyAccount.vue";
 const props = defineProps({
-    user_id: { type: Number, default: "" },
+    userId: { type: Number, default: "" },
+    userSlug: { type: String, default: "" },
 });
 
 const productsPublishedCount = ref("");
