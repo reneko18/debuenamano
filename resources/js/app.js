@@ -5,6 +5,7 @@ import { createApp } from "vue";
 import { createPinia } from "pinia";
 
 import PrimeVue from "primevue/config";
+import ToastService from 'primevue/toastservice';
 import router from "./router/router";
 
 import "primevue/resources/themes/lara-light-blue/theme.css"; // Replace with your desired theme
@@ -66,6 +67,7 @@ import AdminView from "./views/AdminView.vue";
 import Slider from "./components/Home/Slider.vue";
 import AdminProductEdit from "./views/AdminProductEdit.vue";
 import NewAdmin from "./views/NewAdmin.vue";
+import NewCart from "./views/NewCart.vue";
 
 app.use(pinia);
 app.use(vueClickOutsideElement);
@@ -82,6 +84,7 @@ app.component("admin-user", AdminUser);
 app.component("admin-view", AdminView);
 app.component("admin-product-edit", AdminProductEdit);
 app.component("new-admin", NewAdmin);
+app.component("new-cart", NewCart);
 app.component("slider-home", Slider);
 app.component("font-awesome-icon", FontAwesomeIcon);
 app.use(PrimeVue,{
@@ -90,4 +93,5 @@ app.use(PrimeVue,{
         dateFormat: 'dd/mm/yy',
     }
 });
+app.use(ToastService);
 app.mount("#app");

@@ -12,6 +12,8 @@
 import { ref } from 'vue';
 import Sidebar from "../components/NewAdmin/Sidebar.vue"
 import AdminView from './AdminView.vue';
+import PostAdminTable from '../components/Post/PostAdminTable.vue';
+import CreatePost from '../components/Post/CreatePost.vue';
 
 const selectedComponent = ref(null);
 

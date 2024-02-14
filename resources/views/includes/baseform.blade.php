@@ -8,7 +8,6 @@
     @stack('post-seo')
     <script src="https://kit.fontawesome.com/0a363a0ee9.js" crossorigin="anonymous"></script>
     @stack('material-icons')
-    @stack('lezada-css')
     @vite('resources/sass/app.scss')
     <title>@yield('title')</title>
 </head>
@@ -20,11 +19,11 @@
     @stack('script-copy-link')
     <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.0/TweenMax.min.js"></script> 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.2/croppie.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
-    @stack('lezada-js')
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.2/croppie.js"></script> --}}
+    {{-- <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script> --}}
     @stack('dbm-parallax')
-    @stack('img-profil')
+    {{-- @stack('img-profil') --}}
     @stack('password-eye')
+    @stack('confetti')
 </body>
 </html>

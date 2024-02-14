@@ -19,7 +19,8 @@
                             :class="errorMessageSize ? 'is-invalid-dbm' : ''"
                             placeholder="0,0"
                             id="height-pro"
-                            v-model="formData.stepThreeHeight"
+                            v-model="formData.stepThreeHeight"  
+                            @input="handleNumericInput('stepThreeHeight')"                          
                         />
                     </div>
                     <div class="col-dim">
@@ -44,6 +45,7 @@
                             placeholder="0,0"
                             id="width-pro"
                             v-model="formData.stepThreeWidth"
+                            @input="handleNumericInput('stepThreeWidth')"
                         />
                     </div>
                     <div class="col-dim">
@@ -68,6 +70,7 @@
                             placeholder="0,0"
                             id="long-pro"
                             v-model="formData.stepThreeLength"
+                            @input="handleNumericInput('stepThreeLength')"
                         />
                     </div>
                     <div class="col-dim">
@@ -92,6 +95,7 @@
                             placeholder="0,0"
                             id="weight-pro"
                             v-model="formData.stepThreeWeight"
+                            @input="handleNumericInput('stepThreeWeight')"
                         />
                     </div>
                     <div class="col-dim position-relative">
@@ -344,6 +348,16 @@ export default {
             errorMessageSize,
             nextStep,
         };
+    },
+    methods: {
+        handleNumericInput(fieldName) {
+            // Get the current value from the corresponding data property
+            let value = this.formData[fieldName];
+            // Apply the numeric filtering logic
+            value = value.replace(/[^0-9]/g, '');
+            // Update the corresponding data property
+            this.formData[fieldName] = value;
+        },
     },
 };
 </script>

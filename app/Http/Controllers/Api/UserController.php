@@ -64,4 +64,17 @@ class UserController extends Controller
             return response()->json(['error' => 'Error al actualizar datos de usuario'], 500);
         }
     }
+
+    public function getbankdetails($user_id)
+    {
+        $user = User::with('bankDetail')->find($user_id);
+
+        // Check if the user exists
+        if (!$user) {
+            return response()->json(['error' => 'User not found'], 404);
+        }
+
+        // Return the user's bank details as JSON
+        return response()->json($user->bankDetail);
+    }
 }

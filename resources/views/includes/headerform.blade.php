@@ -1,14 +1,13 @@
-<header class="fixed-top">
+<header class="fixed-top"> 
     <div class="top-header">
         <div class="container d-flex justify-content-end">
-                    @auth
-                        @if(isset($cartCount) && $cartCount > 0)
-                            <a href="{{ route('cart.index') }}" style="color: #fff; text-decoration: none;">Cart ({{ $cartCount }} items)</a>
-                        @else
-                            <p>Your cart is empty.</p>
-                        @endif
+                @auth
+                    @if(isset($cartCount) && $cartCount > 0)
+                        <a href="{{ route('cart.index') }}" style="color: #fff; text-decoration: none;">Cart ({{ $cartCount }} items)</a>
                     @else
-        
+                        <p>Your cart is empty.</p>
+                    @endif
+                @else    
                     <a href="{{ route('cart.index') }}" style="color:#fff;text-decoration:none;">Cart ({{ count(Session::get('cart', [])) }} items)</a>
                 @endauth
                 @auth

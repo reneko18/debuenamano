@@ -27,6 +27,8 @@ class ProductFactory extends Factory
         $admin_status = fake()->randomElement(['Vendido','En courier', 'Entregado','Finalizado']);
         $randomString = fake()->bothify('??????');
         $sku = 'DBM-' . $randomString;
+        $status = fake()->randomElement(['Usado en buen estado','Sin uso']);
+    
 
         return [
             'name' => fake()->realTextBetween(10,25),
@@ -48,9 +50,9 @@ class ProductFactory extends Factory
             'weight' => fake()->numberBetween(1,100),
             'weight_unit' => $unitW,
             'delivery_box' =>$deliveryBox,
-            'status' => fake()->realTextBetween(10,25),
-            'used_time' => fake()->realTextBetween(10,25),
-            'used_time_unit' => fake()->numberBetween(1,31),
+            'status' => $status,
+            'used_time' => fake()->numberBetween(1,31),
+            'used_time_unit' => 'Dias',
             'remark' => fake()->realTextBetween(10,25),
             'advice' => fake()->realTextBetween(10,25),
             'price' => fake()->randomNumber(5,true),

@@ -7,9 +7,9 @@
     <title>Admin DBM</title>
 </head>
 <body>
-<section id="app" class="container-fluid">
-    <new-admin/>  
-</section>
+    <section id="app" class="container-fluid">
+        <new-admin/>  
+    </section>
 @vite('resources/js/app.js')
 </body>
 </html>

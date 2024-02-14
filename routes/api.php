@@ -43,6 +43,9 @@ Route::get('/products/edit/{product}',[Productcontroller::class,'editProduct']);
 //Update Product Status
 Route::put('/product/updatestatus/{product}',[ProductController::class,'updateProductStatus']);
 
+//Save Product Status
+Route::put('/savestatus/{product}',[ProductController::class,'saveProductStatus']);
+
 //Update product selling status
 Route::put('/products/status/{product}', [ProductController::class, 'updateSellingStatus']);
 
@@ -63,6 +66,7 @@ Route::get('/categories', [CategoryController::class,'index']);
 
 //API Posts
 Route::get('/posts', [PostController::class,'index']);
+Route::get('/posts/all',[PostController::class,'adminindex']);
 
 //API Categories
 Route::get('/postscategories', [PostCategoryController::class,'index']);
@@ -76,11 +80,13 @@ Route::put('/user/{user}/updatepersinfo', [UserController::class,'updatepersinfo
 Route::put('/user/{user}/updatepass', [UserController::class,'updatepass']);
 Route::put('/user/{user}/bankdetails', [UserController::class,'bankdetails']);
 
+Route::get('/user/{user}/getbankdetails',[UserController::class,'getbankdetails']);
+
 //Count Products
 Route::get('/cart/count',[CartController::class,'count'])->name('cart.count');
 
 //Cart Controller Products 
-Route::apiResource('/cart', CartController::class);
+// Route::apiResource('/cart', CartController::class);
 
 
 

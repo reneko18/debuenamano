@@ -48,6 +48,7 @@
                             placeholder="00"
                             id="usageItem"
                             v-model="formData.stepFourUsageTime"
+                            @input="handleNumericInput('stepFourUsageTime')"
                         />
                     </div>
                     <div class="col-md-4">
@@ -119,6 +120,16 @@ export default {
             errorMessageUsageTime,
             nextStep,
         };
+    },
+    methods: {
+        handleNumericInput(fieldName) {
+            // Get the current value from the corresponding data property
+            let value = this.formData[fieldName];
+            // Apply the numeric filtering logic
+            value = value.replace(/[^0-9]/g, '');
+            // Update the corresponding data property
+            this.formData[fieldName] = value;
+        },
     },
 };
 </script>

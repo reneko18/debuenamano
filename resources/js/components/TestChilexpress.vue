@@ -194,7 +194,7 @@ export default {
             });
         },
         getCotizaChilexpress() {
-            const apiUrl = 'https://testservices.wschilexpress.com/rating/api/v1.0/rates/business';
+            const apiUrl = 'https://testservices.wschilexpress.com/rating/api/v1.0/rates/courier';
             const body = {
                 "originCountyCode": this.selectedCountyOri,
                 "destinationCountyCode": this.selectedCountyDes,
@@ -230,3 +230,5 @@ export default {
     }
 }
 </script>
+
+

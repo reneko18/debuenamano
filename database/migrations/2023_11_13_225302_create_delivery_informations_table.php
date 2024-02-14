@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('option')->nullable();
             $table->string('region')->nullable();
             $table->string('city')->nullable();
+            $table->string('city_code')->nullable();
             $table->string('chile_office')->nullable();
             $table->string('address')->nullable();
             $table->string('address_number')->nullable();

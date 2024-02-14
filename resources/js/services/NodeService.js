@@ -1,4 +1,6 @@
 import AdminView from '../views/AdminView.vue';
+import PostAdminTable from '../components/Post/PostAdminTable.vue';
+import CreatePost from '../components/Post/CreatePost.vue';
 
 export const NodeService = {
     getTreeNodesData() {
@@ -17,13 +19,13 @@ export const NodeService = {
                     },
                     {
                         key: '0-1',
-                        label: 'Crear',
+                        label: 'Crear Usuario',
                         data: 'Home Folder',
                         icon: 'pi pi-fw pi-home',  
                     },
                     {
                         key: '0-2',
-                        label: 'Editar',
+                        label: 'Editar Usuario',
                         data: 'Home Folder',
                         icon: 'pi pi-fw pi-home',  
                     }
@@ -36,8 +38,9 @@ export const NodeService = {
                 icon: 'pi pi-fw pi-calendar',
                 children: [
                     { key: '1-0', label: 'Ver Productos', icon: 'pi pi-fw pi-calendar-plus', data: 'Meeting' },
-                    { key: '1-1', label: 'Crear', icon: 'pi pi-fw pi-calendar-plus', data: 'Product Launch' },
-                    { key: '1-2', label: 'Editar', icon: 'pi pi-fw pi-calendar-plus', data: 'Report Review' }
+                    { key: '1-1', label: 'Crear Producto', icon: 'pi pi-fw pi-calendar-plus', data: 'Product Launch' },
+                    { key: '1-2', label: 'Editar Producto', icon: 'pi pi-fw pi-calendar-plus', data: 'Report Review' },
+                    { key: '1-3', label: 'Estados de Producto', icon: 'pi pi-fw pi-calendar-plus', data: 'Estados de Producto' , component: AdminView},
                 ]
             },
             {
@@ -51,61 +54,32 @@ export const NodeService = {
                         icon: 'pi pi-fw pi-star-fill',
                         label: 'Ver Posts',
                         data: 'Pacino Movies',
+                        component: PostAdminTable,
                     },
                     {
                         key: '2-1',
-                        label: 'Crear',
+                        label: 'Crear Post',
                         icon: 'pi pi-fw pi-star-fill',
                         data: 'De Niro Movies',
-                    }
-                ]
-            },
-            {
-                key: '3',
-                label: 'Ver Autores',
-                data: 'Movies Folder',
-                icon: 'pi pi-fw pi-star-fill',
-                children: [
-                    {
-                        key: '3-0',
-                        icon: 'pi pi-fw pi-star-fill',
-                        label: 'Ver Posts',
-                        data: 'Pacino Movies',
+                        component: CreatePost,
                     },
-                ]
-            },
-            {
-                key: '4',
-                label: 'Categorias de post',
-                data: 'Movies Folder',
-                icon: 'pi pi-fw pi-star-fill',
-                children: [
                     {
-                        key: '4-0',
+                        key: '2-2',
+                        label: 'Ver Autores',
+                        icon: 'pi pi-fw pi-star-fill',
+                        data: 'De Niro Movies',
+                    },
+                    {
+                        key: '2-3',
                         icon: 'pi pi-fw pi-star-fill',
                         label: 'Ver Categorias',
                         data: 'Pacino Movies',
                     },
                     {
-                        key: '4-1',
-                        label: 'Crear',
+                        key: '2-3',
                         icon: 'pi pi-fw pi-star-fill',
-                        data: 'De Niro Movies',
-                    }
-                ]
-            },
-            {
-                key: '5',
-                label: 'Estados de Productos',
-                data: 'Estados de Productos',
-                icon: 'pi pi-fw pi-star-fill',
-                children: [
-                    {
-                        key: '5-0',
-                        icon: 'pi pi-fw pi-star-fill',
-                        label: 'Ver Estados',
-                        data: 'Ver Estados',
-                        component: AdminView,
+                        label: 'Crear Categoria',
+                        data: 'Pacino Movies',
                     },
                 ]
             },

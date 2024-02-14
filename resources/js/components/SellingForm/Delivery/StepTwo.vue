@@ -1,4 +1,4 @@
-<template>
+<template>  
     <div class="modulo-pasos">
         <div class="row">
             <div class="col-lg-7 col-md-12">
@@ -12,7 +12,8 @@
                 </p>
             </div>
         </div>
-        <div class="row col-md-11 mx-auto">
+
+        <div class="row col-md-11 mx-auto bank-form" v-if="!useBankDetails">
             <div class="col">
                 <div>
                     <label for="infoPayName" class="form-label"
@@ -123,8 +124,8 @@
                         </option>
                     </select>
                 </div>
-                <div>
-                    <a href="#">
+                <div class="d-flex flex-column justify-content-center sec-bank-default-form">
+                    <a class="underline-dbm cursor-pointer" @click="toggleBankDetails">
                         <svg
                             version="1.1"
                             id="cardSellingForm"
@@ -147,6 +148,93 @@
                 </div>
             </div>
         </div>
+
+
+        <div class="row col-md-11 mx-auto bank-default" v-else> 
+            <h3>Te depositaremos a:</h3>           
+            <div class="col">                
+                <div>
+                    <label for="infoPayName" class="form-label"
+                        >Nombre y apellido</label
+                    >
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="infoPayName"
+                        placeholder="Nombre y Apellido"
+                        v-model="bankDetails.full_name"
+                        readonly
+                    />
+                </div>
+                <div>
+                    <label for="infoPayBank" class="form-label">Banco</label>
+                    <input
+                        id="infoPayBank"
+                        class="form-control"
+                        v-model="bankDetails.bank"
+                        readonly
+                    />  
+                </div>
+                <div>
+                    <label for="infoPayAccountNumber" class="form-label"
+                        >Nº de cuenta</label
+                    >
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="infoPayAccountNumber"
+                        placeholder=""
+                        v-model="bankDetails.account_number"
+                        readonly
+                    />
+                </div>
+            </div>
+            <div class="col">
+                <div>
+                    <label for="infoPayRut" class="form-label">Rut</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="infoPayRut"
+                        v-model="bankDetails.rut"
+                        readonly
+                    />
+                </div>
+                <div>
+                    <label for="infoPayTypeAccount" class="form-label"
+                        >Tipo de cuenta</label
+                    >
+                    <input
+                        id="infoPayTypeAccount"
+                        class="form-control"
+                        v-model="bankDetails.account_type"
+                        readonly
+                    >
+                </div>
+                <div class="d-flex flex-column justify-content-center sec-bank-default-form">
+                    <a class="underline-dbm cursor-pointer" @click="toggleBankDetails">
+                        <svg
+                            version="1.1"
+                            id="cardSellingForm"
+                            xmlns="http://www.w3.org/2000/svg"
+                            xmlns:xlink="http://www.w3.org/1999/xlink"
+                            x="0px"
+                            y="0px"
+                            viewBox="0 0 22 16"
+                            xml:space="preserve"
+                        >
+                            <path
+                                class="st0"
+                                d="M18.5,1H2.8C1.8,1,1,1.8,1,2.8v10.5c0,1,0.8,1.8,1.8,1.8h15.8c1,0,1.8-0.8,1.8-1.8V2.8C20.3,1.8,19.5,1,18.5,1z
+                                    "
+                            />
+                            <path class="st0" d="M1,6.2h19.3" />
+                        </svg>
+                        <span>definir otra cuenta bancaria</span>
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="d-flex justify-content-end mt-4">
         <button class="btn boton-principal" @click="nextStep">
@@ -159,11 +247,14 @@
 import { useFormStore } from "../../../stores/values";
 import { onMounted } from "vue";
 export default {
-    // data() {
-    //     return {
-    //         isValidRUT: false,
-    //     };
-    // },
+    data() {
+        return {
+            // isValidRUT: false,
+            bankDetails: [],
+            useBankDetails: '',
+        };
+    },
+    props: ['userId'],
     emits: ["next-step", "constant-emitted", "active-subtitles"],
     setup(_, { emit }) {
         const mainStep = 4;
@@ -232,6 +323,29 @@ export default {
             //         expectedVerificationDigit;
             // }
         },
+        fetchBankDetails(){
+            axios.get(`/api/user/${this.userId}/getbankdetails`)
+            .then(response => {
+                this.bankDetails = response.data; 
+                if (this.bankDetails) {   
+                    this.formData.stepNineName = this.bankDetails.full_name;
+                    this.formData.stepNineBank =  this.bankDetails.bank;
+                    this.formData.stepNineBankNumber = this.bankDetails.account_number;
+                    this.formData.stepNineRut = this.bankDetails.rut;
+                    this.formData.stepNineBankType = this.bankDetails.account_type;
+                    this.useBankDetails = true;
+                }     
+            })
+            .catch(error => {
+                console.error('Error fetching user details:', error);
+            });
+        },
+        toggleBankDetails() {
+            this.useBankDetails = !this.useBankDetails;
+        },
+    },
+    mounted() {
+        this.fetchBankDetails();
     },
 };
 </script>

@@ -41,7 +41,7 @@ class LoginController extends Controller
         // Check if the user has the 'admin' role
         if ($user->hasRole('admin')) {
         // Redirect admin to the admin dashboard
-            return route('admin.index');
+            return route('newadmin.index');
         } elseif ($user->hasRole('customer')) {
             // Redirect customer to the client dashboard
             return route('dashboard.client', ['user' => $user]);

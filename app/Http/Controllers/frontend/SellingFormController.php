@@ -16,4 +16,9 @@ class SellingFormController extends Controller
     {
         return view('selling.form');
     }
+
+    public function success()
+    {
+        return view('selling.success');
+    }
 }

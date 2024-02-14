@@ -75,6 +75,7 @@
                     @next-step="nextStep"
                     @constant-emitted="handleMainStep"
                     @active-subtitles="handleSubStep"
+                    :user-id="userId"
                 />
             </div>
         </div>
@@ -102,6 +103,7 @@ export default {
             expandedItem: 0,
         };
     },
+    props: ['userId'],
     setup() {
         const activeTitles = ref(0);
 

@@ -9,7 +9,7 @@
                 </p>
             </div>
         </div>
-        <div class="col-lg-5 col-md-12">
+        <div class="col-lg-6 col-md-12">
             <div class="input-group mb-3">
                 <span class="input-group-text">$</span>
                 <input
@@ -24,8 +24,8 @@
             </div>
             <div class="row row-income">
                 <div class="col">
-                    <p>- $ {{ formData.stepEightPriceFee }}</p>
-                    <p><strong class="price-income">$ {{ formData.stepEightPriceFinalAmount }}</strong></p>
+                    <p>- $ {{ isNaN(formData.stepEightPriceFee) ? 'Ingrese un precio valido' : formData.stepEightPriceFee }}</p>
+                    <p><strong class="price-income">$ {{ isNaN(formData.stepEightPriceFinalAmount) ? 'Ingrese un precio valido' : formData.stepEightPriceFinalAmount }}</strong></p>
                 </div>
                 <div class="col text-right">
                     <p>Comisión DBM 22%</p>
@@ -99,18 +99,25 @@ export default {
     },
     methods: {
         feeDBM() {
-            // Remove dots to get the raw number for calculations
-            const rawPrice = this.formData.stepEightPrice.replace(/[.]/g, "");
-            this.fee = Math.round(rawPrice * 0.22);
-            this.finalAmount = rawPrice - this.fee;
+                // Remove dots to get the raw number for calculations
+                const rawPrice = this.formData.stepEightPrice.replace(/[.]/g, "");
+                // Check if rawPrice is a valid number
+            if (!isNaN(rawPrice)) {
+                this.fee = Math.round(rawPrice * 0.22);
+                this.finalAmount = rawPrice - this.fee;
 
-            // Convert numeric values to strings and format with point as separator and no decimal places
-            this.formData.stepEightPriceFee = this.fee
-                .toString()
-                .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-            this.formData.stepEightPriceFinalAmount = this.finalAmount
-                .toString()
-                .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                // Convert numeric values to strings and format with point as separator and no decimal places
+                this.formData.stepEightPriceFee = this.fee
+                    .toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                this.formData.stepEightPriceFinalAmount = this.finalAmount
+                    .toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            } else {
+                // Set a default message when the input is not a valid number
+                this.formData.stepEightPriceFee = 'Ingrese un precio valido';
+                this.formData.stepEightPriceFinalAmount = 'Ingrese un precio valido';
+            }
         },
     },
 };

@@ -18,4 +18,11 @@ class PostController extends Controller
 
         return response()->json($posts);
     }
+
+    public function adminindex()
+    {
+        $posts = Post::with('author','postcategories')->get();
+
+        return response()->json($posts);
+    }
 }

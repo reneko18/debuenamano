@@ -155,12 +155,13 @@
                 <div class="row row-age-range" :class="errorMessageRange ? 'error-dbm' : ''">  
                     <div class="col-md-2" v-if="formData.stepOneShowFirstInput">
                         <input                            
-                            type="number"
+                            type="text"
                             class="form-control"
                             :class="errorMessageRange ? 'is-invalid-dbm' : ''"
                             placeholder="00"
                             id="age-pro"
-                            v-model="formData.stepOneAgeIni"
+                            v-model="formData.stepOneAgeIni"  
+                            @input="handleNumericInput('stepOneAgeIni')"                          
                         />
                     </div>
                     <div class="col-md-4">   
@@ -182,12 +183,13 @@
                     </div>
                     <div class="col-md-2">  
                         <input
-                            type="number"
+                            type="text"
                             class="form-control"
                             :class="errorMessageRange ? 'is-invalid-dbm' : ''"
                             placeholder="00"
                             id="month-pro"
                             v-model="formData.stepOneAgeFin"
+                            @input="handleNumericInput('stepOneAgeFin')"                            
                         />
                     </div>
                     <div class="col-md-3">              
@@ -400,6 +402,14 @@ export default {
 
             // Update the textareaHeight data property to match the left column height
             this.textareaHeight = leftHeight;
+        },
+        handleNumericInput(fieldName) {
+            // Get the current value from the corresponding data property
+            let value = this.formData[fieldName];
+            // Apply the numeric filtering logic
+            value = value.replace(/[^0-9]/g, '');
+            // Update the corresponding data property
+            this.formData[fieldName] = value;
         },
     },
 };

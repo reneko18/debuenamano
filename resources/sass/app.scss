@@ -511,19 +511,19 @@ label {
 .cont-dimen-1 {
     margin-bottom: 4rem;
 }
-.cont-dimen-1 .row-main-dim {
+.cont-dimen-1 .row-main-dim, .edit-pro-admin.row-main-dim {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
 }
-.cont-dimen-1 .row-child-dim {
+.cont-dimen-1 .row-child-dim, .edit-pro-admin .row-child-dim {
     display: flex;
     flex-direction: row;
 }
-.cont-dimen-1 .row-child-dim .col-dim:first-child {
+.cont-dimen-1 .row-child-dim .col-dim:first-child, .edit-pro-admin .row-child-dim .col-dim:first-child{
     margin-right: 0.5rem;
 }
-.cont-dimen-1 .col-dim {
+.cont-dimen-1 .col-dim, .edit-pro-admin .col-dim {
     width: 100%;
     max-width: 82px;
 }
@@ -753,6 +753,10 @@ label {
     width: 100%;
     max-width: 177px;
     height: 43px;
+}
+
+.sec-bank-default-form{
+    height: 88px;
 }
 
 /*FOOTER *******************************************************/
@@ -1178,4 +1182,13 @@ h1.parallax-txt {
   }
   .form-control.cat-select.is-invalid{
     background-position: right calc(2.4em + 0.1875rem) center;
+  }
+
+  /*EDIT PRODUCT ADMIN***********************************/
+  .underline-dbm{
+    font-weight: 700;
+    color: #1B1F22;
+  }
+  .save-edit-pro{
+    margin-right: 3rem;
   }

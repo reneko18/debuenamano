@@ -142,11 +142,12 @@
                 <div class="row row-age-range">  
                     <div class="col-md-2" v-if="formData.stepOneShowFirstInput">
                         <input                            
-                            type="number"
+                            type="text"
                             class="form-control"                           
                             placeholder="00"
                             id="age-pro"
                             v-model="formData.stepOneAgeIni"
+                            @input="handleNumericInput('stepOneAgeIni')"
                         />
                     </div>
                     <div class="col-md-4">   
@@ -168,11 +169,12 @@
                     </div>
                     <div class="col-md-2">  
                         <input
-                            type="number"
+                            type="text"
                             class="form-control"                           
                             placeholder="00"
                             id="month-pro"
                             v-model="formData.stepOneAgeFin"
+                            @input="handleNumericInput('stepOneAgeFin')"
                         />
                     </div>
                     <div class="col-md-3">              
@@ -246,6 +248,7 @@
                             placeholder="0,0"
                             id="height-pro"
                             v-model="formData.stepThreeHeight"
+                            @input="handleNumericInput('stepThreeHeight')"
                         />
                     </div>
                     <div class="col-dim">
@@ -270,6 +273,7 @@
                             placeholder="0,0"
                             id="width-pro"
                             v-model="formData.stepThreeWidth"
+                            @input="handleNumericInput('stepThreeWidth')"
                         />
                     </div>
                     <div class="col-dim">
@@ -294,6 +298,7 @@
                             placeholder="0,0"
                             id="long-pro"
                             v-model="formData.stepThreeLength"
+                            @input="handleNumericInput('stepThreeLength')"
                         />
                     </div>
                     <div class="col-dim">
@@ -318,6 +323,7 @@
                             placeholder="0,0"
                             id="weight-pro"
                             v-model="formData.stepThreeWeight"
+                            @input="handleNumericInput('stepThreeWeight')"
                         />
                     </div>
                     <div class="col-dim position-relative">
@@ -365,6 +371,7 @@
                             placeholder="00"
                             id="usageItem"
                             v-model="formData.stepFourUsageTime"
+                            @input="handleNumericInput('stepFourUsageTime')"
                         />
                     </div>
                     <div class="col-md-4">
@@ -680,7 +687,7 @@
                     </p>
                 </div>
             </div>
-            <div class="col-lg-5 col-md-12">
+            <div class="col-lg-6 col-md-12">
                 <input
                     type="text"
                     class="form-control"
@@ -690,14 +697,14 @@
                     @input="feeDBM"
                     v-price-format
                 />
-                <div class="row">
-                    <div class="col">
-                        <p>-${{ formData.stepEightPriceFee }}</p>
-                        <p>${{ formData.stepEightPriceFinalAmount }}</p>
+                <div class="row row-income">
+                <div class="col">
+                        <p>- $ {{ isNaN(formData.stepEightPriceFee) ? 'Ingrese un precio valido' : formData.stepEightPriceFee }}</p>
+                        <p><strong class="price-income">$ {{ isNaN(formData.stepEightPriceFinalAmount) ? 'Ingrese un precio valido' : formData.stepEightPriceFinalAmount }}</strong></p>
                     </div>
-                    <div class="col">
-                        <p>Comisión DBM 25%</p>
-                        <p>Tu ganancia</p>
+                    <div class="col text-right">
+                        <p>Comisión DBM 22%</p>
+                        <p><strong>Tu ganancia</strong></p>
                     </div>
                 </div>
             </div>
@@ -1176,7 +1183,7 @@ export default {
                 );
 
                 console.log(response);
-                window.location.href = "/";
+                window.location.href = "/exito-producto-venta";
             } catch (error) {
                 console.error(error.response.data);
             }
@@ -1204,18 +1211,25 @@ export default {
         },
         //Precio
         feeDBM() {
-            // Remove dots to get the raw number for calculations
-            const rawPrice = this.formData.stepEightPrice.replace(/[.]/g, "");
-            this.fee = Math.round(rawPrice * 0.22);
-            this.finalAmount = rawPrice - this.fee;
+                // Remove dots to get the raw number for calculations
+                const rawPrice = this.formData.stepEightPrice.replace(/[.]/g, "");
+                // Check if rawPrice is a valid number
+            if (!isNaN(rawPrice)) {
+                this.fee = Math.round(rawPrice * 0.22);
+                this.finalAmount = rawPrice - this.fee;
 
-            // Convert numeric values to strings and format with point as separator and no decimal places
-            this.formData.stepEightPriceFee = this.fee
-                .toString()
-                .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-            this.formData.stepEightPriceFinalAmount = this.finalAmount
-                .toString()
-                .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                // Convert numeric values to strings and format with point as separator and no decimal places
+                this.formData.stepEightPriceFee = this.fee
+                    .toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                this.formData.stepEightPriceFinalAmount = this.finalAmount
+                    .toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            } else {
+                // Set a default message when the input is not a valid number
+                this.formData.stepEightPriceFee = 'Ingrese un precio valido';
+                this.formData.stepEightPriceFinalAmount = 'Ingrese un precio valido';
+            }
         },
         //Cuenta Bancaria
         formatAndValidateRUT() {
@@ -1262,6 +1276,14 @@ export default {
             //         parseInt(verificationDigit, 10) ===
             //         expectedVerificationDigit;
             // }
+        },
+        handleNumericInput(fieldName) {
+            // Get the current value from the corresponding data property
+            let value = this.formData[fieldName];
+            // Apply the numeric filtering logic
+            value = value.replace(/[^0-9]/g, '');
+            // Update the corresponding data property
+            this.formData[fieldName] = value;
         },
     },
     mounted() {

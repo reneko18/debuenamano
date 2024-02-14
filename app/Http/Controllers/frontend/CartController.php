@@ -75,13 +75,34 @@ class CartController extends Controller
                     // If so, increment the quantity
                     $cart[$product->id]['quantity']++;
                 } else {
+                    // Fetch delivery information for the product
+                    $deliveryInformation = $product->deliveryInformation;
+                    $galleries = $product->galleries;
                     // If not, add the product to the cart
                     $cart[$product->id] = [
                         'id' => $product->id,
                         'slug' => $product->slug,
                         'quantity' => 1,
                         'name' => $product->name,
-                        'price' => $product->price,                        
+                        'price' => $product->price,  
+                        'length' => $product->length,  
+                        'width' => $product->width,  
+                        'height' => $product->height,  
+                        'weight' => $product->weight,  
+                        'delivery_information' => [
+                            'option' => $deliveryInformation->option,
+                            'region' => $deliveryInformation->region,
+                            'city' => $deliveryInformation->city,
+                            'city_code' => $deliveryInformation->city_code,
+                            'chile_office' => $deliveryInformation->chile_office,
+                            'address' => $deliveryInformation->address,
+                            'address_number' => $deliveryInformation->address_number,
+                            'dpto_house' => $deliveryInformation->dpto_house,
+                        ],
+                        'galleries' => $galleries->isNotEmpty() ? [
+                            'url' => $galleries->first()->url,
+                            'alt' => $galleries->first()->alt,
+                        ] : null,                                                               
                     ];
                 }
 
@@ -112,5 +133,38 @@ class CartController extends Controller
         }
 
         return redirect()->route('cart.index')->with('error', 'Product not found in cart');
+    }
+
+
+    public function newcart()
+    {
+
+        if (auth()->check()) {
+            $user = auth()->user();
+    
+            // Check if the user has a cart
+            if (!$user->cart) {
+                // If not, create a new cart for the user
+                $user->cart()->create();
+            }
+    
+            // Retrieve the cart items from the database
+            $cartItems = $user->cart->products ?? [];
+            $totalPrice = 0;
+    
+            if (!empty($cartItems)) {
+                // If $cartItems is not empty, calculate the total price
+                $totalPrice = collect($cartItems)->sum('price');
+            }
+        } else {
+            // For guest users, use session data
+            $cart = Session::get('cart', []);
+            $cartItems = collect($cart)->values()->all();  // Ensure numeric keys are preserved
+            $totalPrice = collect($cartItems)->sum('price');
+            $buyOrder = 18;
+            $sessionId = 12345;
+        }
+
+        return view('cart.newcart',compact('cartItems','totalPrice','buyOrder','sessionId'));
     }
 }

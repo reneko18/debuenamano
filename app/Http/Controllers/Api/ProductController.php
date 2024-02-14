@@ -91,7 +91,8 @@ class ProductController extends Controller
         $deliveryInformation->product_id = $product->id;
         $deliveryInformation->option = $request->input('stepSevenOptionDelivery');
         $deliveryInformation->region = $request->input('stepSevenRegion');
-        $deliveryInformation->city = $request->input('stepSevenCity');
+        $deliveryInformation->city = $request->input('stepSevenCity.countyName');
+        $deliveryInformation->city_code = $request->input('stepSevenCity.countyCode');
         $deliveryInformation->chile_office = $request->input('stepSevenChilexpressOffice');
         $deliveryInformation->address = $request->input('stepSevenStreet');
         $deliveryInformation->address_number = $request->input('stepSevenStreetNumber');
@@ -313,7 +314,7 @@ class ProductController extends Controller
     public function editProduct(Product $product) 
     {
         // Load the "category" relationship along with the product
-        $product->load('category');
+        $product->load('category','galleries','deliveryInformation', 'user.bankDetail');
     
         // Return the product with the category included in the JSON response
         return response()->json($product);
@@ -330,16 +331,191 @@ class ProductController extends Controller
                 'age_fin',
                 'age_date_fin',
                 'description',
-                'publish_status',          
+                'category_id',
+                'brand',
+                'model',
+                'height',
+                'height_unit',
+                'width',
+                'width_unit',
+                'length',
+                'length_unit',
+                'weight',
+                'weight_unit',
+                'status',
+                'used_time',
+                'used_time_unit',
+                'remark',
+                'advice',
+                'price', 
+                'publish_status',
             ]);
-            
+    
+            // If you have nested data, you might want to format it properly before updating
+            $deliveryInformationData = request()->only([
+                'delivery_information_option',
+                'delivery_information_region',
+                'delivery_information_city',
+                'delivery_information_chile_office',
+                'delivery_information_address',
+                'delivery_information_address_number',
+                'delivery_information_dpto_house',
+            ]);
+
+            $bankDetailsData = request()->only([
+                'bankFullName',
+                'bankName',
+                'bankAccount',
+                'bankAccountType',
+                'bankRut',
+            ]);
+    
+            // Update product information
             $product->update($requestData);
+    
+            // Update delivery information if provided
+            if (!empty($deliveryInformationData)) {
+                $product->deliveryInformation()->updateOrCreate([], $deliveryInformationData);
+            }
+
+            // Update bank details if provided
+            if (!empty($bankDetailsData)) {
+                $user = auth()->user();
+                $user->bankDetail()->updateOrCreate([], $bankDetailsData);
+            }
+
+            // Handle image updates
+            foreach (request()->input('images') as $imageData) {
+                if (isset($imageData['src'])) {
+                    // Base64 encoded image, save it
+                    $src =  str_replace('data:image/png;base64,', '', $imageData['src']); 
+                    $name = $imageData['name'];
+                    $name = preg_replace('/[^\w\d\.\-_]/', '_', $name);           
+            
+                    // Save the image to the public folder
+                    $imagePath = public_path('images/products_images/' . $name );
+                    $decodedImage = base64_decode($src);
+                    file_put_contents($imagePath, $decodedImage);
+            
+                    // Save image data to the database
+                    $product->galleries()->updateOrCreate(
+                        ['url' => 'images/products_images/' . $name],
+                        ['alt' => $name, 'position' => null]
+                    );
+                } elseif (!isset($imageData['url'])) {
+                    // Image doesn't have 'src' property and 'url' property, skip it
+                    continue;
+                } else {
+                    // Image already has 'url' property, it's already saved, skip it
+                    continue;
+                }
+            }
+            
     
             return response()->json(['message' => 'Product updated successfully']);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Failed to update product'], 500);
         }
     }
+
+    public function saveProductStatus(Product $product)
+    {
+        try {   
+            $requestData = request()->only([
+                'name',
+                'genre',
+                'age_ini',
+                'age_date_ini',
+                'age_fin',
+                'age_date_fin',
+                'description',
+                'category_id',
+                'brand',
+                'model',
+                'height',
+                'height_unit',
+                'width',
+                'width_unit',
+                'length',
+                'length_unit',
+                'weight',
+                'weight_unit',
+                'status',
+                'used_time',
+                'used_time_unit',
+                'remark',
+                'advice',
+                'price', 
+                'publish_status',
+            ]);
+    
+            // If you have nested data, you might want to format it properly before updating
+            $deliveryInformationData = request()->only([
+                'delivery_information_option',
+                'delivery_information_region',
+                'delivery_information_city',
+                'delivery_information_chile_office',
+                'delivery_information_address',
+                'delivery_information_address_number',
+                'delivery_information_dpto_house',
+            ]);
+
+            $bankDetailsData = request()->only([
+                'bankFullName',
+                'bankName',
+                'bankAccount',
+                'bankAccountType',
+                'bankRut',
+            ]);
+    
+            // Update product information
+            $product->update($requestData);
+    
+            // Update delivery information if provided
+            if (!empty($deliveryInformationData)) {
+                $product->deliveryInformation()->updateOrCreate([], $deliveryInformationData);
+            }
+
+            // Update bank details if provided
+            if (!empty($bankDetailsData)) {
+                $user = auth()->user();
+                $user->bankDetail()->updateOrCreate([], $bankDetailsData);
+            }
+
+            // Handle image updates
+            foreach (request()->input('images') as $imageData) {
+                if (isset($imageData['src'])) {
+                    // Base64 encoded image, save it
+                    $src =  str_replace('data:image/png;base64,', '', $imageData['src']); 
+                    $name = $imageData['name'];
+                    $name = preg_replace('/[^\w\d\.\-_]/', '_', $name);           
+            
+                    // Save the image to the public folder
+                    $imagePath = public_path('images/products_images/' . $name );
+                    $decodedImage = base64_decode($src);
+                    file_put_contents($imagePath, $decodedImage);
+            
+                    // Save image data to the database
+                    $product->galleries()->updateOrCreate(
+                        ['url' => 'images/products_images/' . $name],
+                        ['alt' => $name, 'position' => null]
+                    );
+                } elseif (!isset($imageData['url'])) {
+                    // Image doesn't have 'src' property and 'url' property, skip it
+                    continue;
+                } else {
+                    // Image already has 'url' property, it's already saved, skip it
+                    continue;
+                }
+            }
+            
+    
+            return response()->json(['message' => 'Product saved successfully']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to save product'], 500);
+        }
+    }
+    
 
     
 

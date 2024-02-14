@@ -72,7 +72,7 @@ Admin Usuario - De Buena Mano
 
 @endsection
 
-@push('img-profil')
+{{-- @push('img-profil')
 <script type="text/javascript">
     $.ajaxSetup({
         headers: {
@@ -141,4 +141,4 @@ Admin Usuario - De Buena Mano
 
   });
     
-@endpush
+@endpush --}}

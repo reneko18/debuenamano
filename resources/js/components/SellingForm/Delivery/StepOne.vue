@@ -85,7 +85,7 @@
                         <option disabled selected value="">
                             Selecciona tu comuna
                         </option>
-                        <option :value="com.countyName" v-for="com in cities">
+                        <option :value="com" v-for="com in cities">
                             {{ com.countyName }}
                         </option>
                     </select>
@@ -199,7 +199,7 @@
                                 Selecciona tu comuna
                             </option>
                             <option
-                                :value="com.countyName"
+                                :value="com"
                                 v-for="com in cities"
                             >
                                 {{ com.countyName }}

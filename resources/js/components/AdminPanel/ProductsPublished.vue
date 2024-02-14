@@ -38,7 +38,7 @@
             <Column :field="getFormattedPrice" header="Precio"></Column>
             <Column header="Enlace">
                 <template #body="slotProps">
-                    <a :href="slotProps.data.editUrl"> ver ficha </a>
+                    <a :href="slotProps.data.editUrl"> ver ficha </a> 
                 </template>
             </Column>
             <Column field="publish_status" header="Estado"></Column>

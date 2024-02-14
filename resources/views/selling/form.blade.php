@@ -4,6 +4,6 @@
 @endsection
 @section('content')
     <section id="app" class="p-pages pb-5">
-        <new-selling-form-product></new-selling-form-product>
+        <new-selling-form-product :user-id="'{{ auth()->user()->id }}'" />
     </section>
 @endsection
