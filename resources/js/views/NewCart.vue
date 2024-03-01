@@ -1,4 +1,4 @@
-<template>
+<template>  
     <section class="container">
         <div class="row">
             <div class="col-3 nav-pasos">
@@ -24,6 +24,7 @@
                     :total-price="totalPrice"
                     @next-step="nextStep"
                     @previous-step="previousStep"
+                    @webpay="handleWebpay"
                 />
             </div>
         </div>
@@ -31,10 +32,12 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted} from "vue";
 import StepOne from "../components/Cart/Steps/StepOne.vue"
 import StepTwo from "../components/Cart/Steps/StepTwo.vue"
 import StepThree from "../components/Cart/Steps/StepThree.vue"
+import { useFormStore } from "../stores/values/";
+
 
 const props = defineProps({
     cartItems: { 
@@ -46,6 +49,9 @@ const props = defineProps({
         default:'', 
     },
 });
+
+const formStore = useFormStore();
+const formCart = formStore.formCart;
 
 const currentStep = ref(0);
 
@@ -88,6 +94,49 @@ const previousStep = () => {
     currentStep.value--;
 };
 
+const paymentForm = ref(null);
+
+// const handleWebpay = () => {
+//     if (paymentForm.value) {
+//         paymentForm.value.submit();
+//     } else {
+//         console.error('Payment form is not available');
+//     }
+// };
+
+//New order Data 
+const handleWebpay = () => {
+    if (paymentForm.value) {
+        // Extract the required data from props.cartItems
+        const orderData = props.cartItems.map(item => ({
+            id: item.id,
+            selectedService: item.selectedService
+        }));
+
+         // Wrap the orderData array inside an object with the key 'items'
+         const requestData = { items: orderData, form: formCart };
+
+        // Send an HTTP POST request to your Laravel backend to save the order
+        axios.post('/api/orders', requestData)
+            .then(response => {
+                // Handle success
+                console.log('Order saved successfully:', response.data);
+                // Now you can proceed with submitting the payment form
+                paymentForm.value.submit();
+            })
+            .catch(error => {
+                // Handle error
+                console.error('Error saving order:', error);
+            });
+    } else {
+        console.error('Payment form is not available');
+    }
+};
+
+// Use onMounted to ensure paymentForm is initialized after component mount
+onMounted(() => {
+    paymentForm.value = document.querySelector('#paymentForm');
+});
 
 </script>
 

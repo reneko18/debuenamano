@@ -514,6 +514,23 @@ class ProductController extends Controller
         } catch (\Exception $e) {
             return response()->json(['error' => 'Failed to save product'], 500);
         }
+
+    }
+
+    public function getProductsAdminSellingByUserId()
+    {
+        $products = Product::with('category', 'user')  
+            ->whereIn('publish_status', ['Vendido'])
+            ->get();
+    
+        $products = $products->map(function ($product) {
+            return [
+                'product' => $product,  
+                'sellerFullName' => $product->user ? "{$product->user->name} {$product->user->lastname}" : null,
+            ];
+        });
+    
+        return response()->json($products);
     }
     
 

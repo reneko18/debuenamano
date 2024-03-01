@@ -76,6 +76,7 @@
                     @constant-emitted="handleMainStep"
                     @active-subtitles="handleSubStep"
                     :user-id="userId"
+                    :user-bank="userBank"                    
                 />
             </div>
         </div>
@@ -103,7 +104,7 @@ export default {
             expandedItem: 0,
         };
     },
-    props: ['userId'],
+    props: ['userId','userBank'],
     setup() {
         const activeTitles = ref(0);
 
@@ -114,8 +115,7 @@ export default {
 
         const nextStep = () => {
             currentStep.value++;
-        };
-
+        };      
         const formSteps = [
             StepOnePre,
             StepTwoPre,

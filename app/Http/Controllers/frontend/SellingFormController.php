@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class SellingFormController extends Controller
@@ -12,9 +13,15 @@ class SellingFormController extends Controller
         return view('selling.form');
     }
 
-    public function show()
+    public function show(User $user)
     {
-        return view('selling.form');
+        // Get the authenticated user
+        $user = auth()->user();
+
+        // Eager load the bankDetail relation
+        $user->load('bankDetail');
+
+        return view('selling.form', compact('user'));
     }
 
     public function success()

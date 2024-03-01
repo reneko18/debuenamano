@@ -85,7 +85,7 @@
                         <option disabled selected value="">
                             Selecciona tu comuna
                         </option>
-                        <option :value="com" v-for="com in cities">
+                        <option :value="com.countyName" v-for="com in cities">
                             {{ com.countyName }}
                         </option>
                     </select>
@@ -316,7 +316,7 @@ export default {
 
         const getCoberturaOptions = async function () {
             const apiUrl =
-                "https://testservices.wschilexpress.com/georeference/api/v1.0/offices?Type=0";
+            "https://testservices.wschilexpress.com/georeference/api/v1.0/offices?Type=0";   
             const regionCode = selectedRef.value.region;
             const cityName = selectedRef.value.city;
 
@@ -333,7 +333,7 @@ export default {
                     },
                 });
 
-                console.log(response.status);
+                console.log(response.status);      
                 console.log(response.data.offices);
                 offices.value = response.data.offices;
             } catch (error) {

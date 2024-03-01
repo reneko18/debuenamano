@@ -101,6 +101,13 @@ class CartController extends Controller
         ]);
     }
 
+    public function updateTotal(Request $request)
+    {
+
+        $total = $request->input('total');
+       
+        return response()->json(['message' => 'Total value updated successfully']);
+    }
 
 
 

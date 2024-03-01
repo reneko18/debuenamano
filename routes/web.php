@@ -91,8 +91,11 @@ Route::get('/chilexpress',[ChilexpressController::class, 'index'])->name('api.in
 //Test Checkout
 Route::get('tienda/{product}/checkout',[CheckoutController::class,'index'])->name('checkout.index');
 
+//Test Order End
+Route::get('order-end',[WebpayPlusController::class,'commitTransaction'])->name('order.index');
+
 Route::post('/checkout/create', [WebpayPlusController::class, 'createdTransaction'])->name('create.webpay');
-Route::any('/checkout/returnUrl', [WebpayPlusController::class, 'commitTransaction']);
+// Route::any('/checkout/returnUrl', [WebpayPlusController::class, 'commitTransaction']);
 Route::get('/checkout/refund', [WebpayPlusController::class, 'showRefund']);
 Route::post('/checkout/refund', [WebpayPlusController::class, 'refundTransaction']);
 Route::get('/checkout/transactionStatus', [WebpayPlusController::class, 'showGetStatus']);
@@ -115,6 +118,7 @@ Route::middleware(['check.user.type'])->group(function () {
 
 //New Cart test Vue JS before add middleware and real actions
 Route::get('/newcart',[CartController::class,'newcart'])->name('newcart.index');
+
 
 //Rutas para Carlos
 Route::get('/',[PagesController::class, 'inicio'])->name('inicio');

@@ -12,4 +12,9 @@ class CheckoutController extends Controller
     {
         return view('checkout.index',compact('product'));
     }
+
+    // public function order()
+    // {
+    //     return view('order_end');
+    // }
 }

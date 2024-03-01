@@ -9,8 +9,8 @@
                 <vitrina />
             </Tab>
 
-            <Tab title="Tus compras">
-                <p>This is the content for Tab 3.</p>
+            <Tab title="Productos comprados">
+                <sell-products />
             </Tab>
         </Tabs>
     </div>
@@ -20,4 +20,5 @@ import Tabs from "../components/Tabs/Tabs.vue";
 import Tab from "../components/Tabs/Tab.vue";
 import ProductsPublished from "../components/AdminPanel/ProductsPublished.vue";
 import Vitrina from "../components/AdminPanel/Vitrina.vue";
+import SellProducts from "../components/AdminPanel/SellProducts.vue";
 </script>

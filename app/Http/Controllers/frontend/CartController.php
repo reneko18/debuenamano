@@ -136,8 +136,19 @@ class CartController extends Controller
     }
 
 
-    public function newcart()
+    public function newcart(Request $request)
     {
+        // Initialize $total variable
+        $total = null;
+
+        // Handle AJAX request
+        if ($request->ajax()) {
+            // Retrieve data from the request
+            $total = $request->input('total');
+
+            // Process the data and return a response
+            return response()->json(['total' => $total]);
+        }
 
         if (auth()->check()) {
             $user = auth()->user();
@@ -165,6 +176,6 @@ class CartController extends Controller
             $sessionId = 12345;
         }
 
-        return view('cart.newcart',compact('cartItems','totalPrice','buyOrder','sessionId'));
+        return view('cart.newcart',compact('cartItems','totalPrice','buyOrder','sessionId','total'));
     }
 }

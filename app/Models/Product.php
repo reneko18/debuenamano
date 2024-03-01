@@ -76,9 +76,9 @@ protected $fillable = [
        return $this->belongsToMany(ProductContact::class, 'product_contact_product');
    }
 
-   public function order()
+   public function orders()
    {
-       return $this->hasOne(Order::class);
+       return $this->belongsToMany(Order::class)->withPivot('delivery_price');
    }
 
    public function getRouteKeyName()

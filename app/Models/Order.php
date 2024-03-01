@@ -9,15 +9,15 @@ class Order extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'product_id', 'status'];
+    protected $fillable = ['user_id', 'status'];
 
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    public function product()
+    public function products()
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsToMany(Product::class)->withPivot('delivery_price');
     }
 }

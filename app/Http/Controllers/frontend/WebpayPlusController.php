@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Transbank\Webpay\WebpayPlus;
 use Transbank\Webpay\WebpayPlus\Transaction;
 
+use Illuminate\Support\Facades\Http;
+
 class WebpayPlusController extends Controller
 {
     public function __construct(){
@@ -17,14 +19,54 @@ class WebpayPlusController extends Controller
         }
     }
 
+    //Old Transaction
+    // public function createdTransaction(Request $request)
+    // {
+    //     $req = $request->except('_token');
+    //     $resp = (new Transaction)->create($req["buy_order"], $req["session_id"], $req["amount"], $req["return_url"]);
+
+    //     return view('checkout/transaction_created', [ "params" => $req,"response" => $resp]);
+    // }
+
+    // public function createdTransaction(Request $request)
+    // {
+    //     $req = $request->except('_token');
+
+    //     // Create the transaction
+    //     $transaction = new Transaction;
+    //     $resp = $transaction->create($req["buy_order"], $req["session_id"], $req["amount"], $req["return_url"]);
+
+    //     // Redirect to the payment page
+    //     return redirect()->away($resp->getUrl());
+    // }
+
+    //Other approach 
     public function createdTransaction(Request $request)
     {
         $req = $request->except('_token');
-        $resp = (new Transaction)->create($req["buy_order"], $req["session_id"], $req["amount"], $req["return_url"]);
 
-        return view('checkout/transaction_created', [ "params" => $req,"response" => $resp]);
+        // Create the transaction
+        $transaction = new Transaction;
+        $resp = $transaction->create($req["buy_order"], $req["session_id"], $req["amount"], $req["return_url"]);
+
+        // Prepare the URL with token as query parameter
+        $paymentUrl = $resp->getUrl() . '?token_ws=' . $resp->getToken();
+
+        // Make a GET request to the payment gateway URL with the token
+        $response = Http::get($paymentUrl);
+
+        // Check if the request was successful
+        if ($response->successful()) {
+            // Process the response if needed
+            return $response->body();
+        } else {
+            // Handle the case when the request fails
+            return back()->withError('Failed to redirect to payment gateway.');
+        }
     }
 
+
+    //Return URL
     public function commitTransaction(Request $request)
     {
         //Flujo normal
@@ -32,7 +74,8 @@ class WebpayPlusController extends Controller
             $req = $request->except('_token');
             $resp = (new Transaction)->commit($req["token_ws"]);
 
-            return view('checkout/transaction_committed', ["resp" => $resp, 'req' => $req]);
+            // return view('checkout/transaction_committed', ["resp" => $resp, 'req' => $req]);
+            return view('order_end', ["resp" => $resp, 'req' => $req]);
         }
 
         //Pago abortado

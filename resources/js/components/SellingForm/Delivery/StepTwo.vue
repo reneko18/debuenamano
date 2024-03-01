@@ -1,4 +1,4 @@
-<template>  
+<template> 
     <div class="modulo-pasos">
         <div class="row">
             <div class="col-lg-7 col-md-12">
@@ -13,10 +13,10 @@
             </div>
         </div>
 
-        <div class="row col-md-11 mx-auto bank-form" v-if="!useBankDetails">
+        <div class="row col-md-11 mx-auto bank-form" v-if="useBankDetails">      
             <div class="col">
                 <div>
-                    <label for="infoPayName" class="form-label"
+                    <label for="infoPayName" class="form-label"       
                         >Nombre y apellido</label
                     >
                     <input
@@ -251,10 +251,10 @@ export default {
         return {
             // isValidRUT: false,
             bankDetails: [],
-            useBankDetails: '',
+            useBankDetails: this.userBank,
         };
     },
-    props: ['userId'],
+    props: ['userId','userBank'],
     emits: ["next-step", "constant-emitted", "active-subtitles"],
     setup(_, { emit }) {
         const mainStep = 4;

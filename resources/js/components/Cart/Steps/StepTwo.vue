@@ -1,5 +1,4 @@
 <template>
-    {{ formCart }}
     <div class="mb-5">
         <h2>Datos de contacto</h2>
         <div class="container mx-auto">        
@@ -31,19 +30,21 @@
         <div class="container mx-auto">        
             <div>            
                 <label for="street" class="form-label">Calle</label>
-                <input type="text" class="form-control" id="street">        
+                <input type="text" class="form-control" id="street" v-model="formCart.street">        
             </div>
             <div class="row">
                 <div class="col-6">
                     <label for="region" class="form-label">Región</label>
-                    <select id="region" class="form-select" v-model="selectedOri.regionCodeOri">
+                    <!-- <select id="region" class="form-select" v-model="selectedOri.regionCodeOri"> -->
+                    <select id="region" class="form-select" v-model="formCart.region">
                         <option disabled selected value="">Selecciona una region</option>
                         <option :value="r.regionId" v-for="r in regionsOri">{{ r.regionName }}</option>
                     </select>
                 </div>
                 <div class="col-6">
                     <label for="city" class="form-label">Ciudad</label>
-                    <select id="city" class="form-select" v-model="selectedCountyOri">
+                    <!-- <select id="city" class="form-select" v-model="selectedCountyOri"> -->
+                    <select id="city" class="form-select" v-model="formCart.city">
                         <option :value="com.countyCode" v-for="com in countiesOri">{{ com.countyName }}</option>
                     </select>
                 </div>
@@ -54,7 +55,7 @@
         </div>        
     </div>
 
-    <div class="row col-10 mx-auto mb-3 row-prod-cart" v-for="(item, index) in cartItems" :key="index">   
+    <!-- <div class="row col-10 mx-auto mb-3 row-prod-cart" v-for="(item, index) in cartItems" :key="index">   
         <div class="col-7 d-flex align-items-center">
             <img class="img-prod-cart" :src="'/' + item.galleries.url" :alt="item.galleries.alt">
             <h3>{{ item.name }}</h3>
@@ -64,13 +65,34 @@
                 <option
                     v-for="(service, serviceIndex) in item.services"
                     :key="serviceIndex"
-                    :value="service.serviceValue"
+                    :value="service"     
                 >
                     {{ service.serviceDescription }} - $ {{ service.serviceValue }}
                 </option>
             </select>
         </div>
+    </div> -->
+    <div class="row col-10 mx-auto mb-3 row-prod-cart" v-for="(item, index) in cartItems" :key="index">   
+        <div class="col-7 d-flex align-items-center">
+            <img class="img-prod-cart" :src="'/' + item.galleries.url" :alt="item.galleries.alt">
+            <h3>{{ item.name }}</h3>
+        </div>
+        <div class="col-5">
+            <select v-if="item.services" class="form-select" v-model="item.selectedService">  
+                <option
+                    v-for="(service, serviceIndex) in item.services"
+                    :key="serviceIndex"
+                    :value="service"     
+                >
+                    {{ service.serviceDescription }} - $ {{ service.serviceValue }}
+                </option>
+            </select>
+            <div v-else>
+                Loading services...
+            </div>
+        </div>
     </div>
+
     <div>
         <div class="col-8 ms-auto">
             <div class="subtotal-cart mb-2 pb-2">
@@ -79,7 +101,7 @@
             </div>
             <div class="subtotal-cart mb-2 pb-2" v-for="cart in cartItems">
                 <h3>Envío [ {{ cart.name }} ]</h3>
-                <span v-if="cart.selectedService"> $ {{ cart.selectedService }} </span>
+                <span v-if="cart.selectedService?.serviceValue"> $ {{ cart.selectedService?.serviceValue }} </span>
             </div>
             <div class="total-cart">
                 <h3>TOTAL</h3>
@@ -115,12 +137,15 @@ const previousStep = () => {
 const nextStep = () => {
     emit('next-step');
 };
+
+const formStore = useFormStore();
+const formCart = formStore.formCart;
 // Compute the total by summing up totalPrice and the shipping cost for each item
 const total = computed(() => {
     let shippingTotal = 0;
     for (const cart of cartItems.value) {
-        if (cart.selectedService) {
-            shippingTotal += +cart.selectedService; // Convert to number using unary plus operator
+        if (cart.selectedService?.serviceValue) {
+            shippingTotal += +cart.selectedService?.serviceValue; // Convert to number using unary plus operator
         }
     }
     const totalPrice = +props.totalPrice; // Convert totalPrice to a number
@@ -131,19 +156,11 @@ const cartItems = ref(props.cartItems);
 
 const regionsOri = ref([]);
 const countiesOri = ref([]);
-const selectedOri = ref({
-      regionCodeOri:'',
-});
+// const selectedOri = ref({
+//       regionCodeOri:'',
+// });
 const countiesLoaded = ref(false);
-const selectedCountyOri = ref('');
-
-const formCart = ref({
-    firstname: '',
-    lastname:'',
-    email:'',
-    phone:'',
-    street:'',
-})
+// const selectedCountyOri = ref('');
 
 // const cotizador = ref([]);
 
@@ -171,14 +188,16 @@ const getComunasOriChilexpress = async () => {
         const response = await axios.get(apiUrl, {
             params: {
                 api_key: apiKey,
-                RegionCode: selectedOri.value.regionCodeOri,
+                // RegionCode: selectedOri.value.regionCodeOri,
+                RegionCode: formCart.region,
                 type: 1,
             },
         });
 
         countiesOri.value = response.data.coverageAreas;      
         countiesLoaded.value = true;
-        selectedCountyOri.value = countiesOri.value[0].countyCode;
+        // selectedCountyOri.value = countiesOri.value[0].countyCode;
+        formCart.city = countiesOri.value[0].countyCode;
     } catch (error) {
         console.error(error);
     }
@@ -192,13 +211,38 @@ const getComunasOriChilexpress = async () => {
 //     }
 // };
 
+//LastCode
+// const getCotizasForCartItems = async () => {
+//     for (const item of Object.values(props.cartItems)) {
+//         const { weight, height, width, length, price, delivery_information } = item;
+//         const serviceOptions = await getCotizaChilexpress(delivery_information.city_code, weight, height, width, length, price);
+//         // item.services = serviceOptions; 
+//          // Update item.services
+//          item.services = serviceOptions;
+//         // Trigger reactivity with spread operator
+//         cartItems.value = [...cartItems.value];
+//     }
+// };
+
 const getCotizasForCartItems = async () => {
     for (const item of Object.values(props.cartItems)) {
         const { weight, height, width, length, price, delivery_information } = item;
         const serviceOptions = await getCotizaChilexpress(delivery_information.city_code, weight, height, width, length, price);
-        item.services = serviceOptions; // Update the services for the item
+        item.services = serviceOptions;
+        if (serviceOptions.length > 0) {
+            // Set the selected service to the first one
+            item.selectedService = serviceOptions[0];
+        } else {
+            // Handle if there are no service options available
+            item.selectedService = null; // or any other default value
+        }
+        // Trigger reactivity with spread operator
+        cartItems.value = [...cartItems.value];
     }
 };
+
+
+
 
 // const getCotizaChilexpress = async (originCountyCode, weight, height, width, length, price) => {
 //     const apiUrl = 'https://testservices.wschilexpress.com/rating/api/v1.0/rates/courier';
@@ -244,29 +288,29 @@ const getCotizasForCartItems = async () => {
 //     }
 // };
 
-
+//Last Code
 const getCotizaChilexpress = async (originCountyCode, weight, height, width, length, price) => {
-    const apiUrl = 'https://testservices.wschilexpress.com/rating/api/v1.0/rates/courier';
-    const body = {
-        "originCountyCode": originCountyCode,
-        "destinationCountyCode": selectedCountyOri.value,
-        "package": {
-            "weight": weight,
-            "height": height,
-            "width": width,
-            "length": length,
-        },
-        "producttype": 3,
-        "declaredWorth": price,
-        "deliveryTime": 0,
-    };
+const apiUrl = 'https://testservices.wschilexpress.com/rating/api/v1.0/rates/courier';
+const body = {
+    "originCountyCode": originCountyCode,
+    // "destinationCountyCode": selectedCountyOri.value,
+    "destinationCountyCode": formCart.city,
+    "package": {
+        "weight": weight,
+        "height": height,
+        "width": width,
+        "length": length,
+    },
+    "producttype": 3,
+    "declaredWorth": price,
+    "deliveryTime": 0,
+};
 
-    const headers = {
-        'Content-Type': 'application/json',
-        'Cache-Control': 'no-cache',
-        'Ocp-Apim-Subscription-Key': '616e20bc17454bd4b97a37aa1642d46d',
-    };
-
+const headers = {
+    'Content-Type': 'application/json',
+    'Cache-Control': 'no-cache',
+    'Ocp-Apim-Subscription-Key': '616e20bc17454bd4b97a37aa1642d46d',
+};
     try {
         const response = await axios.post(apiUrl, body, { headers });
         const serviceOptions = response.data.data.courierServiceOptions;
@@ -279,7 +323,17 @@ const getCotizaChilexpress = async (originCountyCode, weight, height, width, len
 };
 
 
-watch(selectedOri, () => {
+
+
+// watch(selectedOri, () => {
+//     getComunasOriChilexpress(); 
+// }, { deep: true });
+
+// watch(formCart.region, () => {
+//     getComunasOriChilexpress(); 
+// }, { deep: true });
+
+watch(() => formCart.region, () => {
     getComunasOriChilexpress(); 
 }, { deep: true });
 
@@ -317,3 +371,6 @@ onMounted(() => {
     font-weight:700;
 }
 </style>
+
+
+

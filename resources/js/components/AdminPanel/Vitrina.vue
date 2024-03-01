@@ -136,8 +136,7 @@ const mediaTypes = ref([
 
 const fetchProducts = async () => {
     try {
-        const response = await axios.get("/api/vitrina");
-        console.log("API Response:", response);
+        const response = await axios.get("/api/vitrina");  
 
         // Check the structure of the response and update the mapping accordingly
         products.value = response.data.map((item) => ({

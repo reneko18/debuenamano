@@ -3,12 +3,12 @@
         <div class="container d-flex justify-content-end">
                 @auth
                     @if(isset($cartCount) && $cartCount > 0)
-                        <a href="{{ route('cart.index') }}" style="color: #fff; text-decoration: none;">Cart ({{ $cartCount }} items)</a>
+                        <a href="{{ route('newcart.index') }}" style="color: #fff; text-decoration: none;">Cart ({{ $cartCount }} items)</a>
                     @else
                         <p>Your cart is empty.</p>
                     @endif
                 @else    
-                    <a href="{{ route('cart.index') }}" style="color:#fff;text-decoration:none;">Cart ({{ count(Session::get('cart', [])) }} items)</a>
+                    <a href="{{ route('newcart.index') }}" style="color:#fff;text-decoration:none;">Cart ({{ count(Session::get('cart', [])) }} items)</a>
                 @endauth
                 @auth
                     <div style="color:#fff;">
@@ -54,7 +54,7 @@
                         </svg>
                     </a></li>
                     <li>
-                        <a class="cart" href="#">
+                        <a class="cart" href="{{ route('newcart.index') }}">
                             <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
                                 <path fill-rule="evenodd" clip-rule="evenodd" d="M0.566284 0.738281C0.290142 0.738281 0.0662842 0.962139 0.0662842 1.23828C0.0662842 1.51442 0.290142 1.73828 0.566284 1.73828H2.96629L3.58409 4.82497C3.58653 4.84135 3.58977 4.85747 3.59377 4.8733L4.76832 10.7417L4.7684 10.7421C4.85556 11.1804 5.09408 11.5742 5.44223 11.8544C5.78915 12.1337 6.22291 12.2826 6.6681 12.2752H13.4872C13.9324 12.2826 14.3661 12.1337 14.713 11.8544C15.0613 11.5741 15.2998 11.1802 15.3869 10.7417L15.3877 10.7379L16.5116 4.84426C16.5395 4.69788 16.5007 4.54669 16.4057 4.43187C16.3107 4.31706 16.1695 4.25059 16.0205 4.25059H4.48896L3.86641 1.14015C3.81964 0.906474 3.61445 0.738281 3.37614 0.738281H0.566284ZM6.18448 16.7389C6.98516 16.7389 7.63424 16.0898 7.63424 15.2891C7.63424 14.4884 6.98516 13.8394 6.18448 13.8394C5.3838 13.8394 4.73472 14.4884 4.73472 15.2891C4.73472 16.0898 5.3838 16.7389 6.18448 16.7389ZM15.3624 15.2891C15.3624 16.0898 14.7133 16.7389 13.9126 16.7389C13.112 16.7389 12.4629 16.0898 12.4629 15.2891C12.4629 14.4884 13.112 13.8394 13.9126 13.8394C14.7133 13.8394 15.3624 14.4884 15.3624 15.2891Z" fill="white"/>
                             </svg>

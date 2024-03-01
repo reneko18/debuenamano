@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\AuthorController;
 use App\Http\Controllers\Api\CartController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\CityController;
+use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\PostCategoryController;
 use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\ProductController;
@@ -31,6 +32,7 @@ Route::get('/table/purchase/{user_id}', [ProductController::class, 'getProductsP
 
 //Test Admin by Case
 Route::get('/table/adminpublish', [ProductController::class, 'getProductsAdminPublishedByUserId']);
+Route::get('/table/adminselling', [ProductController::class, 'getProductsAdminSellingByUserId']);
 
 //Get products En Vitirina
 Route::get('/vitrina',[ProductController::class, 'getProductsByPublishStatus']);
@@ -87,6 +89,14 @@ Route::get('/cart/count',[CartController::class,'count'])->name('cart.count');
 
 //Cart Controller Products 
 // Route::apiResource('/cart', CartController::class);
+
+//CART TOTAL
+Route::post('/update-total', [CartController::class, 'updateTotal'])->name('update.total');
+
+//API ORDER
+
+Route::post('/orders', [OrderController::class, 'storeOrder'])->name('store.order');
+
 
 
 

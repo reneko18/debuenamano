@@ -39,7 +39,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ProductContactTableSeeder::class);       
         //$this->call(StatusProductsTableSeeder::class);
         Product::factory(40)->create();
-        Order::factory(20)->create();
+        // Order::factory(20)->create();
         $this->call(ProductContactProductSeeder::class);
         $this->call(RegionsTableSeeder::class);
         $this->call(CitiesTableSeeder::class);

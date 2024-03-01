@@ -25,5 +25,6 @@
     {{-- @stack('img-profil') --}}
     @stack('password-eye')
     @stack('confetti')
+    @stack('ajax-cart')
 </body>
 </html>
