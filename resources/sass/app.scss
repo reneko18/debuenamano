@@ -195,6 +195,15 @@ h3 {
     margin-bottom: 32px;
 }
 
+.proceso div { 
+    flex: 1 1 0px;
+    margin: 0 5px;
+}
+.proceso div h3 {
+    font-size: 0.9rem;
+    margin-top: 15px;
+}
+
 .titulo-paso-activo {
     color: #728c54;
     font-family: "Quicksand", sans-serif;
@@ -709,6 +718,7 @@ label {
 
 /*FOOTER *******************************************************/
 footer {
+    /*margin-top: 160px;    --> Quitar margin top a footer para las páginas que lo fusionan con su ultima sección */ 
     background-color: #344026;
     color: #fff;
 }
@@ -758,23 +768,26 @@ footer a {
     background-color: #d29c37;
     padding: 12px 0;
 }
-.bottom-footer .nav-bottom-footer {
-    padding: 0;
-    margin: 0;
+.bottom-footer .nav-bottom-footer { padding:0; margin: 0; }
+.bottom-footer .nav-bottom-footer li { padding-left: 0; list-style-type: none; display: inline; }
+.bottom-footer .nav-bottom-footer li a { font-size: 13px; text-decoration: none; margin-left: 12px; }
+.bottom-footer .nav-bottom-footer li a:hover { color: #344026; text-decoration: underline; } 
+
+.social-icons .circle {
+    margin-right: 10px;
+    width: 40px;
+    height: 40px;
+    border: 2px dotted #D29C37;
+    border-radius: 50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
 }
-.bottom-footer .nav-bottom-footer li {
-    padding-left: 0;
-    list-style-type: none;
-    display: inline;
-}
-.bottom-footer .nav-bottom-footer li a {
-    font-size: 13px;
-    text-decoration: none;
-    margin-left: 12px;
-}
-.bottom-footer .nav-bottom-footer li a:hover {
+
+.social-icons .circle:hover, .social-icons .circle:hover > svg path {
+    fill: #344026;
     color: #344026;
-    text-decoration: underline;
+    background-color: #D29C37;
 }
 
 /* SINGLE PRODUCT *******************************************************/
@@ -1140,3 +1153,12 @@ h1.parallax-txt {
   .save-edit-pro{
     margin-right: 3rem;
   }
+
+
+/* Container  ****************************************************** */
+.col-md-5-grid {
+    width: 35%;
+    position: absolute;
+    right:10%;
+    top:-100%;
+}
