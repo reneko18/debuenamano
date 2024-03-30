@@ -17,8 +17,7 @@ class OrderController extends Controller
 {
     public function storeOrder(Request $request)
     {
-            // Validate the request data as needed
-
+            // Validate the request data as needed          
             // Create a new user record
             $timestamp = now()->timestamp;
             $password = Str::random(10); // Generate a random password with 10 characters
@@ -27,6 +26,9 @@ class OrderController extends Controller
                 'lastname' => $request->form['lastname'],
                 'email' => $request->form['email'],
                 'phone' => $request->form['phone'],
+                'address' => $request->form['address'],
+                'region' => $request->form['region']['regionName'],
+                'city' => $request->form['city']['countyName'],
                 'password' => Hash::make($password), // Hash the generated password
                 'slug' => Str::slug($request->form['firstname'] . '-' . $request->form['lastname'] . '-' . $timestamp),
             ]);
@@ -57,7 +59,11 @@ class OrderController extends Controller
             }
 
             // Update the publish_status of the product
-            $product->update(['publish_status' => 'Vendido']);
+            $product->update([
+                'publish_status' => 'Vendido',
+                'admin_status' => 'Comprado',                
+                'sell_date' => now()->format('d/m/Y'),
+            ]);
 
             // You can return a response indicating the success of the operation
             return response()->json(['message' => 'Order created successfully'], 201);

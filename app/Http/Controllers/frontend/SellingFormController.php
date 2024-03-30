@@ -28,4 +28,15 @@ class SellingFormController extends Controller
     {
         return view('selling.success');
     }
+
+    public function display(User $user)
+    {
+        // Get the authenticated user
+        $user = auth()->user();
+
+        // Eager load the bankDetail relation
+        $user->load('bankDetail');
+
+        return view('selling.formtest', compact('user'));
+    }
 }

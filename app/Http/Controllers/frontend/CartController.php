@@ -53,12 +53,14 @@ class CartController extends Controller
                     if (!$user->cart) {
                         // If not, create a new cart for the user
                         $user->cart()->create();
+                        // Reload the user instance to fetch the newly created cart
+                        $user->refresh();
                     }
 
                     // Check if the product is already in the cart
-                    if ($user->cart->products->contains($product->id)) {
+                    if ($user->cart->products()->where('product_id', $product->id)->exists()) {
                         // If so, increment the quantity
-                        $user->cart->products()->updateExistingPivot($product->id, ['quantity' => $user->cart->products->find($product->id)->pivot->quantity + 1]);
+                        $user->cart->products()->updateExistingPivot($product->id, ['quantity' => $user->cart->products()->find($product->id)->pivot->quantity + 1]);
                     } else {
                         // If not, add the product to the cart
                         $user->cart->products()->attach($product->id, ['quantity' => 1]);
@@ -77,7 +79,15 @@ class CartController extends Controller
                 } else {
                     // Fetch delivery information for the product
                     $deliveryInformation = $product->deliveryInformation;
-                    $galleries = $product->galleries;
+                    $galleriesData = [];
+                    // $galleries = $product->galleries;
+                    // Iterate over each gallery and add its data to the $galleriesData array
+                    foreach ($product->galleries as $gallery) {
+                        $galleriesData[] = [
+                            'url' => $gallery->url,
+                            'alt' => $gallery->alt,
+                        ];
+                    }
                     // If not, add the product to the cart
                     $cart[$product->id] = [
                         'id' => $product->id,
@@ -99,10 +109,11 @@ class CartController extends Controller
                             'address_number' => $deliveryInformation->address_number,
                             'dpto_house' => $deliveryInformation->dpto_house,
                         ],
-                        'galleries' => $galleries->isNotEmpty() ? [
-                            'url' => $galleries->first()->url,
-                            'alt' => $galleries->first()->alt,
-                        ] : null,                                                               
+                        // 'galleries' => $galleries->isNotEmpty() ? [
+                        //     'url' => $galleries->first()->url,
+                        //     'alt' => $galleries->first()->alt,
+                        // ] : null, 
+                        'galleries' => $galleriesData ?: null,                                                              
                     ];
                 }
 
@@ -160,8 +171,12 @@ class CartController extends Controller
             }
     
             // Retrieve the cart items from the database
-            $cartItems = $user->cart->products ?? [];
+            $cartItems = $user->cart->products()->with('galleries', 'deliveryInformation')->get();            
+
             $totalPrice = 0;
+            //Ver para mas tarde esto
+            $buyOrder = 18;
+            $sessionId = 12345;
     
             if (!empty($cartItems)) {
                 // If $cartItems is not empty, calculate the total price
@@ -174,7 +189,7 @@ class CartController extends Controller
             $totalPrice = collect($cartItems)->sum('price');
             $buyOrder = 18;
             $sessionId = 12345;
-        }
+        } 
 
         return view('cart.newcart',compact('cartItems','totalPrice','buyOrder','sessionId','total'));
     }

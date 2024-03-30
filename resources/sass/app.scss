@@ -508,83 +508,30 @@ label {
 }
 
 /*PASO DE LAS DIMENSIONES*************************************** */
-.cont-dimen-1 {
+.cont-dimen-1, .cont-dimen-2 {
     margin-bottom: 4rem;
 }
-.cont-dimen-1 .row-main-dim, .edit-pro-admin.row-main-dim {
+.cont-dimen-1 .row-main-dim, .cont-dimen-2 .row-main-dim, .edit-pro-admin.row-main-dim {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
 }
-.cont-dimen-1 .row-child-dim, .edit-pro-admin .row-child-dim {
+.modulo-pasos .cont-dimen-1 .row-main-dim{
+    width:100%;
+    max-width: 700px;
+}
+.cont-dimen-1 .row-child-dim,.cont-dimen-2 .row-child-dim, .edit-pro-admin .row-child-dim {
     display: flex;
     flex-direction: row;
 }
-.cont-dimen-1 .row-child-dim .col-dim:first-child, .edit-pro-admin .row-child-dim .col-dim:first-child{
+.cont-dimen-1 .row-child-dim .col-dim:first-child,.cont-dimen-2 .row-child-dim .col-dim:first-child, .edit-pro-admin .row-child-dim .col-dim:first-child{
     margin-right: 0.5rem;
 }
-.cont-dimen-1 .col-dim, .edit-pro-admin .col-dim {
+.cont-dimen-1 .col-dim,.cont-dimen-2 .col-dim, .edit-pro-admin .col-dim {
     width: 100%;
     max-width: 82px;
 }
 
-.cont-dimen-2 label {
-    width: 100%;
-    height: auto;
-    background-color: #fff;
-    border-radius: 2px;
-    border: 1px dashed #c0c6b9;
-    padding: 1.8rem 1rem;
-    margin-bottom: 1rem;
-}
-.cont-dimen-2 label:hover {
-    background-color: #728c54 !important;
-    border-radius: 2px;
-    border-color: #c0c6b9 !important;
-    border: 1px dashed #c0c6b9;
-}
-.cont-dimen-2 label:hover span {
-    color: #fff !important;
-}
-.cont-dimen-2 .col-det {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-}
-.cont-dimen-2 .size-tit {
-    font-size: 9px;
-    font-weight: 700;
-    color: #454545;
-    text-transform: uppercase;
-    line-height: 14px;
-    margin-bottom: 2px;
-}
-.cont-dimen-2 .size {
-    font-family: "Quicksand", sans-serif;
-    font-size: 18px;
-    font-weight: 700;
-    color: #728c54;
-    line-height: 16px;
-}
-.cont-dimen-2 .un-tit {
-    font-size: 14px;
-    font-weight: 700;
-    color: #454545;
-    line-height: 14px;
-    margin-bottom: 4px;
-}
-.cont-dimen-2 .un {
-    font-size: 14px;
-    font-weight: 400;
-    color: #1b1f22;
-    line-height: 14px;
-}
-.cont-dimen-2 .btn-check:checked + .btn {
-    background-color: #728c54;
-}
-.cont-dimen-2 .btn-check:checked + .btn span {
-    color: #fff;
-}
 
 /*FORM PRECIO*********************************/
 .input-precio {

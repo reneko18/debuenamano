@@ -10,21 +10,27 @@
             <span class="input-group-text"
                 ><font-awesome-icon :icon="['fas', 'magnifying-glass']"
             /></span>
-        </div>
+        </div>     
         <DataTable
             :value="products"
             v-model:filters="filters"
             paginator
             :rows="5"
             :rowsPerPageOptions="[5, 10, 20, 50]"
-            :globalFilterFields="['name', 'price']"
+            :globalFilterFields="['sku','name', 'price']"
         >
+            <Column field="sku" header="Sku" :filter="true">
+                <template #body="slotProps">
+                    <a :href="slotProps.data.editUrl">{{ slotProps.data.sku }}</a>
+                </template>
+            </Column>
             <Column field="name" header="Articulo" :filter="true"></Column>
             <Column
                 :field="getCategoryName"
                 header="Categoria"
                 :filter="true"
             ></Column>
+            <Column :field="getFormatDate" header="Fecha publicacion"></Column>
             <Column field="selling_status" header="Disponible">
                 <template #body="slotProps">
                     <!-- <Dropdown
@@ -94,11 +100,6 @@
             ></Column>
             <Column field="sellerMail" header="Correo" :filter="true"></Column>
             <Column :field="getFormattedPrice" header="Precio"></Column>
-            <Column header="Enlace">
-                <template #body="slotProps">
-                    <a :href="slotProps.data.editUrl"> ver ficha </a>
-                </template>
-            </Column>
             <Column header="Acciones">
                 <template #body="slotProps">
                     <Button icon="pi pi-pencil" outlined rounded />
@@ -110,7 +111,12 @@
                     />
                 </template>
             </Column>
-        </DataTable>
+            <Column header="En vitrina">
+                <template #body="slotProps">
+                    <InputSwitch :modelValue="getProductVisibleStatus(slotProps.data)" @update:modelValue="(val) => updateVisibleStatus(slotProps.data, val)" />
+                </template>
+            </Column>
+        </DataTable>  
     </div>
 </template>
 <script setup>
@@ -121,6 +127,7 @@ import Column from "primevue/column";
 import Dropdown from "primevue/dropdown";
 import Button from "primevue/button";
 import Checkbox from "primevue/checkbox";
+import InputSwitch from 'primevue/inputswitch';
 
 const filters = ref({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -148,6 +155,7 @@ const fetchProducts = async () => {
             categoryName: item.product.category
                 ? item.product.category.name
                 : null,
+            formattedDate:  formatDate(item.product.created_at),
             formattedPrice: formatPrice(item.product.price),
             selectedAvailable: item.product.selling_status,
             selectedMedia: item.product.product_contacts.map((pc) => pc.id),
@@ -206,6 +214,19 @@ const formatPrice = (price) => {
     }
 };
 
+const formatDate = (date) => {
+    const dateObject = new Date(date);
+    const day = dateObject.getDate().toString().padStart(2, '0');
+    const month = (dateObject.getMonth() + 1).toString().padStart(2, '0');
+    const year = dateObject.getFullYear();
+    const finalDate = `${day}/${month}/${year}`;
+    return finalDate;
+};
+
+const getFormatDate = (rowData) => {
+    return rowData.formattedDate;
+}
+
 const getFormattedPrice = (rowData) => {
     return rowData.formattedPrice;
 };
@@ -213,6 +234,25 @@ const getFormattedPrice = (rowData) => {
 const getCategoryName = (rowData) => {
     return rowData.categoryName;
 };
+
+const updateVisibleStatus = (product, newValue) => {
+  const newVisibleStatus = newValue ? 'Si' : 'No';
+  product.visible_status = newVisibleStatus;
+  updateProductVisibilityInDatabase(product.slug, newVisibleStatus);
+};
+
+const updateProductVisibilityInDatabase = async (productSlug, visibleStatus) => {
+  try {
+    await axios.put(`/api/products/visible-status/${productSlug}`, { visible_status: visibleStatus });
+    console.log('Product visibility updated in the database');
+    fetchProducts();
+  } catch (error) {
+    console.error('Error updating product visibility:', error);
+  }
+};
+
+// Computed property to convert visible_status to boolean for InputSwitch
+const getProductVisibleStatus = (product) => product.visible_status === 'Si';
 
 onMounted(() => {
     fetchProducts();

@@ -77,59 +77,46 @@
         </button>
     </div>
 </template>
-<script>
-import { useFormStore } from "../../../stores/values";
-import { ref,onMounted } from "vue";
-export default {
-    emits: ["next-step", "constant-emitted"],
-    setup(_, { emit }) {
-        const mainStep = 2;
+<script setup>
+import { useFormStore } from "../../../stores/valuesTwo";
+import { ref, onMounted, defineEmits } from "vue";
 
-        const formStore = useFormStore();
+const emit  = defineEmits(["next-step", "constant-emitted"]);
 
-        const formData = formStore.formData;
+const mainStep = 2;
+const formStore = useFormStore();
+const formData = formStore.formData;
+const errorMessageStatus = ref('');
+const errorMessageUsageTime = ref('');
 
-        const errorMessageStatus = ref('');
-        const errorMessageUsageTime = ref('');
+const nextStep = () => {
+    if (!formData.stepFourState) {
+        // Set an error message and prevent the form from proceeding
+        errorMessageStatus.value = "Por favor, ingrese un estado para el articulo";
+        return;
+    }
+    if (!formData.stepFourUsageTime && formData.stepFourState !== 'Sin uso') {
+        // Set an error message and prevent the form from proceeding
+        errorMessageUsageTime.value = "Por favor, ingrese un tiempo de uso";
+        return;
+    }
+    errorMessageStatus.value = null;
+    errorMessageUsageTime.value = null;
 
-        const nextStep = () => {
-            if (!formData.stepFourState) {
-                // Set an error message and prevent the form from proceeding
-                errorMessageStatus.value = "Por favor, ingrese un estado para el articulo";
-                return;
-            }
-            if (!formData.stepFourUsageTime && formData.stepFourState !== 'Sin uso') {
-                // Set an error message and prevent the form from proceeding
-                errorMessageUsageTime.value = "Por favor, ingrese un tiempo de uso";
-                return;
-            }
-            errorMessageStatus.value = null;
-            errorMessageUsageTime.value = null;
-
-            formStore.setFormData(formData);
-            emit("next-step");
-        };
-
-        onMounted(() => {
-            emit("constant-emitted", mainStep);
-        });
-
-        return {
-            formData,
-            errorMessageStatus,
-            errorMessageUsageTime,
-            nextStep,
-        };
-    },
-    methods: {
-        handleNumericInput(fieldName) {
-            // Get the current value from the corresponding data property
-            let value = this.formData[fieldName];
-            // Apply the numeric filtering logic
-            value = value.replace(/[^0-9]/g, '');
-            // Update the corresponding data property
-            this.formData[fieldName] = value;
-        },
-    },
+    formStore.setFormData(formData);
+    emit("next-step");
 };
+
+const handleNumericInput = (fieldName) => {
+    // Get the current value from the corresponding data property
+    let value = formData[fieldName];
+    // Apply the numeric filtering logic
+    value = value.replace(/[^0-9]/g, '');
+    // Update the corresponding data property
+    formData[fieldName] = value;
+};
+
+onMounted(() => {
+    emit("constant-emitted", mainStep);
+});
 </script>

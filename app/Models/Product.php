@@ -37,6 +37,12 @@ protected $fillable = [
     'price', 
     'publish_status',
     'selling_status', 
+    'admin_status', 
+    'visible_status', 
+    'payment_status', 
+    'sell_date',
+    'sku',
+    'slug',
     'product_contacts'
 ];
 

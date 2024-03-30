@@ -566,7 +566,7 @@
                                 Selecciona tu comuna
                             </option>
                             <option
-                                :value="com.countyName"
+                                :value="com"
                                 v-for="com in cities"
                             >
                                 {{ com.countyName }}
@@ -663,7 +663,7 @@
                                     Selecciona tu comuna
                                 </option>
                                 <option
-                                    :value="com.countyName"
+                                    :value="com"
                                     v-for="com in cities"
                                 >
                                     {{ com.countyName }}
@@ -1014,7 +1014,7 @@ export default {
                     },
                     params: {
                         RegionCode: regionCode,
-                        CountyName: cityName,
+                        CountyName: cityName.countyName,
                     },
                 });
 
@@ -1166,7 +1166,6 @@ export default {
         },
         async submitForm() {
             try {
-                console.log(this.formData);
                 const csrfToken = document.head.querySelector(
                     'meta[name="csrf-token"]'
                 ).content;
@@ -1183,7 +1182,7 @@ export default {
                 );
 
                 console.log(response);
-                window.location.href = "/exito-producto-venta";
+                window.location.href = "/exito-producto-venta";                
             } catch (error) {
                 console.error(error.response.data);
             }

@@ -34,6 +34,7 @@ import { faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 import { faEye } from "@fortawesome/free-regular-svg-icons";
 import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
 import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
 
 /* add icons to the library */
 library.add(
@@ -48,7 +49,8 @@ library.add(
     faEye,
     faEyeSlash,
     faAngleLeft,
-    faAngleRight
+    faAngleRight,
+    faCheck
 );
 
 const app = createApp({});
@@ -56,6 +58,7 @@ const pinia = createPinia();
 
 import { Bootstrap5Pagination } from "laravel-vue-pagination";
 import NewSellingForm from "./views/NewSellingForm.vue";
+import SellingFormTwo from "./views/SellingFormTwo.vue";
 import PostsLoop from "./components/Post/PostsLoopComponent.vue";
 import Chilexpress from "./components/TestChilexpress.vue";
 import PostAdminTable from "./components/Post/PostAdminTable.vue";
@@ -73,6 +76,7 @@ app.use(pinia);
 app.use(vueClickOutsideElement);
 app.use(router);
 app.component("new-selling-form-product", NewSellingForm);
+app.component("selling-form-product-two", SellingFormTwo);
 app.component("Bootstrap5Pagination", Bootstrap5Pagination);
 app.component("posts-loop", PostsLoop);
 app.component("post-table", PostAdminTable);

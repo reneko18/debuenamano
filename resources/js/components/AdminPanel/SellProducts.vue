@@ -18,26 +18,100 @@
             :rows="5"
             :rowsPerPageOptions="[5, 10, 20, 50]"
             :globalFilterFields="[
+                'sku',
                 'name',
                 'price',
-                'sellerName',
+                'sellerFullName',
+                'originZone',
+                'destinyZone',
+                'buyerFullName',
                 'publish_status',
             ]"
         >
+            <Column field="sku" header="Sku" :filter="true">
+                <template #body="slotProps">
+                    <a :href="slotProps.data.editUrl">{{ slotProps.data.sku }}</a>
+                </template>
+            </Column>
             <Column field="name" header="Articulo" :filter="true"></Column>
             <Column
                 :field="getCategoryName"
                 header="Categoria"
                 :filter="true"
             ></Column>
-            <Column :field="getFormatDate" header="Fecha publicacion"></Column>
             <Column
                 field="sellerFullName"
                 header="Vendedor"
                 :filter="true"
             ></Column>
-            <Column :field="getFormattedPrice" header="Precio"></Column>
-            <Column field="publish_status" header="Estado"></Column>
+            <Column :field="getFormatDate" header="Fecha publicacion"></Column>
+            <Column field="sell_date" header="Fecha de venta"></Column>
+            <Column
+                field="buyerFullName"
+                header="Comprador"
+                :filter="true"
+            ></Column>
+            <Column
+                field="originZone"
+                header="Origen"
+                :filter="true"
+            ></Column>         
+            <Column 
+                field="publish_status" 
+                header="Estados"
+            >
+                <template #body="slotProps">
+                    <select
+                        class="form-select"
+                        v-model="slotProps.data.admin_status"
+                        @change="updateAdminStatus(slotProps.data)"
+                    >
+                        <option
+                            value="Comprado"
+                            :selected="slotProps.data.admin_status === 'Comprado'"
+                        >
+                            Comprado
+                        </option>
+                        <option
+                            value="En Courier"
+                            :selected="
+                                slotProps.data.admin_status === 'En Courier'
+                            "
+                        >
+                            En Courier                           
+                        </option>
+                        <option
+                            value="Entregado"
+                            :selected="
+                                slotProps.data.admin_status === 'Entregado'
+                            "
+                        >
+                            Entregado                           
+                        </option>
+                        <option
+                            value="Devuelto"
+                            :selected="
+                                slotProps.data.admin_status === 'Devuelto'
+                            "
+                        >
+                            Devuelto                           
+                        </option>
+                        <option
+                            value="Finalizado"
+                            :selected="
+                                slotProps.data.admin_status === 'Finalizado'
+                            "
+                        >
+                            Finalizado                           
+                        </option>
+                    </select>
+                </template>            
+            </Column>
+            <Column :field="getFormattedDeliveryPrice" header="Monto envio">
+                <template #body="slotProps">
+                    <span><strong>{{ slotProps.data.formattedDeliveryPrice }}</strong></span>
+                </template>
+            </Column>
         </DataTable>
     </div>
 </template>
@@ -53,19 +127,25 @@ const filters = ref({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
 });
 
+const emit = defineEmits(["update-closed-sells"]);
 
 const fetchData = async () => {
     try {
         const response = await axios.get("/api/table/adminselling");
+        console.log(response.data);
         products.value = response.data.map((item) => ({
             ...item.product,
+            editUrl: `/admin/productos/${item.product.slug}/edit`, 
             categoryName: item.product.category
                 ? item.product.category.name
                 : null,
             formattedDate:  formatDate(item.product.created_at),
             formattedPrice: formatPrice(item.product.price),
-            sellerFullName: item.sellerFullName,           
-        }));       
+            sellerFullName: item.sellerFullName,        
+            buyerFullName: item.buyerFullName,
+            originZone: item.product.delivery_information.city_name + ' - ' + item.product.delivery_information.region_name,  
+            formattedDeliveryPrice: formatPrice(item.deliveryPrice),
+        }));     
     } catch (error) {
         console.error("Error fetching data:", error);
     }
@@ -105,8 +185,29 @@ const getFormattedPrice = (rowData) => {
     return rowData.formattedPrice;
 };
 
+const getFormattedDeliveryPrice = (rowData) => {
+    return rowData.formattedDeliveryPrice;
+}
+
 const getCategoryName = (rowData) => {
     return rowData.categoryName;
+};
+
+const updateAdminStatus = async (product) => {
+    try {
+        const response = await axios.put(
+            `/api/products/admin-status/${product.slug}`,
+            {
+                product_admin_status: product.admin_status,
+            }
+        );
+
+        // Handle the response if needed
+        console.log("Product updated successfully:", response.data);
+        emit("update-closed-sells");
+    } catch (error) {
+        console.error("Error updating product:", error);
+    }
 };
 
 onMounted(() => {
@@ -147,5 +248,25 @@ onMounted(() => {
     font-size: 14px;
     font-weight: 400;
     color: #1b1f22;
+}
+
+.tab-content {
+    min-height: 271px;
+    padding: 20px;
+    border-radius: 6px;
+    background: #f9fafa;
+}
+
+.tabs__header {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin-bottom: 0;
+    margin-left: 12vw;
+}
+
+.tabs__header li.selected {
+    background-color: #344026;
+    color: #fff;
 }
 </style>

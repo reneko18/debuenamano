@@ -12,6 +12,9 @@
                 <span>
                     Comprados : <strong>{{ productsPurchasedCount }}</strong>
                 </span>
+                <span>
+                    Vendidos : <strong>{{ productsSoldCount }}</strong>
+                </span>
             </div>
         </div>
     </div>
@@ -36,11 +39,19 @@
                 />
             </Tab>
 
-            <Tab title="Tus compras">
+            <Tab title="Comprados">
                 <purchased
                     :user-id="userId"
                     @update-products-purchased-count="
                         updateProductsPurchasedCount
+                    "
+                />
+            </Tab>
+            <Tab title="Vendidos">
+                <sold 
+                    :user-id="userId"
+                    @update-products-sold-count="
+                        updateProductsSoldCount
                     "
                 />
             </Tab>
@@ -59,6 +70,7 @@ import Published from "../components/UserAdmin/Published.vue";
 import Displayed from "../components/UserAdmin/Displayed.vue";
 import Purchased from "../components/UserAdmin/Purchased.vue";
 import MyAccount from "../components/UserAdmin/MyAccount.vue";
+import Sold from "../components/UserAdmin/Sold.vue";
 const props = defineProps({
     userId: { type: Number, default: "" },
     userSlug: { type: String, default: "" },
@@ -67,6 +79,7 @@ const props = defineProps({
 const productsPublishedCount = ref("");
 const productsDisplayedCount = ref("");
 const productsPurchasedCount = ref("");
+const productsSoldCount = ref("");
 
 const updateProductsPublishedCount = (count) => {
     productsPublishedCount.value = count;
@@ -77,5 +90,9 @@ const updateProductsDisplayedCount = (count) => {
 };
 const updateProductsPurchasedCount = (count) => {
     productsPurchasedCount.value = count;
+};
+
+const updateProductsSoldCount = (count) => {
+    productsSoldCount.value = count;
 };
 </script>

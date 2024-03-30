@@ -58,16 +58,6 @@ export const useFormStore = defineStore("form", {
         characterCount: 0,
         characterCountObs: 0,
         characterCountReco: 0,
-        formCart:{
-            firstname: '',
-            lastname:'',
-            email:'',
-            phone:'',
-            address:'',
-            region:'',
-            city:'',
-            total:'',
-        },
     }),
     actions: {
         setFormData(formData) {

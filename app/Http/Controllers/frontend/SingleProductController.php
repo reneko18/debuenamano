@@ -15,8 +15,8 @@ class SingleProductController extends Controller
 
     public function singleShow(Product $product)
     {
-        $allp = Product::all()->random(4);
-        return view('product.single', compact('product','allp'));
+        // $allp = Product::all()->random(4);
+        return view('product.single', compact('product'));
     }
 
     public function loop()

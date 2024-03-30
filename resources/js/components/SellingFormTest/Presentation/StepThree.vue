@@ -227,7 +227,7 @@
                                 El peso del artículo es importante. Si no lo
                                 tienes a mano, te sugerimos buscar el dato en el
                                 sitio web del proveedor.
-                            </p>
+                            </p>                            
                         </div>
                     </div>
                 </div>
@@ -241,58 +241,85 @@
             />
         </button>
     </div>
+    <Toast />
 </template>
-<script>
-import { useFormStore } from "../../../stores/values";
-import { ref,onMounted } from "vue";
-export default {
-    data() {
-        return {
-            showTooltip: false,
-        };
-    },
-    emits: ["next-step", "constant-emitted", "active-subtitles"],
-    setup(_, { emit }) {
-        const mainStep = 1;
-        const subValue = 1;
-        const formStore = useFormStore();
+<script setup>
+import Toast from 'primevue/toast';
+import { useToast } from 'primevue/usetoast';
+import { useFormStore } from "../../../stores/valuesTwo";
+import { ref, onMounted, defineEmits } from "vue";
 
-        const formData = formStore.formData;
+const emit = defineEmits(["next-step", "constant-emitted", "active-subtitles","close-step"]);
 
-        const errorMessageSize = ref('');
+const toast = useToast();
 
-        onMounted(() => {
-            emit("constant-emitted", mainStep);
-        });
+const mainStep = 1;
+const subValue = 1;
+const closeStep = 1;
+const formStore = useFormStore();
+const formData = formStore.formData;
+const errorMessageSize = ref('');
 
-        const nextStep = () => {
-            if (!formData.stepThreeHeightReal || !formData.stepThreeWidthReal ||  !formData.stepThreeLengthReal || !formData.stepThreeHeight || !formData.stepThreeWidth ||  !formData.stepThreeLength || !formData.stepThreeWeight) {
-                // Set an error message and prevent the form from proceeding
-                errorMessageSize.value = "Por favor, complete todos los campos para las dimensiones.";
-                return;
-            }
-            errorMessageSize.value = null;
-
-            formStore.setFormData(formData);
+const nextStep = async () => {
+    if (!formData.stepThreeHeightReal || !formData.stepThreeWidthReal ||  !formData.stepThreeLengthReal || !formData.stepThreeHeight || !formData.stepThreeWidth ||  !formData.stepThreeLength || !formData.stepThreeWeight) {
+        // Set an error message and prevent the form from proceeding
+        errorMessageSize.value = "Por favor, complete todos los campos para las dimensiones.";
+        return;
+    }
+    errorMessageSize.value = null;
+    formStore.setFormData(formData);
+    try {
+        await submitForm();
+        toast.add({
+            severity: 'success',
+            summary: 'Success Message',
+            detail: 'Etapa de presentacion guardada con éxito',
+            life: 3000
+        });  
+        // Introduce a delay of 4 seconds before triggering the emits
+        setTimeout(() => {
             emit("next-step");
             emit("active-subtitles", subValue);
-        };
-
-        return {
-            formData,
-            errorMessageSize,
-            nextStep,
-        };
-    },
-    methods: {
-        handleNumericInput(fieldName) {
-            // Get the current value from the corresponding data property
-            let value = this.formData[fieldName];
-            // Apply the numeric filtering logic
-            value = value.replace(/[^0-9]/g, '');
-            // Update the corresponding data property
-            this.formData[fieldName] = value;
-        },
-    },
+            emit("close-step",closeStep);
+        }, 4000); 
+    } catch (error) {
+        console.error(error);
+    }
 };
+
+const handleNumericInput = (fieldName) => {
+    // Get the current value from the corresponding data property
+    let value = formData[fieldName];
+    // Apply the numeric filtering logic
+    value = value.replace(/[^0-9]/g, '');
+    // Update the corresponding data property
+    formData[fieldName] = value;
+};
+
+const submitForm = async () => {
+    try {
+        const csrfToken = document.head.querySelector(
+            'meta[name="csrf-token"]'
+        ).content;
+        console.log("CSRF Token:", csrfToken);  
+        console.log("Datos: ",formData);
+        const response = await axios.post(
+            "/api/product/store/one",
+            formData,
+            {
+                headers: {
+                    "X-CSRF-TOKEN": csrfToken,
+                },
+            }
+        );
+
+        console.log(response);             
+    } catch (error) {
+        console.error(error.response.data);
+    }
+};
+
+onMounted(() => {
+    emit("constant-emitted", mainStep);
+});
 </script>

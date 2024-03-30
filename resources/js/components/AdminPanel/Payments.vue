@@ -15,67 +15,70 @@
             :value="products"
             v-model:filters="filters"
             paginator
+            ref="dt"
             :rows="5"
             :rowsPerPageOptions="[5, 10, 20, 50]"
             :globalFilterFields="[
+                'sku',
                 'name',
                 'price',
-                'sellerName',
+                'sellerFullName',
+                'originZone',
+                'buyerFullName',
                 'publish_status',
             ]"
         >
+            <template #header>
+                <div style="text-align: left">
+                    <Button label="Export" @click="exportCSV($event)" />
+                </div>
+            </template>
+            <Column field="sku" header="Sku" :filter="true"></Column>
             <Column field="name" header="Articulo" :filter="true"></Column>
-            <Column :field="getFormatDate" header="Fecha publicacion"></Column>
-            <Column
-                :field="getCategoryName"
-                header="Categoria"
-                :filter="true"
-            ></Column>
             <Column
                 field="sellerFullName"
                 header="Vendedor"
                 :filter="true"
             ></Column>
-            <Column :field="getFormattedPrice" header="Precio"></Column>
-            <Column header="Enlace">
+            <Column field="sell_date" header="Fecha de venta"></Column>
+            <Column field="payment_date" header="Fecha de pago"></Column>
+            <Column :field="getFormattedTotalAmount" header="Monto pago">
                 <template #body="slotProps">
-                    <a :href="slotProps.data.editUrl"> ver ficha </a> 
+                    <span><strong>{{ slotProps.data.formattedTotalAmount }}</strong></span>
                 </template>
             </Column>
-            <Column field="publish_status" header="Estado"></Column>
-            <Column header="Acciones">
-                <template #body="slotProps">
-                    <Button icon="pi pi-trash" outlined rounded @click="confirmDelete(slotProps.data)"/>
-                </template>
-            </Column>
+            <Column field="iva" header="Iva"></Column>
+            <Column field="netAmount" header="Monto neto"></Column>
+            <Column field="orderId" header="N° orden de compra"></Column>
         </DataTable>
     </div>
-    <Dialog v-model="displayDialog" modal :visible="displayDialog" @hide="cancelDelete">
-      <span>Estas seguro que deseas eliminar este producto?</span>
-      <Button label="Anular" class="p-button-text" @click="cancelDelete" />
-      <Button label="Eliminar" class="p-button-text" @click="deleteConfirmed" />
-    </Dialog>
 </template>
-
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 import { FilterMatchMode } from "primevue/api";
 import DataTable from "primevue/datatable";
+import Button from 'primevue/button';
 import Column from "primevue/column";
-import Button from "primevue/button";
-import Dialog from 'primevue/dialog';
+
+const props = defineProps({
+    refreshData: { type: Boolean, default: "" },
+});
+
+const shouldRefresh = ref(props.refreshData);
+
+const dt = ref();
 const products = ref([]);
+const exportCSV = () => {
+    dt.value.exportCSV();
+};
+
 const filters = ref({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
 });
 
-const selectedProductId = ref(null);
-const selectedProductSlug = ref(null);
-const displayDialog = ref(false);
-
 const fetchData = async () => {
     try {
-        const response = await axios.get("/api/table/adminpublish");
+        const response = await axios.get("/api/table/adminpayments");
         products.value = response.data.map((item) => ({
             ...item.product,
             categoryName: item.product.category
@@ -83,9 +86,13 @@ const fetchData = async () => {
                 : null,
             formattedDate:  formatDate(item.product.created_at),
             formattedPrice: formatPrice(item.product.price),
-            sellerFullName: item.sellerFullName,
-            // editUrl: item.editUrl,
-            editUrl: `/admin/productos/${item.product.slug}/edit`,            
+            sellerFullName: item.sellerFullName,        
+            buyerFullName: item.buyerFullName,
+            originZone: item.product.delivery_information.city_name + ' - ' + item.product.delivery_information.region_name, 
+            formattedTotalAmount: formatPriceSum(parseInt(item.deliveryPrice) + parseInt(item.product.price)),
+            iva: formatPriceSum((parseInt(item.deliveryPrice) + parseInt(item.product.price))*0.19), 
+            netAmount: formatPriceSum((parseInt(item.deliveryPrice) + parseInt(item.product.price))*0.81),
+            orderId: item.orderId,
         }));       
     } catch (error) {
         console.error("Error fetching data:", error);
@@ -109,6 +116,23 @@ const formatPrice = (price) => {
     }
 };
 
+const formatPriceSum = (price) => {
+    const numericPrice = price;
+  
+    if (!isNaN(numericPrice) && typeof numericPrice === "number") { 
+        const formattedPrice = new Intl.NumberFormat("es-CL", {
+            style: "currency",
+            currency: "CLP",
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0,
+        }).format(numericPrice);
+
+        return formattedPrice;
+    } else {
+        return "Invalid Price";
+    }
+};
+
 const formatDate = (date) => {
     const dateObject = new Date(date);
     const day = dateObject.getDate().toString().padStart(2, '0');
@@ -116,6 +140,10 @@ const formatDate = (date) => {
     const year = dateObject.getFullYear();
     const finalDate = `${day}/${month}/${year}`;
     return finalDate;
+};
+
+const getFormattedTotalAmount = (rowData) => {
+    return rowData.formattedTotalAmount;
 };
 
 const getFormatDate = (rowData) => {
@@ -130,34 +158,18 @@ const getCategoryName = (rowData) => {
     return rowData.categoryName;
 };
 
-const confirmDelete = (product) => {
-  selectedProductId.value = product.id;
-  selectedProductSlug.value = product.slug;
-  displayDialog.value = true;
-};
-
-const cancelDelete = () => {
-  displayDialog.value = false;
-};
-
-const deleteConfirmed = async () => {   
-    if (selectedProductId.value !== null) {
-    try {
-      await axios.delete(`/api/products/delete/${selectedProductSlug.value}`);
-      const index = products.value.findIndex(product => product.id === selectedProductId.value);
-      if (index !== -1) {
-        products.value.splice(index, 1); // Remove the product at the found index
-      }
-      displayDialog.value = false;
-    } catch (error) {
-      console.error("Error deleting product:", error);
-    }
+// Watch for changes in the refresh prop
+watch(() => props.refreshData, (newValue) => {
+  if (newValue) {
+    fetchData(); // Fetch data again to refresh the component
+    shouldRefresh.value = false; // Reset the refresh flag
   }
-};
+});
 
 onMounted(() => {
     fetchData();
 });
+
 </script>
 
 <style scoped>

@@ -12,8 +12,10 @@ class DeliveryInformation extends Model
 
     protected $fillable = [
         'option',
-        'region',
-        'city',
+        'region_code',
+        'region_name',
+        'city_name',
+        'city_code',
         'chile_office',
         'address',
         'address_number',

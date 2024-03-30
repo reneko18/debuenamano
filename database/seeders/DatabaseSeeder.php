@@ -25,7 +25,7 @@ class DatabaseSeeder extends Seeder
     { 
 
         $this->call(RolesTableSeeder::class);
-        User::factory(10)->withCustomerRole()->create();
+        // User::factory(10)->withCustomerRole()->create();
         User::factory()->create([
             'name'  => 'Admin',
             'lastname'  => 'DBM',
@@ -36,11 +36,11 @@ class DatabaseSeeder extends Seeder
             'phone' => '',
         ])->assignRole('admin');
         $this->call(CategoriesTableSeeder::class);       
-        $this->call(ProductContactTableSeeder::class);       
-        //$this->call(StatusProductsTableSeeder::class);
-        Product::factory(40)->create();
+        // $this->call(ProductContactTableSeeder::class);       
+        // $this->call(StatusProductsTableSeeder::class);
+        // Product::factory(40)->create();
         // Order::factory(20)->create();
-        $this->call(ProductContactProductSeeder::class);
+        // $this->call(ProductContactProductSeeder::class);
         $this->call(RegionsTableSeeder::class);
         $this->call(CitiesTableSeeder::class);
         Author::factory(10)->create();

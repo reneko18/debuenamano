@@ -223,214 +223,183 @@
         </button>
     </div>
 </template>
-<script>
-import { useFormStore } from "../../../stores/values";
+<script setup>
 import { onMounted, watch, ref } from "vue";
-export default {
-    emits: ["next-step", "constant-emitted"],
-    data() {
-        return {
-            regions: [],
-            selected: {
-                region: "",
-                city: "",
-                street: "",
-            },
-            loading: false,
-        };
-    },
-    setup(_, { emit }) {
-        const selectedRef = ref({
-            region: "",
-            city: "",
-        });
-        const lastSelected = ref({
-            region: "",
-            city: "",
-        });
-        const cities = ref([]);
-        const offices = ref([]);
-        const mainStep = 4;
+import { useFormStore } from "../../../stores/valuesTwo";
 
-        const errorMessageRegion = ref('');
-        const errorMessageCity = ref('');
-        const errorMessageOficina = ref('');
-        const errorMessageRegionHouse = ref('');
-        const errorMessageCityHouse = ref('');
+const emit = defineEmits(["next-step", "constant-emitted"]);
 
-        const formStore = useFormStore();
-        const formData = formStore.formData;
+const selected = ref({
+    region: "",
+    city: "",
+});
 
-        const nextStep = () => {
-            if (formData.stepSevenSelectedSection === 'Chilexpress' && !formData.stepSevenRegion) {
-                // Set an error message and prevent the form from proceeding
-                errorMessageRegion.value = "Por favor, seleccione una region.";
-                return;
-            }
+const lastSelected = ref({
+    region: "",
+    city: "",
+});
 
-            if (formData.stepSevenSelectedSection === 'Chilexpress' && !formData.stepSevenCity) {
-                // Set an error message and prevent the form from proceeding
-                errorMessageCity.value = "Por favor, seleccione una ciudad.";
-                return;
-            }
-            if (formData.stepSevenSelectedSection === 'Chilexpress' && !formData.stepSevenChilexpressOffice) {
-                // Set an error message and prevent the form from proceeding
-                errorMessageOficina.value = "Por favor, seleccione una oficina";
-                return;
-            }
+const cities = ref([]);
+const offices = ref([]);
+const mainStep = 4;
 
-            if (formData.stepSevenSelectedSection === 'Domicilio' && !formData.stepSevenRegion) {
-                // Set an error message and prevent the form from proceeding
-                errorMessageRegionHouse.value = "Por favor, seleccione una region.";
-                return;
-            }
-            if (formData.stepSevenSelectedSection === 'Domicilio' && !formData.stepSevenCity) {
-                // Set an error message and prevent the form from proceeding
-                errorMessageCityHouse.value = "Por favor, seleccione una ciudad.";
-                return;
-            }
+const errorMessageRegion = ref('');
+const errorMessageCity = ref('');
+const errorMessageOficina = ref('');
+const errorMessageRegionHouse = ref('');
+const errorMessageCityHouse = ref('');
 
-            errorMessageRegion.value = null;
-            errorMessageCity.value = null;
-            errorMessageOficina.value = null;
-            errorMessageRegionHouse.value = null;
-            errorMessageCityHouse.value = null;
-            formStore.setFormData(formData);
-            emit("next-step");
-        };
+const formStore = useFormStore();
+const formData = formStore.formData;
 
-        const getComunasChilexpress = async function () {
-            const apiKey = "570f3f00500c433a9b2b94e7b4803c1b";
-            const apiUrl =
-                "https://testservices.wschilexpress.com/georeference/api/v1.0/coverage-areas";
+// Define and initialize regions as an empty array
+const regions = ref([]);
+const loading = ref(false); // Define loading as a ref and initialize it
 
-            try {
-                const response = await axios.get(apiUrl, {
-                    params: {
-                        api_key: apiKey,
-                        RegionCode: selectedRef.value.region,
-                        type: 1,
-                    },
-                });
-                cities.value = response.data.coverageAreas;
-            } catch (error) {
-                console.error("Error fetching cities:", error);
-            }
-        };
+const nextStep = () => {
+    if (formData.stepSevenSelectedSection === 'Chilexpress' && !formData.stepSevenRegion) {
+        // Set an error message and prevent the form from proceeding
+        errorMessageRegion.value = "Por favor, seleccione una region.";
+        return;
+    }
 
-        const getCoberturaOptions = async function () {
-            const apiUrl =
-            "https://testservices.wschilexpress.com/georeference/api/v1.0/offices?Type=0";   
-            const regionCode = selectedRef.value.region;            
-            const cityName = selectedRef.value.city;
-  
+    if (formData.stepSevenSelectedSection === 'Chilexpress' && !formData.stepSevenCity) {
+        // Set an error message and prevent the form from proceeding
+        errorMessageCity.value = "Por favor, seleccione una ciudad.";
+        return;
+    }
+    if (formData.stepSevenSelectedSection === 'Chilexpress' && !formData.stepSevenChilexpressOffice) {
+        // Set an error message and prevent the form from proceeding
+        errorMessageOficina.value = "Por favor, seleccione una oficina";
+        return;
+    }
 
-            try {
-                const response = await axios.get(apiUrl, {
-                    headers: {
-                        "Cache-Control": "no-cache",
-                        "Ocp-Apim-Subscription-Key":
-                            "570f3f00500c433a9b2b94e7b4803c1b",
-                    },
-                    params: {
-                        RegionCode: regionCode,
-                        CountyName: cityName.countyName,
-                    },
-                });
+    if (formData.stepSevenSelectedSection === 'Domicilio' && !formData.stepSevenRegion) {
+        // Set an error message and prevent the form from proceeding
+        errorMessageRegionHouse.value = "Por favor, seleccione una region.";
+        return;
+    }
+    if (formData.stepSevenSelectedSection === 'Domicilio' && !formData.stepSevenCity) {
+        // Set an error message and prevent the form from proceeding
+        errorMessageCityHouse.value = "Por favor, seleccione una ciudad.";
+        return;
+    }
 
-                console.log(response.status);      
-                console.log(response.data.offices);
-                offices.value = response.data.offices;
-            } catch (error) {
-                console.error("Error:", error);
-            }
-        };
-
-        onMounted(() => {
-            emit("constant-emitted", mainStep);
-            watch(
-                () => selectedRef.value.region,
-                (newRegion) => {
-                    if (newRegion !== lastSelected.value.region) {
-                        getComunasChilexpress.call(this);
-                        lastSelected.value.region = newRegion;
-                    }
-                    formData.stepSevenRegion = lastSelected.value.region;
-                }
-            );
-
-            watch(
-                () => selectedRef.value.city,
-                (newCity) => {
-                    if (newCity !== lastSelected.value.city) {
-                        getCoberturaOptions.call(this);
-                        lastSelected.value.city = newCity;
-                    }
-                    formData.stepSevenCity = lastSelected.value.city;
-                }
-            );
-
-            watch(
-                () => formData.stepSevenOptionDelivery,
-                (newOptionDelivery) => {
-                    if (newOptionDelivery === "Domicilio") {
-                        formData.stepSevenChilexpressOffice = "";
-                    }
-                }
-            );
-            //Modi para mantener el dato activo (region)
-            if (selectedRef.value.region != null) {
-                selectedRef.value.region = formData.stepSevenRegion;
-            }
-            //Modi para mantener el dato activo (comuna)
-            if (selectedRef.value.city != null) {
-                selectedRef.value.city = formData.stepSevenCity;
-            }
-        });
-
-        return {
-            formData,
-            nextStep,
-            selected: selectedRef.value,
-            loading: ref(false),
-            errorMessageRegion,
-            errorMessageCity,
-            errorMessageOficina,
-            errorMessageRegionHouse,
-            errorMessageCityHouse,
-            cities,
-            offices,
-        };
-    },
-    methods: {
-        async getRegionsChilexpress() {
-            try {
-                const apiKey = "570f3f00500c433a9b2b94e7b4803c1b";
-                const apiUrl =
-                    "https://testservices.wschilexpress.com/georeference/api/v1.0/regions";
-
-                this.loading = true;
-                const response = await axios.get(apiUrl, {
-                    params: {
-                        api_key: apiKey,
-                    },
-                });
-
-                this.regions = response.data.regions;
-            } catch (error) {
-                console.error("Error fetching regions:", error);
-            } finally {
-                this.loading = false;
-            }
-        },
-        toggleSection(section) {
-            this.formData.stepSevenSelectedSection = section;
-        },
-    },
-    mounted() {
-        this.getRegionsChilexpress();
-    },
+    errorMessageRegion.value = null;
+    errorMessageCity.value = null;
+    errorMessageOficina.value = null;
+    errorMessageRegionHouse.value = null;
+    errorMessageCityHouse.value = null;
+    formStore.setFormData(formData);
+    emit("next-step");
 };
+
+const toggleSection = (section) => {
+    formData.stepSevenSelectedSection = section;
+};
+
+const getRegionsChilexpress = async function () {
+    const apiKey = "570f3f00500c433a9b2b94e7b4803c1b";
+    const apiUrl = "https://testservices.wschilexpress.com/georeference/api/v1.0/regions";
+
+    try {
+        loading.value = true;
+        const response = await axios.get(apiUrl, {
+            params: {
+                api_key: apiKey,
+            },
+        });
+        regions.value = response.data.regions;
+    } catch (error) {
+        console.error("Error fetching regions:", error);
+    } finally {
+        loading.value = false;
+    }
+};
+
+const getComunasChilexpress = async function () {
+    const apiKey = "570f3f00500c433a9b2b94e7b4803c1b";
+    const apiUrl = "https://testservices.wschilexpress.com/georeference/api/v1.0/coverage-areas";
+
+    try {
+        loading.value = true;
+        const response = await axios.get(apiUrl, {
+            params: {
+                api_key: apiKey,
+                RegionCode: selected.value.region,
+                type: 1,
+            },
+        });
+        cities.value = response.data.coverageAreas;
+    } catch (error) {
+        console.error("Error fetching cities:", error);
+    } finally {
+        loading.value = false;
+    }
+};
+
+const getCoberturaOptions = async function () {
+    const apiUrl = "https://testservices.wschilexpress.com/georeference/api/v1.0/offices?Type=0";   
+    const regionCode = selected.value.region;            
+    const cityName = selected.value.city;
+
+    try {
+        const response = await axios.get(apiUrl, {
+            headers: {
+                "Cache-Control": "no-cache",
+                "Ocp-Apim-Subscription-Key": "570f3f00500c433a9b2b94e7b4803c1b",
+            },
+            params: {
+                RegionCode: regionCode,
+                CountyName: cityName.countyName,
+            },
+        });
+        offices.value = response.data.offices;
+    } catch (error) {
+        console.error("Error:", error);
+    }
+};
+
+onMounted(() => {
+    emit("constant-emitted", mainStep);
+    // Call getComunasChilexpress when component is mounted
+    getRegionsChilexpress();
+    watch(
+        () => selected.value.region,
+        (newRegion) => {
+            if (newRegion !== lastSelected.value.region) {
+                getComunasChilexpress.call(this);
+                lastSelected.value.region = newRegion;
+            }
+            formData.stepSevenRegion = lastSelected.value.region;
+        }
+    );
+
+    watch(
+        () => selected.value.city,
+        (newCity) => {
+            if (newCity !== lastSelected.value.city) {
+                getCoberturaOptions.call(this);
+                lastSelected.value.city = newCity;
+            }
+            formData.stepSevenCity = lastSelected.value.city;
+        }
+    );
+
+    watch(
+        () => formData.stepSevenOptionDelivery,
+        (newOptionDelivery) => {
+            if (newOptionDelivery === "Domicilio") {
+                formData.stepSevenChilexpressOffice = "";
+            }
+        }
+    );
+
+    // Set the initial selected region and city values from formData
+    selected.value.region = formData.stepSevenRegion;
+    selected.value.city = formData.stepSevenCity;
+});
+
 </script>
 
 <style scoped>

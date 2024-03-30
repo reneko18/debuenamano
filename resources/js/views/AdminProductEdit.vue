@@ -1235,24 +1235,33 @@ const UpdateProductStatus = async() => {
                 remark: productInfo.value.remark,
                 advice: productInfo.value.advice,
                 images: productInfo.value.galleries,
-                delivery_information_option: productInfo.value.delivery_information.option,
-                delivery_information_region: productInfo.value.delivery_information.region,
-                delivery_information_city: productInfo.value.delivery_information.city,
-                delivery_information_chile_office: productInfo.value.delivery_information.chile_office,
-                delivery_information_address: productInfo.value.delivery_information.address,
-                delivery_information_address_number: productInfo.value.delivery_information.address_number,
-                delivery_information_dpto_house: productInfo.value.delivery_information.dpto_house,
+                //Delivery Information
+                option: productInfo.value.delivery_information.option,
+                region_code: productInfo.value.delivery_information.region_code,
+                region_name: productInfo.value.delivery_information.region_name,
+                dity_name: productInfo.value.delivery_information.city_name,
+                city_code: productInfo.value.delivery_information.city_code,
+                chile_office: productInfo.value.delivery_information.chile_office,
+                address: productInfo.value.delivery_information.address,
+                address_number: productInfo.value.delivery_information.address_number,
+                dpto_house: productInfo.value.delivery_information.dpto_house,
                 price: productInfo.value.price,
-                bankFullName: userFullName.value,
-                bankName: userBank.value ,
-                bankAccount: userBankAccount.value,
-                bankAccountType: userBankAccountType.value,
-                bankRut: userRut.value,       
-                publish_status: 'En vitrina',               
+                //Bank Details
+                full_name: userFullName.value,
+                bank: userBank.value ,
+                account_number: userBankAccount.value,
+                account_type: userBankAccountType.value,
+                rut: userRut.value,       
+                publish_status: 'En vitrina',
+                visible_status: 'Si',
             }
         );
         toast.add({severity:'success', detail: 'El producto fue puesto en vitrina exitosamente',life: 4000});  
-        console.log("Product updated successfully:", response.data);        
+        console.log("Product updated successfully:", response.data); 
+        // Navigate back to the previous page after 6 seconds
+        setTimeout(() => {
+            window.history.back();
+        }, 4000); // 6 seconds delay  
     } catch (error) {
         console.error("Error updating product:", error);
     }
@@ -1289,19 +1298,23 @@ const SaveProductStatus = async() => {
                 remark: productInfo.value.remark,
                 advice: productInfo.value.advice,
                 images: productInfo.value.galleries,
-                delivery_information_option: productInfo.value.delivery_information.option,
-                delivery_information_region: productInfo.value.delivery_information.region,
-                delivery_information_city: productInfo.value.delivery_information.city,
-                delivery_information_chile_office: productInfo.value.delivery_information.chile_office,
-                delivery_information_address: productInfo.value.delivery_information.address,
-                delivery_information_address_number: productInfo.value.delivery_information.address_number,
-                delivery_information_dpto_house: productInfo.value.delivery_information.dpto_house,
+                //Delivery Information
+                option: productInfo.value.delivery_information.option,
+                region_code: productInfo.value.delivery_information.region_code,
+                region_name: productInfo.value.delivery_information.region_name,
+                dity_name: productInfo.value.delivery_information.city_name,
+                city_code: productInfo.value.delivery_information.city_code,
+                chile_office: productInfo.value.delivery_information.chile_office,
+                address: productInfo.value.delivery_information.address,
+                address_number: productInfo.value.delivery_information.address_number,
+                dpto_house: productInfo.value.delivery_information.dpto_house,
                 price: productInfo.value.price,
-                bankFullName: userFullName.value,
-                bankName: userBank.value ,
-                bankAccount: userBankAccount.value,
-                bankAccountType: userBankAccountType.value,
-                bankRut: userRut.value, 
+                //Bank Details
+                full_name: userFullName.value,
+                bank: userBank.value ,
+                account_number: userBankAccount.value,
+                account_type: userBankAccountType.value,
+                rut: userRut.value,   
                 publish_status: 'En revisión',               
             },
             // {
@@ -1398,11 +1411,11 @@ onMounted(async() => {
     );
 
     if (selectedRef.value.region !== null) {
-        selectedRef.value.region = productInfo.value.delivery_information?.region;
+        selectedRef.value.region = productInfo.value.delivery_information?.region_code;
     }
 
     if (selectedRef.value.city !== null) {
-        selectedRef.value.city = productInfo.value.delivery_information?.city;
+        selectedRef.value.city = productInfo.value.delivery_information?.city_name;
     }
 });
 

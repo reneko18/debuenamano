@@ -8,18 +8,26 @@
                 <h2>Precio</h2>
             </div>
         </div>
-        <div class="row col-10 mx-auto mb-3 row-prod-cart" v-for="item in cartItems">   
-            <div class="col-10 d-flex align-items-center">
-                <img class="img-prod-cart" :src="'/' + item.galleries.url" :alt="item.galleries.alt">
-                <h3>{{ item.name }}</h3>
+        <div v-if="cartItemsLocal.length > 0">
+            <div class="row col-10 mx-auto mb-3 row-prod-cart" v-for="(item, index) in cartItemsLocal" :key="index">       
+                <div class="col-8 d-flex align-items-center">
+                    <img class="img-prod-cart" :src="'/' + item.galleries[0].url" :alt="item.galleries[0].alt">
+                    <h3>{{ item.name }}</h3>
+                </div>
+                <div class="col-2 d-flex align-items-center">
+                    <span class="precio-cart">${{ item.price }}</span>
+                </div>
+                <div class="col-2 d-flex align-items-center">
+                    <a class="cursor-pointer" @click="removeFromCart(index)">X</a>
+                </div>
             </div>
-            <div class="col-2 d-flex align-items-center">
-                <span class="precio-cart">${{ item.price }}</span>
-            </div>
+        </div>
+        <div v-else>
+            <p>Tu carrito esta vacio</p>
         </div>
     </div>
 
-    <div>
+    <div v-if="cartItemsLocal.length > 0">
         <div class="col-8 ms-auto">
             <div class="subtotal-cart mb-2 pb-2">
                 <h3>Carro</h3>
@@ -38,7 +46,7 @@
 
 </template>
 <script setup>
-import { defineEmits } from "vue";
+import { ref, defineEmits } from "vue";
 const props = defineProps({
     cartItems: { 
         type: Object, 
@@ -49,7 +57,14 @@ const props = defineProps({
         default:'', 
     },
 });
-const emit = defineEmits(['next-step']);
+const emit = defineEmits(['next-step', 'remove-from-cart']);
+
+const cartItemsLocal = ref(props.cartItems);
+
+const removeFromCart = (index) => {
+    cartItemsLocal.value.splice(index, 1); // Modify the local variable
+ 
+};
 
 const nextStep = () => {
     emit("next-step");

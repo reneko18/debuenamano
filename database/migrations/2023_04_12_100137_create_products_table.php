@@ -23,34 +23,31 @@ return new class extends Migration
             $table->string('age_fin')->nullable();
             $table->string('age_date_fin')->nullable();
             $table->text('description');
-            $table->string('brand');
-            $table->string('model');
-            $table->string('length');
-            $table->string('length_unit');
-            $table->string('width');
-            $table->string('width_unit');
-            $table->string('height');
-            $table->string('height_unit');
-            $table->string('weight');
-            $table->string('weight_unit');
-            $table->string('delivery_box');
-            $table->string('status'); 
-            $table->string('used_time');
-            $table->string('used_time_unit');
-            $table->text('remark');
-            $table->text('advice');
-            $table->string('price');  
+            $table->string('brand')->nullable();
+            $table->string('model')->nullable();
+            $table->string('length_real')->nullable();
+            $table->string('length_real_unit')->nullable();
+            $table->string('width_real')->nullable();
+            $table->string('width_real_unit')->nullable();
+            $table->string('height_real')->nullable();
+            $table->string('height_real_unit')->nullable();
+            $table->string('status')->nullable();
+            $table->string('used_time')->nullable();
+            $table->string('used_time_unit')->nullable();
+            $table->text('remark')->nullable();
+            $table->text('advice')->nullable();
+            $table->string('price')->nullable();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('publish_status')->nullable();
             $table->string('selling_status')->nullable();
-            $table->string('admin_status')->nullable();            
+            $table->string('admin_status')->nullable();           
+            $table->string('visible_status')->nullable();           
+            $table->string('payment_status')->nullable();           
+            $table->string('sell_date')->nullable();               
+            $table->string('payment_date')->nullable();               
+           
             //Para después testear los siguientes datos (todo sera nullable)
-            $table->string('sku')->nullable();
-                      
-            
-                     
-
-         
+            $table->string('sku')->nullable();        
             
             //$table->foreignId('user_id')->constrained()->onDelete('cascade')->nullable();
             $table->foreignId('address_id')->nullable();

@@ -38,14 +38,14 @@
                     <!-- <select id="region" class="form-select" v-model="selectedOri.regionCodeOri"> -->
                     <select id="region" class="form-select" v-model="formCart.region">
                         <option disabled selected value="">Selecciona una region</option>
-                        <option :value="r.regionId" v-for="r in regionsOri">{{ r.regionName }}</option>
+                        <option :value="r" v-for="r in regionsOri">{{ r.regionName }}</option>
                     </select>
                 </div>
                 <div class="col-6">
                     <label for="city" class="form-label">Ciudad</label>
                     <!-- <select id="city" class="form-select" v-model="selectedCountyOri"> -->
                     <select id="city" class="form-select" v-model="formCart.city">
-                        <option :value="com.countyCode" v-for="com in countiesOri">{{ com.countyName }}</option>
+                        <option :value="com" v-for="com in countiesOri">{{ com.countyName }}</option>
                     </select>
                 </div>
             </div>
@@ -74,11 +74,36 @@
     </div> -->
     <div class="row col-10 mx-auto mb-3 row-prod-cart" v-for="(item, index) in cartItems" :key="index">   
         <div class="col-7 d-flex align-items-center">
-            <img class="img-prod-cart" :src="'/' + item.galleries.url" :alt="item.galleries.alt">
+            <img class="img-prod-cart" :src="'/' + item.galleries[0].url" :alt="item.galleries[0].alt">
             <h3>{{ item.name }}</h3>
         </div>
         <div class="col-5">
-            <select v-if="item.services" class="form-select" v-model="item.selectedService">  
+            <!-- <div v-if="item.services">               
+                <select class="form-select" v-model="selectedService">  
+                    <option
+                        v-for="(service, serviceIndex) in item.services"
+                        :key="serviceIndex"
+                        :value="service"     
+                    >
+                        {{ service.serviceDescription }} - $ {{ service.serviceValue }}
+                    </option>
+                </select>
+                <div v-if="selectedService">
+                    <div v-for="(additionalService, additionalServiceIndex) in selectedService.additionalServices" :key="additionalServiceIndex">
+                        <input                
+                            :value="additionalService.serviceValue"
+                            class="form-check-input" 
+                            type="checkbox" 
+                            name="additional"     
+                        />
+                        <label class="form-check-label" for="additional">
+                            {{ additionalService.serviceDescription }} - $ {{ additionalService.serviceValue }}
+                        </label>
+                    </div>
+                </div>
+            </div> -->
+            <div v-if="item.services">               
+                <select class="form-select" v-model="item.selectedService">  
                 <option
                     v-for="(service, serviceIndex) in item.services"
                     :key="serviceIndex"
@@ -86,7 +111,26 @@
                 >
                     {{ service.serviceDescription }} - $ {{ service.serviceValue }}
                 </option>
-            </select>
+                </select>
+                <div v-if="item.selectedService">
+                    <div v-for="(additionalService, additionalServiceIndex) in item.selectedService.additionalServices" :key="additionalServiceIndex" class="form-check">
+                        <input                
+                        :value="additionalService.serviceValue"
+                        class="form-check-input" 
+                        type="checkbox" 
+                        name="additional"
+                        :name="'additional_' + index + '_' + additionalServiceIndex"
+                        :id="'additional_' + index + '_' + additionalServiceIndex"
+                        :checked="isAdditionalSelected(item, additionalService)"
+                        @change="handleAdditionalSelection(item, additionalService)"
+                        v-model="selectedAdditional"     
+                        />
+                        <label class="form-check-label" :for="'additional_' + index + '_' + additionalServiceIndex">
+                        {{ additionalService.serviceDescription }} - $ {{ additionalService.serviceValue }}
+                        </label>
+                    </div>
+                </div>
+            </div>
             <div v-else>
                 Loading services...
             </div>
@@ -102,6 +146,11 @@
             <div class="subtotal-cart mb-2 pb-2" v-for="cart in cartItems">
                 <h3>Envío [ {{ cart.name }} ]</h3>
                 <span v-if="cart.selectedService?.serviceValue"> $ {{ cart.selectedService?.serviceValue }} </span>
+                <span v-if="selectedAdditional[cart.id] && selectedAdditional[cart.id].length > 0">                     
+                    <template v-for="(additional, index) in selectedAdditional[cart.id]">
+                        {{ additional.serviceDescription }} :  $ {{ additional.serviceValue }}{{ index < selectedAdditional[cart.id].length - 1 ? ', ' : '' }}
+                    </template>
+                </span>
             </div>
             <div class="total-cart">
                 <h3>TOTAL</h3>
@@ -140,19 +189,28 @@ const nextStep = () => {
 
 const formStore = useFormStore();
 const formCart = formStore.formCart;
+
+const cartItems = ref(props.cartItems);
+// Initialize selectedAdditional array
+const selectedAdditional = ref(Array(cartItems.value.length).fill([]));
+
 // Compute the total by summing up totalPrice and the shipping cost for each item
 const total = computed(() => {
     let shippingTotal = 0;
+    let additionalTotal = 0;
     for (const cart of cartItems.value) {
         if (cart.selectedService?.serviceValue) {
             shippingTotal += +cart.selectedService?.serviceValue; // Convert to number using unary plus operator
         }
+        if (selectedAdditional.value[cart.id]) {
+            for (const additional of selectedAdditional.value[cart.id]) {
+                additionalTotal += +additional.serviceValue;
+            }
+        }
     }
     const totalPrice = +props.totalPrice; // Convert totalPrice to a number
-    return totalPrice + shippingTotal;
+    return totalPrice + shippingTotal + additionalTotal;
 });
-
-const cartItems = ref(props.cartItems);
 
 const regionsOri = ref([]);
 const countiesOri = ref([]);
@@ -163,6 +221,25 @@ const countiesLoaded = ref(false);
 // const selectedCountyOri = ref('');
 
 // const cotizador = ref([]);
+
+// Function to handle selection of additional services
+const handleAdditionalSelection = (item, additionalService) => {
+    if (!selectedAdditional.value[item.id]) {
+        selectedAdditional.value[item.id] = [];
+    }
+    
+    const index = selectedAdditional.value[item.id].findIndex(service => service.serviceTypeCode === additionalService.serviceTypeCode);
+    if (index === -1) {
+        selectedAdditional.value[item.id].push(additionalService);
+    } else {
+        selectedAdditional.value[item.id].splice(index, 1);
+    }
+};
+
+// Function to check if additional service is selected
+const isAdditionalSelected = (item, additionalService) => {
+    return selectedAdditional.value[item.id]?.some(service => service.serviceTypeCode === additionalService.serviceTypeCode);
+};
 
 const getRegionsOriChilexpress = async () => {
     const apiKey = '570f3f00500c433a9b2b94e7b4803c1b';
@@ -189,7 +266,7 @@ const getComunasOriChilexpress = async () => {
             params: {
                 api_key: apiKey,
                 // RegionCode: selectedOri.value.regionCodeOri,
-                RegionCode: formCart.region,
+                RegionCode: formCart.region.regionId,
                 type: 1,
             },
         });
@@ -294,7 +371,7 @@ const apiUrl = 'https://testservices.wschilexpress.com/rating/api/v1.0/rates/cou
 const body = {
     "originCountyCode": originCountyCode,
     // "destinationCountyCode": selectedCountyOri.value,
-    "destinationCountyCode": formCart.city,
+    "destinationCountyCode": formCart.city.countyCode,
     "package": {
         "weight": weight,
         "height": height,

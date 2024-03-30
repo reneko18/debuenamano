@@ -19,8 +19,8 @@
                         class="titulo-pasos"
                         :class="[
                             {
-                                active:
-                                    item.mainTitle.number === receivedConstant,
+                                active: item.mainTitle.number === receivedConstant,
+                                completed: isStepCompleted(item.mainTitle.number),
                             },
                             `item-${index}`,
                         ]"
@@ -32,12 +32,12 @@
                                 clickMainTitle(index, item.mainTitle.firstComp)
                             "
                         >
-                            <span class="number">{{
+                            <!-- <span class="number">{{
                                 item.mainTitle.number
-                            }}</span>
-                            <span class="main-title">{{
-                                item.mainTitle.name
-                            }}</span>
+                            }}</span> -->
+                            <span v-if="!isStepCompleted(item.mainTitle.number)" class="number">{{ item.mainTitle.number }}</span>
+                            <font-awesome-icon v-else :icon="['fas', 'check']" />
+                            <span class="main-title">{{ item.mainTitle.name }}</span>
                         </div>
                         <div class="cont-subtitles" :class="[`item-${index}`]">
                             <!--<div :class="['separator', { expanded: expandedItem === index }]"></div>-->
@@ -75,6 +75,7 @@
                     @next-step="nextStep"
                     @constant-emitted="handleMainStep"
                     @active-subtitles="handleSubStep"
+                    @close-step="handleCloseStep"
                     :user-id="userId"
                     :user-bank="userBank"                    
                 />
@@ -82,142 +83,134 @@
         </div>
     </section>
 </template>
-<script>
-import { ref } from "vue";
-import { useFormStore } from "../stores/values";
+<script setup>
+import { ref,computed } from "vue";
+import { useFormStore } from "../stores/valuesTwo";
+import StepOnePre from "../components/SellingFormTest/Presentation/StepOne.vue";
+import StepTwoPre from "../components/SellingFormTest/Presentation/StepTwo.vue";
+import StepThreePre from "../components/SellingFormTest/Presentation/StepThree.vue";
+import StepOneStat from "../components/SellingFormTest/Status/StepOne.vue";
+import StepTwoStat from "../components/SellingFormTest/Status/StepTwo.vue";
+import StepThreeStat from "../components/SellingFormTest/Status/StepThree.vue";
+import StepOnePhoto from "../components/SellingFormTest/Photos/StepOne.vue";
+import StepOneDP from "../components/SellingFormTest/Delivery/StepOne.vue";
+import StepTwoDP from "../components/SellingFormTest/Delivery/StepTwo.vue";
 
-import StepOnePre from "../components/SellingForm/Presentation/StepOne.vue";
-import StepTwoPre from "../components/SellingForm/Presentation/StepTwo.vue";
-import StepThreePre from "../components/SellingForm/Presentation/StepThree.vue";
-import StepOneStat from "../components/SellingForm/Status/StepOne.vue";
-import StepTwoStat from "../components/SellingForm/Status/StepTwo.vue";
-import StepThreeStat from "../components/SellingForm/Status/StepThree.vue";
-import StepOnePhoto from "../components/SellingForm/Photos/StepOne.vue";
-import StepOneDP from "../components/SellingForm/Delivery/StepOne.vue";
-import StepTwoDP from "../components/SellingForm/Delivery/StepTwo.vue";
-import Summary from "../components/SellingForm/Summary/Summary.vue";
-
-export default {
-    data() {
-        return {
-            receivedConstant: "",
-            expandedItem: 0,
-        };
+const props = defineProps({
+    userId: { 
+        type: String, 
+        default: "" 
     },
-    props: ['userId','userBank'],
-    setup() {
-        const activeTitles = ref(0);
-
-        const formStore = useFormStore();
-
-        const currentStep = ref(0);
-        const formData = formStore.formData;
-
-        const nextStep = () => {
-            currentStep.value++;
-        };      
-        const formSteps = [
-            StepOnePre,
-            StepTwoPre,
-            StepThreePre,
-            StepOneStat,
-            StepTwoStat,
-            StepThreeStat,
-            StepOnePhoto,
-            StepOneDP,
-            StepTwoDP,
-            Summary,
-        ];
-
-        const linkCollection = ref([
-            {
-                mainTitle: {
-                    name: "Presentación",
-                    number: 1,
-                    firstComp: 0,
-                },
-                links: {
-                    titles: ["Artículo", "Marca", "Dimensiones"],
-                    number: [0, 1, 2],
-                },
-            },
-            {
-                mainTitle: {
-                    name: "Estado",
-                    number: 2,
-                    firstComp: 3,
-                },
-                links: {
-                    titles: ["Uso", "Observaciones", "Precio"],
-                    number: [3, 4, 5],
-                },
-            },
-            {
-                mainTitle: {
-                    name: "Fotografías",
-                    number: 3,
-                    firstComp: 6,
-                },
-                links: {
-                    titles: ["Adjuntar"],
-                    number: [6],
-                },
-            },
-            {
-                mainTitle: {
-                    name: "Despacho",
-                    number: 4,
-                    firstComp: 7,
-                },
-                links: {
-                    titles: ["Despacho", "Cuenta depósito"],
-                    number: [7, 8],
-                },
-            },
-            {
-                mainTitle: {
-                    name: "Resumen",
-                    number: 5,
-                    firstComp: 9,
-                },
-                links: {
-                    titles: ["Resumen"],
-                    number: [9],
-                },
-            },
-        ]);
-
-        const clickMenu = (stepNumber) => {
-            currentStep.value = stepNumber;
-        };
-
-        const clickMainTitle = (index, linkNumber) => {
-            activeTitles.value = index;
-            currentStep.value = linkNumber;
-        };
-
-        return {
-            nextStep,
-            clickMenu,
-            clickMainTitle,
-            activeTitles,
-            currentStep,
-            linkCollection,
-            formSteps,
-        };
+    userBank: { 
+        type: [Object, String], 
+        default: null, 
     },
-    methods: {
-        handleMainStep(mainStep) {
-            this.receivedConstant = mainStep;
+});
+
+const activeTitles = ref(0);
+const receivedConstant = ref('');
+const completedSteps = ref([]);
+const expandedItem = ref(0);
+
+const formStore = useFormStore();
+
+const currentStep = ref(0);
+const formData = formStore.formData;
+
+const nextStep = () => {
+    currentStep.value++;
+}; 
+
+const formSteps = [
+    StepOnePre,
+    StepTwoPre,
+    StepThreePre,
+    StepOneStat,
+    StepTwoStat,
+    StepThreeStat,
+    StepOnePhoto,
+    StepOneDP,
+    StepTwoDP,
+];
+
+const linkCollection = ref([
+    {
+        mainTitle: {
+            name: "Presentación",
+            number: 1,
+            firstComp: 0,
         },
-        handleSubStep(subStep) {
-            this.activeTitles = subStep;
-        },
-        expandItem(index) {
-            this.expandedItem = index;
+        links: {
+            titles: ["Artículo", "Marca", "Dimensiones"],
+            number: [0, 1, 2],
         },
     },
+    {
+        mainTitle: {
+            name: "Estado",
+            number: 2,
+            firstComp: 3,
+        },
+        links: {
+            titles: ["Uso", "Observaciones", "Precio"],
+            number: [3, 4, 5],
+        },
+    },
+    {
+        mainTitle: {
+            name: "Fotografías",
+            number: 3,
+            firstComp: 6,
+        },
+        links: {
+            titles: ["Adjuntar"],
+            number: [6],
+        },
+    },
+    {
+        mainTitle: {
+            name: "Despacho",
+            number: 4,
+            firstComp: 7,
+        },
+        links: {
+            titles: ["Despacho", "Cuenta depósito"],
+            number: [7, 8],
+        },
+    },
+]);
+
+const clickMenu = (stepNumber) => {
+    currentStep.value = stepNumber;
 };
+
+const clickMainTitle = (index, linkNumber) => {
+    activeTitles.value = index;
+    currentStep.value = linkNumber;
+};
+
+const handleMainStep = (mainStep) => {
+    receivedConstant.value = mainStep;
+};
+
+const handleCloseStep = (stepNumber) => {
+    completedSteps.value.push(stepNumber);
+};
+
+const handleSubStep = (subStep) => {
+    activeTitles.value = subStep;
+};
+
+const expandItem = (index) => {
+    expandedItem.value = index;
+};
+
+const isStepCompleted = computed(() => {
+    return (stepNumber) => {
+        return completedSteps.value.includes(stepNumber);
+    };
+});
+
 </script>
 
 <style scoped>
@@ -278,6 +271,18 @@ export default {
     text-align: center;
     line-height: 28px;
     background-color: #fff;
+    margin-right: 1rem;
+}
+
+.number-title .fa-check{
+    color: #fff;
+    border: 2px solid #728c54;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    text-align: center;
+    line-height: 28px;
+    background-color: #728c54;
     margin-right: 1rem;
 }
 

@@ -1,4 +1,5 @@
 <template>
+    Form Cart : {{ formCart }}
     <div class="bg-cart mb-5 pb-5">
         <div class="row col-10 mx-auto">   
             <div class="col-10">
@@ -10,7 +11,7 @@
         </div>
         <div class="row col-10 mx-auto mb-3 row-prod-cart" v-for="item in cartItems">   
             <div class="col-10 d-flex align-items-center">
-                <img class="img-prod-cart" :src="'/' + item.galleries.url" :alt="item.galleries.alt">
+                <img class="img-prod-cart" :src="'/' + item.galleries[0].url" :alt="item.galleries[0].alt">
                 <h3>{{ item.name }}</h3>
             </div>
             <div class="col-2 d-flex align-items-center">
@@ -54,19 +55,12 @@
             </div>
             <div class="row">
                 <div class="col-6">
-                    <label for="region" class="form-label">Región</label>
-                    <!-- <select id="region" class="form-select" v-model="selectedOri.regionCodeOri"> -->
-                    <select id="region" class="form-select" v-model="formCart.region" disabled>
-                        <option disabled selected value="">Selecciona una region</option>
-                        <option :value="r.regionId" v-for="r in regionsOri">{{ r.regionName }}</option>
-                    </select>
+                    <label for="region" class="form-label">Región</label> 
+                    <input type="text" id="region" class="form-control" :value="formCart.region.regionName" readonly>
                 </div>
                 <div class="col-6">
                     <label for="city" class="form-label">Ciudad</label>
-                    <!-- <select id="city" class="form-select" v-model="selectedCountyOri"> -->
-                    <select id="city" class="form-select" v-model="formCart.city" disabled>
-                        <option :value="com.countyCode" v-for="com in countiesOri">{{ com.countyName }}</option>
-                    </select>
+                    <input type="text" id="city" class="form-control" :value="formCart.city.countyName" readonly>
                 </div>
             </div>
         </div>
@@ -77,7 +71,7 @@
 
     <div class="row col-10 mx-auto mb-3 row-prod-cart" v-for="(item, index) in cartItems" :key="index">   
         <div class="col-7 d-flex align-items-center">
-            <img class="img-prod-cart" :src="'/' + item.galleries.url" :alt="item.galleries.alt">
+            <img class="img-prod-cart" :src="'/' + item.galleries[0].url" :alt="item.galleries[0].alt">
             <h3>{{ item.name }}</h3>
         </div>
         <div class="col-5">
@@ -101,6 +95,11 @@
             <div class="subtotal-cart mb-2 pb-2" v-for="cart in cartItems">
                 <h3>Envío [ {{ cart.name }} ]</h3>
                 <span v-if="cart.selectedService.serviceValue"> $ {{ cart.selectedService.serviceValue }} </span>
+                <span v-if="cart.selectedService.additionalServices && cart.selectedService.additionalServices.length > 0"> 
+                    <template v-for="(additional, index) in cart.selectedService.additionalServices">
+                        {{ additional.serviceDescription }} :  $ {{ additional.serviceValue }}{{ index < cart.selectedService.additionalServices.length - 1 ? ', ' : '' }}
+                    </template>
+                </span>
             </div>
             <div class="total-cart">
                 <h3>TOTAL</h3>
@@ -142,19 +141,26 @@ const formCart = formStore.formCart;
 // Compute the total by summing up totalPrice and the shipping cost for each item
 const total = computed(() => {
     let shippingTotal = 0;
+    let additionalTotal = 0;
     for (const cart of cartItems.value) {
         if (cart.selectedService?.serviceValue) {
             shippingTotal += +cart.selectedService?.serviceValue; // Convert to number using unary plus operator
         }
+        if (cart.selectedService.additionalServices) {
+            for (const additional of cart.selectedService.additionalServices) {
+                additionalTotal += +additional.serviceValue;
+            }
+        }
     }
     const totalPrice = +props.totalPrice; // Convert totalPrice to a number
-    formCart.total = totalPrice + shippingTotal;
-    return totalPrice + shippingTotal;
+    formCart.total = totalPrice + shippingTotal + additionalTotal;
+    return totalPrice + shippingTotal + additionalTotal;
 });
 
 
 
 const cartItems = ref(props.cartItems);
+
 
 const regionsOri = ref([]);
 const countiesOri = ref([]);

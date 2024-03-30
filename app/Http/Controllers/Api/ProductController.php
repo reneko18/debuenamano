@@ -31,6 +31,29 @@ class ProductController extends Controller
         //
     }
 
+    // Helper function to map region codes to region names
+    public function mapRegionCodeToName($regionCode) {
+        $regionNames = [
+            'R1' => 'TARAPACA',
+            'R2' => 'ANTOFAGASTA',
+            'R3' => 'ATACAMA',
+            'R4' => 'COQUIMBO',
+            'R5' => 'VALPARAISO',
+            'R6' => 'LIBERTADOR GRAL BERNARDO O HIGGINS',
+            'R7' => 'MAULE',
+            'R8' => 'BIOBIO',
+            'R9' => 'ARAUCANIA',
+            'RM' => 'METROPOLITANA DE SANTIAGO',
+            'R10' => 'LOS LAGOS',
+            'R11' => 'AISEN DEL GRAL C IBANEZ DEL CAMPO',
+            'R12' => 'MAGALLANES Y LA ANTARTICA CHILENA',
+            'R14' => 'LOS RIOS',
+            'R15' => 'ARICA Y PARINACOTA',
+            'R16' => 'NUBLE',
+        ];
+
+        return $regionNames[$regionCode] ?? null;
+    }
 
     public function store(Request $request)
     {
@@ -48,16 +71,22 @@ class ProductController extends Controller
         //Marca
         $product->brand = $request->input('stepTwoBrandProduct');
         $product->model = $request->input('stepTwoModelProduct');
-        //Dimensiones
-        $product->length = $request->input('stepThreeLength');
-        $product->length_unit = $request->input('stepThreeLengthUnit');
-        $product->width = $request->input('stepThreeWidth');
-        $product->width_unit = $request->input('stepThreeWidthUnit');
-        $product->height = $request->input('stepThreeHeight');
-        $product->height_unit = $request->input('stepThreeHeightUnit'); 
-        $product->weight = $request->input('stepThreeWeight');
-        $product->weight_unit = $request->input('stepThreeWeightUnit');
-        $product->delivery_box = $request->input('stepThreeBox');
+        //Dimensiones Producto Desarmado
+        $product->length_real = $request->input('stepThreeLengthReal');
+        $product->length_real_unit = $request->input('stepThreeLengthRealUnit');
+        $product->width_real = $request->input('stepThreeWidthReal');
+        $product->width_real_unit = $request->input('stepThreeWidthRealUnit');
+        $product->height_real = $request->input('stepThreeHeightReal');
+        $product->height_real_unit = $request->input('stepThreeHeightRealUnit'); 
+
+        
+        // Check if weight unit is in grams ("g") and convert to kilograms ("kg")
+        if ($request->input('stepThreeWeightUnit') === 'g') {
+            // Divide weight by 1000 to convert grams to kilograms
+            $product->weight /= 1000;
+            // Change weight unit to kilograms
+            $product->weight_unit = 'Kg';
+        }
         //Uso
         $product->status = $request->input('stepFourState');
         $product->used_time = $request->input('stepFourUsageTime');
@@ -89,14 +118,29 @@ class ProductController extends Controller
 
         $deliveryInformation = new DeliveryInformation();
         $deliveryInformation->product_id = $product->id;
+        //Dimensiones Producto Embalado
+        $deliveryInformation->length = $request->input('stepThreeLength');
+        $deliveryInformation->length_unit = $request->input('stepThreeLengthUnit');
+        $deliveryInformation->width = $request->input('stepThreeWidth');
+        $deliveryInformation->width_unit = $request->input('stepThreeWidthUnit');
+        $deliveryInformation->height = $request->input('stepThreeHeight');
+        $deliveryInformation->height_unit = $request->input('stepThreeHeightUnit'); 
+        $deliveryInformation->weight = $request->input('stepThreeWeight');
+        $deliveryInformation->weight_unit = $request->input('stepThreeWeightUnit');
         $deliveryInformation->option = $request->input('stepSevenOptionDelivery');
-        $deliveryInformation->region = $request->input('stepSevenRegion');
-        $deliveryInformation->city = $request->input('stepSevenCity.countyName');
+        $deliveryInformation->region_code = $request->input('stepSevenRegion');
+        $regionName = $this->mapRegionCodeToName($request->input('stepSevenRegion'));
+        $deliveryInformation->region_name = $regionName;
+        $deliveryInformation->city_name = $request->input('stepSevenCity.countyName');
         $deliveryInformation->city_code = $request->input('stepSevenCity.countyCode');
         $deliveryInformation->chile_office = $request->input('stepSevenChilexpressOffice');
         $deliveryInformation->address = $request->input('stepSevenStreet');
         $deliveryInformation->address_number = $request->input('stepSevenStreetNumber');
         $deliveryInformation->dpto_house = $request->input('stepSevenStreetDptoHouse');
+
+        if ($request->input('stepSevenOptionDelivery') === 'Domicilio') {
+            $deliveryInformation->recover_price = 3500;
+        }
 
         $product->deliveryInformation()->save($deliveryInformation);
 
@@ -113,25 +157,28 @@ class ProductController extends Controller
         $imagesData = $request->input('stepSixPhoto');
 
         foreach ($imagesData as $imageData) {
-            $src =  str_replace('data:image/png;base64,', '', $imageData['src']); 
-            $name = $imageData['name'];
-            $name = preg_replace('/[^\w\d\.\-_]/', '_', $name);           
-
-            
+            $src = str_replace('data:image/png;base64,', '', $imageData['src']); 
+            $originalName = $imageData['name'];
+            $name = preg_replace('/[^\w\d\.\-_]/', '_', $originalName); 
+                    
+            // Add unique identifier to the image name
+            $imageName = uniqid() . '_' . $name;
+                    
             // Save the image to the public folder
-            $imagePath = public_path('images/products_images/' . $name );
+            $imagePath = public_path('images/products_images/' . $imageName);
             $decodedImage = base64_decode($src);
-
+        
             file_put_contents($imagePath, $decodedImage);
-
+        
             // Save image data to the database
             $product->galleries()->create([
                 'product_id' => $product->id,
-                'url' => 'images/products_images/' . $name,
-                'alt' => $name,
+                'url' => 'images/products_images/' . $imageName,
+                'alt' => $originalName,
                 'position' => null,
             ]);
-        } 
+        }
+        
         
 
         return response()->json(['message' => 'Product and images uploaded successfully']);
@@ -244,6 +291,18 @@ class ProductController extends Controller
         return response()->json($products);
     }
 
+    public function getProductsSoldByUserId($user_id)
+    {
+        // Fetch products based on user_id and publish_status
+        $products = Product::where('user_id', $user_id)
+        ->where('publish_status', 'Vendido')
+        ->with('category','galleries')
+        ->get();
+
+        // Return the products as JSON response
+        return response()->json($products);
+    }
+
     public function getProductsByPublishStatus()
     {
         $products = Product::with('productContacts', 'category', 'user')
@@ -279,7 +338,7 @@ class ProductController extends Controller
         });
     
         return response()->json($productsWithEditUrl);
-    }
+    } 
     
 
     public function updateSellingStatus(Product $product)
@@ -305,11 +364,42 @@ class ProductController extends Controller
         }
     }
 
-    // public function editProduct($product_id) 
-    // {
-    //     $product = Product::find($product_id);
-    //     return response()->json($product);
-    // }
+    public function updateAdminStatus(Product $product)
+    {
+        try {
+            $productAdminStatus = request('product_admin_status');
+    
+            // If the admin status is "Finalizado", update the selling status to "Pendiente"
+            if ($productAdminStatus === 'Finalizado') {
+                $product->update([
+                    'admin_status' => $productAdminStatus,
+                    'payment_status' => 'Pendiente'
+                ]);
+            } else {
+                $product->update(['admin_status' => $productAdminStatus]);
+            }
+    
+            return response()->json(['message' => 'Product updated successfully']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to update product'], 500);
+        }
+    }
+
+    public function updateProductPaymentStatus(Product $product)
+    {
+        try {
+            $productPaymentStatus = request('product_payment_status');       
+  
+            $product->update([
+                'payment_status' => $productPaymentStatus,
+                'payment_date' => now()->format('d/m/Y'),
+            ]);       
+    
+            return response()->json(['message' => 'Product updated successfully']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to update product'], 500);
+        }
+    }
 
     public function editProduct(Product $product) 
     {
@@ -349,25 +439,28 @@ class ProductController extends Controller
                 'advice',
                 'price', 
                 'publish_status',
+                'visible_status',
             ]);
     
             // If you have nested data, you might want to format it properly before updating
             $deliveryInformationData = request()->only([
-                'delivery_information_option',
-                'delivery_information_region',
-                'delivery_information_city',
-                'delivery_information_chile_office',
-                'delivery_information_address',
-                'delivery_information_address_number',
-                'delivery_information_dpto_house',
+                'option',
+                'region_code',
+                'region_name',
+                'city_name',
+                'city_code',
+                'chile_office',
+                'address',
+                'address_number',
+                'dpto_house',
             ]);
 
             $bankDetailsData = request()->only([
-                'bankFullName',
-                'bankName',
-                'bankAccount',
-                'bankAccountType',
-                'bankRut',
+                'full_name',
+                'bank',
+                'account_number',
+                'account_type',
+                'rut',
             ]);
     
             // Update product information
@@ -451,21 +544,23 @@ class ProductController extends Controller
     
             // If you have nested data, you might want to format it properly before updating
             $deliveryInformationData = request()->only([
-                'delivery_information_option',
-                'delivery_information_region',
-                'delivery_information_city',
-                'delivery_information_chile_office',
-                'delivery_information_address',
-                'delivery_information_address_number',
-                'delivery_information_dpto_house',
+                'option',
+                'region_code',
+                'region_name',
+                'city_name',
+                'city_code',
+                'chile_office',
+                'address',
+                'address_number',
+                'dpto_house',
             ]);
 
             $bankDetailsData = request()->only([
-                'bankFullName',
-                'bankName',
-                'bankAccount',
-                'bankAccountType',
-                'bankRut',
+                'full_name',
+                'bank',
+                'account_number',
+                'account_type',
+                'rut',
             ]);
     
             // Update product information
@@ -519,22 +614,154 @@ class ProductController extends Controller
 
     public function getProductsAdminSellingByUserId()
     {
-        $products = Product::with('category', 'user')  
-            ->whereIn('publish_status', ['Vendido'])
+        $products = Product::with('category', 'user','orders.user','deliveryInformation')  
+            ->whereIn('admin_status', ['Comprado', 'En courier', 'Entregado', 'Devuelto', 'Finalizado'])
             ->get();
     
         $products = $products->map(function ($product) {
+            $buyerFullName = null; 
+            $order = $product->orders->first();
+            if ($order && $order->user_id) {
+                $user = User::find($order->user_id);
+                if ($user) {
+                    $buyerFullName = "{$user->name} {$user->lastname}";    
+                }
+            }
+            $deliveryPrice = null;
+            if ($order) {
+                // Accessing delivery_price directly through the pivot table relationship
+                $deliveryPrice = $order->pivot->delivery_price;
+            }
             return [
                 'product' => $product,  
                 'sellerFullName' => $product->user ? "{$product->user->name} {$product->user->lastname}" : null,
+                'buyerFullName' => $buyerFullName,
+                'deliveryPrice' => $deliveryPrice,
             ];
         });
     
-        return response()->json($products);
+        return response()->json($products);    
+
+    }
+
+    public function getProductAdminCloseSelling()
+    {
+        $products = Product::with('category', 'user','orders.user','deliveryInformation')  
+        ->whereIn('payment_status', ['Pendiente','Pagado'])
+        ->get();
+
+        $products = $products->map(function ($product) {
+            $buyerFullName = null;
+            $buyerRegion = null;
+            $buyerCity = null;
+            $order = $product->orders->first();
+            if ($order && $order->user_id) {
+                $user = User::find($order->user_id);
+                if ($user) {
+                    $buyerFullName = "{$user->name} {$user->lastname}";
+                    $buyerRegion = "{$user->region}";
+                    $buyerCity = "{$user->city}";
+                }
+            }
+            $deliveryPrice = null;
+            if ($order) {
+                // Accessing delivery_price directly through the pivot table relationship
+                $deliveryPrice = $order->pivot->delivery_price;
+            }
+            return [
+                'product' => $product,  
+                'sellerFullName' => $product->user ? "{$product->user->name} {$product->user->lastname}" : null,
+                'buyerFullName' => $buyerFullName,
+                'buyerRegion' => $buyerRegion,
+                'buyerCity' => $buyerCity,
+                'deliveryPrice' => $deliveryPrice,
+            ];
+        });
+
+        return response()->json($products);    
     }
     
 
     
+    public function destroyProduct(Product $product)
+    {
+        $product->delete();
+    
+        return response()->json(['message' => 'Product deleted successfully']);
+    }
 
+    public function updateVisibleStatusProduct(Product $product)
+    {
+        $product->update(['visible_status' => request()->input('visible_status')]);
+        
+        return response()->json(['message' => 'Product Visible Status Updated']);
+    }
 
+    public function getProductAdminPayment()
+    {
+        $products = Product::with('category', 'user','orders.user','deliveryInformation')  
+        ->whereIn('payment_status', ['Pagado'])
+        ->get();
+
+        $products = $products->map(function ($product) {
+            $buyerFullName = null;
+            $order = $product->orders->first();
+            if ($order && $order->user_id) {
+                $user = User::find($order->user_id);
+                if ($user) {
+                    $buyerFullName = "{$user->name} {$user->lastname}";
+                }
+            }
+            $deliveryPrice = null;
+            if ($order) {
+                // Accessing delivery_price directly through the pivot table relationship
+                $deliveryPrice = $order->pivot->delivery_price;
+            }
+            $orderId = null;
+            if ($order) {
+                // Accessing delivery_price directly through the pivot table relationship
+                $orderId = $order->pivot->order_id;
+            }
+            return [
+                'product' => $product,  
+                'sellerFullName' => $product->user ? "{$product->user->name} {$product->user->lastname}" : null,
+                'buyerFullName' => $buyerFullName,
+                'deliveryPrice' => $deliveryPrice,
+                'orderId' => $orderId,
+            ];
+        });
+
+        return response()->json($products);    
+    }
+
+    public function getProductAdminIncoming()
+    {
+        $products = Product::with('category', 'user','orders.user','deliveryInformation')  
+        ->whereIn('payment_status', ['Pagado'])
+        ->get();
+
+        $products = $products->map(function ($product) {
+            $buyerFullName = null;
+            $order = $product->orders->first();
+            if ($order && $order->user_id) {
+                $user = User::find($order->user_id);
+                if ($user) {
+                    $buyerFullName = "{$user->name} {$user->lastname}";
+                }
+            }
+            $deliveryPrice = null;
+            if ($order) {
+                // Accessing delivery_price directly through the pivot table relationship
+                $deliveryPrice = $order->pivot->delivery_price;
+            }
+            return [
+                'product' => $product,  
+                'sellerFullName' => $product->user ? "{$product->user->name} {$product->user->lastname}" : null,
+                'buyerFullName' => $buyerFullName,
+                'deliveryPrice' => $deliveryPrice,
+            ];
+        });
+
+        return response()->json($products);    
+    }
 }

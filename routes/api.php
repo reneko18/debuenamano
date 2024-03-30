@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\PostCategoryController;
 use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\Api\ProductControllerTest;
 use App\Http\Controllers\Api\RegionController;
 use App\Http\Controllers\Api\TestController;
 use App\Http\Controllers\Api\UserController;
@@ -29,10 +30,15 @@ use Illuminate\Support\Facades\Route;
 Route::get('/table/publish/{user_id}', [ProductController::class, 'getProductsPublishedByUserId']);
 Route::get('/table/display/{user_id}', [ProductController::class, 'getProductsDisplayedByUserId']);
 Route::get('/table/purchase/{user_id}', [ProductController::class, 'getProductsPurchasedByUserId']);
+Route::get('/table/sold/{user_id}', [ProductController::class, 'getProductsSoldByUserId']);
 
 //Test Admin by Case
 Route::get('/table/adminpublish', [ProductController::class, 'getProductsAdminPublishedByUserId']);
 Route::get('/table/adminselling', [ProductController::class, 'getProductsAdminSellingByUserId']);
+Route::get('/table/admingcloseselling',[Productcontroller::class,'getProductAdminCloseSelling']);
+
+Route::get('/table/adminpayments',[Productcontroller::class,'getProductAdminPayment']);
+Route::get('/table/adminincoming',[Productcontroller::class,'getProductAdminIncoming']);
 
 //Get products En Vitirina
 Route::get('/vitrina',[ProductController::class, 'getProductsByPublishStatus']);
@@ -45,6 +51,9 @@ Route::get('/products/edit/{product}',[Productcontroller::class,'editProduct']);
 //Update Product Status
 Route::put('/product/updatestatus/{product}',[ProductController::class,'updateProductStatus']);
 
+//Update Product Payment Status
+Route::put('/products/payment-status/{product}',[ProductController::class,'updateProductPaymentStatus']);
+
 //Save Product Status
 Route::put('/savestatus/{product}',[ProductController::class,'saveProductStatus']);
 
@@ -53,6 +62,15 @@ Route::put('/products/status/{product}', [ProductController::class, 'updateSelli
 
 //Update product contact (Mail, Whatsapp, Teléfono)
 Route::put('/products/contact/{product}', [ProductController::class, 'updateMediaSelection']);
+
+//Update product Admin Status (Comprado, En courier, Entregado, Devuelto, Finalizado)
+Route::put('/products/admin-status/{product}', [ProductController::class, 'updateAdminStatus']);
+
+//Delete product from the Admin
+Route::delete('/products/delete/{product}',[ProductController::class,'destroyProduct']);
+
+//Update Visible Status
+Route::put('/products/visible-status/{product}',[ProductController::class,'updateVisibleStatusProduct']);
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
@@ -96,6 +114,11 @@ Route::post('/update-total', [CartController::class, 'updateTotal'])->name('upda
 //API ORDER
 
 Route::post('/orders', [OrderController::class, 'storeOrder'])->name('store.order');
+
+
+//New Form
+Route::post('/product/store/one', [ProductControllerTest::class, 'storePhaseOne'])->middleware('api');
+Route::post('/product/store/two', [ProductControllerTest::class, 'storePhaseTwo'])->middleware('api');
 
 
 
