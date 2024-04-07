@@ -14,51 +14,49 @@
 /* GENERAL ****************************************************** */
 body {
     font-family: "Inter", sans-serif;
-    color: #1b1f22;
+    color: #344026;
     background-color: #fff;
 }
 
 /* MÁRGENES ****************************************************** */
 
-.pt-seccion-inicial {
-    padding-top: 11.25rem;
-}
-.mt-30 {
-    margin-top: 30px;
-}
-.mt-60 {
-    margin-top: 60px;
-}
-.mr-10 {
-    margin-right: 10px;
-}
-.mt-130 {
-    margin-top: 130px;
-}
-.mb-30 {
-    margin-bottom: 30px;
-}
-.mb-40 {
-    margin-bottom: 40px;
-}
-.mb-60 {
-    margin-bottom: 60px;
-}
-.pb-60 {
-    padding-bottom: 60px;
-}
-.ptb-60 {
-    padding: 60px 0;
-}
-.pt-130 {
-    padding-top: 130px;
-}
-.ptb-130 {
-    padding: 130px 0;
-}
-.pr-80 {
-    padding-right: 80px;
-}
+.mt-30  { margin-top: 30px;    }
+.mt-40  { margin-top: 40px;    }
+.mt-60  { margin-top: 60px;    }
+.mr-10  { margin-right: 10px;  }
+.mt-130 { margin-top: 130px;   }
+.mb-30  { margin-bottom: 30px; }
+.mb-40  { margin-bottom: 40px; }
+.mb-60  { margin-bottom: 60px; }
+.mb-100 { margin-bottom: 60px; }
+
+/* RELLENOS ****************************************************** */
+
+.pt-seccion-inicial { padding-top: 11.25rem; }
+.pb-60   { padding-bottom: 60px;  }
+.pb-100  { padding-bottom: 100px; }
+.ptb-60  { padding: 60px 0;       }
+.pt-130  { padding-top: 130px;    }
+.ptb-130 { padding: 130px 0;      }
+.pr-80   { padding-right: 80px;   }
+.p-10    { padding: 10px;         }
+.p-20    { padding: 20px;         }
+
+/* BORDERS ****************************************************** */
+.br-6 { border-radius: 6px;}
+.border-dashed { border: 1px dashed #344026; padding: 20px;}
+
+/* BACKGROUND ****************************************************** */
+
+.bg-negro-verdoso  { background: #151A0F; color: #f9fafa !important; }
+
+.bg-verde-oscuro  { background: #344026; color: #f9fafa !important; }
+
+.bg-verde { background: #728c54; color: #f9fafa !important; }
+
+.bg-verde-pastel { background: #C0C6B9 !important; }
+
+.bg-blanco-verdoso { background: #f9fafa !important; }
 
 /* TIPOGRAFÍA ****************************************************** */
 
@@ -141,7 +139,7 @@ h3 {
 }
 
 .titular {
-    color: #1b1f22;
+    color: #344026;
     font-size: 40px;
     display: inline;
     --underline-width-scale: calc(
@@ -187,7 +185,7 @@ h3 {
 }
 
 .bajada-h2 {
-    color: #1b1f22;
+    color: #344026;
     font-family: "Inter", sans-serif;
     font-size: 16px;
     font-weight: 300;
@@ -348,7 +346,7 @@ h3 {
 }
 
 .nav-pasos li {
-    color: #1b1f22;
+    color: #344026;
     font-family: "Quicksand", sans-serif;
     font-size: 16px;
     font-weight: 500;
@@ -381,7 +379,7 @@ h3 {
 
 label {
     font-family: "Quicksand", sans-serif;
-    color: #1b1f22;
+    color: #344026;
     font-size: 14px;
     font-weight: 700;
     line-height: 16px;
@@ -389,33 +387,41 @@ label {
     height: 16px;
 }
 
+.form-check-input { margin-top: 0; }
+.form-check-input:checked { background-color: #728C54; border-color: #728C54;}
+.form-check-label { font-family: "Inter", sans-serif; font-weight: 400; font-size: 14px; }
+
 .form-select,
 .form-control {
     margin-bottom: 24px;
     border-radius: 2px;
-    border: 1.2px solid #c0c6b9;
+    border: 1.2px solid #C0C6B9;
     padding: 10px;
+    background-color: #fff;
 }
 .login-page .form-control {
     margin-bottom: 0px;
 }
 
 .form-control::placeholder {
-    color: #1b1f22;
+    color: #344026;
     font-size: 14px;
     font-weight: 400;
     line-height: 20px;
     font-family: "Inter", sans-serif;
+    background-color: #fff;
 }
 
 .form-control:focus {
     border-color: #728c54 !important;
     box-shadow: 0px 1px 2px 0px rgba(39, 48, 29, 0.15);
+    background-color: #fff;
 }
 
 .form-select:focus {
     border-color: #728c54 !important;
     box-shadow: 0px 1px 2px 0px rgba(39, 48, 29, 0.15);
+    background-color: #fff;
 }
 .modulo-pasos textarea,
 .modulo-resumen textarea {
@@ -479,7 +485,7 @@ label {
     font-family: "Inter", sans-serif;
     font-size: 14px;
     font-weight: 400;
-    color: #1b1f22;
+    color: #344026;
 }
 .cat-sin-hijo label,
 #dropdown-cats .accordion-body label {
@@ -499,7 +505,7 @@ label {
     box-shadow: none;
     border-color: unset;
     background-color: #c0c6b9;
-    color: #1b1f22;
+    color: #344026;
 }
 
 #dropdown-cats .btn-check:checked + .btn {
@@ -542,7 +548,9 @@ label {
 }
 
 
-/*FORM PRECIO*********************************/
+/*FORMULARIOS PRECIO *********************************/
+
+
 .input-precio {
     margin-bottom: 0 !important;
     padding: 5px !important;
@@ -718,7 +726,7 @@ label {
 
 /*FOOTER *******************************************************/
 footer {
-    /*margin-top: 160px;    --> Quitar margin top a footer para las páginas que lo fusionan con su ultima sección */ 
+    margin-top: -20px; 
     background-color: #344026;
     color: #fff;
 }
@@ -812,22 +820,7 @@ footer a {
     margin-bottom: 0;
 }
 
-.bg-blanco-verdoso {
-    background: #f9fafa !important;
-    padding: 20px;
-}
 
-.bg-negro-verdoso {
-    background: #1b1f22;
-    padding: 20px;
-    color: #f9fafa !important;
-}
-
-.bg-verde {
-    background: #728c54;
-    padding: 20px;
-    color: #f9fafa !important;
-}
 
 .detalle-producto h3,
 .detalle-producto h2 {
@@ -855,7 +848,7 @@ footer a {
 
 /* Banner */
 .banner-dbm {
-    background-color: #1b1f22;
+    background-color: #344026;
     color: #f9fafa;
     padding: 30px 0;
 }
@@ -877,16 +870,11 @@ footer a {
 
 .enlace {
     font-size: 15px;
-    color: #1b1f22;
-    font-weight: 500;
+    color: #344026;
 }
 
 .enlace:hover {
-    color: #d6a549;
-}
-
-.bg-gris {
-    background-color: #f9fafa;
+    color: #728C54;
 }
 
 /* Frases fuerza ****************************************************** */
@@ -969,12 +957,12 @@ h1.parallax-txt {
     height: 47vh;
 }
 .link-post-archive{
-    color: #1b1f22;
+    color: #344026;
     text-decoration: none;
     transition: all .4s ease-in-out;
 }
 .link-post-archive:hover{
-    color:#1b1f22;
+    color:#344026;
     opacity: .4;
 }
 
@@ -1148,7 +1136,7 @@ h1.parallax-txt {
   /*EDIT PRODUCT ADMIN***********************************/
   .underline-dbm{
     font-weight: 700;
-    color: #1B1F22;
+    color: #344026;
   }
   .save-edit-pro{
     margin-right: 3rem;
@@ -1157,7 +1145,7 @@ h1.parallax-txt {
 
 /* Container  ****************************************************** */
 .col-md-5-grid {
-    width: 35%;
+    width: 38%;
     position: absolute;
     right:10%;
     top:-100%;

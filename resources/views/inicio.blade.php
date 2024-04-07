@@ -106,7 +106,7 @@
                 <a href="#" class="boton-principal">visita el blog</a>
             </div>
             <div class="col-md-5-grid">
-                <img src="img/dbm_comunidad.png" alt="Tu comunidad de reutilización y crianza">
+                <img class="img-fluid" src="img/dbm_comunidad.png" alt="Tu comunidad de reutilización y crianza">
             </div>    
         </div>
     </div>
