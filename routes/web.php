@@ -37,7 +37,8 @@ use Spatie\Permission\Middlewares\RoleMiddleware;
 Route::get('/dashboard/user/{user}',[UserController::class,'adminUser'])->name('dashboard.client');
 
 Route::get('/new-formulario-venta',[SellingFormController::class,'show'])->name('sellingform.show')->middleware('auth');
-Route::get('/formulario-test',[SellingFormController::class,'display'])->name('formtest.show')->middleware('auth');
+Route::get('/formulario-test',[SellingFormController::class,'displayForm'])->name('formtest.show')->middleware('auth');
+Route::get('/formulario-test/{product}',[SellingFormController::class,'displayUnfinishedForm'])->name('formtestunfi.show')->middleware('auth');
 
 Route::get('/exito-producto-venta',[SellingFormController::class,'success'])->name('sellingform.success')->middleware('auth');
 

@@ -21,7 +21,12 @@
 
     <div>
         <Tabs>
-            <Tab title="Publicaciones" icon="fa-regular fa-eye">
+            <Tab title="Borradores">
+                <draft 
+                    :user-id="userId"
+                />
+            </Tab>
+            <Tab title="Revisión" icon="fa-regular fa-eye">
                 <published
                     :user-id="userId"
                     @update-products-published-count="
@@ -30,7 +35,7 @@
                 />
             </Tab>
 
-            <Tab title="En vitrina">
+            <Tab title="Vitrina">
                 <displayed
                     :user-id="userId"
                     @update-products-displayed-count="
@@ -66,6 +71,7 @@
 import { ref } from "vue";
 import Tabs from "../components/Tabs/Tabs.vue";
 import Tab from "../components/Tabs/Tab.vue";
+import Draft from "../components/UserAdmin/Draft.vue";
 import Published from "../components/UserAdmin/Published.vue";
 import Displayed from "../components/UserAdmin/Displayed.vue";
 import Purchased from "../components/UserAdmin/Purchased.vue";

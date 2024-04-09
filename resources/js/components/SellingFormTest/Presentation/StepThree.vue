@@ -240,18 +240,14 @@
                 :icon="['fas', 'chevron-right']"
             />
         </button>
-    </div>
-    <Toast />
+    </div>    
 </template>
 <script setup>
-import Toast from 'primevue/toast';
-import { useToast } from 'primevue/usetoast';
+
 import { useFormStore } from "../../../stores/valuesTwo";
 import { ref, onMounted, defineEmits } from "vue";
 
 const emit = defineEmits(["next-step", "constant-emitted", "active-subtitles","close-step"]);
-
-const toast = useToast();
 
 const mainStep = 1;
 const subValue = 1;
@@ -270,18 +266,12 @@ const nextStep = async () => {
     formStore.setFormData(formData);
     try {
         await submitForm();
-        toast.add({
-            severity: 'success',
-            summary: 'Success Message',
-            detail: 'Etapa de presentacion guardada con éxito',
-            life: 3000
-        });  
         // Introduce a delay of 4 seconds before triggering the emits
         setTimeout(() => {
             emit("next-step");
             emit("active-subtitles", subValue);
             emit("close-step",closeStep);
-        }, 4000); 
+        }, 2000); 
     } catch (error) {
         console.error(error);
     }

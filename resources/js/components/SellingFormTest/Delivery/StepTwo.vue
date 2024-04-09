@@ -13,7 +13,7 @@
             </div>
         </div>
 
-        <div class="row col-md-11 mx-auto bank-form" v-if="!useBankDetails">      
+        <div class="row col-md-11 mx-auto bank-form" v-if="useBankDetails">      
             <div class="col">
                 <div>
                     <label for="infoPayName" class="form-label"       
@@ -245,22 +245,31 @@
 </template>
 <script setup>
 import { useFormStore } from "../../../stores/valuesTwo";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, defineEmits } from "vue";
 
-const emit = defineEmits(["active-subtitles"]);
+const emit = defineEmits(["active-subtitles","close-step"]);
 
 const props = defineProps({
     userId: { 
         type: String, 
         default: "" 
     },
+    productId: { 
+        type: String, 
+        default: "" 
+    },
+    productSlug: { 
+        type: String, 
+        default: "" 
+    },
     userBank: { 
         type: [Object, String], 
-        default: null,
+        default: null, 
     },
 });
 
-const { formData, setFormData } = useFormStore();
+const formStore = useFormStore();
+const formData = formStore.formData;
 
 const mainStep = 4;
 const subValue = 4;
@@ -268,10 +277,41 @@ const subValue = 4;
 const bankDetails = ref([]);
 const useBankDetails = ref(props.userBank);
 
-const nextStep = () => {
-  setFormData(formData);
-  emit("next-step");
-  emit("active-subtitles", subValue);
+const nextStep = async () => {
+  formStore.setFormData(formData);
+  try {
+        await submitForm();
+        setTimeout(() => {
+            emit("next-step");
+            emit("active-subtitles", subValue);
+            emit("close-step",closeStep);
+        }, 2000); 
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+const submitForm = async () => {
+    try {
+        const csrfToken = document.head.querySelector(
+            'meta[name="csrf-token"]'
+        ).content;
+        console.log("CSRF Token:", csrfToken);  
+        console.log("Datos: ",formData);
+        const response = await axios.post(
+            `/api/product/store/four/${props.productSlug}`,
+            formData,
+            {
+                headers: {
+                    "X-CSRF-TOKEN": csrfToken,
+                },
+            }
+        );
+
+        console.log(response);             
+    } catch (error) {
+        console.error(error.response.data);
+    }
 };
 
 const formatAndValidateRUT = () => {

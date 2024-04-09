@@ -42,13 +42,29 @@
     <Toast />
 </template>
 <script setup>
-import Toast from 'primevue/toast';
 import { useFormStore } from "../../../stores/valuesTwo";
 import { onMounted, defineEmits } from "vue";
 
-const emit = defineEmits(["next-step", "constant-emitted", "active-subtitles"]);
+const props = defineProps({
+    userId: { 
+        type: String, 
+        default: "" 
+    },
+    productId: { 
+        type: String, 
+        default: "" 
+    },
+    productSlug: { 
+        type: String, 
+        default: "" 
+    },
+    userBank: { 
+        type: [Object, String], 
+        default: null, 
+    },
+});
 
-const toast = useToast();
+const emit = defineEmits(["next-step", "constant-emitted", "active-subtitles","close-step"]);
 
 const mainStep = 4;
 const subValue = 2;
@@ -81,13 +97,42 @@ let finalAmount = 0;
 //     },
 // };
 
-const nextStep = () => {
+const nextStep = async () => {
     formStore.setFormData(formData);
-    emit("next-step");
-    emit("active-subtitles", subValue);
+    try {
+        await submitForm();
+        setTimeout(() => {
+            emit("next-step");
+            emit("active-subtitles", subValue);
+            emit("close-step",closeStep);
+        }, 2000); 
+    } catch (error) {
+        console.error(error);
+    }
 };
 
+const submitForm = async () => {
+    try {
+        const csrfToken = document.head.querySelector(
+            'meta[name="csrf-token"]'
+        ).content;
+        console.log("CSRF Token:", csrfToken);  
+        console.log("Datos: ",formData);
+        const response = await axios.post(
+            `/api/product/store/two/${props.productSlug}`,
+            formData,
+            {
+                headers: {
+                    "X-CSRF-TOKEN": csrfToken,
+                },
+            }
+        );
 
+        console.log(response);             
+    } catch (error) {
+        console.error(error.response.data);
+    }
+};
 
 const feeDBM = () => {
     // Remove dots to get the raw number for calculations

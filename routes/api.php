@@ -27,6 +27,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 //Test products by ID
+Route::get('/table/draft/{user_id}', [ProductController::class, 'getProductsDraftByUserId']);
 Route::get('/table/publish/{user_id}', [ProductController::class, 'getProductsPublishedByUserId']);
 Route::get('/table/display/{user_id}', [ProductController::class, 'getProductsDisplayedByUserId']);
 Route::get('/table/purchase/{user_id}', [ProductController::class, 'getProductsPurchasedByUserId']);
@@ -118,7 +119,13 @@ Route::post('/orders', [OrderController::class, 'storeOrder'])->name('store.orde
 
 //New Form
 Route::post('/product/store/one', [ProductControllerTest::class, 'storePhaseOne'])->middleware('api');
-Route::post('/product/store/two', [ProductControllerTest::class, 'storePhaseTwo'])->middleware('api');
+Route::post('/product/store/two/{product}', [ProductControllerTest::class, 'storePhaseTwo'])->middleware('api');
+Route::post('/product/store/three/{product}', [ProductControllerTest::class, 'storePhaseThree'])->middleware('api');
+Route::post('/product/store/four/{product}', [ProductControllerTest::class, 'storePhaseFour'])->middleware('api');
+
+Route::post('/product/store/oneupdate/{product}',[ProductControllerTest::class,'updatePhaseOne'])->middleware('api');
+
+Route::get('/product/getinfo/{product}',[ProductControllerTest::class,'getInfo'])->middleware('api');
 
 
 

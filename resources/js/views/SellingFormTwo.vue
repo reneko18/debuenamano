@@ -1,4 +1,5 @@
 <template>
+    <Toast />
     <section class="container">
         <h1>Formulario de Publicación</h1>
         <p class="bajada-h1">
@@ -77,6 +78,8 @@
                     @active-subtitles="handleSubStep"
                     @close-step="handleCloseStep"
                     :user-id="userId"
+                    :product-id="productId"
+                    :product-slug="productSlug"
                     :user-bank="userBank"                    
                 />
             </div>
@@ -84,6 +87,8 @@
     </section>
 </template>
 <script setup>
+import Toast from 'primevue/toast';
+import { useToast } from 'primevue/usetoast';
 import { ref,computed } from "vue";
 import { useFormStore } from "../stores/valuesTwo";
 import StepOnePre from "../components/SellingFormTest/Presentation/StepOne.vue";
@@ -95,9 +100,18 @@ import StepThreeStat from "../components/SellingFormTest/Status/StepThree.vue";
 import StepOnePhoto from "../components/SellingFormTest/Photos/StepOne.vue";
 import StepOneDP from "../components/SellingFormTest/Delivery/StepOne.vue";
 import StepTwoDP from "../components/SellingFormTest/Delivery/StepTwo.vue";
+import Summary from "../components/SellingFormTest/Summary/Summary.vue";
 
 const props = defineProps({
     userId: { 
+        type: String, 
+        default: "" 
+    },
+    productId: { 
+        type: String, 
+        default: "" 
+    },
+    productSlug: { 
         type: String, 
         default: "" 
     },
@@ -105,16 +119,48 @@ const props = defineProps({
         type: [Object, String], 
         default: null, 
     },
+    mainStep: { 
+        type: Array, 
+        default: () => [],
+    },
+    activeTitlePro: { 
+        type: String, 
+        default: "" 
+    },
+    receivedConstantPro: { 
+        type: String, 
+        default: "" 
+    },
+    currentStepPro: { 
+        type: String, 
+        default: "" 
+    },
 });
 
-const activeTitles = ref(0);
+const toast = useToast();
+
+const activeTitles = ref('');
 const receivedConstant = ref('');
-const completedSteps = ref([]);
+const currentStep = ref('');
+const completedSteps = ref('');
+
+if(props.productId){
+    completedSteps.value = props.mainStep;
+    activeTitles.value = Number(props.activeTitlePro);
+    receivedConstant.value = Number(props.receivedConstantPro);
+    currentStep.value = Number(props.currentStepPro);
+}else{
+    completedSteps.value = [];
+    activeTitles.value = 0;
+    receivedConstant.value = '';
+    currentStep.value = 0;
+}
+
 const expandedItem = ref(0);
 
 const formStore = useFormStore();
 
-const currentStep = ref(0);
+
 const formData = formStore.formData;
 
 const nextStep = () => {
@@ -131,6 +177,7 @@ const formSteps = [
     StepOnePhoto,
     StepOneDP,
     StepTwoDP,
+    Summary,
 ];
 
 const linkCollection = ref([
@@ -178,6 +225,17 @@ const linkCollection = ref([
             number: [7, 8],
         },
     },
+    {
+        mainTitle: {
+            name: "Resumen",
+            number: 5,
+            firstComp: 9,
+        },
+        links: {
+            titles: ["Resumen"],
+            number: [9],
+        },
+    },
 ]);
 
 const clickMenu = (stepNumber) => {
@@ -195,6 +253,12 @@ const handleMainStep = (mainStep) => {
 
 const handleCloseStep = (stepNumber) => {
     completedSteps.value.push(stepNumber);
+    toast.add({
+            severity: 'success',
+            summary: 'Mensaje de éxito',
+            detail: 'Etapa guardada con éxito',
+            life: 3000
+    });  
 };
 
 const handleSubStep = (subStep) => {
@@ -207,7 +271,13 @@ const expandItem = (index) => {
 
 const isStepCompleted = computed(() => {
     return (stepNumber) => {
-        return completedSteps.value.includes(stepNumber);
+        if(props.productId){
+            const completedStepsArray = completedSteps.value.toString().split(',');// Split the string into an array
+            return completedStepsArray.includes(stepNumber.toString()); // Check if stepNumber exists in the array
+        }else{
+            return completedSteps.value.includes(stepNumber);
+        }
+        
     };
 });
 

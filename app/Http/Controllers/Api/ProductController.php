@@ -246,12 +246,22 @@ class ProductController extends Controller
         //
     }
 
+    public function getProductsDraftByUserId($user_id)
+    {
+    // Assuming you have a 'products' table with a 'user_id' and 'publish_status' column
+    $products = Product::where('user_id', $user_id)
+        ->whereIn('publish_status', ['Guardado/borrador'])
+        ->get();
+
+    return response()->json($products);
+    }
+
     public function getProductsPublishedByUserId($user_id)
     {
     // Assuming you have a 'products' table with a 'user_id' and 'publish_status' column
     $products = Product::with('category','galleries')
         ->where('user_id', $user_id)
-        ->whereIn('publish_status', ['Guardado/borrador', 'En revisión'])
+        ->whereIn('publish_status', ['En revisión'])
         ->get();
 
     return response()->json($products);

@@ -54,6 +54,10 @@ return new class extends Migration
             $table->string('slug')->nullable();
             $table->string('meta_title')->nullable();
             $table->text('meta_description')->nullable();
+            $table->string('main_step')->nullable();
+            $table->string('active_title')->nullable();
+            $table->string('received_constant')->nullable();
+            $table->string('current_step')->nullable();
             $table->timestamps();
         });
     }

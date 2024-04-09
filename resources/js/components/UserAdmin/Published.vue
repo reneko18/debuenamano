@@ -11,7 +11,7 @@
                 ><font-awesome-icon :icon="['fas', 'magnifying-glass']"
             /></span>
         </div>
-        <a href="/new-formulario-venta" class="btn boton-principal mb-5">
+        <a href="/formulario-test" class="btn boton-principal mb-5">
             <font-awesome-icon :icon="['fas', 'plus']" />
             Nueva publicación
         </a>
