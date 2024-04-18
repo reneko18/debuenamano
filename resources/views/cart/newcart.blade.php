@@ -5,7 +5,7 @@
 
 @section('content')
     @if ($cartItems)
-        <section class="container-fluid p-pages">
+        <section class="container-fluid p-pages pb-100">
             <div class="container mb-5">
                 <h1>Proceso de compra</h1>          
             </div>
@@ -21,9 +21,10 @@
             </form>     
         </section>       
     @else
-        <section class="container-fluid p-pages">
-            <div class="container mb-5 py-5">
-                <h1 class="text-center mb-5">Lo sentimos tu carro esta vacio debes agregar un producto de la tienda</h1>
+        <section class="container-fluid p-pages pb-100">
+            <div class="container mb-5 py-5 text-center">
+                <img class="mb-5" src="{{asset('/img/carrito-vacio.svg')}}" alt="icono carro de compra vacío">
+                <h3 class="mb-5">No hay productos en tu carro</h3>
                 <div class="d-flex justify-content-center">
                     <a href="#" class="btn boton-principal">Ir a la tienda</a>
                 </div>                
