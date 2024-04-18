@@ -13,7 +13,7 @@
                 <p>¡Gracias por ser parte de nuestra comunidad y por compartir tu increíble contenido!</p>
                 <div class="d-flex justify-content-center align-items-center mt-5">
                     <a href="{{ route('inicio') }}" class="underline-dbm mr-5">Volver al home</a>
-                    <a href="{{ route('sellingform.show') }}" class="btn boton-principal">Enviar otro artículo</a>
+                    <a href="{{ route('formtest.show') }}" class="btn boton-principal">Enviar otro artículo</a>
                 </div>
             </div>
         </div>        

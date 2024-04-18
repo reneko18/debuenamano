@@ -117,7 +117,7 @@ class ProductControllerTest extends Controller
 
         $product->deliveryInformation()->save($deliveryInformation);
 
-        return response()->json(['message' => 'Product phase 1 uploaded successfully']);
+        return response()->json(['message' => 'Product phase 1 uploaded successfully','product' => $product]);
     }
 
     public function generateSKU($categoryName)
@@ -365,5 +365,11 @@ class ProductControllerTest extends Controller
         $deliveryInformation->save();
 
         return response()->json(['message' => 'Product phase 1 uploaded successfully']);
+    }
+
+    public function getSlug(Product $product)
+    { 
+        // Return the product instance with its related models
+        return response()->json(['slug' => $product->slug], 200);
     }
 }

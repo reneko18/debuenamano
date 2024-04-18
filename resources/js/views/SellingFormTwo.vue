@@ -1,4 +1,5 @@
 <template>
+    {{ completedSteps }}
     <Toast />
     <section class="container">
         <h1>Formulario de Publicación</h1>
@@ -246,6 +247,7 @@ const clickMainTitle = (index, linkNumber) => {
     activeTitles.value = index;
     currentStep.value = linkNumber;
 };
+
 
 const handleMainStep = (mainStep) => {
     receivedConstant.value = mainStep;

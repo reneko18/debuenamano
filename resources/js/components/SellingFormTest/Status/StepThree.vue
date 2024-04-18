@@ -68,6 +68,7 @@ const emit = defineEmits(["next-step", "constant-emitted", "active-subtitles","c
 
 const mainStep = 4;
 const subValue = 2;
+const closeStep = 2;
 const formStore = useFormStore();
 const formData = formStore.formData;
 let fee = 0;
@@ -117,9 +118,12 @@ const submitForm = async () => {
             'meta[name="csrf-token"]'
         ).content;
         console.log("CSRF Token:", csrfToken);  
-        console.log("Datos: ",formData);
+        console.log("Datos: ", formData);
+              
+        const slug = props.productSlug ? props.productSlug : formData.stepZeroSlug;
+
         const response = await axios.post(
-            `/api/product/store/two/${props.productSlug}`,
+            `/api/product/store/two/${slug}`,
             formData,
             {
                 headers: {
@@ -133,6 +137,7 @@ const submitForm = async () => {
         console.error(error.response.data);
     }
 };
+
 
 const feeDBM = () => {
     // Remove dots to get the raw number for calculations

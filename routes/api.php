@@ -127,6 +127,8 @@ Route::post('/product/store/oneupdate/{product}',[ProductControllerTest::class,'
 
 Route::get('/product/getinfo/{product}',[ProductControllerTest::class,'getInfo'])->middleware('api');
 
+Route::get('/product/getslug/{product}',[ProductControllerTest::class,'getSlug'])->middleware('api');
+
 
 
 

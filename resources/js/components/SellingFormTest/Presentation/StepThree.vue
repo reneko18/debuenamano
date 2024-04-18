@@ -252,6 +252,7 @@ const emit = defineEmits(["next-step", "constant-emitted", "active-subtitles","c
 const mainStep = 1;
 const subValue = 1;
 const closeStep = 1;
+const slug = ref('');
 const formStore = useFormStore();
 const formData = formStore.formData;
 const errorMessageSize = ref('');
@@ -264,9 +265,9 @@ const nextStep = async () => {
     }
     errorMessageSize.value = null;
     formStore.setFormData(formData);
-    try {
+    try {              
         await submitForm();
-        // Introduce a delay of 4 seconds before triggering the emits
+        await getSlug(slug.value);  
         setTimeout(() => {
             emit("next-step");
             emit("active-subtitles", subValue);
@@ -275,6 +276,7 @@ const nextStep = async () => {
     } catch (error) {
         console.error(error);
     }
+    console.log("Final Data",formData.slugDraft);
 };
 
 const handleNumericInput = (fieldName) => {
@@ -302,12 +304,25 @@ const submitForm = async () => {
                 },
             }
         );
-
-        console.log(response);             
+        console.log(response);   
+        // Accessing the slug from the response
+        slug.value = response.data.product.slug;     
+        console.log(slug.value);
     } catch (error) {
         console.error(error.response.data);
     }
 };
+
+const getSlug = async(slug) => {
+    try {
+        const response = await axios.get(`api/product/getslug/${slug}`);
+        console.log(response.data.slug);
+        // formData.stepZeroSlug = response.data.slug;
+        formStore.setFormData({ ...formData, stepZeroSlug: response.data.slug });
+    } catch (error) {
+        console.error("Error fetching the slug:", error);
+    }
+}
 
 onMounted(() => {
     emit("constant-emitted", mainStep);

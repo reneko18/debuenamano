@@ -132,6 +132,7 @@ const emit = defineEmits(["next-step", "constant-emitted", "active-subtitles","c
 
 const mainStep = 3;
 const subValue = 3;
+const closeStep = 3;
 const formStore = useFormStore();
 const formData = formStore.formData;
 
@@ -156,8 +157,9 @@ const submitForm = async () => {
         ).content;
         console.log("CSRF Token:", csrfToken);  
         console.log("Datos: ",formData);
+        const slug = props.productSlug ? props.productSlug : formData.stepZeroSlug;
         const response = await axios.post(
-            `/api/product/store/three/${props.productSlug}`,
+            `/api/product/store/three/${slug}`,
             formData,
             {
                 headers: {

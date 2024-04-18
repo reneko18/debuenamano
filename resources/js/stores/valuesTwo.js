@@ -54,10 +54,12 @@ export const useFormStore = defineStore("form", {
             stepNineBankNumber: "",
             stepNineRut: "",
             stepNineBankType: "",
+            //Slug Draft
+            stepZeroSlug: "",
         },
         characterCount: 0,
         characterCountObs: 0,
-        characterCountReco: 0,
+        characterCountReco: 0,     
     }),
     actions: {
         setFormData(formData) {

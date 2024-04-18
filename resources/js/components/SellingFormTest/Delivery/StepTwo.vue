@@ -273,6 +273,7 @@ const formData = formStore.formData;
 
 const mainStep = 4;
 const subValue = 4;
+const closeStep = 4;
 
 const bankDetails = ref([]);
 const useBankDetails = ref(props.userBank);
@@ -298,8 +299,9 @@ const submitForm = async () => {
         ).content;
         console.log("CSRF Token:", csrfToken);  
         console.log("Datos: ",formData);
+        const slug = props.productSlug ? props.productSlug : formData.stepZeroSlug;
         const response = await axios.post(
-            `/api/product/store/four/${props.productSlug}`,
+            `/api/product/store/four/${slug}`,
             formData,
             {
                 headers: {
