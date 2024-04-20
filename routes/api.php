@@ -34,6 +34,7 @@ Route::get('/table/purchase/{user_id}', [ProductController::class, 'getProductsP
 Route::get('/table/sold/{user_id}', [ProductController::class, 'getProductsSoldByUserId']);
 
 //Test Admin by Case
+Route::get('/table/admindraft', [ProductController::class, 'getProductsAdminDraftByUserId']);
 Route::get('/table/adminpublish', [ProductController::class, 'getProductsAdminPublishedByUserId']);
 Route::get('/table/adminselling', [ProductController::class, 'getProductsAdminSellingByUserId']);
 Route::get('/table/admingcloseselling',[Productcontroller::class,'getProductAdminCloseSelling']);
@@ -122,6 +123,7 @@ Route::post('/product/store/one', [ProductControllerTest::class, 'storePhaseOne'
 Route::post('/product/store/two/{product}', [ProductControllerTest::class, 'storePhaseTwo'])->middleware('api');
 Route::post('/product/store/three/{product}', [ProductControllerTest::class, 'storePhaseThree'])->middleware('api');
 Route::post('/product/store/four/{product}', [ProductControllerTest::class, 'storePhaseFour'])->middleware('api');
+Route::post('/product/store/draft-status/{product}', [ProductControllerTest::class, 'changeDraftStatus'])->middleware('api');
 
 Route::post('/product/store/oneupdate/{product}',[ProductControllerTest::class,'updatePhaseOne'])->middleware('api');
 

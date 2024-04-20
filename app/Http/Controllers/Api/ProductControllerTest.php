@@ -294,6 +294,33 @@ class ProductControllerTest extends Controller
         return response()->json(['message' => 'Product updated successfully'], 200);
     }
 
+    public function changeDraftStatus(Request $request, Product $product)
+    {
+        //Main Step
+        // Define the array
+        $mainStepArray = ['1','2','3','4'];
+
+        // Convert the array to JSON format
+        $mainStepJson = json_encode($mainStepArray);
+
+        // Assign the JSON string to the main_step attribute of the product
+        $product->main_step = $mainStepJson;
+
+        //Active Title
+        $product->active_title = '4';
+        //Received Constant
+        $product->received_constant = '5';
+        
+        //Current Step
+        $product->current_step = '9';
+        $product->publish_status = $request->input('status');
+
+        $product->save();
+
+        // Optionally, you can return a response indicating success or failure
+        return response()->json(['message' => 'Product updated successfully'], 200);
+    }
+
     public function getInfo(Product $product)
     {
         // Eager load the deliveryInformation and category relations

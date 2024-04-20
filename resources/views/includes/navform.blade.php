@@ -15,7 +15,7 @@
             <a class="nav-link" href="{{ route('formtest.show')}}">Vender</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">DBM</a>
+            <a class="nav-link" href="{{ route('nosotros')}}">DBM</a>
           </li> 
           <li class="nav-item">
             <a class="nav-link" href="{{ route('post.blog')}}">Blog</a>

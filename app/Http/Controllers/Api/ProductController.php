@@ -332,6 +332,23 @@ class ProductController extends Controller
         return response()->json($productsWithSellerFullName);
     }
 
+    public function getProductsAdminDraftByUserId()
+    {
+        $products = Product::with('category', 'user')  
+            ->whereIn('publish_status', ['Guardado/borrador']) 
+            ->get();
+    
+        $productsWithData = $products->map(function ($product) {
+            return [
+                'product' => $product,
+                'sellerFullName' => optional($product->user)->name . ' ' . optional($product->user)->lastname, 
+            ];
+        });
+    
+        return response()->json($productsWithData);
+    }
+    
+
     public function getProductsAdminPublishedByUserId()
     {
         $products = Product::with('category', 'user')  

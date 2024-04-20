@@ -1058,6 +1058,7 @@
             firstPhase();
             secondPhase();
             fourthPhase();
+            changeDraftStatus();
             window.location.href = "/exito-producto-venta"; 
         } catch (error) {
             console.error("Error saving data:", error);
@@ -1069,10 +1070,9 @@
             const csrfToken = document.head.querySelector(
                 'meta[name="csrf-token"]'
             ).content;
-            console.log("CSRF Token:", csrfToken);  
-            console.log("Datos: ",formData);
+            const slug = props.productSlug ? props.productSlug : formData.stepZeroSlug;
             const response = await axios.post(
-                `/api/product/store/oneupdate/${props.productSlug}`,
+                `/api/product/store/oneupdate/${slug}`,
                 formData,
                 {
                     headers: {
@@ -1091,10 +1091,9 @@
             const csrfToken = document.head.querySelector(
                 'meta[name="csrf-token"]'
             ).content;
-            console.log("CSRF Token:", csrfToken);  
-            console.log("Datos: ",formData);
+            const slug = props.productSlug ? props.productSlug : formData.stepZeroSlug;
             const response = await axios.post(
-                `/api/product/store/two/${props.productSlug}`,
+                `/api/product/store/two/${slug}`,
                 formData,
                 {
                     headers: {
@@ -1114,11 +1113,33 @@
             const csrfToken = document.head.querySelector(
                 'meta[name="csrf-token"]'
             ).content;
-            console.log("CSRF Token:", csrfToken);  
-            console.log("Datos: ",formData);
+            const slug = props.productSlug ? props.productSlug : formData.stepZeroSlug;
             const response = await axios.post(
-                `/api/product/store/four/${props.productSlug}`,
+                `/api/product/store/four/${slug}`,
                 formData,
+                {
+                    headers: {
+                        "X-CSRF-TOKEN": csrfToken,
+                    },
+                }
+            );
+
+            console.log(response);             
+        } catch (error) {
+            console.error(error.response.data);
+        }
+    };
+
+    const changeDraftStatus = async () => {
+        try {
+            const csrfToken = document.head.querySelector(
+                'meta[name="csrf-token"]'
+            ).content;
+            const slug = props.productSlug ? props.productSlug : formData.stepZeroSlug;
+            const status = "En revisión";
+            const response = await axios.post(
+                `/api/product/store/draft-status/${slug}`,
+                { status },
                 {
                     headers: {
                         "X-CSRF-TOKEN": csrfToken,

@@ -1,5 +1,4 @@
 <template>
-    {{ completedSteps }}
     <Toast />
     <section class="container">
         <h1>Formulario de Publicación</h1>

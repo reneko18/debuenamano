@@ -1,28 +1,9 @@
 <template>
     <div>
-        <!-- <Tabs>
-            <Tab title="Solicitud de Publicaciones">
-                <products-published />
-            </Tab>
-
-            <Tab title="En vitrina">
-                <vitrina />
-            </Tab>
-
-            <Tab title="Productos comprados">
-                <sell-products />
-            </Tab>
-            <Tab title="Ventas cerradas">
-                <closing-sell-products />
-            </Tab>
-            <Tab title="Pagos">
-                <payments />
-            </Tab>
-            <Tab title="Ingresos">
-                <incomings />
-            </Tab>
-        </Tabs> -->
         <TabView>
+            <TabPanel header="Borradores">
+                <draft-products />
+            </TabPanel>
             <TabPanel header="Solicitud de Publicaciones">
                 <products-published />
             </TabPanel>
@@ -57,11 +38,10 @@
 </template>
 <script setup>
 import { ref } from 'vue';
-// import Tabs from "../components/Tabs/Tabs.vue";
-// import Tab from "../components/Tabs/Tab.vue";
 import TabView from 'primevue/tabview';
 import TabPanel from 'primevue/tabpanel';
 import Badge from 'primevue/badge';
+import DraftProducts from "../components/AdminPanel/DraftProducts.vue";
 import ProductsPublished from "../components/AdminPanel/ProductsPublished.vue";
 import Vitrina from "../components/AdminPanel/Vitrina.vue";
 import SellProducts from "../components/AdminPanel/SellProducts.vue";
