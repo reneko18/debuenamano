@@ -10,10 +10,8 @@
     <section class="container-fluid first-sec-blog">
         <div class="container mx-auto d-flex align-items-center">
             <div class="row">
-                <div class="col-5">
+                <div class="col-7">
                     <h1>Exploremos juntos el maravilloso viaje de la crianza</h1>
-                </div>
-                <div class="col-4">
                     <p>Tómate tu tiempo, relájate y sumérgete en nuestro mundo de historias, consejos prácticos, ideas inspiradoras y perspectivas honestas sobre la crianza.</p>
                 </div>
             </div>
@@ -29,7 +27,7 @@
         </nav>
         </div>
     </section>
-    <section class="container-fluid second-sec-blog py-5">
+    <section class="container second-sec-blog py-5">
         <div id="app">
             <posts-loop></posts-loop>
         </div>
