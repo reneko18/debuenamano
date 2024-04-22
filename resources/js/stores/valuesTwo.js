@@ -35,6 +35,7 @@ export const useFormStore = defineStore("form", {
             stepFiveAdvice: "",
             //Photo
             stepSixPhoto: [],
+            stepSixPhotoDB: [],
             //Delivery and price Step 1
             stepSevenSelectedSection: "Chilexpress",
             stepSevenOptionDelivery: "Chilexpress",

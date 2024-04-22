@@ -131,6 +131,9 @@ Route::get('/product/getinfo/{product}',[ProductControllerTest::class,'getInfo']
 
 Route::get('/product/getslug/{product}',[ProductControllerTest::class,'getSlug'])->middleware('api');
 
+//Delete Image
+Route::delete('/images/{id}', [ProductControllerTest::class, 'destroyImage'])->middleware('api');
+
 
 
 

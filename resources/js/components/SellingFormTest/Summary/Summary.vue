@@ -509,8 +509,8 @@
             </div>
         </div>
         <div><h2>Fotografías</h2></div>
-        <div class="row">
-            <div class="col-5">
+        <div>
+            <div class="col">
                 <div class="cont-upload-image">
                     <div v-bind="getRootProps()" class="dropzone">
                         <svg
@@ -550,9 +550,9 @@
                     </div>
                 </div>
             </div>
-            <div class="col-7">
-                <div class="cont-images-result">
-                    <span v-show="formData.stepSixPhoto != ''">Archivos</span>
+            <div class="col">
+                <div class="cont-images-result-end">
+                    <span v-show="formData.stepSixPhoto != ''">Adjunto ahora</span>
                     <div
                         class="row-results"
                         v-for="(image, index) in formData.stepSixPhoto"
@@ -565,6 +565,27 @@
                         <div class="second">
                             <p>{{ image.size }}</p>
                             <button class="btn" @click="deleteImage(index)">
+                                <font-awesome-icon :icon="['far', 'trash-can']" />
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="cont-images-result-end">
+                    <span v-show="formData.stepSixPhotoDB != ''">Adjunto anteriormente</span>
+                    <div
+                        class="row-results"
+                        v-for="(image, index) in formData.stepSixPhotoDB"
+                        :key="index"
+                    >
+                        <div class="first">
+                            <img :src="'/' + image.url" :alt="image.alt" />
+                            <p>{{ image.alt }}</p>
+                        </div>
+                        <div class="second">
+                            <p>{{ image.size }}</p>
+                            <button class="btn" @click="showDeleteConfirmation(index)">
                                 <font-awesome-icon :icon="['far', 'trash-can']" />
                             </button>
                         </div>
@@ -908,9 +929,16 @@
         <a class="btn boton-principal" @click="submitForm">
             Confirmar <font-awesome-icon :icon="['fas', 'chevron-right']"
         /></a>
-    </div>
+    </div>   
+    <Dialog v-model="displayConfirmDialog" modal :visible="displayConfirmDialog" @hide="cancelDelete">
+      <span>Estas seguro que deseas eliminar esta imagen?</span>
+      <Button label="Anular" class="p-button-text" @click="cancelDelete" />
+      <Button label="Eliminar" class="p-button-text" @click="deleteImageServer" />
+    </Dialog>
 </template>
 <script setup>
+    import Dialog from 'primevue/dialog';
+    import Button from "primevue/button";
     import { useFormStore } from "../../../stores/valuesTwo";
     import { useDropzone } from "vue3-dropzone";
     import { ref, watch , onMounted } from "vue";
@@ -1044,6 +1072,9 @@
                         formData.stepSevenStreet = productInfo.value.delivery_information.address;
                         formData.stepSevenStreetNumber = productInfo.value.delivery_information.address_number;
                         formData.stepSevenStreetDptoHouse = productInfo.value.delivery_information.dpto_house;
+                    }
+                    if (productInfo.value.galleries){
+                        formData.stepSixPhotoDB = productInfo.value.galleries;
                     }
                     //Bank Details
                 }
@@ -1274,6 +1305,30 @@
     function deleteImage(index) {
         formData.stepSixPhoto.splice(index, 1);
     }
+
+    const displayConfirmDialog = ref(false);
+        let imageToDeleteIndex;
+
+    const showDeleteConfirmation = (index) => {
+        imageToDeleteIndex = index;
+        displayConfirmDialog.value = true;
+    };
+    const cancelDelete = () => {
+        displayConfirmDialog.value = false;
+    };
+    const deleteImageServer = () => {
+        const imageId = formData.stepSixPhotoDB[imageToDeleteIndex].id;
+        axios.delete(`/api/images/${imageId}`)
+            .then(() => {
+            // Update UI after successful deletion
+            formData.stepSixPhotoDB.splice(imageToDeleteIndex, 1);
+            displayConfirmDialog.value = false;
+            })
+            .catch(error => {
+            console.error('Error deleting image:', error);
+            // Handle error
+            });
+    };
 
     //Despacho
     const toggleSection = (section) => {
@@ -1510,44 +1565,52 @@
     font-weight: 400;
     color: #c0c6b9;
 }
-.cont-images-result .row-results {
+.cont-images-result-end span{
+    font-family: "Inter", sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    color: #344026;
+}
+.cont-images-result .row-results,.cont-images-result-end .row-results {
     display: flex;
     flex-direction: row;
     margin-bottom: 1rem;
     justify-content: space-between;
 }
-.cont-images-result .row-results img {
+.cont-images-result .row-results img, .cont-images-result-end .row-results img {
     width: 100%;
     max-width: 80px;
     height: 80px;
     margin-right: 1rem;
     object-fit: cover;
 }
-.cont-images-result .row-results p {
+.cont-images-result .row-results p, .cont-images-result-end .row-results p {
     margin-bottom: 0;
 }
 .cont-images-result .row-results .first,
-.cont-images-result .row-results .second {
+.cont-images-result .row-results .second,
+.cont-images-result-end .row-results .first,
+.cont-images-result-end .row-results .second {
     display: flex;
     flex-direction: row;
     align-items: center;
 }
-.cont-images-result .row-results .first p {
+.cont-images-result .row-results .first p,.cont-images-result-end .row-results .first p {
     font-family: "Inter", sans-serif;
     font-size: 12px;
     font-weight: 400;
     color: #1b1f22;
 }
-.cont-images-result .row-results .second p {
+.cont-images-result .row-results .second p,.cont-images-result-end .row-results .second p {
     font-size: 12px;
     font-weight: 600;
     color: #1b1f22;
     margin-right: 4rem;
 }
-.cont-images-result .row-results .second .fa-trash-can {
+.cont-images-result .row-results .second .fa-trash-can,.cont-images-result-end .row-results .second .fa-trash-can {
     height: 1.4em;
 }
-.cont-images-result .row-results .second .fa-trash-can path {
+.cont-images-result .row-results .second .fa-trash-can path,.cont-images-result-end .row-results .second .fa-trash-can path {
     fill: #728c54;
 }
 /*Despacho*/

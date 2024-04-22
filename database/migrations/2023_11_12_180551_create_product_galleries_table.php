@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('product_id');
             $table->string('url');
             $table->string('alt')->nullable();
+            $table->string('size')->nullable();
             $table->integer('position')->nullable();
             $table->timestamps();
         });

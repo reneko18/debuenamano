@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\BankDetail;
 use App\Models\DeliveryInformation;
 use App\Models\Product;
+use App\Models\ProductGallery;
+use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Str;
@@ -207,6 +209,7 @@ class ProductControllerTest extends Controller
         foreach ($imagesData as $imageData) {
             $src = str_replace('data:image/png;base64,', '', $imageData['src']); 
             $originalName = $imageData['name'];
+            $size = $imageData['size'];
             $name = preg_replace('/[^\w\d\.\-_]/', '_', $originalName); 
                     
             // Add unique identifier to the image name
@@ -223,6 +226,7 @@ class ProductControllerTest extends Controller
                 'product_id' => $product->id,
                 'url' => 'images/products_images/' . $imageName,
                 'alt' => $originalName,
+                'size' => $size,
                 'position' => null,
             ]);
         }
@@ -324,7 +328,7 @@ class ProductControllerTest extends Controller
     public function getInfo(Product $product)
     {
         // Eager load the deliveryInformation and category relations
-        $product->load('deliveryInformation', 'category');
+        $product->load('deliveryInformation', 'category', 'galleries');
 
         // Return the product instance with its related models
         return response()->json(['product' => $product], 200);
@@ -398,5 +402,27 @@ class ProductControllerTest extends Controller
     { 
         // Return the product instance with its related models
         return response()->json(['slug' => $product->slug], 200);
+    }
+
+    public function destroyImage($id)
+    {
+        // Find the product gallery entry by ID
+        $productGallery = ProductGallery::findOrFail($id);
+    
+        // Construct the absolute file path
+        $filePath = public_path($productGallery->url);
+    
+        // Delete the image file from the server if it exists
+        if (File::exists($filePath)) {
+            File::delete($filePath);
+        } else {
+            // Log a warning if the file is not found
+            \Log::warning('File not found:', ['path' => $filePath]);
+        }
+    
+        // Delete the product gallery entry
+        $productGallery->delete();
+    
+        return response()->json(['message' => 'Image deleted successfully'], 200);
     }
 }

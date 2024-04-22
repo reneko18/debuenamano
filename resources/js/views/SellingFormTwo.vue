@@ -243,8 +243,11 @@ const clickMenu = (stepNumber) => {
 };
 
 const clickMainTitle = (index, linkNumber) => {
-    activeTitles.value = index;
-    currentStep.value = linkNumber;
+    if (!isStepCompleted(linkNumber)) {
+        // Execute the clickMainTitle functionality only if the step is not completed
+        activeTitles.value = index;
+        currentStep.value = linkNumber;
+    }
 };
 
 
@@ -267,7 +270,10 @@ const handleSubStep = (subStep) => {
 };
 
 const expandItem = (index) => {
-    expandedItem.value = index;
+    if (!isStepCompleted(linkCollection.value[index].mainTitle.number)) {
+        // Execute the expandItem functionality only if the step is not completed
+        expandedItem.value = index;
+    }
 };
 
 const isStepCompleted = computed(() => {
@@ -324,6 +330,9 @@ const isStepCompleted = computed(() => {
     z-index: 1;
     height: 100%;
     top: 20px;
+}
+.titulo-pasos.completed{
+    cursor: default;
 }
 
 .number-title {
