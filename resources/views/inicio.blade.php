@@ -1,16 +1,16 @@
 @extends('includes.baseform')
 @section('content')
 
-<div class="bg-gris d-none d-lg-block">
-    <div class="container px-5">
+<div class="bg-gris d-none d-md-block">
+    <div class="container-fluid">
         <div class="row">
-            <div class="d-flex align-items-center">
-                <div class="col-lg-4 hero">
+            <div class="d-flex align-items-center justify-content-around">
+                <div class="col-lg-4 col-md-5 offset-lg-1 offset-md-0 hero px-5">
                     <h1>EXPLORA, VENDE Y COMPRA DE FORMA SEGURA</h1>
                     <p class="mb-40">DBM es tu marketplace dedicado a la compra y venta de productos de segunda mano para bebes, niñas y niños de hasta 5 años.</p>
                     <a href="#" class="boton-secundario">Ver todos los productos</a>
                 </div>      
-                <div class="col-lg-8 pt-60 ms-auto text-right">
+                <div class="col-lg-7 col-md-7 pt-60 ms-auto text-right">
                     <div id="parallax"></div>
                 </div>
             </div>
@@ -18,11 +18,11 @@
     </div>
 </div>
 
-<div class="bg-gris pt-seccion-inicial d-lg-none d-block mb-100">
-    <div class="container px-5">
+<div class="bg-hero-mobile pt-seccion-inicial d-md-none d-block pb-100">
+    <div class="container px-5 py-5">
         <div class="row">
             <div class="d-flex">
-                <div class=" col-12 hero">
+                <div class="col-sm-12 hero">
                     <h1>EXPLORA, VENDE Y COMPRA DE FORMA SEGURA</h1>
                     <p class="mb-40">DBM es tu marketplace dedicado a la compra y venta de productos de segunda mano para bebes, niñas y niños de hasta 5 años.</p>
                     <a href="#" class="boton-secundario">Ver todos los productos</a>
@@ -33,17 +33,17 @@
 </div>
 
 <div class="banner-dbm">
-    <div class="container px-5">
+    <div class="container px-5 py-5">
         <div class="row text-center">
-            <div class="col-md-4 ptb-30">
+            <div class="col-md-4 py-5">
                 <h3>Compra con seguridad</h3>
                 <p>Tu dinero está 100% protegido</p>
             </div>
-            <div class="col-md-4 ptb-30">
+            <div class="col-md-4 py-5">
                 <h3>Sencillo y cómodo</h3>
                 <p>Te guíamos en todo el proceso</p>
             </div>
-            <div class="col-md-4 ptb-30">
+            <div class="col-md-4 py-5">
                 <h3>Productos seleccionados</h3>
                 <p>A buenos precios y bien cuidados</p>
             </div>

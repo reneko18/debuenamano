@@ -62,6 +62,13 @@ body {
 
 .bg-blanco-verdoso { background: #f9fafa !important; }
 
+.bg-hero-mobile { 
+    background-image: url(../../public/img/hero-mobile.svg);
+    background-repeat: no-repeat;
+    background-position: bottom center;
+    background-size: cover;
+}
+
 /* TIPOGRAFÍA ****************************************************** */
 
 h1,
@@ -897,7 +904,7 @@ footer a {
     background-image: url(../../public/img/cuna.png),
         url(../../public/img/elipse.svg), url(../../public/img/back.svg);
     background-repeat: no-repeat;
-    background-position: center;
+    background-position: center center;
     background-size: auto;
 }
 
