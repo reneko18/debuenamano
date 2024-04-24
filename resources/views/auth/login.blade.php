@@ -1,6 +1,6 @@
 @extends('includes.baseform')
-
 @section('content')
+
 <div class="container-fluid p-pages pb-5 login-page">
     <div class="row container mx-auto">
         <div class="col-4">

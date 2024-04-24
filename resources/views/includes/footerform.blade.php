@@ -2,7 +2,7 @@
     <hr class="hr-verde">
     <div class="top-footer">
         <div class="container mx-auto row">
-            <div class="col-4">
+            <div class="col-md-4 mb-24">
                 <img src="{{ asset('/img/logo-footer.svg')}}" alt="logo footer">
                 <p>Tu tienda virtual para bebés, niños y niñas, donde todos los artículos están con poco uso y muy bien cuidados.</p>
                 <div class="d-flex social-icons">
@@ -20,7 +20,7 @@
                     </a>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 mb-24">
                 <h2>Categorías</h2>
                 <div class="row">
                     <div class="col-md-4">
@@ -50,7 +50,7 @@
                     </div>
                 </div>
             </div> 
-            <div class="col-md-2">
+            <div class="col-md-2 mb-24">
                 <h2>Centro de ayuda</h2>
                 <div class="row">
                     <div class="col">
@@ -69,7 +69,7 @@
             <div class="col-md-2">
                 <span>DBM - {{ date('Y') }}</span>
             </div>
-            <div class="col-md-10 d-flex justify-content-end">
+            <div class="col-md-10 d-md-flex justify-content-md-end">
             <ul class="nav-bottom-footer">
                 <li><a href="#">Políticas de devolución</a></li>
                 <li><a href="#">Políticas de privacidad</a></li>

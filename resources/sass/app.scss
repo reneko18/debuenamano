@@ -16,6 +16,7 @@ body {
     font-family: "Inter", sans-serif;
     color: #344026;
     background-color: #fff;
+    font-size: 16px;
 }
 
 /* MÁRGENES ****************************************************** */
@@ -25,6 +26,7 @@ body {
 .mt-60  { margin-top: 60px;    }
 .mr-10  { margin-right: 10px;  }
 .mt-130 { margin-top: 130px;   }
+.mb-24  { margin-bottom: 24px; }
 .mb-30  { margin-bottom: 30px; }
 .mb-40  { margin-bottom: 40px; }
 .mb-60  { margin-bottom: 60px; }
@@ -35,12 +37,14 @@ body {
 .pt-seccion-inicial { padding-top: 11.25rem; }
 .pb-60   { padding-bottom: 60px;  }
 .pb-100  { padding-bottom: 100px; }
-.ptb-60  { padding: 60px 0;       }
+.pt-60   { padding-top: 60px;     }
 .pt-130  { padding-top: 130px;    }
+.ptb-30  { padding: 30px 0 30px 0;}
 .ptb-130 { padding: 130px 0;      }
 .pr-80   { padding-right: 80px;   }
 .p-10    { padding: 10px;         }
 .p-20    { padding: 20px;         }
+.plr-25   { padding: 0 25% 0 25%;    }
 
 /* BORDERS ****************************************************** */
 .br-6 { border-radius: 6px;}
@@ -58,6 +62,13 @@ body {
 
 .bg-blanco-verdoso { background: #f9fafa !important; }
 
+.bg-hero-mobile { 
+    background-image: url(../../public/img/hero-mobile.svg);
+    background-repeat: no-repeat;
+    background-position: bottom center;
+    background-size: cover;
+}
+
 /* TIPOGRAFÍA ****************************************************** */
 
 h1,
@@ -68,36 +79,36 @@ h4 {
 }
 
 h1 {
-    font-size: 36px;
+    font-size: 2.25rem /*36px*/;
     font-style: normal;
     font-weight: 700;
     line-height: normal;
 }
 
 h2 {
-    font-size: 24px;
+    font-size: 1.5rem ;
     font-weight: 700;
-    line-height: 32px;
+    line-height: 2rem;
 }
 
 h3 {
-    font-size: 18px;
+    font-size: 1.125rem;
     font-weight: 700;
 }
 
 h3 {
-    font-size: 18px;
+    font-size:  1.125rem;
     font-weight: 700;
 }
 
 .hero h1 {
-    font-size: 48px;
-    line-height: 54px;
+    font-size: 3rem;
+    line-height: 3.375rem;
 }
 
 .hero p {
-    font-size: 20px;
-    line-height: 26px;
+    font-size: 1.125rem;
+    line-height: 1.625rem;
     font-weight: 300;
 }
 
@@ -268,7 +279,10 @@ h3 {
     border-radius: 50%;
     box-shadow: 0px 1px 3px 0px rgba(27, 31, 34, 0.3);
     background-color: #fff;
+    z-index: 99;
 }
+
+.navbar-collapse { z-index: 100;}
 
 .navbar-brand img {
     width: 100%;
@@ -641,7 +655,7 @@ label {
     font-weight: 700;
     padding: 16px 32px;
     text-decoration: none;
-    text-decoration: none;
+    display: inline-block;
 }
 
 .boton-principal:hover {
@@ -848,15 +862,14 @@ footer a {
 
 /* Banner */
 .banner-dbm {
-    background-color: #344026;
+    background-color: #151A0F;
     color: #f9fafa;
-    padding: 30px 0;
 }
 
 .banner-dbm h3 {
     font-size: 20px;
     font-weight: bold;
-    padding-bottom: 4px;
+    padding-bottom: 8px;
     margin: 0;
 }
 
@@ -894,7 +907,8 @@ footer a {
     background-image: url(../../public/img/cuna.png),
         url(../../public/img/elipse.svg), url(../../public/img/back.svg);
     background-repeat: no-repeat;
-    background-position: center;
+    background-position: center center;
+    background-size: auto;
 }
 
 .img-superpuesta {
@@ -953,6 +967,7 @@ h1.parallax-txt {
     background-image: url(../../public/img/main-image-blog.png);
     background-repeat: no-repeat;
     background-size: cover;
+    background-position: right;
     margin-top: 7rem;
     height: 47vh;
 }
@@ -966,6 +981,14 @@ h1.parallax-txt {
     opacity: .4;
 }
 
+.card, .card-header {
+    background-color: #fff;
+    border: none;
+}
+
+.card-img {
+    border-radius: 4px 4px 0 0;
+}
 
 /*SINGLE POST***************************************************************** */
 .first-sec-post{
