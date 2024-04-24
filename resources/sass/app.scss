@@ -279,7 +279,10 @@ h3 {
     border-radius: 50%;
     box-shadow: 0px 1px 3px 0px rgba(27, 31, 34, 0.3);
     background-color: #fff;
+    z-index: 99;
 }
+
+.navbar-collapse { z-index: 100;}
 
 .navbar-brand img {
     width: 100%;
