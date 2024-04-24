@@ -22,7 +22,7 @@
       </div>
     </section>
     <section class="container-fluid first-sec-post">
-      <div class="col-6 mx-auto cont-1">
+      <div class="col-8 mx-auto cont-1">
         <div class="row-meta">
           <div class="col1">
             <img src="{{ asset($post->author->authorimage->url) }}" alt="image">
