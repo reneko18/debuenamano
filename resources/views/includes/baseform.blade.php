@@ -7,6 +7,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @stack('post-seo')
     <script src="https://kit.fontawesome.com/fff2c97c92.js" crossorigin="anonymous"></script>
+    <link rel="icon" href="{{ asset('/icons/favicon.png') }}">
     @stack('material-icons')
     @vite('resources/sass/app.scss')
     <title>@yield('title')</title>
