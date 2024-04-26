@@ -72,7 +72,7 @@
                                         </div>
                                         <div>
                                             <span class="title-in-tab">Tiempo de uso</span>
-                                            <span class="txt-in-tab">{{ $product->used_time}}</span>
+                                            <span class="txt-in-tab">{{ $product->used_time}} {{ $product->used_time_unit}}</span>                            
                                         </div>
                                     </div>
                                     <div class="col">
@@ -103,16 +103,16 @@
                                         <span class="title-in-tab">Dimensiones y peso</span>
                                         <div class="row">
                                             <div class="col">
-                                                <span>largo: {{$product->length}} cm</span>
+                                                <span>largo: {{$product->deliveryInformation->length}} cm</span>
                                             </div>
                                             <div class="col">
-                                                <span>ancho: {{$product->width}} cm</span>
+                                                <span>ancho: {{$product->deliveryInformation->width}} cm</span>
                                             </div>
                                             <div class="col">
-                                                <span>altura: {{$product->height}} cm</span>
+                                                <span>altura: {{$product->deliveryInformation->height}} cm</span>
                                             </div>
                                             <div class="col">
-                                                <span>peso: {{$product->weight}}kg</span>
+                                                <span>peso: {{$product->deliveryInformation->weight}} kg</span>
                                             </div>
                                         </div>
                                     </div>

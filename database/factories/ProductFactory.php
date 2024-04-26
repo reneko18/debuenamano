@@ -17,53 +17,49 @@ class ProductFactory extends Factory
      */
     public function definition()
     {
-        $genre = fake()->randomElement(['Niño', 'Niña', 'Unisex']);
-        $dateTime = fake()->randomElement(['Recién nacido','Semanas','Meses','Años']);
-        $unit = fake()->randomElement(['cm','in']);
-        $unitW = fake()->randomElement(['g','Kg']);
-        $deliveryBox = fake()->randomElement(['Pequeño','Standard','Grande','Extra']);
-        $publish_status = fake()->randomElement(['En vitrina','En revisión','Guardado/borrador']);
-        $selling_status = fake()->randomElement(['Sí','Pendiente']);
-        $admin_status = fake()->randomElement(['Vendido','En courier', 'Entregado','Finalizado']);
+        $genre = fake()->randomElement(['Niño', 'Niña', 'Unisex']); 
         $randomString = fake()->bothify('??????');
-        $sku = 'DBM-' . $randomString;
-        $status = fake()->randomElement(['Usado en buen estado','Sin uso']);
+        $sku = 'DBM-' . $randomString;      
     
 
         return [
-            'name' => fake()->realTextBetween(10,25),
+            'name' => 'Producto Test Plantilla',
             'category_id' => fake()->numberBetween(1,46),
             'genre'=> $genre,
-            'age_ini' => fake()->numberBetween(1,52),
-            'age_date_ini' => $dateTime,
-            'age_fin' => fake()->numberBetween(1,52),
-            'age_date_fin' => $dateTime,
-            'description' => fake()->realText(180),
+            'age_ini' => 1,
+            'age_date_ini' => 'Meses',
+            'age_fin' => 2,
+            'age_date_fin' => 'Meses',
+            'description' => fake()->realText(200),
             'brand' => fake()->company(), 
             'model' => fake()->realTextBetween(10,25),
-            'length' => fake()->numberBetween(1,100),
-            'length_unit' => $unit,
-            'width' => fake()->numberBetween(1,100),
-            'width_unit' => $unit,
-            'height' => fake()->numberBetween(1,100),
-            'height_unit' => $unit,
-            'weight' => fake()->numberBetween(1,100),
-            'weight_unit' => $unitW,
-            'delivery_box' =>$deliveryBox,
-            'status' => $status,
+            'length_real' => fake()->numberBetween(1,100),
+            'length_real_unit' => 'cm',
+            'width_real' => 50,
+            'width_real_unit' => 'cm',
+            'height_real' => 50,
+            'height_real_unit' => 'cm',
+            'status' => 'Usado en buen estado',
             'used_time' => fake()->numberBetween(1,31),
             'used_time_unit' => 'Dias',
             'remark' => fake()->realTextBetween(10,25),
             'advice' => fake()->realTextBetween(10,25),
-            'price' => fake()->randomNumber(5,true),
-            'user_id' => fake()->numberBetween(1,10),
-            'publish_status' => $publish_status,
-            'selling_status' => $selling_status,
-            'admin_status' => $admin_status,     
+            'price' => 65000,
+            'user_id' => 2,
+            'publish_status' => 'En vitrina',
+            'selling_status' => '',
+            'admin_status' => '',     
+            'visible_status' => '',     
+            'payment_status' => '',     
+            'payment_date' => '',     
             'sku' => $sku,
-            'slug' => Str::slug(fake()->realTextBetween(10,25)),
-            'meta_title' => fake()->realTextBetween(5,10),
-            'meta_description' => fake()->realText(180),
+            'slug' => 'test-product-dbm',
+            'meta_title' => 'Test Product DBM',
+            'meta_description' => fake()->realText(200),
+            'main_step' => json_encode(["1", "2", "3", "4"]),
+            'active_title' => 4,
+            'received_constant' => 5,
+            'current_step' => 9,
         ];
     }
 }

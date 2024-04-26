@@ -10,6 +10,8 @@ use App\Models\Order;
 use App\Models\Post;
 use App\Models\PostCategory;
 use App\Models\Product;
+use App\Models\DeliveryInformation;
+use App\Models\ProductGallery;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -35,10 +37,63 @@ class DatabaseSeeder extends Seeder
             'birthdate' => '',
             'phone' => '',
         ])->assignRole('admin');
+        User::factory()->create([
+            'name'  => 'User',
+            'lastname'  => 'Test',
+            'email' => 'test@dbm.cl', 
+            'slug' => 'test-dbm', 
+            'password' => Hash::make('testdbm'), 
+            'birthdate' => '',
+            'phone' => '',
+        ])->assignRole('customer');
         $this->call(CategoriesTableSeeder::class);       
         // $this->call(ProductContactTableSeeder::class);       
         // $this->call(StatusProductsTableSeeder::class);
-        // Product::factory(40)->create();
+        $product = Product::factory(1)->create()->first();
+        $deliveryInformation = DeliveryInformation::create([
+            'product_id' => $product->id,
+            'length' => 50, 
+            'length_unit' => 'cm',
+            'width' => 50,
+            'width_unit' => 'cm',
+            'height' => 50,
+            'height_unit' => 'cm',
+            'weight' => 0.65,
+            'weight_unit' => 'kg',
+            'option' => 'Domicilio',
+            'region_code' => 'R5',
+            'region_name' => 'VALPARAISO',
+            'city_name' => 'VALPARAISO',
+            'city_code' => 'VALP',
+            'chile_office' => '',
+            'address' => 'Calle Beethoven',
+            'address_number' => 23,
+            'dpto_house' => '',
+            'recover_price' => '',
+            
+        ]);
+         // Associate delivery information with the product
+        $product->deliveryInformation()->save($deliveryInformation);
+            // Create product galleries
+        $galleryData = [
+            [
+                'url' => 'images/products_images/66252e088fe03_ceramique-de-differentes-couleurs.png',
+                'alt' => 'Gallery Image 1',
+                'size' => '0.6 M',
+                'position' => 1,
+            ],
+            [
+                'url' => 'images/products_images/6626bc1e2886a_dans-une-boutique-de-la-cote-azur.png',
+                'alt' => 'Gallery Image 2',
+                'size' => '0.4 M',
+                'position' => 2,
+            ],    
+        ];
+
+        foreach ($galleryData as $gallery) {
+            $productGallery = new ProductGallery($gallery);
+            $product->galleries()->save($productGallery);
+        }
         // Order::factory(20)->create();
         // $this->call(ProductContactProductSeeder::class);
         $this->call(RegionsTableSeeder::class);
