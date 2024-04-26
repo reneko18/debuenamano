@@ -4,7 +4,7 @@
 <div class="bg-blanco-verdoso pb-100">   
     <div class="container p-pages pb-5">
         <div class="row d-flex align-items-center">
-            <div class="col-md-5 col-offset-1">
+            <div class="col-lg-5 col-sm-10 col-xs-12 col-lg-offset-1">
                     <h1>Registro</h1>  
                     <p>¿Ya tienes una cuenta? <a class="enlace" href="/login">Inicia sesión aquí</a></p>             
                     <form class="mt-30" method="POST" action="{{ route('register') }}">
@@ -87,7 +87,7 @@
                         </div>
                     </form>            
             </div>
-            <div class="col-5 col-offset-1">
+            <div class="col-lg-5 d-md-none d-sm-none d-xs-none d-lg-block col-lg-offset-1">
                 <img class="img-fluid" src="{{asset('/img/imagen-registro.png')}}" alt="imagen de registro">
             </div>
         </div>

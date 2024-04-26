@@ -3,7 +3,7 @@
 
 <div class="container-fluid p-pages pb-5 login-page">
     <div class="row container mx-auto">
-        <div class="col-4">
+        <div class="col-lg-4 col-md-8 col-xs-12">
             <div class="bg-blanco-verdoso p-10 br-6">
                 <div class="border-dashed br-6">
                     <h1>Inicio de sesión</h1>  
