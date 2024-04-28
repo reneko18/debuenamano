@@ -26,5 +26,6 @@
     @stack('password-eye')
     @stack('confetti')
     @stack('ajax-cart')
+    @stack('anchor-links')
 </body>
 </html>

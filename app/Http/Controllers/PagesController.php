@@ -14,4 +14,9 @@ class PagesController extends Controller
     {
         return view('nosotros');
     }
+
+    public function terms()
+    {
+        return view('others.terms_conditions');
+    }
 }

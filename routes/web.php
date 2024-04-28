@@ -131,6 +131,9 @@ Auth::routes();
 
 Route::get('/home', [HomeController::class, 'index'])->name('home')->middleware('auth');
 
+//Ruta Terms and conditions
+Route::get('/terminos-y-condiciones',[PagesController::class,'terms'])->name('terms');
+
 
 
 

@@ -73,7 +73,7 @@
             <ul class="nav-bottom-footer">
                 <li><a href="#">Políticas de devolución</a></li>
                 <li><a href="#">Políticas de privacidad</a></li>
-                <li><a href="#">Términos y condiciones</a></li>
+                <li><a href="{{ route('terms') }}">Términos y condiciones</a></li>
             </div>
         </div>
     </div>
