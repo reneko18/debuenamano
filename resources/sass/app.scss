@@ -14,7 +14,7 @@
 /* GENERAL ****************************************************** */
 body {
     font-family: "Inter", sans-serif;
-    color: #344026;
+    color: #151A0F;
     background-color: #fff;
     font-size: 16px;
 }
@@ -271,6 +271,41 @@ h3 {
     padding: 15px 0;
 }
 
+/* NAV */
+
+.nav-tabs { border: none; }
+
+.nav-tabs .nav-link {
+    color: #C0C6B9;
+    font-weight: 500;
+    font-size: 15px;
+    border: 0;
+    border-bottom: 1.2px solid #C0C6B9;
+}
+
+.nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
+    color: #728C54;
+    border-bottom: 1.2px solid #728C54;
+    background-color: transparent;
+}
+
+.title-in-tab {
+    font-family: "Quicksand", sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    display: block;
+ }
+
+.txt-in-tab { 
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 21px;
+}
+
+.txt-in-tab b {
+    font-weight: 600;
+}
+
 .navbar-brand {
     width: 120px;
     height: 120px;
@@ -396,14 +431,14 @@ label {
     color: #344026;
     font-size: 14px;
     font-weight: 700;
-    line-height: 16px;
+    line-height: 22px;
     display: block;
-    height: 16px;
+    height: 22px;
 }
 
 .form-check-input { margin-top: 0; }
 .form-check-input:checked { background-color: #728C54; border-color: #728C54;}
-.form-check-label { font-family: "Inter", sans-serif; font-weight: 400; font-size: 14px; }
+.form-check-label, .form-check-label .enlace  { font-family: "Inter", sans-serif; font-weight: 400; font-size: 14px; line-height: 22px; }
 
 .form-select,
 .form-control {
@@ -816,46 +851,55 @@ footer a {
 
 .encabezado-producto {
     margin-bottom: 40px;
+    padding: 40px 20px;
 }
 
 .encabezado-producto h1 {
-    color: #8ca76d;
+    color: #151A0F;
 }
 
 .encabezado-producto .sku {
-    font-size: 10px;
+    font-size: 11px;
 }
 
-.encabezado-producto .descripcion {
+.encabezado-producto .vendedor {
+    font-size: 0.85rem;
+}
+
+
+.encabezado-producto .descripcion p {
     font-size: 16px;
     font-weight: 300;
     line-height: 22px;
-    padding-top: 20px;
+    color: #151A0F;
     margin-bottom: 0;
 }
 
+.valores-producto { padding: 0 20px 0 20px;}
 
+.valores-producto .porcentaje {
+    background-color: #728C54;
+    color: #F9FAFA;
+    padding: 6px 12px;
+    border-radius: 6px;
+}
 
-.detalle-producto h3,
-.detalle-producto h2 {
-    font-size: 15px;
-    line-height: 15px;
-    font-weight: 700;
-    margin-bottom: 4px;
+.valores-producto .precio-referencia b {
+    font-size: 13px;
     padding: 0;
+    margin: 0;
+    text-decoration:line-through;
+    color: #728C54;
 }
 
-.detalle-producto span,
-.detalle-producto p {
-    font-weight: 300;
-    font-size: 15px;
+.valores-producto .precio-referencia span {
+    font-size: 11px;
+    padding: 0;
+    margin:  0;
 }
 
-.detalle-producto span b {
-    font-weight: 500;
-}
 
-.precio {
+.valores-producto .precio {
     font-size: 30px;
     font-weight: 700;
 }
@@ -1172,4 +1216,16 @@ h1.parallax-txt {
     position: absolute;
     right:10%;
     top:-100%;
+}
+
+
+/* Responsive */
+
+@media (max-width: 576px) {
+    .mt-resp-3 {
+        margin-top: 1.5rem !important;
+    }
+    .login-page {
+        height: 120vh;
+    }
 }

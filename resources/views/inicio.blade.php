@@ -7,8 +7,8 @@
             <div class="d-flex align-items-center justify-content-around">
                 <div class="col-lg-4 col-md-5 offset-lg-1 offset-md-0 hero px-5">
                     <h1>EXPLORA, VENDE Y COMPRA DE FORMA SEGURA</h1>
-                    <p class="mb-40">DBM es tu marketplace dedicado a la compra y venta de productos de segunda mano para bebes, niñas y niños de hasta 5 años.</p>
-                    <a href="#" class="boton-secundario">Ver todos los productos</a>
+                    <p class="mb-40">De Buena Mano es un marketplace orientado a la venta de productos de segunda mano en excelente estado o nuevos para bebés y niñ@s</p>
+                    <a href="#" class="boton-secundario">Ver los productos en venta</a>
                 </div>      
                 <div class="col-lg-7 col-md-7 pt-60 ms-auto text-right">
                     <div id="parallax"></div>
@@ -24,8 +24,8 @@
             <div class="d-flex">
                 <div class="col-sm-12 hero">
                     <h1>EXPLORA, VENDE Y COMPRA DE FORMA SEGURA</h1>
-                    <p class="mb-40">DBM es tu marketplace dedicado a la compra y venta de productos de segunda mano para bebes, niñas y niños de hasta 5 años.</p>
-                    <a href="#" class="boton-secundario">Ver todos los productos</a>
+                    <p class="mb-40">De Buena Mano es un marketplace orientado a la venta de productos de segunda mano en excelente estado o nuevos para bebés y niñ@s</p>
+                    <a href="#" class="boton-secundario">Ver los productos en venta</a>
                 </div>
             </div>      
         </div>
@@ -71,7 +71,7 @@
             <div class="d-lg-flex justify-content-lg-between align-items-center text-center proceso">
                 <div class="pb-5">
                     <img src="icons/cuenta.svg" alt="icono Creas tu cuenta de usuario en DBM">
-                    <h3>Crea tu cuenta de usuario en DBM</h3>
+                    <h3>Creas tu cuenta en De Buena Mano</h3>
                 </div>
                 <div class="pb-5">
                     <img src="icons/form.svg" alt="icono Completas el formulario de publicación">
