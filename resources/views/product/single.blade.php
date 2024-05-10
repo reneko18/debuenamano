@@ -153,6 +153,6 @@
         </div> <!-- row -->
     </section>
     <section class="container">
-        <h2>Artículos Sugeridos</h2>		
-    </section>
+        <h2>Artículos Sugeridos</h2>	
+    </section>	
 @endsection
