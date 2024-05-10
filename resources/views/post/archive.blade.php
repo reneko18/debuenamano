@@ -10,7 +10,7 @@
     <section class="container-fluid first-sec-blog">
         <div class="container mx-auto d-flex align-items-center">
             <div class="row">
-                <div class="col-7">
+                <div class="col-sm-7 col-xs-12">
                     <h1>Exploremos juntos el maravilloso viaje de la crianza</h1>
                     <p>Tómate tu tiempo, relájate y sumérgete en nuestro mundo de historias, consejos prácticos, ideas inspiradoras y perspectivas honestas sobre la crianza.</p>
                 </div>

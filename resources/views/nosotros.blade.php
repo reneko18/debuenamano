@@ -7,7 +7,7 @@
             <div class="d-lg-flex align-items-center">
                 <div class="col-lg-4 col-sm-12 ">
                     <h1>Tu comunidad de reutilización y crianza</h1>
-                    <p class="mb-40">Hemos creado una plataforma digital nacional donde podrás comprar y vender productos nuevos y de segunda mano con poco uso en muy buenas condiciones para bebés, niñas y niños de hasta 5 años.</p>
+                    <p class="mb-40">Hemos creado una plataforma digital nacional donde podrás comprar y vender productos nuevos y de segunda mano con poco uso en muy buenas condiciones para bebés y niñ@s.</p>
                 </div>
                         
                 <div class="col-lg-7 col-sm-12 ms-auto text-right">

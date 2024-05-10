@@ -4,7 +4,7 @@
         <div class="container mx-auto row">
             <div class="col-md-4 mb-24">
                 <img src="{{ asset('/img/logo-footer.svg')}}" alt="logo footer">
-                <p>Tu tienda virtual para bebés, niños y niñas, donde todos los artículos están con poco uso y muy bien cuidados.</p>
+                <p>Tu marketplace de compra y venta de productos de segunda mano para bebés y niñ@s</p>
                 <div class="d-flex social-icons">
                     <a href="#" class="circle">
                         <svg width="9" height="16" viewBox="0 0 9 16" fill="none" xmlns="http://www.w3.org/2000/svg">
