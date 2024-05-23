@@ -249,7 +249,7 @@
                             class="form-control"  
                             placeholder="0,0"
                             id="height-pro"
-                            v-model="productInfo.delivery_information.height"  
+                            v-model="deliveryInformation.height"  
                             @input="handleNumericInput('height')"                          
                         />
                     </div>
@@ -258,7 +258,7 @@
                         <select
                             id="unh-pro"
                             class="form-select"                      
-                            v-model="productInfo.delivery_information.height_unit"
+                            v-model="deliveryInformation.height_unit"
                         >
                             <option value="cm">cm</option>
                             <option value="in">in</option>
@@ -273,7 +273,7 @@
                             class="form-control"           
                             placeholder="0,0"
                             id="width-pro"
-                            v-model="productInfo.delivery_information.width"
+                            v-model="deliveryInformation.width"
                             @input="handleNumericInput('width')"
                         />
                     </div>
@@ -282,7 +282,7 @@
                         <select
                             id="unw-pro"
                             class="form-select"                  
-                            v-model="productInfo.delivery_information.width_unit"
+                            v-model="deliveryInformation.width_unit"
                         >
                             <option value="cm">cm</option>
                             <option value="in">in</option>
@@ -297,7 +297,7 @@
                             class="form-control"  
                             placeholder="0,0"
                             id="long-pro"
-                            v-model="productInfo.delivery_information.length"
+                            v-model="deliveryInformation.length"
                             @input="handleNumericInput('length')"
                         />
                     </div>
@@ -306,7 +306,7 @@
                         <select
                             id="unl-pro"
                             class="form-select"                   
-                            v-model="productInfo.delivery_information.length_unit"
+                            v-model="deliveryInformation.length_unit"
                         >
                             <option value="cm">cm</option>
                             <option value="in">in</option>
@@ -321,7 +321,7 @@
                             class="form-control"   
                             placeholder="0,0"
                             id="weight-pro"
-                            v-model="productInfo.delivery_information.weight"
+                            v-model="deliveryInformation.weight"
                             @input="handleNumericInput('weight')"
                         />
                     </div>
@@ -330,7 +330,7 @@
                         <select
                             id="unwe-pro"
                             class="form-select"                 
-                            v-model="productInfo.delivery_information.weight_unit"
+                            v-model="deliveryInformation.weight_unit"
                         >
                             <option value="g">g</option>
                             <option value="Kg">Kg</option>
@@ -863,6 +863,7 @@ const formatPrice = (value) => {
 };
 
 const productInfo = ref({});
+const deliveryInformation = ref({});
 
 const priceFormatDirective = {
   mounted(el, binding) {
@@ -1200,7 +1201,8 @@ const fetchData = async (product_id) => {
         userBank.value = productInfo.value.user.bank_detail.bank;
         userBankAccount.value = productInfo.value.user.bank_detail.account_number;
         userBankAccountType.value = productInfo.value.user.bank_detail.account_type;
-        userRut.value = productInfo.value.user.bank_detail.rut;
+        userRut.value = productInfo.value.user.bank_detail.rut;  
+        deliveryInformation.value = response.data.delivery_information;  
     } catch (error) {
         console.error("Error fetching data:", error);
     }
@@ -1377,8 +1379,8 @@ onUpdated(() => {
 });
 
 onMounted(async() => {
-    fetchData(props.productSlug);
-    fetchCategories();
+    await fetchData(props.productSlug);
+    await fetchCategories();
     await getRegionsChilexpress();
     watch(
         () => selectedRef.value.city,

@@ -316,7 +316,7 @@ class ProductController extends Controller
     public function getProductsByPublishStatus()
     {
         $products = Product::with('productContacts', 'category', 'user')
-            ->where('publish_status', 'En Vitrina')
+            ->where('publish_status', 'En vitrina')
             ->get();
     
         $productsWithSellerFullName = $products->map(function ($product) {
@@ -331,6 +331,7 @@ class ProductController extends Controller
     
         return response()->json($productsWithSellerFullName);
     }
+
 
     public function getProductsAdminDraftByUserId()
     {

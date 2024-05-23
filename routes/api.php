@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\ProductControllerTest;
 use App\Http\Controllers\Api\RegionController;
+use App\Http\Controllers\Api\ShopController;
 use App\Http\Controllers\Api\TestController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
@@ -78,6 +79,10 @@ Route::put('/products/visible-status/{product}',[ProductController::class,'updat
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+//Archive product
+Route::get('/tienda/all',[ShopController::class, 'getArchiveProducts']);
+Route::get('/tienda/categories/all',[ShopController::class, 'getArchiveCategories']);
 
 //API Regions and cities
 Route::get('/regions', [RegionController::class,'index']);

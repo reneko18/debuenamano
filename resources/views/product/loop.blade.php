@@ -3,8 +3,8 @@
 Tienda - De Buena Mano
 @endsection
 @section('content')
-<section class="container-fluid">
-    <div class="container my-5 py-5">
+<section class="container-fluid p-pages pb-5">
+    {{-- <div class="container my-5 py-5">
         <div class="row">
             @foreach ($products as $p)
                 <div class="col-md-4 mb-4">
@@ -19,6 +19,11 @@ Tienda - De Buena Mano
                 </div>
             @endforeach
         </div>
+    </div> --}}
+    <div class="container my-5 py-5">
+        <div id="app">
+            <products-loop></products-loop>
+        </div>        
     </div>
 </section>
 

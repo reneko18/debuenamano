@@ -68,7 +68,7 @@ Route::get('/formulario-venta',[SellingFormController::class,'showform'])->name(
 //Single que ocupo
 Route::get('/single-product/{product}',[SingleProductController::class,'singleShow'])->name('single.show');
 //Tienda Test
-Route::get('/shop',[SingleProductController::class,'loop'])->name('loop.index');
+Route::get('/new-tienda',[SingleProductController::class,'loop'])->name('loop.index');
 
 
 //Image for authors

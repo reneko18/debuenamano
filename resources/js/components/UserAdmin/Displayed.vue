@@ -29,7 +29,11 @@
                 'publish_status',
             ]"
         >
-            <Column field="name" header="Articulo" :filter="true"></Column>
+            <Column field="name" header="Articulo" :filter="true">
+                <template #body="slotProps">
+                    <a :href="slotProps.data.productUrl">{{ slotProps.data.name }}</a>
+                </template>
+            </Column>
             <Column
                 :field="getCategoryName"
                 header="Categoria"
@@ -72,6 +76,7 @@ const fetchData = async (user_id) => {
             ...product,
             categoryName: product.category ? product.category.name : null,
             formattedPrice: formatPrice(product.price),
+            productUrl: `/single-product/${product.slug}`,
         }));
         productsCount.value = response.data.length;
         // Emit the custom event with the products count to the parent component

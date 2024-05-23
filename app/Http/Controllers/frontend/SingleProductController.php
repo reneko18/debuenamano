@@ -21,8 +21,9 @@ class SingleProductController extends Controller
 
     public function loop()
     {
-        $products = Product::orderBy('created_at', 'desc')->take(9)->get();
-        return view('product.loop',compact('products'));
+        // $products = Product::orderBy('created_at', 'desc')->take(9)->get();
+        // return view('product.loop',compact('products'));
+        return view('product.loop');
     }
 
 

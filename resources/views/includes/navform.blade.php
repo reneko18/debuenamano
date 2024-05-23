@@ -8,7 +8,7 @@
     </button>
     <div class="collapse navbar-collapse justify-content-end" id="navbarFormt">
       <ul class="navbar-nav">
-        <li class="nav-item"><a class="nav-link" href="#">Comprar</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ route('loop.index')}}">Comprar</a></li>
         <li class="nav-item"><a class="nav-link" href="{{ route('formtest.show')}}">Vender</a></li>
         <li class="nav-item"><a class="nav-link" href="{{ route('nosotros')}}">Somos</a></li> 
         <li class="nav-item"><a class="nav-link" href="{{ route('post.blog')}}">Blog</a></li>   
