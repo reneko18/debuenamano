@@ -13,7 +13,7 @@ class ShopController extends Controller
     {
         $products = Product::with('category')
             ->where('publish_status', 'En vitrina')
-            ->get();  
+            ->paginate(10); 
 
         return response()->json($products);
     }

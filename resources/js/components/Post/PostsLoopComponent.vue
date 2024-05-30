@@ -75,7 +75,7 @@
         </div>
         <template>
             <Bootstrap5Pagination
-                :data="posts"
+                :data="posts"   
                 @pagination-change-page="loadPosts"
             />
         </template>

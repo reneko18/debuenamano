@@ -49,50 +49,51 @@ class DatabaseSeeder extends Seeder
         $this->call(CategoriesTableSeeder::class);       
         // $this->call(ProductContactTableSeeder::class);       
         // $this->call(StatusProductsTableSeeder::class);
-        $product = Product::factory(1)->create()->first();
-        $deliveryInformation = DeliveryInformation::create([
-            'product_id' => $product->id,
-            'length' => 50, 
-            'length_unit' => 'cm',
-            'width' => 50,
-            'width_unit' => 'cm',
-            'height' => 50,
-            'height_unit' => 'cm',
-            'weight' => 0.65,
-            'weight_unit' => 'kg',
-            'option' => 'Domicilio',
-            'region_code' => 'R5',
-            'region_name' => 'VALPARAISO',
-            'city_name' => 'VALPARAISO',
-            'city_code' => 'VALP',
-            'chile_office' => '',
-            'address' => 'Calle Beethoven',
-            'address_number' => 23,
-            'dpto_house' => '',
-            'recover_price' => '',
-            
-        ]);
-         // Associate delivery information with the product
-        $product->deliveryInformation()->save($deliveryInformation);
-            // Create product galleries
-        $galleryData = [
-            [
-                'url' => 'images/products_images/66252e088fe03_ceramique-de-differentes-couleurs.png',
-                'alt' => 'Gallery Image 1',
-                'size' => '0.6 M',
-                'position' => 1,
-            ],
-            [
-                'url' => 'images/products_images/6626bc1e2886a_dans-une-boutique-de-la-cote-azur.png',
-                'alt' => 'Gallery Image 2',
-                'size' => '0.4 M',
-                'position' => 2,
-            ],    
-        ];
+        $products = Product::factory()->count(30)->withNameSequence()->create();
+        foreach ($products as $product) {
+            // Create delivery information for each product
+            $deliveryInformation = new DeliveryInformation([
+                'product_id' => $product->id, // Assign the product_id
+                'length' => 50,
+                'length_unit' => 'cm',
+                'width' => 50,
+                'width_unit' => 'cm',
+                'height' => 50,
+                'height_unit' => 'cm',
+                'weight' => 0.65,
+                'weight_unit' => 'kg',
+                'option' => 'Domicilio',
+                'region_code' => 'R5',
+                'region_name' => 'VALPARAISO',
+                'city_name' => 'VALPARAISO',
+                'city_code' => 'VALP',
+                'chile_office' => '',
+                'address' => 'Calle Beethoven',
+                'address_number' => 23,
+                'dpto_house' => '',
+                'recover_price' => '',
+            ]);
+            $deliveryInformation->save(); // Save the delivery information
 
-        foreach ($galleryData as $gallery) {
-            $productGallery = new ProductGallery($gallery);
-            $product->galleries()->save($productGallery);
+            // Create product galleries for each product
+            $galleryData = [
+                [
+                    'url' => 'images/products_images/66252e088fe03_ceramique-de-differentes-couleurs.png',
+                    'alt' => 'Gallery Image 1',
+                    'size' => '0.6 M',
+                    'position' => 1,
+                ],
+                [
+                    'url' => 'images/products_images/6626bc1e2886a_dans-une-boutique-de-la-cote-azur.png',
+                    'alt' => 'Gallery Image 2',
+                    'size' => '0.4 M',
+                    'position' => 2,
+                ],
+            ];
+            foreach ($galleryData as $gallery) {
+                $productGallery = new ProductGallery(array_merge($gallery, ['product_id' => $product->id]));
+                $productGallery->save(); // Save each product gallery
+            }
         }
         // Order::factory(20)->create();
         // $this->call(ProductContactProductSeeder::class);

@@ -133,10 +133,10 @@
     </div>
 
     <!-- Display filtered products -->
-    <div v-if="filteredProducts.length > 0">
+    <div v-if="filteredProducts.data?.length > 0">
       <!-- Card Layout -->
       <div v-if="layout !== 'list'" class="row">
-        <div :class="'card ' + layout" v-for="product in filteredProducts" :key="product.id">
+        <div :class="'card ' + layout" v-for="product in filteredProducts.data" :key="product.id">
           <a :href="'single-product/' + product.slug">
             <img src="/img/image-dummy-products.png" class="card-img-top" alt="imagen test">
           </a>          
@@ -172,7 +172,10 @@
       No products found.
     </div>
 
-
+    <Bootstrap5Pagination
+        :data="filteredProducts"
+        @pagination-change-page="fetchProducts"
+    />
 
 </template>
 <script setup>
@@ -250,9 +253,9 @@ const closeDropdown = () => {
 
 const filteredProducts = ref([]);
 
-const fetchProducts = async () => {
+const fetchProducts = async (page = 1) => {
     try {
-        const response = await axios.get("/api/tienda/all");  
+        const response = await axios.get(`/api/tienda/all?page=${page}`);  
         products.value = response.data;
         filteredProducts.value = products.value;
     } catch (error) {
