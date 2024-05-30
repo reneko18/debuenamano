@@ -6,6 +6,7 @@
                     <option value="">Todas las categorias</option>
                     <option v-for="category in categories" :value="category.id">{{ category.name }}</option>
                 </select> -->
+                <!--Dropdown Cats-->
                 <div  class="position-relative" v-click-outside-element="closeDropdown">
                   <div class="position-relative div-cat">
                       <input
@@ -79,6 +80,7 @@
                       </div>            
                   </div>
               </div>
+              <!--End Dropdown Cats-->
             </div>
             <div class="col">
                 <select class="form-select" v-model="selectedGenre" @change="applyFilters">
@@ -117,7 +119,7 @@
         </div>
     </div>
 
-        <!-- Selected filters tags -->
+    <!-- Selected filters tags -->
     <div class="mb-3">
       <span v-for="(filter, index) in appliedFilters" :key="index" class="badge bg-secondary me-1">
         {{ filter }} <button class="btn-close btn-close-white" @click="removeFilter(index)"></button>
@@ -172,8 +174,8 @@
       No products found.
     </div>
 
-    <Bootstrap5Pagination
-        :data="filteredProducts"
+    <Bootstrap5Pagination        
+        :data="filteredProducts"   
         @pagination-change-page="fetchProducts"
     />
 
