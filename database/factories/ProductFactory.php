@@ -21,33 +21,40 @@ class ProductFactory extends Factory
         $genre = fake()->randomElement(['Niño', 'Niña', 'Unisex']); 
         $randomString = fake()->bothify('??????');
         $sku = 'DBM-TEST-' . $randomString; 
-        $categoryIds = [1, 3, 4, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 18, 19, 20, 21, 22, 23, 25, 26, 27, 28, 30, 31, 32, 34, 35, 36, 38, 39, 40, 41, 43, 44, 45, 46];  
-        // Define age-related fields
-        $age_date_ini = fake()->randomElement(['Recién nacido','Semanas', 'Meses', 'Años']);
+        $categoryIds = [1, 3, 4, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 18, 19, 20, 21, 22, 23, 25, 26, 27, 28, 30, 31, 32, 34, 35, 36, 38, 39, 40, 41, 43, 44, 45, 46];
+        $ageFilter = fake()->numberBetween(1,4);  
+
         $createdAt = fake()->dateTimeBetween('-1 year', 'now');
-        
-        if($age_date_ini == 'Recién nacido') {
+
+        if($ageFilter == 1){
             $age_ini = '';
+            $age_date_ini = 'Recién nacido';
             $age_fin = '';
             $age_date_fin = '';
         }
-        elseif($age_date_ini == 'Meses') {
-            $age_ini = fake()->numberBetween(1, 12);
-            $age_fin = fake()->numberBetween($age_ini + 1, 12);
+        else if($ageFilter == 2){
+            $age_ini = 3;
+            $age_date_ini = 'Meses';
+            $age_fin = 12;
             $age_date_fin = 'Meses';
-        } elseif ($age_date_ini == 'Semanas') {
-            $age_ini = fake()->numberBetween(1, 52);
-            $age_fin = fake()->numberBetween($age_ini + 1, 52);
-            $age_date_fin = 'Semanas';
-        } else {
-            $age_ini = fake()->numberBetween(1, 9);
-            $age_fin = fake()->numberBetween($age_ini + 1, 10);
+        }
+        else if($ageFilter == 3){
+            $age_ini = 12;
+            $age_date_ini = 'Meses';
+            $age_fin = 24;
+            $age_date_fin = 'Meses';
+        }
+        else {
+            $age_ini = 2;
+            $age_date_ini = 'Años';
+            $age_fin = 6;
             $age_date_fin = 'Años';
         }
 
         return [
             'name' => 'Producto Test Plantilla',
             'category_id' => fake()->randomElement($categoryIds),
+            'age_filter_id' => $ageFilter,
             'genre'=> $genre,
             'age_ini' => $age_ini,
             'age_date_ini' => $age_date_ini,

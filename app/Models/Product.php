@@ -57,6 +57,11 @@ protected $fillable = [
        return $this->belongsTo(Category::class);
    }
 
+   public function agefilter()
+   {
+       return $this->belongsTo(AgeFilter::class);
+   }
+
    public function address()
    {
        return $this->hasOne(Address::class);
@@ -88,7 +93,7 @@ protected $fillable = [
    }
 
    /*Scope Filters*/ 
-   public function scopeWithFilters($query, $category_id, $genre, $min_price, $max_price)
+   public function scopeWithFilters($query, $category_id, $genre, $min_price, $max_price, $age, $search_query,$order)
     {
         if ($category_id) {
             $query->where('category_id', $category_id);
@@ -104,6 +109,18 @@ protected $fillable = [
 
         if ($max_price) {
             $query->where('price', '<=', $max_price);
+        }
+
+        if ($age) { 
+            $query->where('age_filter_id', $age);
+        }
+
+        if ($search_query) { 
+            $query->where('name', 'like', '%' . $search_query . '%');
+        }
+
+        if ($order) {
+            $query->orderBy('created_at', $order);
         }
 
         return $query;
