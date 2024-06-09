@@ -13,7 +13,8 @@ class PostController extends Controller
 
         $posts = Post::with('author','postcategories')->withPostFilters( 
             request()->input('authors', []),            
-            request()->input('postcategories', []),            
+            request()->input('postcategories', []),    
+            request()->input('order', 'desc') // Default to ascending        
         )->paginate(6); 
 
         return response()->json($posts);

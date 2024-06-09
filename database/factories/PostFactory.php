@@ -18,6 +18,8 @@ class PostFactory extends Factory
      */
     public function definition()
     {
+        $createdAt = fake()->dateTimeBetween('-1 year', 'now');
+
         return [
             'title' => fake()->realTextBetween(5,10),
             'content' => fake()->realText(500),
@@ -27,6 +29,8 @@ class PostFactory extends Factory
             'slug' => Str::slug(fake()->realTextBetween(5,10)),
             'meta_title' => fake()->realTextBetween(5,10),
             'meta_description' => fake()->realText(180),
+            'created_at' => $createdAt,
+            'updated_at' => $createdAt, // Assuming you want updated_at to be the same as created_at initially
         ];
     }
 }

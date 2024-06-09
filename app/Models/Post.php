@@ -27,21 +27,23 @@ class Post extends Model
         return $this->belongsToMany(PostCategory::class,'post_category');
     }
 
-       /*Scope Filters*/ 
-       public function scopeWithPostFilters($query, $authors, $postcategories)
-       {
-           $authors = is_array($authors) ? $authors : [$authors];
-           $postcategories = is_array($postcategories) ? $postcategories : [$postcategories];
-       
-           return $query->when(count($authors), function ($query) use ($authors) {
-               $query->whereIn('author_id', $authors);
-           })
-           ->when(count($postcategories), function ($query) use ($postcategories) {
-               $query->whereHas('postcategories', function ($query) use ($postcategories) {
-                   $query->whereIn('post_category_id', $postcategories);
-               });
-           });
-       }
+    /*Scope Filters*/ 
+    public function scopeWithPostFilters($query, $authors, $postcategories,$order = 'desc')
+    {
+        $authors = is_array($authors) ? $authors : [$authors];
+        $postcategories = is_array($postcategories) ? $postcategories : [$postcategories];
+    
+        return $query->when(count($authors), function ($query) use ($authors) {
+            $query->whereIn('author_id', $authors);
+        })
+        ->when(count($postcategories), function ($query) use ($postcategories) {
+            $query->whereHas('postcategories', function ($query) use ($postcategories) {
+                $query->whereIn('post_category_id', $postcategories);
+            });
+        })
+        ->orderBy('created_at', $order); // Apply ordering
+    }
+
     public function getRouteKeyName()
     {
         return 'slug';

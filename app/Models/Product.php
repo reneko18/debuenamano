@@ -87,6 +87,29 @@ protected $fillable = [
        return $this->belongsToMany(Order::class)->withPivot('delivery_price');
    }
 
+   /*Scope Filters*/ 
+   public function scopeWithFilters($query, $category_id, $genre, $min_price, $max_price)
+    {
+        if ($category_id) {
+            $query->where('category_id', $category_id);
+        }
+
+        if ($genre) {
+            $query->where('genre', $genre);
+        }
+
+        if ($min_price) {
+            $query->where('price', '>=', $min_price);
+        }
+
+        if ($max_price) {
+            $query->where('price', '<=', $max_price);
+        }
+
+        return $query;
+    }
+
+
    public function getRouteKeyName()
    {
        return 'slug';

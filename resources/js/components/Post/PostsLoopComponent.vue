@@ -1,5 +1,8 @@
 <template>
-    <div class="container mx-auto">
+    <div class="container mx-auto"> 
+        <div>
+            <p>{{ currentPageResults }} de {{ totalResults }} resultados</p>
+        </div>
         <div class="row">
             <div class="col">
                 <label for="cat-blog" class="mb-3">Categoría</label>
@@ -31,20 +34,18 @@
             <div class="col">
                 <label for="order-blog" class="mb-3">Ordenar por</label>
                 <select
-                    id="oder-blog"
+                    id="order-blog"
                     class="form-select"
-                    aria-label="Default select example"
+                    v-model="selected.order"
                 >
-                    <option value="">Open this select menu</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
+                    <option value="asc">Ascendente</option>
+                    <option value="desc">Descendente</option>
                 </select>
             </div>
         </div>
     </div>
     <div class="row row-post-loop container mx-auto">
-        <div class="col col-post" v-for="post in posts">
+        <div class="col col-post" v-for="post in posts.data">
             <div class="card">
                 <div class="card-header">
                     <a :href="'/entradas/' + post.slug" class="link-post-archive">
@@ -60,7 +61,7 @@
                                 {{ post.author.lastname }}</span
                             >
                         </div>
-                        <span class="date">{{ formatDate(post.date) }}</span>
+                        <span class="date">{{ formatDate(post.created_at) }}</span>
                     </div>
                     <a :href="'/entradas/' + post.slug" class="link-post-archive"> 
                         <h2 class="card-title">{{ post.title }}</h2>
@@ -73,96 +74,100 @@
                 </div>
             </div>
         </div>
-        <template>
             <Bootstrap5Pagination
                 :data="posts"   
                 @pagination-change-page="loadPosts"
             />
-        </template>
     </div>
 </template>
-<script>
-import moment from "moment";
-import "moment/locale/es";
+<script setup>
+import { ref, reactive, onMounted, watch } from 'vue';
+import axios from 'axios';
+import { format } from 'date-fns';
+import { es } from 'date-fns/locale';
 
-export default {
-    data: function () {
-        return {
-            posts: [],
-            postscats: [],
-            authors: [],
-            selected: {
-                authors: [],
-                postcategories: [],
-            },
-        };
-    },
-    mounted() {
-        this.loadPosts();
-        this.loadPostsCats();
-        this.loadAuthors();
-    },
-    watch: {
-        selected: {
-            handler: function () {
-                this.loadPosts();
-                this.loadPostsCats();
-                this.loadAuthors();
-            },
-            deep: true,
-        },
-    },
-    methods: {
-        loadPosts: function (page = 1) {
-            axios
-                .get('/api/posts?page=' + page, {
-                    params: this.selected,
-                })
-                .then((response) => {
-                    this.posts = response.data.data;
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
-        },
-        loadPostsCats() {
-            axios
-                .get("/api/postscategories", {
-                    params: _.omit(this.selected, "postcategories"),
-                })
-                .then((response) => {
-                    this.postscats = response.data;
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
-        },
-        loadAuthors() {
-            axios
-                .get("/api/authors", {
-                    params: _.omit(this.selected, "authors"),
-                })
-                .then((response) => {
-                    this.authors = response.data;
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
-        },
-        truncatedContent(content) {
-            const maxLength = 200;
-            if (content.length <= maxLength) {
-                return content;
-            } else {
-                return content.slice(0, maxLength - 3) + "...";
-            }
-        },
-        formatDate(date) {
-            moment.locale("es");
-            return moment(date).format("D [de] MMMM YYYY");
-        },
-    },
+// State
+const posts = ref([]);
+const postscats = ref([]);
+const authors = ref([]);
+const selected = reactive({
+  authors: [],
+  postcategories: [],
+  order: 'desc', // Default order
+});
+
+// Data results
+const currentPageResults = ref(""); 
+const totalResults = ref(null); 
+
+// Methods
+const loadPosts = async (page = 1) => {
+  try {
+    const response = await axios.get('/api/posts?page=' + page, {
+      params: selected,
+    });
+    posts.value = response.data;
+    if(response.data.to === null){
+        currentPageResults.value = 0
+    } else {
+        currentPageResults.value = response.data.to;
+    }    
+    if (totalResults.value === null) {
+      totalResults.value = response.data.total;
+    }
+  } catch (error) {
+    console.log(error);
+  }
 };
+
+const loadPostsCats = async () => {
+  try {
+    const response = await axios.get('/api/postscategories', {
+      params: _.omit(selected, 'postcategories'),
+    });
+    postscats.value = response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const loadAuthors = async () => {
+  try {
+    const response = await axios.get('/api/authors', {
+      params: _.omit(selected, 'authors'),
+    });
+    authors.value = response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const truncatedContent = (content) => {
+  const maxLength = 200;
+  return content.length <= maxLength ? content : content.slice(0, maxLength - 3) + '...';
+};
+
+const formatDate = (date) => {
+  return format(new Date(date), "d 'de' MMMM yyyy", { locale: es });
+};
+
+// Lifecycle hooks
+onMounted(() => {
+  loadPosts();
+  loadPostsCats();
+  loadAuthors();
+});
+
+// Watchers
+watch(
+  () => selected,
+  () => {
+    loadPosts();
+    loadPostsCats();
+    loadAuthors();
+  },
+  { deep: true }
+);
 </script>
 
 <style scoped>

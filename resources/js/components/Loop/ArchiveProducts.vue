@@ -1,18 +1,17 @@
 <template>
     <div class="container">
         <div class="row">
+            <!--Results-->
+            <div>
+                <p>{{ currentPageResults }} de {{ totalResults }} resultados</p>
+            </div>
             <div class="col">
-                <!-- <select class="form-select" v-model="selectedCategory" @change="applyFilters">
-                    <option value="">Todas las categorias</option>
-                    <option v-for="category in categories" :value="category.id">{{ category.name }}</option>
-                </select> -->
-                <!--Dropdown Cats-->
                 <div  class="position-relative" v-click-outside-element="closeDropdown">
                   <div class="position-relative div-cat">
                       <input
                           type="text"
                           class="form-control cat-select"
-                          :value="selectedCategory.name"
+                          :value="selected.category_id.name"
                           @click="showAndCloseDropdown"
                           readonly
                           placeholder="Seleccione una categoría"
@@ -32,8 +31,7 @@
                                       :value="category"
                                       type="radio"
                                       name="categoria"
-                                      v-model="selectedCategory"
-                                      @change="applyFilters"
+                                      v-model="selected.category_id"
                                   />
                                   <label :for="'cat-' + category.id" class="btn">
                                     {{ category.name }}
@@ -66,8 +64,7 @@
                                                   :value="subcategory"
                                                   type="radio"
                                                   name="subcategoria"
-                                                  v-model="selectedCategory"
-                                                  @change="applyFilters"
+                                                  v-model="selected.category_id"                                                  
                                               />
                                               <label :for="'subcat-' + subcategory.id" class="btn">
                                                   {{subcategory.name}}
@@ -82,8 +79,9 @@
               </div>
               <!--End Dropdown Cats-->
             </div>
+            <!-- Genre -->
             <div class="col">
-                <select class="form-select" v-model="selectedGenre" @change="applyFilters">
+                <select class="form-select" v-model="selected.genre">
                     <option value="">Todos los géneros</option>
                     <option v-for="genre in genres" :value="genre.name">{{ genre.name }}</option>
                 </select>
@@ -181,7 +179,7 @@
 
 </template>
 <script setup>
-import { ref, onMounted, watchEffect } from "vue";
+import { ref, onMounted, reactive, watch, watchEffect } from "vue";
 
 const products = ref([]);
 const categories = ref([]);
@@ -190,8 +188,8 @@ const genres = ref([
   { name: "Niña" },
   { name: "Unisex" }
 ]);
-const selectedCategory = ref('');
-const selectedGenre = ref('');
+// const selectedCategory = ref('');
+// const selectedGenre = ref('');
 const minPrice = ref('');
 const maxPrice = ref('');
 const iniAge = ref('');
@@ -203,6 +201,16 @@ const layout = ref('col-3'); // Default layout
 const setLayout = (newLayout) => {
   layout.value = newLayout;
 };
+
+//New for filters 
+const selected = reactive({
+  category_id: [],
+  genre: [],
+});
+
+// Data results
+const currentPageResults = ref(""); 
+const totalResults = ref(""); 
 
 //Categories Dropdown
 const dropdown = ref(false);
@@ -257,8 +265,16 @@ const filteredProducts = ref([]);
 
 const fetchProducts = async (page = 1) => {
     try {
-        const response = await axios.get(`/api/tienda/all?page=${page}`);  
+        let categoryId = selected.category_id.id;
+        if (!categoryId) {
+            categoryId = null;
+        }
+        const response = await axios.get(`/api/tienda/all?page=${page}`, {
+            params: { ...selected, category_id: categoryId, genre: selected.genre },
+        }); 
         products.value = response.data;
+        currentPageResults.value = response.data.per_page;
+        totalResults.value = response.data.total;
         filteredProducts.value = products.value;
     } catch (error) {
         console.error("Error fetching products:", error);
@@ -275,85 +291,87 @@ const fetchCategories = async () => {
 };
 
 const applyFilters = () => {
-  filteredProducts.value = products.value.filter(product => {
-    // return (!selectedCategory.value || product.category_id === selectedCategory.value) &&
-    //        (!selectedGenre.value || product.genre === selectedGenre.value);
-    // Filter by category
-    const categoryPass = !selectedCategory.value || product.category_id === selectedCategory.value.id;
-    // Filter by Genre
-    const genrePass = !selectedGenre.value || product.genre === selectedGenre.value;
-    // Filter by price range
-    const minPass = !minPrice.value || parseFloat(product.price) >= parseFloat(minPrice.value);
-    const maxPass = !maxPrice.value || parseFloat(product.price) <= parseFloat(maxPrice.value);
+  console.log("Hello");
+  // filteredProducts.value = products.value.filter(product => {
+  //   // Filter by category
+  //   const categoryPass = !selectedCategory.value || product.category_id === selectedCategory.value.id;
+  //   // Filter by Genre
+  //   const genrePass = !selectedGenre.value || product.genre === selectedGenre.value;
+  //   // Filter by price range
+  //   const minPass = !minPrice.value || parseFloat(product.price) >= parseFloat(minPrice.value);
+  //   const maxPass = !maxPrice.value || parseFloat(product.price) <= parseFloat(maxPrice.value);
 
-    // Age filter logic
-    let agePass = true;
-    if (iniAgeDate.value === 'Recién nacido') {
-      agePass = product.age_date_ini === 'Recién nacido';
-    } else {
-      const iniAgePass = !iniAge.value || (parseInt(product.age_ini) >= parseInt(iniAge.value) && product.age_date_ini === iniAgeDate.value);
-      const endAgePass = !endAge.value || (parseInt(product.age_fin) <= parseInt(endAge.value) && product.age_date_fin === endAgeDate.value);
-      agePass = iniAgePass && endAgePass;
-    }
+  //   // Age filter logic
+  //   let agePass = true;
+  //   if (iniAgeDate.value === 'Recién nacido') {
+  //     agePass = product.age_date_ini === 'Recién nacido';
+  //   } else {
+  //     const iniAgePass = !iniAge.value || (parseInt(product.age_ini) >= parseInt(iniAge.value) && product.age_date_ini === iniAgeDate.value);
+  //     const endAgePass = !endAge.value || (parseInt(product.age_fin) <= parseInt(endAge.value) && product.age_date_fin === endAgeDate.value);
+  //     agePass = iniAgePass && endAgePass;
+  //   }
 
-    return categoryPass && genrePass && minPass && maxPass && agePass;
-  });
+  //   return categoryPass && genrePass && minPass && maxPass && agePass;
+  // });
 };
 
 const appliedFilters = ref([]);
 
 const removeFilter = (index) => {
-  appliedFilters.value.splice(index, 1);
-  if (appliedFilters.value.length === 0) {
-    selectedCategory.value = '';
-    selectedGenre.value = '';
-    minPrice.value = '';
-    maxPrice.value = '';
-    iniAge.value = '';
-    iniAgeDate.value = '';
-    endAge.value = '';
-    endAgeDate.value = '';
-  }
-  applyFilters();
+  console.log("Hello",index);
+  // appliedFilters.value.splice(index, 1);
+  // if (appliedFilters.value.length === 0) {
+  //   selectedCategory.value = '';
+  //   selectedGenre.value = '';
+  //   minPrice.value = '';
+  //   maxPrice.value = '';
+  //   iniAge.value = '';
+  //   iniAgeDate.value = '';
+  //   endAge.value = '';
+  //   endAgeDate.value = '';
+  // }
+  // applyFilters();
 };
 
 const clearFilters = () => {
-  selectedCategory.value = '';
-  selectedGenre.value = '';
-  minPrice.value = '';
-  maxPrice.value = '';
-  iniAge.value = '';
-  iniAgeDate.value = '';
-  endAge.value = '';
-  endAgeDate.value = '';
-  appliedFilters.value = [];
-  applyFilters();
+  console.log("Hello");
+  // selectedCategory.value = '';
+  // selectedGenre.value = '';
+  // minPrice.value = '';
+  // maxPrice.value = '';
+  // iniAge.value = '';
+  // iniAgeDate.value = '';
+  // endAge.value = '';
+  // endAgeDate.value = '';
+  // appliedFilters.value = [];
+  // applyFilters();
 };
 
 
 // Watch for changes in selectedCategory, minPrice, and maxPrice to update appliedFilters
-watchEffect(() => {
-  appliedFilters.value = [];
-  // if (selectedCategory.value) {
-  //   const category = categories.value.find(cat => cat.id === selectedCategory.value.id);
-  //   if (category) appliedFilters.value.push(category.name);
-  // }
-  if (selectedCategory.value) {
-        appliedFilters.value.push(selectedCategory.value.name);
-  }
-  if (selectedGenre.value) {
-    const genre = genres.value.find(gen => gen.name === selectedGenre.value);
-    if (genre) appliedFilters.value.push(genre.name);
-  }
-  if (minPrice.value) appliedFilters.value.push(`Mínimo: ${minPrice.value}`);
-  if (maxPrice.value) appliedFilters.value.push(`Máximo: ${maxPrice.value}`);
-  if (iniAge.value || iniAgeDate.value === 'Recién nacido') {
-    appliedFilters.value.push(`Edad Inicial: ${iniAge.value} ${iniAgeDate.value}`);
-  }
-  if (endAge.value) {
-    appliedFilters.value.push(`Edad Final: ${endAge.value} ${endAgeDate.value}`);
-  }
-});
+// watchEffect(() => {
+//   appliedFilters.value = [];
+//   if (selectedCategory.value) {
+//         appliedFilters.value.push(selectedCategory.value.name);
+//   }
+//   if (selectedGenre.value) {
+//     const genre = genres.value.find(gen => gen.name === selectedGenre.value);
+//     if (genre) appliedFilters.value.push(genre.name);
+//   }
+//   if (minPrice.value) appliedFilters.value.push(`Mínimo: ${minPrice.value}`);
+//   if (maxPrice.value) appliedFilters.value.push(`Máximo: ${maxPrice.value}`);
+//   if (iniAge.value || iniAgeDate.value === 'Recién nacido') {
+//     appliedFilters.value.push(`Edad Inicial: ${iniAge.value} ${iniAgeDate.value}`);
+//   }
+//   if (endAge.value) {
+//     appliedFilters.value.push(`Edad Final: ${endAge.value} ${endAgeDate.value}`);
+//   }
+// });
+
+watch(
+    [() => selected.category_id, () => selected.genre], 
+    () => fetchProducts()
+);
 
 onMounted(() => {
     fetchProducts();

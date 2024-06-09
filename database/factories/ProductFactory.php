@@ -23,9 +23,15 @@ class ProductFactory extends Factory
         $sku = 'DBM-TEST-' . $randomString; 
         $categoryIds = [1, 3, 4, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 18, 19, 20, 21, 22, 23, 25, 26, 27, 28, 30, 31, 32, 34, 35, 36, 38, 39, 40, 41, 43, 44, 45, 46];  
         // Define age-related fields
-        $age_date_ini = fake()->randomElement(['Semanas', 'Meses', 'Años']);
+        $age_date_ini = fake()->randomElement(['Recién nacido','Semanas', 'Meses', 'Años']);
+        $createdAt = fake()->dateTimeBetween('-1 year', 'now');
         
-        if ($age_date_ini == 'Meses') {
+        if($age_date_ini == 'Recién nacido') {
+            $age_ini = '';
+            $age_fin = '';
+            $age_date_fin = '';
+        }
+        elseif($age_date_ini == 'Meses') {
             $age_ini = fake()->numberBetween(1, 12);
             $age_fin = fake()->numberBetween($age_ini + 1, 12);
             $age_date_fin = 'Meses';
@@ -77,13 +83,19 @@ class ProductFactory extends Factory
             'active_title' => 4,
             'received_constant' => 5,
             'current_step' => 9,
+            'created_at' => $createdAt,
+            'updated_at' => $createdAt, // Assuming you want updated_at to be the same as created_at initially
         ];
     }
 
     public function withNameSequence()
     {
         return $this->state(new Sequence(
-            fn ($sequence) => ['name' => 'Producto Test Plantilla ' . ($sequence->index + 1)]
+            fn ($sequence) => [
+                'name' => 'Producto Test Plantilla ' . ($sequence->index + 1),
+                'meta_title' => 'Producto Test Plantilla ' . ($sequence->index + 1),
+                'slug' => 'producto-test-plantilla-' . ($sequence->index + 1)
+            ]
         ));
     }
 }
