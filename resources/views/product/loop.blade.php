@@ -20,7 +20,7 @@ Tienda - De Buena Mano
             @endforeach
         </div>
     </div> --}}
-    <div class="container my-5 py-5">
+    <div class="my-5 py-5">
         <div id="app">
             <products-loop></products-loop>
         </div>        

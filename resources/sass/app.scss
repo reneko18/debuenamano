@@ -30,7 +30,7 @@ body {
 .mb-30  { margin-bottom: 30px; }
 .mb-40  { margin-bottom: 40px; }
 .mb-60  { margin-bottom: 60px; }
-.mb-100 { margin-bottom: 60px; }
+.mb-100 { margin-bottom: 100px; }
 
 /* RELLENOS ****************************************************** */
 
@@ -231,6 +231,11 @@ h3 {
 .carousel-caption-dbm p {
     font-size: 16px;
     line-height: 22px;
+}
+
+.archive-resultados {
+    font-size: 14px;
+    font-weight: 700;
 }
 
 /* HEADER */
@@ -436,6 +441,11 @@ label {
     height: 22px;
 }
 
+.badge { background-color: #344026; color: #F9FAFA; padding: 8px 16px; font-size: 13px; font-weight: 300; border-radius: 20px; margin-right: 12px; }
+.badge:hover { background-color: #728C54; } 
+.badge, .badge svg { line-height: 13px; }
+.badge svg { margin-left: 8px;}
+
 .form-check-input { margin-top: 0; }
 .form-check-input:checked { background-color: #728C54; border-color: #728C54;}
 .form-check-label, .form-check-label .enlace  { font-family: "Inter", sans-serif; font-weight: 400; font-size: 14px; line-height: 22px; }
@@ -570,6 +580,15 @@ label {
     content: url('../../public/img/chevron-down.svg');
     background-image: none;
 }
+
+.orden-grid label, .orden-grid p, .orden-grid a { line-height: 45px; }
+.orden { margin-right: 20px; white-space:nowrap; }
+.orden label { display: inline-block; margin-right: 10px; }
+.icons-grid a:not(:last-child) { margin-right: 10px; }
+.icons-grid a { width: 22.5px; height: 22.5px; cursor: pointer; }
+.icons-grid a svg { fill: #151a0f; width: 22.5px; height: 22.5px; }
+.icons-grid a svg:hover { fill: #728c54; }
+
 
 /*PASO DE LAS DIMENSIONES*************************************** */
 .cont-dimen-1, .cont-dimen-2 {
@@ -741,6 +760,34 @@ label {
     background-color: #8ca76d;
     color: #fff;
 }
+
+.cont-edad { margin: 30px 0; }
+
+.cont-edad .btn-edad:not(:last-child) { margin-right: 10px; }
+
+.btn-edad label {
+    background-color: #fff;
+    color: #151A0F;
+    border-radius: 8px;
+    border: 2px dashed #151A0F;
+    font-family: "Quicksand", sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    height: 40px;
+    line-height: 37px;
+    text-decoration: none;
+    padding-left: 24px;
+    padding-right: 24px;
+    cursor: pointer;
+} 
+
+.btn-edad .active, .btn-edad label:hover {
+    background-color: #D29C37;
+    border: 2px dashed #D29c37;
+    color: #fff;
+}
+
+
 
 /* SELLING FORM ****************************************************** */
 .tabs-form-sell button {
@@ -928,6 +975,7 @@ footer a {
 .enlace {
     font-size: 15px;
     color: #344026;
+    cursor: pointer;
 }
 
 .enlace:hover {
@@ -991,6 +1039,34 @@ h1.parallax-txt {
     max-width: 35px;
     height: 39px;
 }
+/* PAGINATION */
+
+.pagination {  }
+.pagination li:not(:last-child) { margin-right: 16px; }
+
+.pagination .pagination-page-nav a:not(.active a,
+.pagination-next-nav a, .pagination-prev-nav a),
+.pagination-page-nav:last-child a, 
+.pagination-page-nav:first-child a { color: #C0C6B9; background-color: #fff; border: 1.5px dashed #C0C6B9; border-radius: 8px!important; padding: 10px 18px; }
+
+.pagination .pagination-page-nav a:hover:not(.active a:hover) { color: #151A0F; border: 1.5px dashed  }
+.pagination .active a { background-color: #D29C37!important; color: #fff!important; border: 1.5px dashed #D29C37; border-radius: 8px!important; padding: 10px 18px; }
+.pagination-next-nav a, .pagination-prev-nav a { color: #C0C6B9; background-color: #fff; border: none; padding: 10px 18px; }
+.pagination-next-nav a:hover, .pagination-prev-nav a:hover { color: #151A0F; background-color: #fff; }
+
+.page-link:focus {
+    z-index: 3;
+    color: #151A0F;
+    background-color: #fff;
+    outline: 0;
+    -webkit-box-shadow: 0 0 0 3px rgba(210,156,55,1);
+    -moz-box-shadow: 0 0 0 3px rgba(210,156,55,1);
+    box-shadow: 0 0 0 3px rgba(210,156,55,1);
+    border-radius: 8px!important;
+}
+:focus-visible { outline: 1px auto rgba(210,156,55,.6); }
+
+
 /*CSS PAGINAS QUE NECESITAN PADDING POR EL POSITION FIXED HEADER**************************/
 .p-pages {
     padding-top: 14rem;
@@ -1004,6 +1080,21 @@ h1.parallax-txt {
     background-size: cover;
     background-position: center;
 }
+/* CARDS */
+.card-productos a { text-decoration: none; display: inline-block; }
+
+.card-img { border: 1.2px dashed #E9ECEC; }
+.card-img:hover { border: 1.2px dashed #728C54; }
+
+.card-productos a h5 { color: #151A0F; font-family: "Quicksand", sans-serif; font-weight: 700; font-size: 18px; line-height: 26px; margin-bottom: 0; }
+.card-productos a:hover h5,
+.card-img:hover + .card-body h5,
+.col-4:hover + .col-8 .card-body a h5
+{ color: #728C54; }
+
+.card-precio { font-size: 22px; font-weight: 300; color: #151A0F; }
+.card-parrafo { font-size: 16px; font-weight: 300; line-height: 24px; }
+
 
 /*BLOG***********************************************/
 .first-sec-blog{

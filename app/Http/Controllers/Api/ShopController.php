@@ -23,7 +23,7 @@ class ShopController extends Controller
         $products = Product::with('category')
             ->where('publish_status', 'En vitrina')
             ->withFilters($category_id, $genre, $min_price, $max_price,$age,$search_query,$order)
-            ->paginate(10); 
+            ->paginate(12); 
 
         return response()->json($products);
     }

@@ -50,7 +50,7 @@ class DatabaseSeeder extends Seeder
         $this->call(AgeFiltersTableSeeder::class);       
         // $this->call(ProductContactTableSeeder::class);       
         // $this->call(StatusProductsTableSeeder::class);
-        $products = Product::factory()->count(30)->withNameSequence()->create();
+        $products = Product::factory()->count(60)->withNameSequence()->create();
         foreach ($products as $product) {
             // Create delivery information for each product
             $deliveryInformation = new DeliveryInformation([
