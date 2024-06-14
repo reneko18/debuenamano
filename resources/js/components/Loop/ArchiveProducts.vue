@@ -242,7 +242,7 @@
                         >
                             <h2 class="card-title">{{ product.name }}</h2>
                         </a>            
-                        <p class="card-precio">${{ product.price }}</p>
+                        <p class="card-precio">{{ formatPrice(product.price) }}</p>
                     </div>
                 </div>
             </div>
@@ -265,7 +265,7 @@
                                 >
                                     <h2 class="card-title">{{ product.name }}</h2>
                                 </a>            
-                                <p class="card-precio">${{ product.price }}</p>
+                                <p class="card-precio">{{ formatPrice(product.price) }}</p>
                                 <p class="card-parrafo">{{ product.description }}</p>
                             </div>
                         </div>
@@ -313,6 +313,25 @@ const handleTitleMouseEnter = (productId) => {
 const handleTitleMouseLeave = () => {
     hoveredTitle.value = null;
 };
+
+// Function to format price without decimals and with point as thousands separator
+const formatPrice = (price) => {
+    // Convert price to number if it's a string
+    const numericPrice = typeof price === 'string' ? parseFloat(price) : price;
+    
+    if (isNaN(numericPrice)) {
+        return '';
+    }
+    
+    // Use toLocaleString to format with point as thousands separator
+    return numericPrice.toLocaleString('es-CL', {
+        style: 'currency',
+        currency: 'CLP',
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+    }).replace(/CLP/, ''); // Remove currency symbol
+};
+
 
 //New for filters 
 const selected = reactive({
