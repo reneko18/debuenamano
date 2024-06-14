@@ -165,9 +165,9 @@
                     class="form-select"
                     v-model="selected.order"
                 >
-                    <option value="asc">Lo más nuevo</option>
-                    <option value="desc">Menor a mayor precio</option>
-                    <option value="desc">Mayor a menor precio</option>
+                    <option value="desc">Lo más nuevo</option>
+                    <option value="price_asc">Menor a mayor precio</option>
+                    <option value="price_desc">Mayor a menor precio</option>
                 </select>
             </div>
             <div class="d-flex icons-grid">
@@ -231,12 +231,16 @@
             <!-- Card Layout -->
             <div v-if="layout !== 'list'" class="row">
                 <div :class="'card card-productos ' + layout" v-for="product in filteredProducts.data" :key="product.id">
-                    <a :href="'single-product/' + product.slug" class="card-img">
+                    <a :href="'single-product/' + product.slug" class="card-img" :class="{ 'hovered-img': hoveredTitle === product.id }">
                         <img src="/img/image-dummy-products.png" class="card-img-top" alt="imagen test">
                     </a>          
                     <div class="card-body">
-                        <a :href="'single-product/' + product.slug">
-                        <h5 class="card-title">{{ product.name }}</h5>
+                        <a 
+                            :href="'single-product/' + product.slug" 
+                            @mouseenter="handleTitleMouseEnter(product.id)"
+                            @mouseleave="handleTitleMouseLeave"
+                        >
+                            <h2 class="card-title">{{ product.name }}</h2>
                         </a>            
                         <p class="card-precio">${{ product.price }}</p>
                     </div>
@@ -248,14 +252,18 @@
                 <div class="card card-productos" v-for="product in filteredProducts.data" :key="product.id">
                     <div class="row g-0">
                         <div class="col-4">
-                            <a :href="'single-product/' + product.slug" class="card-img">
+                            <a :href="'single-product/' + product.slug" class="card-img" :class="{ 'hovered-img': hoveredTitle === product.id }">
                                 <img src="/img/image-dummy-products.png" class="img-fluid" alt="imagen test">
                             </a>  
                         </div>
                         <div class="col-6">
                             <div class="card-body">   
-                                <a :href="'single-product/' + product.slug">
-                                    <h5 class="card-title">{{ product.name }}</h5>
+                                <a 
+                                    :href="'single-product/' + product.slug"
+                                    @mouseenter="handleTitleMouseEnter(product.id)"
+                                    @mouseleave="handleTitleMouseLeave"
+                                >
+                                    <h2 class="card-title">{{ product.name }}</h2>
                                 </a>            
                                 <p class="card-precio">${{ product.price }}</p>
                                 <p class="card-parrafo">{{ product.description }}</p>
@@ -293,6 +301,17 @@ const genres = ref([
 const layout = ref('col-3'); // Default layout
 const setLayout = (newLayout) => {
   layout.value = newLayout;
+};
+
+//Hovered Product
+const hoveredTitle = ref(null);
+
+const handleTitleMouseEnter = (productId) => {
+    hoveredTitle.value = productId;
+};
+
+const handleTitleMouseLeave = () => {
+    hoveredTitle.value = null;
 };
 
 //New for filters 

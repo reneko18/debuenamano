@@ -1083,14 +1083,30 @@ h1.parallax-txt {
 /* CARDS */
 .card-productos a { text-decoration: none; display: inline-block; }
 
-.card-img { border: 1.2px dashed #E9ECEC; }
-.card-img:hover { border: 1.2px dashed #728C54; }
+.card-img {
+    border: 1.2px dashed #C0C6B9;
+    overflow: hidden;
+    padding: 5px; 
+    transition: border 0.3s;
+}
+.card-img:hover,
+.hovered-img
+ { border: 1.2px dashed #728C54; }
 
-.card-productos a h5 { color: #151A0F; font-family: "Quicksand", sans-serif; font-weight: 700; font-size: 18px; line-height: 26px; margin-bottom: 0; }
-.card-productos a:hover h5,
-.card-img:hover + .card-body h5,
-.col-4:hover + .col-8 .card-body a h5
+.card-productos a h2 { color: #151A0F; font-family: "Quicksand", sans-serif; font-weight: 700; font-size: 18px; line-height: 26px; margin-bottom: 0; }
+.card-productos a:hover h2,
+.card-img:hover + .card-body h2,
+.col-4:hover + .col-6 .card-body a h2
 { color: #728C54; }
+
+.card-body .card-title:hover {
+    color: #728C54;
+}
+
+.card-img:hover img,
+.hovered-img img {
+    transform: scale(1.1);
+}
 
 .card-precio { font-size: 22px; font-weight: 300; color: #151A0F; }
 .card-parrafo { font-size: 16px; font-weight: 300; line-height: 24px; }

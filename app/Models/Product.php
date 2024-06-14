@@ -119,8 +119,17 @@ protected $fillable = [
             $query->where('name', 'like', '%' . $search_query . '%');
         }
 
-        if ($order) {
-            $query->orderBy('created_at', $order);
+        // Handle the ordering logic
+        switch ($order) {
+            case 'price_desc':
+                $query->orderBy('price', 'desc');
+                break;
+            case 'price_asc':
+                $query->orderBy('price', 'asc');
+                break;
+            default:
+                $query->orderBy('created_at', 'desc');
+                break;
         }
 
         return $query;
