@@ -1,6 +1,6 @@
 <template>
     <div class="position-relative" v-click-outside-element="closeDropdownDbm">
-        <div class="position-relative div-cat">
+        <div class="position-relative div-select">
             <input
                 type="text"
                 class="form-control cat-select"

@@ -516,7 +516,9 @@ label {
 .cat-select {
     cursor: pointer;
 }
-.div-cat .fa-chevron-down {
+.div-cat .fa-chevron-down, 
+.div-select .fa-chevron-down 
+{
     cursor: pointer;
     position: absolute;
     z-index: 999;
