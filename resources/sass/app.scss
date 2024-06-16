@@ -524,7 +524,7 @@ label {
     right: 15px;
     font-size: 12px;
 }
-#dropdown-cats {
+#dropdown-cats, #dropdown-select {
     opacity: 0;
     visibility: hidden;
     position: absolute;
@@ -535,19 +535,25 @@ label {
     z-index: 999;
     background-color: #fff;
 }
-#dropdown-cats h2 button {
+#dropdown-cats h2 button, 
+#dropdown-select h2 button 
+{
     padding: 0.6rem 0.39rem 0.6rem 1.25rem;
     background-color: #fff;
 }
 #dropdown-cats h2 button,
-.cat-sin-hijo label {
+.cat-sin-hijo label,
+#dropdown-select h2 button 
+{
     font-family: "Inter", sans-serif;
     font-size: 14px;
     font-weight: 400;
     color: #344026;
 }
 .cat-sin-hijo label,
-#dropdown-cats .accordion-body label {
+#dropdown-cats .accordion-body label, 
+#dropdown-select .accordion-body label 
+{
     font-family: "Inter", sans-serif;
     width: 100%;
     height: auto;
@@ -555,28 +561,38 @@ label {
     padding: 0.6rem 1.25rem;
     border-radius: 0;
 }
-#dropdown-cats .accordion-button:focus {
+#dropdown-cats .accordion-button:focus,
+#dropdown-select .accordion-button:focus
+{
     box-shadow: none;
     border-color: unset;
     background-color: #fff;
 }
-#dropdown-cats .accordion-button:not(.collapsed) {
+#dropdown-cats .accordion-button:not(.collapsed), 
+#dropdown-select .accordion-button:not(.collapsed) 
+{
     box-shadow: none;
     border-color: unset;
     background-color: #c0c6b9;
     color: #344026;
 }
 
-#dropdown-cats .btn-check:checked + .btn {
+#dropdown-cats .btn-check:checked + .btn, 
+#dropdown-select .btn-check:checked + .btn 
+{
     background-color: #728c54;
     border-color: transparent;
     color: #f9fafa;
 }
 
-#dropdown-cats .accordion-body {
+#dropdown-cats .accordion-body, 
+#dropdown-select .accordion-body 
+{
     padding: 0;
 }
-#dropdown-cats .accordion-button::after {
+#dropdown-cats .accordion-button::after, 
+#dropdown-select .accordion-button::after 
+{
     content: url('../../public/img/chevron-down.svg');
     background-image: none;
 }

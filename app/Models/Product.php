@@ -12,7 +12,7 @@ class Product extends Model
    // In your Product model
 protected $fillable = [
     'name',
-    'genre',
+    'gender_id',
     'age_ini',
     'age_date_ini',
     'age_fin',
@@ -57,6 +57,11 @@ protected $fillable = [
        return $this->belongsTo(Category::class);
    }
 
+   public function gender()
+   {       
+       return $this->belongsTo(Gender::class);
+   }
+
    public function agefilter()
    {
        return $this->belongsTo(AgeFilter::class);
@@ -93,14 +98,14 @@ protected $fillable = [
    }
 
    /*Scope Filters*/ 
-   public function scopeWithFilters($query, $category_id, $genre, $min_price, $max_price, $age, $search_query,$order)
+   public function scopeWithFilters($query, $category_id, $gender_id, $min_price, $max_price, $age, $search_query, $order)
     {
         if ($category_id) {
             $query->where('category_id', $category_id);
         }
 
-        if ($genre) {
-            $query->where('genre', $genre);
+        if ($gender_id) {
+            $query->where('gender_id', $gender_id);
         }
 
         if ($min_price) {

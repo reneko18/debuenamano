@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->foreignId('category_id');
             $table->foreignId('age_filter_id');
-            $table->string('genre');
+            $table->foreignId('gender_id');
             $table->string('age_ini')->nullable();
             $table->string('age_date_ini');
             $table->string('age_fin')->nullable();

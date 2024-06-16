@@ -84,6 +84,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/tienda/all',[ShopController::class, 'getArchiveProducts']);
 Route::get('/tienda/categories/all',[ShopController::class, 'getArchiveCategories']);
 Route::get('/tienda/agefilter/all',[ShopController::class, 'getAgeFilters']);
+Route::get('/tienda/genders',[ShopController::class, 'getGenders']);
 
 //API Regions and cities
 Route::get('/regions', [RegionController::class,'index']);

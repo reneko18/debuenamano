@@ -114,10 +114,12 @@
             </div><!-- cierre col-12 --> 
     
             <div class="col">
-                <select class="form-select" v-model="selected.genre">
-                    <option value="">Todos los géneros</option>
-                    <option v-for="genre in genres" :value="genre.name" :key="genre.id">{{ genre.name }}</option>
-                </select>
+                <select-dbm 
+                    :items="genders"   
+                    :selected="selected.gender_id"
+                    @update:selected="updateSelectedGender"
+                    placeholder="Seleccione un género"
+                />
             </div>
 
             <div class="col">                
@@ -288,16 +290,13 @@
 
 <script setup>
 import { ref,computed, onMounted, reactive, watch } from "vue";
+import SelectDbm from "../Dbm/SelectDbm.vue";
 
 const products = ref([]);
 const categories = ref([]);
+const genders = ref([]);
 const ageFilters = ref([]);
 const searchQuery = ref('');
-const genres = ref([
-  { name: "Niño" },
-  { name: "Niña" },
-  { name: "Unisex" }
-]);
 const layout = ref('col-3'); // Default layout
 const setLayout = (newLayout) => {
   layout.value = newLayout;
@@ -336,7 +335,7 @@ const formatPrice = (price) => {
 //New for filters 
 const selected = reactive({
   category_id: '',
-  genre: '',
+  gender_id: null,
   min_price: '',
   max_price: '',
   age_filter_id: '',
@@ -401,19 +400,15 @@ const filteredProducts = ref([]);
 
 const fetchProducts = async (page = 1) => {
     try {
-        let categoryId = selected.category_id.id;
-        if (!categoryId) {
-            categoryId = null;
-        }
-        let ageId = selected.age_filter_id.id;
-        if (!ageId) {
-            ageId = null;
-        }
+        // Ensure categoryId, genderId, and ageId are correctly checked before accessing their id properties
+        const categoryId = selected.category_id ? selected.category_id.id : null;
+        const genderId = selected.gender_id ? selected.gender_id.id : null;
+        const ageId = selected.age_filter_id ? selected.age_filter_id.id : null;
         const response = await axios.get(`/api/tienda/all?page=${page}`, {
             params: { 
               ...selected, 
               category_id: categoryId,
-              genre: selected.genre,
+              gender_id: genderId,
               min_price: selected.min_price,
               max_price: selected.max_price,
               age_filter_id: ageId,
@@ -445,6 +440,15 @@ const fetchCategories = async () => {
     }
 };
 
+const fetchGenders = async () => {
+  try{
+    const response = await axios.get("/api/tienda/genders");
+    genders.value = response.data;
+  } catch (error){
+      console.error("Error fetching agefilters:", error);
+  }
+}
+
 const fetchAgeFilters = async () => {
   try{
     const response = await axios.get("/api/tienda/agefilter/all");
@@ -454,26 +458,31 @@ const fetchAgeFilters = async () => {
   }
 }
 
+// Handle gender update
+const updateSelectedGender = (newGender) => {
+  selected.gender_id = newGender;
+};
+
 // Compute applied filters for display
 const appliedFilters = computed(() => {
     const filters = [];
     if (selected.category_id) filters.push({ type: 'category_id', label: selected.category_id.name });
-    if (selected.genre) filters.push({ type: 'genre', label: selected.genre });
+    if (selected.gender_id) filters.push({ type: 'gender_id', label: selected.gender_id.name });
     if (selected.min_price) filters.push({ type: 'min_price', label: `Min Price: ${selected.min_price}` });
     if (selected.max_price) filters.push({ type: 'max_price', label: `Max Price: ${selected.max_price}` });
     if (selected.age_filter_id) filters.push({ type: 'age', label: selected.age_filter_id.name });
     return filters;
 });
 
-// Remove a specific filter
+
 // Remove a specific filter
 const removeFilter = (filterType) => {
     switch (filterType) {
         case 'category_id':
             selected.category_id = '';
             break;
-        case 'genre':
-            selected.genre = '';
+        case 'gender_id':
+            selected.gender_id = null;
             break;
         case 'min_price':
             selected.min_price = '';
@@ -493,7 +502,7 @@ const removeFilter = (filterType) => {
 // Clear all filters
 const clearFilters = () => {
     selected.category_id = '';
-    selected.genre = '';
+    selected.gender_id = null;
     selected.min_price = '';
     selected.max_price = '';
     selected.age_filter_id = '';
@@ -503,7 +512,7 @@ const clearFilters = () => {
 watch(
     () => [
       selected.category_id, 
-      selected.genre, 
+      selected.gender_id, 
       selected.min_price, 
       selected.max_price, 
       selected.age_filter_id,
@@ -515,7 +524,8 @@ watch(
 
 onMounted(() => {
     fetchProducts();
-    fetchCategories();   
+    fetchCategories();
+    fetchGenders();   
     fetchAgeFilters();   
 });
 </script>
