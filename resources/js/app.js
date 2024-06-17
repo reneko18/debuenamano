@@ -35,6 +35,7 @@ import { faEye } from "@fortawesome/free-regular-svg-icons";
 import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
 import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
 
 /* add icons to the library */
 library.add(
@@ -50,7 +51,8 @@ library.add(
     faEyeSlash,
     faAngleLeft,
     faAngleRight,
-    faCheck
+    faCheck,
+    faXmark
 );
 
 const app = createApp({});

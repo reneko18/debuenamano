@@ -517,7 +517,8 @@ label {
     cursor: pointer;
 }
 .div-cat .fa-chevron-down, 
-.div-select .fa-chevron-down 
+.div-select .fa-chevron-down, 
+.div-select-static .fa-chevron-down 
 {
     cursor: pointer;
     position: absolute;
@@ -526,7 +527,10 @@ label {
     right: 15px;
     font-size: 12px;
 }
-#dropdown-cats, #dropdown-select {
+#dropdown-cats, 
+#dropdown-select,
+#dropdown-select-static 
+{
     opacity: 0;
     visibility: hidden;
     position: absolute;
@@ -538,14 +542,16 @@ label {
     background-color: #fff;
 }
 #dropdown-cats h2 button, 
-#dropdown-select h2 button 
+#dropdown-select h2 button, 
+#dropdown-select-static h2 button 
 {
     padding: 0.6rem 0.39rem 0.6rem 1.25rem;
     background-color: #fff;
 }
 #dropdown-cats h2 button,
 .cat-sin-hijo label,
-#dropdown-select h2 button 
+#dropdown-select h2 button, 
+#dropdown-select-static h2 button 
 {
     font-family: "Inter", sans-serif;
     font-size: 14px;
@@ -554,7 +560,8 @@ label {
 }
 .cat-sin-hijo label,
 #dropdown-cats .accordion-body label, 
-#dropdown-select .accordion-body label 
+#dropdown-select .accordion-body label, 
+#dropdown-select-static .accordion-body label 
 {
     font-family: "Inter", sans-serif;
     width: 100%;
@@ -564,14 +571,16 @@ label {
     border-radius: 0;
 }
 #dropdown-cats .accordion-button:focus,
-#dropdown-select .accordion-button:focus
+#dropdown-select .accordion-button:focus,
+#dropdown-select-static .accordion-button:focus
 {
     box-shadow: none;
     border-color: unset;
     background-color: #fff;
 }
 #dropdown-cats .accordion-button:not(.collapsed), 
-#dropdown-select .accordion-button:not(.collapsed) 
+#dropdown-select .accordion-button:not(.collapsed), 
+#dropdown-select-static .accordion-button:not(.collapsed) 
 {
     box-shadow: none;
     border-color: unset;
@@ -580,7 +589,8 @@ label {
 }
 
 #dropdown-cats .btn-check:checked + .btn, 
-#dropdown-select .btn-check:checked + .btn 
+#dropdown-select .btn-check:checked + .btn, 
+#dropdown-select-static .btn-check:checked + .btn 
 {
     background-color: #728c54;
     border-color: transparent;
@@ -588,12 +598,14 @@ label {
 }
 
 #dropdown-cats .accordion-body, 
-#dropdown-select .accordion-body 
+#dropdown-select .accordion-body,
+#dropdown-select-static .accordion-body
 {
     padding: 0;
 }
 #dropdown-cats .accordion-button::after, 
-#dropdown-select .accordion-button::after 
+#dropdown-select .accordion-button::after,
+#dropdown-select-static .accordion-button::after
 {
     content: url('../../public/img/chevron-down.svg');
     background-image: none;
