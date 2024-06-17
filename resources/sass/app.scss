@@ -25,6 +25,7 @@ body {
 .mt-40  { margin-top: 40px;    }
 .mt-60  { margin-top: 60px;    }
 .mr-10  { margin-right: 10px;  }
+.mr-30  { margin-right: 30px;  }
 .mt-130 { margin-top: 130px;   }
 .mb-24  { margin-bottom: 24px; }
 .mb-30  { margin-bottom: 30px; }
@@ -440,6 +441,8 @@ label {
     display: block;
     height: 22px;
 }
+
+.separador span { padding: 0 15px; line-height: 45px; }
 
 .badge { background-color: #344026; color: #F9FAFA; padding: 8px 16px; font-size: 13px; font-weight: 300; border-radius: 20px; margin-right: 12px; }
 .badge:hover { background-color: #728C54; } 
