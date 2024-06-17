@@ -47,6 +47,7 @@ class DatabaseSeeder extends Seeder
             'phone' => '',
         ])->assignRole('customer');
         $this->call(CategoriesTableSeeder::class);       
+        $this->call(GenderTableSeeder::class);       
         $this->call(AgeFiltersTableSeeder::class);       
         // $this->call(ProductContactTableSeeder::class);       
         // $this->call(StatusProductsTableSeeder::class);

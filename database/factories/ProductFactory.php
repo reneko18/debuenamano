@@ -18,7 +18,6 @@ class ProductFactory extends Factory
      */
     public function definition()
     {
-        $genre = fake()->randomElement(['Niño', 'Niña', 'Unisex']); 
         $randomString = fake()->bothify('??????');
         $sku = 'DBM-TEST-' . $randomString; 
         $categoryIds = [1, 3, 4, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 18, 19, 20, 21, 22, 23, 25, 26, 27, 28, 30, 31, 32, 34, 35, 36, 38, 39, 40, 41, 43, 44, 45, 46];
@@ -55,7 +54,7 @@ class ProductFactory extends Factory
             'name' => 'Producto Test Plantilla',
             'category_id' => fake()->randomElement($categoryIds),
             'age_filter_id' => $ageFilter,
-            'genre'=> $genre,
+            'gender_id'=> fake()->numberBetween(1,3),
             'age_ini' => $age_ini,
             'age_date_ini' => $age_date_ini,
             'age_fin' => $age_fin,
