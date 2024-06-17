@@ -1087,13 +1087,15 @@ h1.parallax-txt {
     border: 1.2px dashed #C0C6B9;
     overflow: hidden;
     padding: 5px; 
-    transition: border 0.3s;
+    transition: border 0.25s ease-in-out;
 }
+.card-img img { transition: transform 0.25s ease-in-out;  }
+
 .card-img:hover,
 .hovered-img
  { border: 1.2px dashed #728C54; }
 
-.card-productos a h2 { color: #151A0F; font-family: "Quicksand", sans-serif; font-weight: 700; font-size: 18px; line-height: 26px; margin-bottom: 0; }
+.card-productos a .card-title { color: #151A0F; font-family: "Quicksand", sans-serif; font-weight: 700; font-size: 18px; line-height: 26px; margin-bottom: 0; transition: color 0.25s ease-in-out; }
 .card-productos a:hover h2,
 .card-img:hover + .card-body h2,
 .col-4:hover + .col-6 .card-body a h2
