@@ -242,7 +242,8 @@
             <div v-if="layout !== 'list'" class="row">
                 <div :class="'card card-productos ' + layout" v-for="product in filteredProducts.data" :key="product.id">
                     <a :href="'single-product/' + product.slug" class="card-img" :class="{ 'hovered-img': hoveredTitle === product.id }">
-                        <img src="/img/image-dummy-products.png" class="card-img-top" alt="imagen test">
+                        <!-- <img src="/img/image-dummy-products.png" class="card-img-top" alt="imagen test"> -->
+                        <img :src="getProductImage(product)" class="card-img-top" alt="imagen test">
                     </a>          
                     <div class="card-body">
                         <a 
@@ -320,6 +321,13 @@ const handleTitleMouseEnter = (productId) => {
 
 const handleTitleMouseLeave = () => {
     hoveredTitle.value = null;
+};
+
+//Select first image from the galleries
+const getProductImage = (product) => {
+  return product.galleries && product.galleries.length > 0
+    ? product.galleries[0].url
+    : '/img/image-dummy-products.png';
 };
 
 // Function to format price without decimals and with point as thousands separator
