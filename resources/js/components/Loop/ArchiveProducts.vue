@@ -474,8 +474,8 @@ const appliedFilters = computed(() => {
     const filters = [];
     if (selected.category_id) filters.push({ type: 'category_id', label: selected.category_id.name });
     if (selected.gender_id) filters.push({ type: 'gender_id', label: selected.gender_id.name });
-    if (selected.min_price) filters.push({ type: 'min_price', label: `Min Price: ${selected.min_price}` });
-    if (selected.max_price) filters.push({ type: 'max_price', label: `Max Price: ${selected.max_price}` });
+    if (selected.min_price) filters.push({ type: 'min_price', label: `Precio mínimo: ${selected.min_price}` });
+    if (selected.max_price) filters.push({ type: 'max_price', label: `Precio máximo: ${selected.max_price}` });
     if (selected.age_filter_id) filters.push({ type: 'age', label: selected.age_filter_id.name });
     return filters;
 });
