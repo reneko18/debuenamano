@@ -99,6 +99,11 @@ const emitSelection = () => {
   emit('update:selected', selectedItem.value);
 };
 
+// Watch for changes in the props.selected and update selectedItem
+watch(() => props.selected, (newVal) => {
+  selectedItem.value = newVal;
+});
+
 // Watch for changes in the selectedCategory and emit the update event
 watch(selectedItem, (newVal) => {
   emit('update:selected', newVal);

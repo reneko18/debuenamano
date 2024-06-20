@@ -4,14 +4,19 @@
             <!-- Search Input -->
             <div class="col-12">
                 <div class="input-group mb-3">
+                    <span class="input-group-text" @click="fetchProducts">
+                        <font-awesome-icon :icon="['fas', 'magnifying-glass']" />
+                    </span>
                     <input
                         type="text"
                         class="form-control"
-                        placeholder="Buscar producto"
+                        placeholder="¿Que estás buscando?"
                         v-model="searchQuery"
                         @keyup.enter="fetchProducts"
                     />
-                    <button class="btn btn-outline-secondary" type="button" @click="fetchProducts">Buscar</button>
+                    <button class="btn btn-outline-secondary" type="button" @click="clearSearch">
+                        <font-awesome-icon :icon="['fas', 'xmark']" />
+                    </button>
                 </div>
             </div>
             
@@ -159,6 +164,18 @@
         </div>
     </div><!-- cierre bg -->
 
+    <!--Test Select Static-->
+    <div class="container">
+        <label for="order-shop">Ordenar por</label>
+        <select-dbm-static
+            :items="order"   
+            :selected="selected.order"
+            @update:selected-static="updateSelectedOrder"
+            :placeholder="placeholderOrder"
+        />
+    </div>
+    <!--End Test Select Static-->
+
     <div class="container">
         <!-- Layout switch buttons -->
         <div class="d-flex orden-grid">
@@ -167,16 +184,7 @@
             </div>
             <div class="d-flex orden">
                 <!--Order products-->
-                <label for="order-shop">Ordenar por</label>
-                <select
-                    id="order-shop"
-                    class="form-select"
-                    v-model="selected.order"
-                >
-                    <option value="desc">Lo más nuevo</option>
-                    <option value="price_asc">Menor a mayor precio</option>
-                    <option value="price_desc">Mayor a menor precio</option>
-                </select>
+                <!--Aqui deber ir el select-dbm-static-->
             </div>
             <div class="d-flex icons-grid">
                 <a class="icon-grid" @click="setLayout('col-3')">
@@ -240,7 +248,8 @@
             <div v-if="layout !== 'list'" class="row">
                 <div :class="'card card-productos ' + layout" v-for="product in filteredProducts.data" :key="product.id">
                     <a :href="'single-product/' + product.slug" class="card-img" :class="{ 'hovered-img': hoveredTitle === product.id }">
-                        <img src="/img/image-dummy-products.png" class="card-img-top" alt="imagen test">
+                        <!-- <img src="/img/image-dummy-products.png" class="card-img-top" alt="imagen test"> -->
+                        <img :src="getProductImage(product)" class="card-img-top" alt="imagen test">
                     </a>          
                     <div class="card-body">
                         <a 
@@ -297,6 +306,7 @@
 <script setup>
 import { ref,computed, onMounted, reactive, watch } from "vue";
 import SelectDbm from "../Dbm/SelectDbm.vue";
+import SelectDbmStatic from "../Dbm/SelectDbmStatic.vue";
 
 const products = ref([]);
 const categories = ref([]);
@@ -319,6 +329,13 @@ const handleTitleMouseLeave = () => {
     hoveredTitle.value = null;
 };
 
+//Select first image from the galleries
+const getProductImage = (product) => {
+  return product.galleries && product.galleries.length > 0
+    ? product.galleries[0].url
+    : '/img/image-dummy-products.png';
+};
+
 // Function to format price without decimals and with point as thousands separator
 const formatPrice = (price) => {
     // Convert price to number if it's a string
@@ -337,6 +354,14 @@ const formatPrice = (price) => {
     }).replace(/CLP/, ''); // Remove currency symbol
 };
 
+
+const order = ref([
+    {id: 1, value: "desc", name:"Lo más nuevo"},
+    {id: 2, value: "price_asc", name:"Menor a mayor precio"},
+    {id: 3, value: "price_desc", name:"Mayor a menor precio"},
+])
+
+const placeholderOrder = ref("Ordenar por");
 
 //New for filters 
 const selected = reactive({
@@ -429,7 +454,9 @@ const fetchProducts = async (page = 1) => {
             currentPageResults.value = response.data.to;
         }    
         if (totalResults.value === null) {
-          totalResults.value = response.data.total;
+          totalResults.value = response.data.total;  
+        } else {
+          totalResults.value = response.data.total; 
         }
         filteredProducts.value = products.value;
     } catch (error) {
@@ -469,6 +496,11 @@ const updateSelectedGender = (newGender) => {
   selected.gender_id = newGender;
 };
 
+// Handle gender update
+const updateSelectedOrder = (newOrder) => {
+  selected.order = newOrder;
+};
+
 // Compute applied filters for display
 const appliedFilters = computed(() => {
     const filters = [];
@@ -477,7 +509,7 @@ const appliedFilters = computed(() => {
     if (selected.min_price) filters.push({ type: 'min_price', label: `Precio mínimo: ${selected.min_price}` });
     if (selected.max_price) filters.push({ type: 'max_price', label: `Precio máximo: ${selected.max_price}` });
     if (selected.age_filter_id) filters.push({ type: 'age', label: selected.age_filter_id.name });
-    return filters;
+    return filters;    
 });
 
 
@@ -513,6 +545,11 @@ const clearFilters = () => {
     selected.max_price = '';
     selected.age_filter_id = '';
     fetchProducts(); // Re-fetch products with cleared filters
+};
+
+//Clear Search
+const clearSearch = () => {
+  searchQuery.value = '';
 };
 
 watch(

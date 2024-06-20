@@ -35,6 +35,7 @@ import { faEye } from "@fortawesome/free-regular-svg-icons";
 import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
 import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
 
 /* add icons to the library */
 library.add(
@@ -50,7 +51,8 @@ library.add(
     faEyeSlash,
     faAngleLeft,
     faAngleRight,
-    faCheck
+    faCheck,
+    faXmark
 );
 
 const app = createApp({});
@@ -72,6 +74,7 @@ import AdminProductEdit from "./views/AdminProductEdit.vue";
 import NewAdmin from "./views/NewAdmin.vue";
 import NewCart from "./views/NewCart.vue";
 import ProductsLoop from "./views/ProductsLoop.vue";
+import RelatedProducts from "./components/Loop/RelatedProducts.vue"
 
 app.use(pinia);
 app.use(vueClickOutsideElement);
@@ -80,6 +83,7 @@ app.component("new-selling-form-product", NewSellingForm);
 app.component("selling-form-product-two", SellingFormTwo);
 app.component("Bootstrap5Pagination", Bootstrap5Pagination);
 app.component("products-loop", ProductsLoop);
+app.component("related-products", RelatedProducts);
 app.component("posts-loop", PostsLoop);
 app.component("post-table", PostAdminTable);
 app.component("chilexpress", Chilexpress);

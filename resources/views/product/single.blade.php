@@ -80,13 +80,13 @@
                                     <div class="col-md-4">
                                         <div class="pb-3">
                                             <span class="title-in-tab">Marca</span>
-                                            <span class="txt-in-tab">{{ $product->brand}}</span>
+                                            <span class="txt-in-tab">{{ $product->brand }}</span>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="pb-3">
                                             <span class="title-in-tab">Modelo</span>
-                                            <span class="txt-in-tab">7888-207</span>
+                                            <span class="txt-in-tab">{{ $product->model }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -94,16 +94,20 @@
                                     <div class="col-md-4">
                                         <div class="pb-3">
                                             <span class="title-in-tab">Género</span>
-                                            <span class="txt-in-tab">Unisex</span>
+                                            <span class="txt-in-tab">{{ $product->gender->name }}</span>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="pb-3">
                                             <span class="title-in-tab">Edad</span>
-                                            <span class="txt-in-tab">Recién nacido a 2 años</span>
+                                            @if($product->age_date_ini == 'Recién nacido')
+                                                <span class="txt-in-tab">{{ $product->age_date_ini }}</span>
+                                            @else
+                                                <span class="txt-in-tab">{{ $product->age_ini }} {{ $product->age_date_ini }} a {{ $product->age_fin }} {{ $product->age_date_fin }}</span>
+                                            @endif
                                         </div>
                                     </div>
-                                </div>
+                                </div>                                
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="pb-3">
@@ -153,6 +157,9 @@
         </div> <!-- row -->
     </section>
     <section class="container">
-        <h2>Artículos Sugeridos</h2>	
+        <h2>Artículos Sugeridos</h2>
+        <div id="app">
+            <related-products :category-id="{{ $product->category_id }}" :exclude-product-id="{{ $product->id }}"></related-products>
+        </div>        
     </section>	
 @endsection

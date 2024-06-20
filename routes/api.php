@@ -86,6 +86,9 @@ Route::get('/tienda/categories/all',[ShopController::class, 'getArchiveCategorie
 Route::get('/tienda/agefilter/all',[ShopController::class, 'getAgeFilters']);
 Route::get('/tienda/genders',[ShopController::class, 'getGenders']);
 
+//Related products
+Route::get('/related-products',[Shopcontroller::class,'getRelatedProducts']);
+
 //API Regions and cities
 Route::get('/regions', [RegionController::class,'index']);
 Route::get('/cities/{region}', [CityController::class,'index']);

@@ -21,7 +21,7 @@ class ShopController extends Controller
         $search_query = request()->input('search_query');
         $order = request()->input('order', 'desc');
 
-        $products = Product::with('category')
+        $products = Product::with('category','galleries')
             ->where('publish_status', 'En vitrina')
             ->withFilters($category_id, $gender_id, $min_price, $max_price,$age,$search_query,$order)
             ->paginate(12); 
@@ -73,5 +73,20 @@ class ShopController extends Controller
     }
 
 
+    public function getRelatedProducts(Request $request)
+    {
+        $categoryId = $request->query('category_id');
+        $excludeId = $request->query('exclude_id');       
+
+        
+        $relatedProducts = Product::where('category_id', $categoryId)
+                          ->where('id', '!=', $excludeId)
+                          ->with('galleries')
+                          ->inRandomOrder()
+                          ->take(4)
+                          ->get();
+                                  
+        return response()->json($relatedProducts);
+    }  
 
 }
