@@ -25,6 +25,7 @@ body {
 .mt-40  { margin-top: 40px;    }
 .mt-60  { margin-top: 60px;    }
 .mr-10  { margin-right: 10px;  }
+.mr-30  { margin-right: 30px;  }
 .mt-130 { margin-top: 130px;   }
 .mb-24  { margin-bottom: 24px; }
 .mb-30  { margin-bottom: 30px; }
@@ -441,6 +442,8 @@ label {
     height: 22px;
 }
 
+.separador span { padding: 0 15px; line-height: 45px; }
+
 .badge { background-color: #344026; color: #F9FAFA; padding: 8px 16px; font-size: 13px; font-weight: 300; border-radius: 20px; margin-right: 12px; }
 .badge:hover { background-color: #728C54; } 
 .badge, .badge svg { line-height: 13px; }
@@ -527,22 +530,48 @@ label {
     right: 15px;
     font-size: 12px;
 }
-#dropdown-cats, 
-#dropdown-select,
-#dropdown-select-static 
-{
+
+/* #DROPDOWN-SELECT */
+
+#dropdown-select, #dropdown-cats, #dropdown-select-static {
     opacity: 0;
     visibility: hidden;
     position: absolute;
-    top: 74px;
+    top: 0;
     left: 0;
     right: 0;
-    padding: 0 5px;
+    padding: 3px;
     z-index: 999;
-    background-color: #fff;
+    background-color: #F9FAFA;
+    box-shadow: 0 2px 4px rgba(10, 13, 8, 0.1); 
+    border-radius: 2px;
+
 }
+
+#dropdown-select .btn-check, #dropdown-select-static .btn-check { height: auto; }
+
+#dropdown-select .btn, #dropdown-select-static .btn  {
+    padding: 12px!important;
+    border-radius: 2px;
+    display: block!important;
+    text-align: left;
+    width: 100%;
+    height: 100%;
+    margin: 3px 0;
+}
+
+#dropdown-select .btn:hover, #dropdown-select .btn-check:checked + .btn,
+#dropdown-cats .btn:hover, #dropdown-cats .btn-check:checked + .btn, 
+#dropdown-select-static .btn:hover, #dropdown-select-static .btn-check:checked + .btn {
+    background-color: #728c54;
+    border-color: transparent;
+    color: #f9fafa;
+}
+
+
+
 #dropdown-cats h2 button, 
-#dropdown-select h2 button, 
+#dropdown-select h2 button,
 #dropdown-select-static h2 button 
 {
     padding: 0.6rem 0.39rem 0.6rem 1.25rem;
@@ -550,7 +579,7 @@ label {
 }
 #dropdown-cats h2 button,
 .cat-sin-hijo label,
-#dropdown-select h2 button, 
+#dropdown-select h2 button,
 #dropdown-select-static h2 button 
 {
     font-family: "Inter", sans-serif;
@@ -560,7 +589,7 @@ label {
 }
 .cat-sin-hijo label,
 #dropdown-cats .accordion-body label, 
-#dropdown-select .accordion-body label, 
+#dropdown-select .accordion-body label,
 #dropdown-select-static .accordion-body label 
 {
     font-family: "Inter", sans-serif;
@@ -579,7 +608,7 @@ label {
     background-color: #fff;
 }
 #dropdown-cats .accordion-button:not(.collapsed), 
-#dropdown-select .accordion-button:not(.collapsed), 
+#dropdown-select .accordion-button:not(.collapsed),
 #dropdown-select-static .accordion-button:not(.collapsed) 
 {
     box-shadow: none;
@@ -588,14 +617,7 @@ label {
     color: #344026;
 }
 
-#dropdown-cats .btn-check:checked + .btn, 
-#dropdown-select .btn-check:checked + .btn, 
-#dropdown-select-static .btn-check:checked + .btn 
-{
-    background-color: #728c54;
-    border-color: transparent;
-    color: #f9fafa;
-}
+
 
 #dropdown-cats .accordion-body, 
 #dropdown-select .accordion-body,
@@ -866,7 +888,7 @@ footer a {
     padding: 90px 0 100px 0;
     border-top: 1px dashed #728c54 !important;
     border-width: 1.3px;
-    box-shadow: 1px 0px 2px rgba(16, 34, 40, 0.3);
+    box-shadow: 1px 0px 2px rgba(16, 34, 40, 0.3); 
     border-bottom: 1px dashed #d29c37 !important;
 }
 
@@ -1117,13 +1139,15 @@ h1.parallax-txt {
     border: 1.2px dashed #C0C6B9;
     overflow: hidden;
     padding: 5px; 
-    transition: border 0.3s;
+    transition: border 0.25s ease-in-out;
 }
+.card-img img { transition: transform 0.25s ease-in-out;  }
+
 .card-img:hover,
 .hovered-img
  { border: 1.2px dashed #728C54; }
 
-.card-productos a h2 { color: #151A0F; font-family: "Quicksand", sans-serif; font-weight: 700; font-size: 18px; line-height: 26px; margin-bottom: 0; }
+.card-productos a .card-title { color: #151A0F; font-family: "Quicksand", sans-serif; font-weight: 700; font-size: 18px; line-height: 26px; margin-bottom: 0; transition: color 0.25s ease-in-out; }
 .card-productos a:hover h2,
 .card-img:hover + .card-body h2,
 .col-4:hover + .col-6 .card-body a h2

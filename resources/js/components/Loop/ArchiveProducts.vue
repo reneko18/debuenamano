@@ -41,11 +41,12 @@
         </div><!-- cierre row -->
     </div><!-- cierre container -->
 
-    <div class="bg-blanco-verdoso mt-30 mb-100">
+    <div class="bg-blanco-verdoso mt-30 mb-100 ptb-30">
         <div class="container">
             <div class="row"> 
-            <div class="col-12">
-                <div class="position-relative" v-click-outside-element="closeDropdown">
+            <div class="d-flex">
+                <div class="col position-relative flex-fill mr-30" v-click-outside-element="closeDropdown">
+                    <label for="" class="form-label">Categoría</label>
                     <div class="position-relative div-cat">
                         <input
                             type="text"
@@ -118,21 +119,26 @@
                         </div><!-- cierre accordion -->            
                     </div><!--End Dropdown Cats -->
                 </div><!-- cierre closeDropdown -->
-            </div><!-- cierre col-12 --> 
     
-            <div class="col">
-                <select-dbm 
-                    :items="genders"   
-                    :selected="selected.gender_id"
-                    @update:selected="updateSelectedGender"
-                    placeholder="Seleccione un género"
-                />
-            </div>
+                <div class="col flex-fill mr-30">
+                    <label for="" class="form-label">Género</label>
+                    <select-dbm 
+                        :items="genders"   
+                        :selected="selected.gender_id"
+                        @update:selected="updateSelectedGender"
+                        placeholder="Seleccione un género"
+                    />
+                </div>
 
-            <div class="col">                
-                <input type="text" class="form-control" v-model="selected.min_price" placeholder="Mínimo">
-                <input type="text" class="form-control" v-model="selected.max_price" placeholder="Máximo">
-            </div>
+                <div class="col flex-fill">
+                    <label for="" class="form-label">Precio</label> 
+                    <div class="d-flex">               
+                        <input type="text" class="form-control" v-model="selected.min_price" placeholder="Mínimo">
+                        <div class="separador"><span>-</span></div>
+                        <input type="text" class="form-control" v-model="selected.max_price" placeholder="Máximo">
+                    </div>
+                </div>
+            </div><!-- cierre d-flex --> 
         </div>
     </div>  
     
@@ -502,8 +508,8 @@ const appliedFilters = computed(() => {
     const filters = [];
     if (selected.category_id) filters.push({ type: 'category_id', label: selected.category_id.name });
     if (selected.gender_id) filters.push({ type: 'gender_id', label: selected.gender_id.name });
-    if (selected.min_price) filters.push({ type: 'min_price', label: `Min Price: ${selected.min_price}` });
-    if (selected.max_price) filters.push({ type: 'max_price', label: `Max Price: ${selected.max_price}` });
+    if (selected.min_price) filters.push({ type: 'min_price', label: `Precio mínimo: ${selected.min_price}` });
+    if (selected.max_price) filters.push({ type: 'max_price', label: `Precio máximo: ${selected.max_price}` });
     if (selected.age_filter_id) filters.push({ type: 'age', label: selected.age_filter_id.name });
     return filters;    
 });
