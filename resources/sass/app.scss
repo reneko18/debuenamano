@@ -510,6 +510,11 @@ label {
     margin-bottom: 0;
 }
 
+/*SEARCH ARCHIVE*/
+#search-bar-archive .search-input {
+    margin-bottom: 0;
+}
+
 /*Columna A*/
 .col-a {
     display: flex;
@@ -526,7 +531,7 @@ label {
     cursor: pointer;
     position: absolute;
     z-index: 999;
-    top: 58%;
+    top: 18px;
     right: 15px;
     font-size: 12px;
 }
@@ -545,7 +550,18 @@ label {
     background-color: #F9FAFA;
     box-shadow: 0 2px 4px rgba(10, 13, 8, 0.1); 
     border-radius: 2px;
+}
 
+#dropdown-cats {
+    top: 88px;    
+}
+
+#dropdown-select{
+    top: 45px;
+}
+
+#dropdown-select-static {
+    top: 45px;
 }
 
 #dropdown-select .btn-check, #dropdown-select-static .btn-check { height: auto; }
@@ -818,25 +834,30 @@ label {
 .cont-edad .btn-edad:not(:last-child) { margin-right: 10px; }
 
 .btn-edad label {
-    background-color: #fff;
-    color: #151A0F;
+    background-color: #fff !important;
+    color: #151A0F !important;
     border-radius: 8px;
     border: 2px dashed #151A0F;
     font-family: "Quicksand", sans-serif;
     font-size: 15px;
     font-weight: 600;
     height: 40px;
-    line-height: 37px;
     text-decoration: none;
     padding-left: 24px;
     padding-right: 24px;
     cursor: pointer;
 } 
 
-.btn-edad .active, .btn-edad label:hover {
-    background-color: #D29C37;
-    border: 2px dashed #D29c37;
-    color: #fff;
+.btn-edad .btn-check:checked + .btn {
+    background-color: #D29C37 !important;
+    border: 2px dashed #D29c37 !important;
+    color: #fff !important;
+}
+
+.btn-edad label:hover {
+    background-color: #D29C37 !important;
+    border: 2px dashed #D29c37 !important;
+    color: #fff !important;
 }
 
 

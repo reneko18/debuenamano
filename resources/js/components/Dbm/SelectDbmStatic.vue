@@ -26,7 +26,7 @@
                       v-model="selectedItemStatic"
                       @change="emitSelectionStatic"
                     />
-                    <label :for="item.value + '-' + item.id" class="btn">
+                    <label :for="item.value + '-' + item.id" class="btn" @click="closeDropdownDbmStatic">
                     {{ item.name }}
                     </label>
                 </div>

@@ -98,6 +98,7 @@ Route::get('/categories', [CategoryController::class,'index']);
 
 //API Posts
 Route::get('/posts', [PostController::class,'index']);
+Route::post('/posts/store', [PostController::class,'store']);
 Route::get('/posts/all',[PostController::class,'adminindex']);
 
 //API Categories

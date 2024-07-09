@@ -26,8 +26,8 @@
                       v-model="selectedItem"
                       @change="emitSelection"
                     />
-                    <label :for="item.name + '-' + item.id" class="btn">
-                    {{ item.name }}
+                    <label :for="item.name + '-' + item.id" class="btn" @click="closeDropdownDbm">
+                      {{ item.name }}
                     </label>
                 </div>
             </div>

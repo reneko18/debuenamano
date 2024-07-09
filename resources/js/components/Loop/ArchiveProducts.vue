@@ -2,14 +2,14 @@
     <div class="container">
         <div class="row">
             <!-- Search Input -->
-            <div class="col-12">
+            <div id="search-bar-archive" class="col-12">
                 <div class="input-group mb-3">
                     <span class="input-group-text" @click="fetchProducts">
                         <font-awesome-icon :icon="['fas', 'magnifying-glass']" />
                     </span>
                     <input
                         type="text"
-                        class="form-control"
+                        class="form-control search-input"
                         placeholder="¿Que estás buscando?"
                         v-model="searchQuery"
                         @keyup.enter="fetchProducts"
@@ -22,7 +22,7 @@
             
             <!--Age Filters-->
             <div class="col-12">
-              <div class="d-flex justify-content-center flex-wrap cont-edad">
+              <div class="d-flex justify-content-center flex-wrap cont-edad form-check">
                 <div v-for="age in ageFilters" :key="age.id" class="btn-edad">
                   <input
                     type="radio"
@@ -33,7 +33,7 @@
                     :value="age"
                     v-model="selected.age_filter_id"
                   />
-                  <label :for="'age-' + age.id">{{ age.name }}</label>
+                  <label class="btn" :for="'age-' + age.id">{{ age.name }}</label>
                 </div>
               </div>
             </div>
@@ -166,17 +166,7 @@
         </div>
     </div><!-- cierre bg -->
 
-    <!--Test Select Static-->
-    <div class="container">
-        <label for="order-shop">Ordenar por</label>
-        <select-dbm-static
-            :items="order"   
-            :selected="selected.order"
-            @update:selected-static="updateSelectedOrder"
-            :placeholder="placeholderOrder"
-        />
-    </div>
-    <!--End Test Select Static-->
+
 
     <div class="container">
         <!-- Layout switch buttons -->
@@ -186,7 +176,15 @@
             </div>
             <div class="d-flex orden">
                 <!--Order products-->
-                <!--Aqui deber ir el select-dbm-static-->
+                    <!--Test Select Static-->            
+                    <label for="order-shop">Ordenar por</label>
+                    <select-dbm-static
+                        :items="order"   
+                        :selected="selected.order"
+                        @update:selected-static="updateSelectedOrder"
+                        :placeholder="placeholderOrder"
+                    />
+                <!--End Test Select Static-->
             </div>
             <div class="d-flex icons-grid">
                 <a class="icon-grid" @click="setLayout('col-3')">
@@ -510,7 +508,7 @@ const appliedFilters = computed(() => {
     if (selected.gender_id) filters.push({ type: 'gender_id', label: selected.gender_id.name });
     if (selected.min_price) filters.push({ type: 'min_price', label: `Precio mínimo: ${selected.min_price}` });
     if (selected.max_price) filters.push({ type: 'max_price', label: `Precio máximo: ${selected.max_price}` });
-    if (selected.age_filter_id) filters.push({ type: 'age', label: selected.age_filter_id.name });
+    // if (selected.age_filter_id) filters.push({ type: 'age', label: selected.age_filter_id.name });
     return filters;    
 });
 
@@ -530,9 +528,9 @@ const removeFilter = (filterType) => {
         case 'max_price':
             selected.max_price = '';
             break;
-        case 'age':
-            selected.age_filter_id = '';
-            break;
+        // case 'age':
+        //     selected.age_filter_id = '';
+        //     break;
         default:
             break;
     }

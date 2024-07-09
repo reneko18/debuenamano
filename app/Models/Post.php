@@ -15,6 +15,8 @@ class Post extends Model
         'main_img',
         'caption_img',
         'author_id',
+        'slug',
+        'meta_title',
     ];
 
     public function author()
