@@ -75,6 +75,7 @@ import NewAdmin from "./views/NewAdmin.vue";
 import NewCart from "./views/NewCart.vue";
 import ProductsLoop from "./views/ProductsLoop.vue";
 import RelatedProducts from "./components/Loop/RelatedProducts.vue"
+import ProductGallery from "./components/Dbm/ProductGallery.vue"
 
 app.use(pinia);
 app.use(vueClickOutsideElement);
@@ -84,6 +85,7 @@ app.component("selling-form-product-two", SellingFormTwo);
 app.component("Bootstrap5Pagination", Bootstrap5Pagination);
 app.component("products-loop", ProductsLoop);
 app.component("related-products", RelatedProducts);
+app.component("product-gallery", ProductGallery);
 app.component("posts-loop", PostsLoop);
 app.component("post-table", PostAdminTable);
 app.component("chilexpress", Chilexpress);

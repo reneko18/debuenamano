@@ -57,7 +57,7 @@
                         />
                         <font-awesome-icon
                             :icon="['fas', 'chevron-down']"
-                            @click="showAndCloseDropdown"
+                            @click="showAndCloseDropdown"                            
                         />
                     </div>
                     <div id="dropdown-cats">
@@ -72,7 +72,8 @@
                                         name="categoria"
                                         v-model="selected.category_id"
                                     />
-                                    <label :for="'cat-' + category.id" class="btn">
+                                    <!--test cerrar-->
+                                    <label :for="'cat-' + category.id" class="btn" @click="closeDropdown">
                                         {{ category.name }}
                                     </label>
                                 </div>
@@ -105,7 +106,8 @@
                                                     name="subcategoria"
                                                     v-model="selected.category_id"                                                  
                                                 />
-                                                <label :for="'subcat-' + subcategory.id" class="btn">
+                                                <!--test cerrar-->
+                                                <label :for="'subcat-' + subcategory.id" class="btn" @click="closeDropdown">
                                                     {{subcategory.name}}
                                                 </label>
                                             </div>
