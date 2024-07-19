@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\AuthorController;
 use App\Http\Controllers\Api\CartController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\CityController;
+use App\Http\Controllers\Api\ImageUploadController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\PostCategoryController;
 use App\Http\Controllers\Api\PostController;
@@ -100,6 +101,9 @@ Route::get('/categories', [CategoryController::class,'index']);
 Route::get('/posts', [PostController::class,'index']);
 Route::post('/posts/store', [PostController::class,'store']);
 Route::get('/posts/all',[PostController::class,'adminindex']);
+Route::delete('/post/delete/{id}', [PostController::class, 'destroy']);
+Route::post('/upload-image', [ImageUploadController::class, 'upload']);
+
 
 //API Categories
 Route::get('/postscategories', [PostCategoryController::class,'index']);

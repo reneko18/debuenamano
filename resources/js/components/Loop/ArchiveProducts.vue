@@ -4,7 +4,7 @@
             <!-- Search Input -->
             <div id="search-bar-archive" class="col-12">
                 <div class="input-group mb-3">
-                    <span class="input-group-text" @click="fetchProducts">
+                    <span class="input-group-text icon-search" @click="fetchProducts">
                         <font-awesome-icon :icon="['fas', 'magnifying-glass']" />
                     </span>
                     <input
@@ -14,7 +14,7 @@
                         v-model="searchQuery"
                         @keyup.enter="fetchProducts"
                     />
-                    <button class="btn btn-outline-secondary" type="button" @click="clearSearch">
+                    <button class="btn icon-x" type="button" @click="clearSearch">
                         <font-awesome-icon :icon="['fas', 'xmark']" />
                     </button>
                 </div>
@@ -496,7 +496,7 @@ const updateSelectedGender = (newGender) => {
   selected.gender_id = newGender;
 };
 
-// Handle gender update
+// Handle order update
 const updateSelectedOrder = (newOrder) => {
   selected.order = newOrder;
 };

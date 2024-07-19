@@ -29,7 +29,7 @@
                 </div>
                 <div>
                     <label for="infoPayBank" class="form-label">Banco</label>
-                    <select
+                    <!-- <select
                         id="infoPayBank"
                         class="form-select"
                         v-model="formData.stepNineBank"
@@ -77,7 +77,14 @@
                             La Polar Prepago
                         </option>
                         <option value="Global66">Global66</option>
-                    </select>
+                    </select> -->
+                    <select-dbm-static
+                        id="infoPayBank"
+                        :items="bankList"                              
+                        :selected="formData.stepNineBank"
+                        @update:selected-static="updateSelectedBank"
+                        placeholder="Elige el banco"
+                    />
                 </div>
                 <div>
                     <label for="infoPayAccountNumber" class="form-label"
@@ -110,7 +117,7 @@
                     <label for="infoPayTypeAccount" class="form-label"
                         >Tipo de cuenta</label
                     >
-                    <select
+                    <!-- <select
                         id="infoPayTypeAccount"
                         class="form-select"
                         v-model="formData.stepNineBankType"
@@ -122,7 +129,14 @@
                         <option value="Cuenta Corriente">
                             Cuenta Corriente
                         </option>
-                    </select>
+                    </select> -->
+                    <select-dbm-static
+                        id="infoPayTypeAccount"
+                        :items="typeBankAccount"                              
+                        :selected="formData.stepNineBankType"
+                        @update:selected-static="updateSelectedTypeBankAccount"
+                        placeholder="Elige el tipo de cuenta"
+                    />
                 </div>
                 <div class="d-flex flex-column justify-content-center sec-bank-default-form">
                     <a class="underline-dbm cursor-pointer" @click="toggleBankDetails">
@@ -246,6 +260,7 @@
 <script setup>
 import { useFormStore } from "../../../stores/valuesTwo";
 import { onMounted, ref, defineEmits } from "vue";
+import SelectDbmStatic from "../../Dbm/SelectDbmStatic.vue";
 
 const emit = defineEmits(["active-subtitles","close-step"]);
 
@@ -277,6 +292,41 @@ const closeStep = 4;
 
 const bankDetails = ref([]);
 const useBankDetails = ref(props.userBank);
+
+const bankList = ref([
+    {id: 1, value: "Banco BICE", name:"Banco BICE"},
+    {id: 2, value: "Banco Consorcio", name:"Banco Consorcio"},
+    {id: 3, value: "Banco Corpbanca", name:"Banco Corpbanca"},
+    {id: 4, value: "Banco Crédito e Inversiones", name:"Banco Crédito e Inversiones"},
+    {id: 5, value: "Banco Estado", name:"Banco Estado"},
+    {id: 6, value: "Banco Falabella", name:"Banco Falabella"},
+    {id: 7, value: "Banco Internacional", name:"Banco Internacional"},
+    {id: 8, value: "Banco Paris", name:"Banco Paris"},
+    {id: 9, value: "Banco Ripley", name:"Banco Ripley"},
+    {id: 10, value: "Banco Santander", name:"Banco Santander"},
+    {id: 11, value: "Banco Security", name:"Banco Security"},
+    {id: 12, value: "Banco de Chile / Edwards-Citi", name:"Banco de Chile / Edwards-Citi"},
+    {id: 13, value: "Banco del Desarrollo", name:"Banco del Desarrollo"},
+    {id: 14, value: "Coopeuch", name:"Coopeuch"},
+    {id: 15, value: "HSBC Bank", name:"HSBC Bank"},
+    {id: 16, value: "Itau", name:"Itau"},
+    {id: 17, value: "Rabobank", name:"Rabobank"},
+    {id: 18, value: "Tenpo Prepago", name:"Tenpo Prepago"},
+    {id: 19, value: "Prepago Los Héroes", name:"Prepago Los Héroes"},
+    {id: 20, value: "Scotiabank", name:"Scotiabank"},
+    {id: 21, value: "Scotiabank Azul", name:"Scotiabank Azul"},
+    {id: 22, value: "Mercado Pago", name:"Mercado Pago"},
+    {id: 23, value: "TAPP Caja Los Andes", name:"TAPP Caja Los Andes"},
+    {id: 24, value: "Copec Pay", name:"Copec Pay"},
+    {id: 25, value: "La Polar Prepago", name:"La Polar Prepago"},
+    {id: 26, value: "Global66", name:"Global66"}
+]);
+
+const typeBankAccount = ref([
+    {id: 1, value: "Cuenta Vista", name:"Cuenta Vista"},
+    {id: 2, value: "Cuenta Corriente", name:"Cuenta Corriente"},
+]);
+
 
 const nextStep = async () => {
   formStore.setFormData(formData);
@@ -360,6 +410,16 @@ const fetchBankDetails = () => {
 
 const toggleBankDetails = () => {
   useBankDetails.value = !useBankDetails.value;
+};
+
+// Handle bank
+const updateSelectedBank = (newBank) => {
+    formData.stepNineBank = newBank;
+};
+
+// Handle Type Bank Account
+const updateSelectedTypeBankAccount = (newType) => {
+    formData.stepNineBankType = newType;
 };
 
 onMounted(() => {

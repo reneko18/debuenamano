@@ -144,8 +144,19 @@ const loadAuthors = async () => {
 
 const truncatedContent = (content) => {
   const maxLength = 200;
-  return content.length <= maxLength ? content : content.slice(0, maxLength - 3) + '...';
+
+  // Function to strip HTML tags using a regular expression
+  const stripHtmlTags = (html) => {
+    return html.replace(/<\/?[^>]+(>|$)/g, "");
+  };
+
+  // Strip HTML tags
+  const plainTextContent = stripHtmlTags(content);
+
+  // Truncate the plain text content
+  return plainTextContent.length <= maxLength ? plainTextContent : plainTextContent.slice(0, maxLength - 3) + '...';
 };
+
 
 const formatDate = (date) => {
   return format(new Date(date), "d 'de' MMMM yyyy", { locale: es });

@@ -6,6 +6,8 @@ import { createPinia } from "pinia";
 
 import PrimeVue from "primevue/config";
 import ToastService from 'primevue/toastservice';
+import ConfirmationService from 'primevue/confirmationservice';
+import Toast from 'primevue/toast';
 import router from "./router/router";
 
 import "primevue/resources/themes/lara-light-blue/theme.css"; // Replace with your desired theme
@@ -99,6 +101,7 @@ app.component("new-admin", NewAdmin);
 app.component("new-cart", NewCart);
 app.component("slider-home", Slider);
 app.component("font-awesome-icon", FontAwesomeIcon);
+app.component('Toast', Toast);
 app.use(PrimeVue,{
     locale: {
         monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octobre', 'Noviembre', 'Diciembre'],
@@ -106,4 +109,5 @@ app.use(PrimeVue,{
     }
 });
 app.use(ToastService);
+app.use(ConfirmationService);
 app.mount("#app");

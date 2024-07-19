@@ -513,6 +513,34 @@ label {
 /*SEARCH ARCHIVE*/
 #search-bar-archive .search-input {
     margin-bottom: 0;
+    border-left: none;
+    border-right: none;
+}
+
+#search-bar-archive .search-input:focus {
+    border-top : 1.2px solid #C0C6B9 !important;
+    border-right: none !important;
+    border-left: none !important;
+    border-bottom : 1.2px solid #C0C6B9 !important;
+    box-shadow: none;    
+}
+
+#search-bar-archive .icon-search {
+    background-color: #fff;
+    border-top : 1.2px solid #C0C6B9;
+    border-right: none;
+    border-left : 1.2px solid #C0C6B9;    
+    border-bottom : 1.2px solid #C0C6B9;
+    border-radius: 0;
+}
+
+#search-bar-archive .icon-x {
+    background-color: #fff;
+    border-top : 1.2px solid #C0C6B9;
+    border-right : 1.2px solid #C0C6B9;
+    border-left: none;
+    border-bottom : 1.2px solid #C0C6B9;
+    border-radius: 0;
 }
 
 /*Columna A*/
@@ -536,9 +564,13 @@ label {
     font-size: 12px;
 }
 
+.step1-sell-form .div-cat .fa-chevron-down {
+    top: 46px;
+}
+
 /* #DROPDOWN-SELECT */
 
-#dropdown-select, #dropdown-cats, #dropdown-select-static {
+#dropdown-select, #dropdown-cats, .dropdown-select-static {
     opacity: 0;
     visibility: hidden;
     position: absolute;
@@ -546,7 +578,7 @@ label {
     left: 0;
     right: 0;
     padding: 3px;
-    z-index: 999;
+    z-index: 9999;
     background-color: #F9FAFA;
     box-shadow: 0 2px 4px rgba(10, 13, 8, 0.1); 
     border-radius: 2px;
@@ -560,13 +592,13 @@ label {
     top: 45px;
 }
 
-#dropdown-select-static {
+.dropdown-select-static {
     top: 45px;
 }
 
-#dropdown-select .btn-check, #dropdown-select-static .btn-check { height: auto; }
+#dropdown-select .btn-check, .dropdown-select-static .btn-check { height: auto; }
 
-#dropdown-select .btn, #dropdown-select-static .btn  {
+#dropdown-select .btn, .dropdown-select-static .btn  {
     padding: 12px!important;
     border-radius: 2px;
     display: block!important;
@@ -578,7 +610,7 @@ label {
 
 #dropdown-select .btn:hover, #dropdown-select .btn-check:checked + .btn,
 #dropdown-cats .btn:hover, #dropdown-cats .btn-check:checked + .btn, 
-#dropdown-select-static .btn:hover, #dropdown-select-static .btn-check:checked + .btn {
+.dropdown-select-static .btn:hover, .dropdown-select-static .btn-check:checked + .btn {
     background-color: #728c54;
     border-color: transparent;
     color: #f9fafa;
@@ -588,7 +620,7 @@ label {
 
 #dropdown-cats h2 button, 
 #dropdown-select h2 button,
-#dropdown-select-static h2 button 
+.dropdown-select-static h2 button 
 {
     padding: 0.6rem 0.39rem 0.6rem 1.25rem;
     background-color: #fff;
@@ -596,7 +628,7 @@ label {
 #dropdown-cats h2 button,
 .cat-sin-hijo label,
 #dropdown-select h2 button,
-#dropdown-select-static h2 button 
+.dropdown-select-static h2 button 
 {
     font-family: "Inter", sans-serif;
     font-size: 14px;
@@ -606,7 +638,7 @@ label {
 .cat-sin-hijo label,
 #dropdown-cats .accordion-body label, 
 #dropdown-select .accordion-body label,
-#dropdown-select-static .accordion-body label 
+.dropdown-select-static .accordion-body label 
 {
     font-family: "Inter", sans-serif;
     width: 100%;
@@ -617,7 +649,7 @@ label {
 }
 #dropdown-cats .accordion-button:focus,
 #dropdown-select .accordion-button:focus,
-#dropdown-select-static .accordion-button:focus
+.dropdown-select-static .accordion-button:focus
 {
     box-shadow: none;
     border-color: unset;
@@ -625,7 +657,7 @@ label {
 }
 #dropdown-cats .accordion-button:not(.collapsed), 
 #dropdown-select .accordion-button:not(.collapsed),
-#dropdown-select-static .accordion-button:not(.collapsed) 
+.dropdown-select-static .accordion-button:not(.collapsed) 
 {
     box-shadow: none;
     border-color: unset;
@@ -637,13 +669,13 @@ label {
 
 #dropdown-cats .accordion-body, 
 #dropdown-select .accordion-body,
-#dropdown-select-static .accordion-body
+.dropdown-select-static .accordion-body
 {
     padding: 0;
 }
 #dropdown-cats .accordion-button::after, 
 #dropdown-select .accordion-button::after,
-#dropdown-select-static .accordion-button::after
+.dropdown-select-static .accordion-button::after
 {
     content: url('../../public/img/chevron-down.svg');
     background-image: none;

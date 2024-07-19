@@ -1,5 +1,5 @@
 <template>    
-    <div class="modulo-pasos">
+    <div class="modulo-pasos step1-sell-form">
         <div class="row">
             <div class="col-lg-7 col-md-12">
                 <h2>Cuéntanos ¿Qué artículo quieres vender?</h2>
@@ -70,6 +70,7 @@
                                     <label
                                         :for="'cat-' + category.id"
                                         class="btn"
+                                        @click="closeDropdown"
                                         >{{ category.name }}</label
                                     >
                                 </div>
@@ -119,6 +120,7 @@
                                                         subcategory.id
                                                     "
                                                     class="btn"
+                                                    @click="closeDropdown"
                                                     >{{
                                                         subcategory.name
                                                     }}</label
@@ -136,7 +138,7 @@
                 </div>
                 <div class="cont-genre">
                     <label for="productGenre" class="form-label">Género</label>
-                    <select
+                    <!-- <select
                         id="productGenre"
                         class="form-select"
                         v-model="formData.stepOneGenre"
@@ -147,7 +149,14 @@
                         <option value="Niño">Niño</option>
                         <option value="Niña">Niña</option>
                         <option value="Unisex">Unisex</option>
-                    </select>
+                    </select> -->
+                    <select-dbm 
+                        id="productGenre"
+                        :items="genders"   
+                        :selected="formData.stepOneGenre"
+                        @update:selected="updateSelectedGender"
+                        placeholder="Seleccione un género"
+                    />
                 </div>
             </div>
             <div class="col-lg-7 col-md-12">
@@ -165,7 +174,7 @@
                         />
                     </div>
                     <div class="col-md-4">   
-                        <select
+                        <!-- <select
                             id="neonat-pro"
                             class="form-select"                            
                             v-model="formData.stepOneAgeDateIni"
@@ -174,14 +183,22 @@
                             <option value="Semanas">Semanas</option>
                             <option value="Meses">Meses</option>
                             <option value="Años">Años</option>
-                        </select>
+                        </select> -->
+                        <select-dbm-static
+                            id="neonat-pro"
+                            :items="ageDataIni"   
+                            :selected="formData.stepOneAgeDateIni"
+                            @update:selected-static="updateSelectedAgeIni"
+                            placeholder="Seleccione"
+                        />
                     </div>
                     <div
+                        v-if="formData.stepOneShowFirstInput"
                         class="col-md-1 col-a flex-column justify-content-center"   
                     >
                         <span>a</span>
                     </div>
-                    <div class="col-md-2">  
+                    <div v-if="formData.stepOneShowFirstInput" class="col-md-2">  
                         <input
                             type="text"
                             class="form-control"
@@ -192,8 +209,8 @@
                             @input="handleNumericInput('stepOneAgeFin')"                            
                         />
                     </div>
-                    <div class="col-md-3">              
-                        <select
+                    <div  v-if="formData.stepOneShowFirstInput" class="col-md-3">              
+                        <!-- <select
                             id="monthsel-pro"
                             class="form-select"                           
                             v-model="formData.stepOneAgeDateFin"
@@ -201,7 +218,14 @@
                             <option value="Semanas">Semanas</option>
                             <option value="Meses">Meses</option>
                             <option value="Años">Años</option>
-                        </select>
+                        </select> -->
+                        <select-dbm-static
+                            id="monthsel-pro"
+                            :items="ageDataFin"   
+                            :selected="formData.stepOneAgeDateFin"
+                            @update:selected-static="updateSelectedAgeFin"
+                            placeholder="Seleccione"
+                        />
                     </div>
                 </div>
                 <div v-if="errorMessageRange" class="invalid-dbm">
@@ -244,6 +268,8 @@
 <script setup>
 import { useFormStore } from "../../../stores/valuesTwo";
 import { ref, watch , onMounted, defineEmits } from "vue";
+import SelectDbm from "../../Dbm/SelectDbm.vue";
+import SelectDbmStatic from "../../Dbm/SelectDbmStatic.vue";
 
 const emit = defineEmits(["constant-emitted"]);
 
@@ -259,6 +285,19 @@ const dropdown = ref(false);
 const activeTrigger = ref(false);
 const textareaHeight = ref(100);
 const categories = ref([]);
+const genders = ref([]);
+const ageDataIni = ref([
+    {id: 1, value: "Recién nacido", name:"Recién nacido"},
+    {id: 2, value: "Semanas", name:"Semanas"},
+    {id: 3, value: "Meses", name:"Meses"},
+    {id: 4, value: "Años", name:"Años"},
+]);
+
+const ageDataFin = ref([
+    {id: 1, value: "Semanas", name:"Semanas"},
+    {id: 2, value: "Meses", name:"Meses"},
+    {id: 3, value: "Años", name:"Años"},
+]);
 
 const fetchData = async () => {
     try {
@@ -268,6 +307,15 @@ const fetchData = async () => {
         console.error("Error fetching categories:", error);
     }
 };
+
+const fetchGenders = async () => {
+  try{
+    const response = await axios.get("/api/tienda/genders");
+    genders.value = response.data;
+  } catch (error){
+      console.error("Error fetching agefilters:", error);
+  }
+}
 
 const nextStep = () => {
     if (!formData.stepOneNameProduct) {
@@ -362,6 +410,22 @@ const handleNumericInput = (fieldName) => {
     formData[fieldName] = value;
 };
 
+// Handle gender update
+const updateSelectedGender = (newGender) => {
+    formData.stepOneGenre = newGender;
+};
+
+// Handle Age Ini update
+const updateSelectedAgeIni = (newAgeDateIni) => {
+    formData.stepOneAgeDateIni = newAgeDateIni;
+};
+
+// Handle Age Fin update
+const updateSelectedAgeFin = (newAgeDateFin) => {
+    formData.stepOneAgeDateFin = newAgeDateFin;
+};
+
+
 // Watch for changes in formData.stepOneAgeDateIni
 watch(() => formData.stepOneAgeDateIni, (newValue, oldValue) => {
     if (newValue === "Recién nacido") {
@@ -381,6 +445,7 @@ watch(() => [dropdown.value, activeTrigger.value], () => {
 
 onMounted(() => {
     fetchData(); // Fetch categories data
+    fetchGenders();
     emit("constant-emitted", mainStep);
     updateTextareaHeight();
 });

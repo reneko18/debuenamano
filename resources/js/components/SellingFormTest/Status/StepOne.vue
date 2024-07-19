@@ -16,7 +16,7 @@
             <div class="col-lg-5 col-md-12">
                 <div>
                     <label for="statusItem" class="form-label">Estado*</label>
-                    <select
+                    <!-- <select
                         id="statusItem"
                         class="form-select"
                         :class="errorMessageStatus ? 'is-invalid-dbm' : ''"
@@ -29,7 +29,14 @@
                             Usado en buen estado
                         </option>
                         <option value="Sin uso">Sin uso</option>
-                    </select>
+                    </select> -->
+                    <select-dbm-static
+                            id="statusItem"
+                            :items="stateUse"                              
+                            :selected="formData.stepFourState"
+                            @update:selected-static="updateSelectedState"
+                            placeholder="Seleccione un estado"
+                    />
                     <div v-if="errorMessageStatus" class="invalid-dbm">
                         {{ errorMessageStatus }}
                     </div>
@@ -53,7 +60,7 @@
                     </div>
                     <div class="col-md-4">
                         <label for="usageItem-pro" class="form-label"></label>
-                        <select
+                        <!-- <select
                             id="usageItem-pro"
                             class="form-select"
                             :class="errorMessageUsageTime ? 'error-dbm' : ''"
@@ -62,7 +69,13 @@
                             <option value="Dias">Dias</option>
                             <option value="Meses">Meses</option>
                             <option value="Años">Años</option>
-                        </select>
+                        </select> -->
+                        <select-dbm-static
+                            id="usageItem-pro"
+                            :items="usageTimeUnit"                              
+                            :selected="formData.stepFourUsageUnit"
+                            @update:selected-static="updateSelectedUsageTimeUnit"
+                        />
                     </div>
                 </div>
                 <div v-if="errorMessageUsageTime" class="invalid-dbm">
@@ -80,6 +93,7 @@
 <script setup>
 import { useFormStore } from "../../../stores/valuesTwo";
 import { ref, onMounted, defineEmits } from "vue";
+import SelectDbmStatic from "../../Dbm/SelectDbmStatic.vue";
 
 const emit  = defineEmits(["next-step", "constant-emitted"]);
 
@@ -88,6 +102,15 @@ const formStore = useFormStore();
 const formData = formStore.formData;
 const errorMessageStatus = ref('');
 const errorMessageUsageTime = ref('');
+const stateUse = ref([
+    {id: 1, value: "Usado en buen estado", name:"Usado en buen estado"},
+    {id: 2, value: "Sin uso", name:"Sin uso"},
+]);
+const usageTimeUnit = ref([
+    {id: 1, value: "Dias", name:"Dias"},
+    {id: 2, value: "Meses", name:"Meses"},
+    {id: 2, value: "Años", name:"Años"},
+]);
 
 const nextStep = () => {
     if (!formData.stepFourState) {
@@ -114,6 +137,16 @@ const handleNumericInput = (fieldName) => {
     value = value.replace(/[^0-9]/g, '');
     // Update the corresponding data property
     formData[fieldName] = value;
+};
+
+// Handle state update
+const updateSelectedState = (newState) => {
+    formData.stepFourState = newState;
+};
+
+// Handle using time unit
+const updateSelectedUsageTimeUnit = (newUsingTime) => {
+    formData.stepFourUsageUnit = newUsingTime;
 };
 
 onMounted(() => {
