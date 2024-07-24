@@ -1200,6 +1200,7 @@ h1.parallax-txt {
 .hovered-img
  { border: 1.2px dashed #728C54; }
 
+
 .card-productos a .card-title { color: #151A0F; font-family: "Quicksand", sans-serif; font-weight: 700; font-size: 18px; line-height: 26px; margin-bottom: 0; transition: color 0.25s ease-in-out; }
 .card-productos a:hover h2,
 .card-img:hover + .card-body h2,
@@ -1229,24 +1230,25 @@ h1.parallax-txt {
     margin-top: 7rem;
     height: 47vh;
 }
-.link-post-archive{
-    color: #344026;
+.link-post-archive, .link-post-archive h2{
+    color: #151A0F;
     text-decoration: none;
     transition: all .4s ease-in-out;
 }
-.link-post-archive:hover{
-    color:#344026;
-    opacity: .4;
-}
+#blog .link-post-archive h2:hover { color:#344026; }
 
-.card, .card-header {
-    background-color: #fff;
-    border: none;
-}
+.card, .card-header { background-color: #fff; border: none; }
+.card-img-blog { width: 100%; border-radius: 4px 4px 0 0; }
 
-.card-img {
-    border-radius: 4px 4px 0 0;
-}
+
+#blog .meta-content { margin-bottom: 20px; }
+#blog .author { font-size: 13px; font-weight: 500; }
+#blog .date { font-size: 12px; font-size: 400; }
+#blog .card-body { background-color: #F9FAFA;border-radius: 0 0 4px 4px; }
+#blog .card-body:hover, #blog .card-header-blog:hover + .card-body { background-color: #F2F5F0; }
+#blog .cat-meta { display: inline-block; cursor: pointer; background-color: #344026; color: #F9FAFA; padding: 6px 12px; border-radius: 4px; font-size: 13px; margin-top: 20px; }
+#blog .cat-meta:hover { background-color: #728C54;}
+#blog p { font-weight: 300; font-size: 1rem; line-height: 22px; }
 
 /*SINGLE POST***************************************************************** */
 .first-sec-post{

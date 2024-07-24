@@ -44,17 +44,18 @@
             </div>
         </div>
     </div>
-    <div class="row row-post-loop container mx-auto">
+    <div class="row row-post-loop container mx-auto" id="blog">
         <div class="col col-post" v-for="post in posts.data">
             <div class="card">
-                <div class="card-header">
+                <div class="card-header-blog">
                     <a :href="'/entradas/' + post.slug" class="link-post-archive">
-                        <img :src="post.main_img" class="card-img" alt="" />
+                        <img :src="post.main_img" class="card-img-blog" alt="" />
                     </a>
                 </div>
                 <div class="card-body">
-                    <div class="meta-content">
+                    <div class="meta-content d-flex justify-content-between">
                         <div class="author">
+                            <!-- disponer enlace hacia archive según autor -->
                             <!--<img :src="post.author.authorimage.url" alt="">-->
                             <span
                                 >{{ post.author.firstname }}
@@ -68,6 +69,7 @@
                     </a>
                     <p>{{ truncatedContent(post.content) }}</p>
 
+                    <!-- disponer enlace hacia archive según nombre de categoría -->
                     <span class="cat-meta" v-for="cats in post.postcategories">
                         {{ cats.name }}
                     </span>
