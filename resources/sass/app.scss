@@ -1230,6 +1230,9 @@ h1.parallax-txt {
     margin-top: 7rem;
     height: 47vh;
 }
+
+.col-post { flex: 0 1 calc(33.33333%); margin-bottom: 80px; }
+
 .link-post-archive, .link-post-archive h2{
     color: #151A0F;
     text-decoration: none;

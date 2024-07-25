@@ -295,10 +295,12 @@
             No products found.
         </div>
 
-        <Bootstrap5Pagination        
-            :data="filteredProducts"   
-            @pagination-change-page="fetchProducts"
-        />
+        <div class="d-flex justify-content-center mt-60">
+            <Bootstrap5Pagination        
+                :data="filteredProducts"   
+                @pagination-change-page="fetchProducts"
+            />
+        </div>
     </div><!-- cierre container -->
 
 </template>

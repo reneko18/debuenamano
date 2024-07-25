@@ -1,85 +1,96 @@
 <template>
-    <div class="container mx-auto"> 
-        <div>
-            <p>{{ currentPageResults }} de {{ totalResults }} resultados</p>
-        </div>
-        <div class="row">
-            <div class="col">
-                <label for="cat-blog" class="mb-3">Categoría</label>
-                <select
-                    id="cat-blog"
-                    class="form-select"
-                    aria-label="Default select example"
-                    v-model="selected.postcategories"
-                >
-                    <option :value="[]">Todas las categorias</option>
-                    <option :value="pcat.id" v-for="pcat in postscats">
-                        {{ pcat.name }}
-                    </option>
-                </select>
-            </div>
-            <div class="col">
-                <label for="aut-blog" class="mb-3">Autores</label>
-                <select
-                    id="aut-blog"
-                    class="form-select"
-                    v-model="selected.authors"
-                >
-                    <option :value="[]">Todos los autores</option>
-                    <option :value="aut.id" v-for="aut in authors">
-                        {{ aut.firstname }} {{ aut.lastname }}
-                    </option>
-                </select>
-            </div>
-            <div class="col">
-                <label for="order-blog" class="mb-3">Ordenar por</label>
-                <select
-                    id="order-blog"
-                    class="form-select"
-                    v-model="selected.order"
-                >
-                    <option value="asc">Ascendente</option>
-                    <option value="desc">Descendente</option>
-                </select>
-            </div>
-        </div>
+    <div class="bg-blanco-verdoso ptb-30 mb-30">
+      <div class="container mx-auto "> 
+          <div class="row">
+              <div class="col">
+                  <label for="cat-blog" class="mb-3">Categoría</label>
+                  <select
+                      id="cat-blog"
+                      class="form-select"
+                      aria-label="Default select example"
+                      v-model="selected.postcategories"
+                  >
+                      <option :value="[]">Todas las categorias</option>
+                      <option :value="pcat.id" v-for="pcat in postscats">
+                          {{ pcat.name }}
+                      </option>
+                  </select>
+              </div>
+              <div class="col">
+                  <label for="aut-blog" class="mb-3">Autores</label>
+                  <select
+                      id="aut-blog"
+                      class="form-select"
+                      v-model="selected.authors"
+                  >
+                      <option :value="[]">Todos los autores</option>
+                      <option :value="aut.id" v-for="aut in authors">
+                          {{ aut.firstname }} {{ aut.lastname }}
+                      </option>
+                  </select>
+              </div>
+              <div class="col">
+                  <label for="order-blog" class="mb-3">Ordenar por</label>
+                  <select
+                      id="order-blog"
+                      class="form-select"
+                      v-model="selected.order"
+                  >
+                      <option value="asc">Ascendente</option>
+                      <option value="desc">Descendente</option>
+                  </select>
+              </div>
+          </div>
+      </div>
     </div>
-    <div class="row row-post-loop container mx-auto" id="blog">
-        <div class="col col-post" v-for="post in posts.data">
-            <div class="card">
-                <div class="card-header-blog">
-                    <a :href="'/entradas/' + post.slug" class="link-post-archive">
-                        <img :src="post.main_img" class="card-img-blog" alt="" />
-                    </a>
-                </div>
-                <div class="card-body">
-                    <div class="meta-content d-flex justify-content-between">
-                        <div class="author">
-                            <!-- disponer enlace hacia archive según autor -->
-                            <!--<img :src="post.author.authorimage.url" alt="">-->
-                            <span
-                                >{{ post.author.firstname }}
-                                {{ post.author.lastname }}</span
-                            >
-                        </div>
-                        <span class="date">{{ formatDate(post.created_at) }}</span>
-                    </div>
-                    <a :href="'/entradas/' + post.slug" class="link-post-archive"> 
-                        <h2 class="card-title">{{ post.title }}</h2>
-                    </a>
-                    <p>{{ truncatedContent(post.content) }}</p>
 
-                    <!-- disponer enlace hacia archive según nombre de categoría -->
-                    <span class="cat-meta" v-for="cats in post.postcategories">
-                        {{ cats.name }}
-                    </span>
-                </div>
-            </div>
+    <div class="container"> 
+      <div class="row">
+        <div class="col mb-30">
+          <div>
+              <p>{{ currentPageResults }} de {{ totalResults }} resultados</p>
+          </div>
         </div>
-            <Bootstrap5Pagination
-                :data="posts"   
-                @pagination-change-page="loadPosts"
-            />
+      </div>
+      <div class="row row-post-loop" id="blog">
+          <div class="col-post" v-for="post in posts.data">
+              <div class="card">
+                  <div class="card-header-blog">
+                      <a :href="'/entradas/' + post.slug" class="link-post-archive">
+                          <img :src="post.main_img" class="card-img-blog" alt="" />
+                      </a>
+                  </div>
+                  <div class="card-body">
+                      <div class="meta-content d-flex justify-content-between">
+                          <div class="author">
+                              <!-- disponer enlace hacia archive según autor -->
+                              <!--<img :src="post.author.authorimage.url" alt="">-->
+                              <span
+                                  >{{ post.author.firstname }}
+                                  {{ post.author.lastname }}</span
+                              >
+                          </div>
+                          <span class="date">{{ formatDate(post.created_at) }}</span>
+                      </div>
+                      <a :href="'/entradas/' + post.slug" class="link-post-archive"> 
+                          <h2 class="card-title">{{ post.title }}</h2>
+                      </a>
+                      <p>{{ truncatedContent(post.content) }}</p>
+
+                      <!-- disponer enlace hacia archive según nombre de categoría -->
+                      <span class="cat-meta" v-for="cats in post.postcategories">
+                          {{ cats.name }}
+                      </span>
+                  </div>
+              </div>
+          </div>
+          <div class="d-flex justify-content-center mb-100">
+              <Bootstrap5Pagination
+                  :data="posts"   
+                  @pagination-change-page="loadPosts"
+              />
+          </div>
+      </div>
     </div>
 </template>
 <script setup>
@@ -183,8 +194,4 @@ watch(
 );
 </script>
 
-<style scoped>
-.col-post {
-    flex: 0 1 calc(33.33333% - 9px);
-}
-</style>
+
