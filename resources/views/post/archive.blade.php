@@ -27,7 +27,7 @@
         </nav>
         </div>
     </section>
-    <section class="container second-sec-blog py-5">
+    <section>
         <div id="app">
             <posts-loop></posts-loop>
         </div>
