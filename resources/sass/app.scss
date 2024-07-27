@@ -534,6 +534,11 @@ label {
     border-radius: 0;
 }
 
+#search-bar-archive .cont-search-box.focused {
+    box-shadow: 0px 1px 2px 0px rgba(39, 48, 29, 0.15);
+}
+
+
 #search-bar-archive .icon-x {
     background-color: #fff;
     border-top : 1.2px solid #C0C6B9;
@@ -564,9 +569,11 @@ label {
     font-size: 12px;
 }
 
-.step1-sell-form .div-cat .fa-chevron-down {
+.step1-sell-form .div-cat .fa-chevron-down, .modulo-resumen .div-cat .fa-chevron-down {
     top: 46px;
 }
+
+
 
 /* #DROPDOWN-SELECT */
 
@@ -586,6 +593,8 @@ label {
 
 #dropdown-cats {
     top: 88px;    
+    max-height: 220px;
+    overflow-y: scroll;
 }
 
 #dropdown-select{
@@ -594,6 +603,11 @@ label {
 
 .dropdown-select-static {
     top: 45px;
+}
+
+#infoPayBank .dropdown-select-static, .select-chilexpress .dropdown-select-static{
+    max-height: 220px;
+    overflow-y: scroll;
 }
 
 #dropdown-select .btn-check, .dropdown-select-static .btn-check { height: auto; }
@@ -703,6 +717,9 @@ label {
     width:100%;
     max-width: 700px;
 }
+.modulo-pasos .row-main-dim .input-data-unit, .modulo-resumen .row-main-dim .input-data-unit{
+    margin-bottom: 0;
+}
 .cont-dimen-1 .row-child-dim,.cont-dimen-2 .row-child-dim, .edit-pro-admin .row-child-dim {
     display: flex;
     flex-direction: row;
@@ -712,7 +729,7 @@ label {
 }
 .cont-dimen-1 .col-dim,.cont-dimen-2 .col-dim, .edit-pro-admin .col-dim {
     width: 100%;
-    max-width: 82px;
+    max-width: 100px;
 }
 
 

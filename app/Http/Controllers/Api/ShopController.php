@@ -48,7 +48,7 @@ class ShopController extends Controller
         return response()->json(['categories' => $categories]);
     }
 
-    public function getGenders()
+    public function getGendersShop()
     {
         $category_id = request()->input('category_id');
         $gender_id = request()->input('gender_id');

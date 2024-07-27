@@ -129,68 +129,25 @@
                 </div>
                 <div class="cont-genre">
                     <label for="productGenre" class="form-label">Género</label>
-                    <select
+                    <select-dbm-static
                         id="productGenre"
-                        class="form-select"
-                        v-model="productInfo.genre"
-                    >         
-                        <option value="Niño">Niño</option>
-                        <option value="Niña">Niña</option>
-                        <option value="Unisex">Unisex</option>
-                    </select>
+                        :items="genders"   
+                        :selected="productInfo.gender_id"
+                        @update:selected="updateSelectedGender"
+                        placeholder="Seleccione un género"
+                    />
                 </div>
             </div>
             <div class="col-lg-7 col-md-12">
                 <span class="tit-age-range">Rango de edad de tu articulo*</span>
                 <div class="row row-age-range">
-                    <div class="col-md-2"> 
-                        <input
-                            type="text"
-                            class="form-control"
-                            placeholder="00"
-                            id="age-pro"
-                            v-model="productInfo.age_ini"
-                            @input="handleNumericInput('age_ini')"
-                        />
-                    </div>
-                    <div class="col-md-4">                        
-                        <select
-                            id="neonat-pro"
-                            class="form-select"
-                            v-model="productInfo.age_date_ini"
-                        >       
-                            <option value="Recién nacido">Recién nacido</option>
-                            <option value="Semanas">Semanas</option>
-                            <option value="Meses">Meses</option>
-                            <option value="Años">Años</option>
-                        </select>
-                    </div>
-                    <div
-                        class="col-md-1 col-a flex-column justify-content-center"                       
-                    >
-                        <span>a</span>
-                    </div>
-                    <div class="col-md-2">                        
-                        <input
-                            type="text"
-                            class="form-control"
-                            placeholder="00"
-                            id="month-pro"
-                            v-model="productInfo.age_fin"
-                            @input="handleNumericInput('age_fin')"
-                        />
-                    </div>
-                    <div class="col-md-3">                        
-                        <select
-                            id="monthsel-pro"
-                            class="form-select"
-                            v-model="productInfo.age_date_fin"
-                        >     
-                            <option value="Semanas">Semanas</option>
-                            <option value="Meses">Meses</option>
-                            <option value="Años">Años</option>
-                        </select>
-                    </div>
+                    <select-dbm-static
+                        id="range-age"
+                        :items="rangeAge"   
+                        :selected="productInfo.age_filter_id"
+                        @update:selected-static="updateSelectedRangeAge"
+                        placeholder="Seleccione un rango"
+                    /> 
                 </div>
                 <div>
                     <label for="desc-pro" class="form-label"
@@ -844,57 +801,65 @@
     </div>
 </template>
 <script setup>
-import { ref, computed, onMounted, onUpdated, watch, getCurrentInstance } from "vue";
+import { ref, computed, onMounted, onUpdated, watch} from "vue";
 import { useDropzone } from "vue3-dropzone";
 import Toast from 'primevue/toast';
 import { useToast } from "primevue/usetoast";
+import SelectDbmStatic from "../components/Dbm/SelectDbmStatic.vue";
 const props = defineProps({
     productSlug: { type: String, default: "" },
 });
 
 const toast = useToast();
 
-const formatPrice = (value) => {
-  // Remove non-numeric characters
-  const numericValue = value.replace(/[^0-9]/g, "");
+// const formatPrice = (value) => {
+//   // Remove non-numeric characters
+//   const numericValue = value.replace(/[^0-9]/g, "");
 
-  // Insert a point separator for thousands
-  return numericValue.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-};
+//   // Insert a point separator for thousands
+//   return numericValue.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+// };
 
+const genders = ref([]);
+const rangeAge = ref([
+    {id: 1, value: 1, name:"Recién nacido"},
+    {id: 2, value: 2, name:"3 a 12 Meses"},
+    {id: 3, value: 3, name:"12 a 24 Meses"},
+    {id: 4, value: 4, name:"2 a 6 Años"},
+]);
 const productInfo = ref({});
 const deliveryInformation = ref({});
 
-const priceFormatDirective = {
-  mounted(el, binding) {
-    const context = binding.instance;
+// const priceFormatDirective = {
+//   mounted(el, binding) {
+//     const context = binding.instance;
 
-    el.addEventListener("input", function (e) {
-      // Remove non-numeric characters
-      const value = e.target.value.replace(/[^0-9]/g, "");
+//     el.addEventListener("input", function (e) {
+//       // Remove non-numeric characters
+//       const value = e.target.value.replace(/[^0-9]/g, "");
 
-      // Insert a point separator for thousands
-      const formattedValue = value.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+//       // Insert a point separator for thousands
+//       const formattedValue = value.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 
-      // Set the formatted value as a string
-      e.target.value = formattedValue;
+//       // Set the formatted value as a string
+//       e.target.value = formattedValue;
 
-      // Save the formatted string to formData.stepEightPrice
-      // If you need to save the numeric value, convert it back to a number
-      // context.formData.stepEightPrice = parseFloat(value);
-      context.productInfo.value.price = formattedValue;
-    });
-  },
-};
+//       // Save the formatted string to formData.stepEightPrice
+//       // If you need to save the numeric value, convert it back to a number
+//       // context.formData.stepEightPrice = parseFloat(value);
+//       context.productInfo.value.price = formattedValue;
+//     });
+//   },
+// };
 
-const instance = getCurrentInstance();
-if (instance) {
-  instance.appContext.app.directive("price-format", priceFormatDirective);
-}
+// const instance = getCurrentInstance();
+// if (instance) {
+//   instance.appContext.app.directive("price-format", priceFormatDirective);
+// }
 
-watch(() => productInfo.value.price, (newPrice) => {
-  productInfo.value.price = formatPrice(newPrice);
-});
+// watch(() => productInfo.value.price, (newPrice) => {
+//   productInfo.value.price = formatPrice(newPrice);
+// });
 
 
 const characterCount = ref(0);
@@ -904,6 +869,16 @@ const dropdown = ref(false);
 const activeTrigger = ref(false);
 const characterCountObs = ref(0);
 const characterCountReco = ref(0);
+
+// Handle gender update
+const updateSelectedGender = (newGender) => {
+    productInfo.value.gender_id = newGender;
+};
+
+// Handle Range Age update
+const updateSelectedRangeAge = (newRangeAge) => {
+    productInfo.value.age_filter_id = newRangeAge;
+};
 
 //Photos 
 const isDragActive = ref(false);
@@ -1066,6 +1041,8 @@ const feeDBM = () => {
     }
 }
 
+
+
 watch(() => productInfo.value.price, () => {
   feeDBM();
 });
@@ -1208,17 +1185,28 @@ const fetchData = async (product_id) => {
     }
 };
 
+const fetchGenders = async () => {
+    try{
+        const response = await axios.get("/api/product/getgenders");
+        // genders.value = response.data;
+        genders.value = response.data.map(gender => ({
+            id: gender.id,
+            name: gender.name,
+            value: gender.id,
+        }));
+    } catch (error){
+        console.error("Error fetching agefilters:", error);
+    }
+}
+
 const UpdateProductStatus = async() => {
     try {
         const response = await axios.put(
             `/api/product/updatestatus/${props.productSlug}`, 
             {
                 name: productInfo.value.name,
-                genre: productInfo.value.genre,
-                age_ini: productInfo.value.age_ini,
-                age_date_ini: productInfo.value.age_date_ini,
-                age_fin: productInfo.value.age_fin,
-                age_date_fin: productInfo.value.age_date_fin,
+                gender_id: productInfo.value.gender_id,
+                age_filter_id: productInfo.value.age_filter_id,
                 description: productInfo.value.description,
                 category_id: productInfo.value.category.id,
                 brand: productInfo.value.brand,
@@ -1277,11 +1265,8 @@ const SaveProductStatus = async() => {
             `/api/savestatus/${props.productSlug}`, 
             {
                 name: productInfo.value.name,
-                genre: productInfo.value.genre,
-                age_ini: productInfo.value.age_ini,
-                age_date_ini: productInfo.value.age_date_ini,
-                age_fin: productInfo.value.age_fin,
-                age_date_fin: productInfo.value.age_date_fin,
+                gender_id: productInfo.value.gender_id,
+                age_filter_id: productInfo.value.age_filter_id,
                 description: productInfo.value.description,
                 category_id: productInfo.value.category.id,
                 brand: productInfo.value.brand,
@@ -1380,6 +1365,7 @@ onUpdated(() => {
 
 onMounted(async() => {
     await fetchData(props.productSlug);
+    await fetchGenders();
     await fetchCategories();
     await getRegionsChilexpress();
     watch(

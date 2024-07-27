@@ -13,76 +13,52 @@
                 <div class="row-child-dim">
                     <div class="col-dim">
                         <label for="height-pro" class="form-label">Alto*</label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            :class="errorMessageSize ? 'is-invalid-dbm' : ''"
-                            placeholder="0,0"
-                            id="height-pro"
-                            v-model="formData.stepThreeHeightReal"  
-                            @input="handleNumericInput('stepThreeHeightReal')"                          
-                        />
-                    </div>
-                    <div class="col-dim">
-                        <label for="unh-pro" class="form-label"></label>
-                        <select
-                            id="unh-pro"
-                            class="form-select"                      
-                            v-model="formData.stepThreeHeightRealUnit"
-                        >
-                            <option value="cm">cm</option>
-                            <option value="in">in</option>
-                        </select>
+                        <div class="input-group">
+                            <input 
+                                type="text"
+                                class="form-control input-data-unit"
+                                :class="errorMessageSize ? 'is-invalid-dbm' : ''"
+                                placeholder="0,0"
+                                id="height-pro"
+                                v-model="formData.stepThreeHeightReal"  
+                                @input="handleNumericInput('stepThreeHeightReal')" 
+                            >
+                            <span class="input-group-text">cm</span>
+                        </div>
                     </div>
                 </div>
                 <div class="row-child-dim">
                     <div class="col-dim">
                         <label for="width-pro" class="form-label">Ancho*</label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            :class="errorMessageSize ? 'is-invalid-dbm' : ''"
-                            placeholder="0,0"
-                            id="width-pro"
-                            v-model="formData.stepThreeWidthReal"
-                            @input="handleNumericInput('stepThreeWidthReal')"
-                        />
-                    </div>
-                    <div class="col-dim">
-                        <label for="unw-pro" class="form-label"></label>
-                        <select
-                            id="unw-pro"
-                            class="form-select"                  
-                            v-model="formData.stepThreeWidthRealUnit"
-                        >
-                            <option value="cm">cm</option>
-                            <option value="in">in</option>
-                        </select>
+                        <div class="input-group">
+                            <input 
+                                type="text"
+                                class="form-control input-data-unit"
+                                :class="errorMessageSize ? 'is-invalid-dbm' : ''"
+                                placeholder="0,0"
+                                id="width-pro"
+                                v-model="formData.stepThreeWidthReal"
+                                @input="handleNumericInput('stepThreeWidthReal')"
+                            >
+                            <span class="input-group-text">cm</span>
+                        </div>
                     </div>
                 </div>
                 <div class="row-child-dim">
                     <div class="col-dim">
                         <label for="long-pro" class="form-label">Largo*</label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            :class="errorMessageSize ? 'is-invalid-dbm' : ''"
-                            placeholder="0,0"
-                            id="long-pro"
-                            v-model="formData.stepThreeLengthReal"
-                            @input="handleNumericInput('stepThreeLengthReal')"
-                        />
-                    </div>
-                    <div class="col-dim">
-                        <label for="unl-pro" class="form-label"></label>
-                        <select
-                            id="unl-pro"
-                            class="form-select"                   
-                            v-model="formData.stepThreeLengthRealUnit"
-                        >
-                            <option value="cm">cm</option>
-                            <option value="in">in</option>
-                        </select>
+                        <div class="input-group">
+                            <input 
+                                type="text"
+                                class="form-control input-data-unit"
+                                :class="errorMessageSize ? 'is-invalid-dbm' : ''"
+                                placeholder="0,0"
+                                id="long-pro"
+                                v-model="formData.stepThreeLengthReal"
+                                @input="handleNumericInput('stepThreeLengthReal')"
+                            >
+                            <span class="input-group-text">cm</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -104,76 +80,52 @@
                 <div class="row-child-dim">
                     <div class="col-dim">
                         <label for="height-pro" class="form-label">Alto*</label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            :class="errorMessageSize ? 'is-invalid-dbm' : ''"
-                            placeholder="0,0"
-                            id="height-pro"
-                            v-model="formData.stepThreeHeight"  
-                            @input="handleNumericInput('stepThreeHeight')"                          
-                        />
-                    </div>
-                    <div class="col-dim">
-                        <label for="unh-pro" class="form-label"></label>
-                        <select
-                            id="unh-pro"
-                            class="form-select"                      
-                            v-model="formData.stepThreeHeightUnit"
-                        >
-                            <option value="cm">cm</option>
-                            <option value="in">in</option>
-                        </select>
+                        <div class="input-group">
+                            <input 
+                                type="text"
+                                class="form-control input-data-unit"
+                                :class="errorMessageSize ? 'is-invalid-dbm' : ''"
+                                placeholder="0,0"
+                                id="height-pro"
+                                v-model="formData.stepThreeHeight"  
+                                @input="handleNumericInput('stepThreeHeight')"  
+                            >
+                            <span class="input-group-text">cm</span>
+                        </div>
                     </div>
                 </div>
                 <div class="row-child-dim">
                     <div class="col-dim">
                         <label for="width-pro" class="form-label">Ancho*</label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            :class="errorMessageSize ? 'is-invalid-dbm' : ''"
-                            placeholder="0,0"
-                            id="width-pro"
-                            v-model="formData.stepThreeWidth"
-                            @input="handleNumericInput('stepThreeWidth')"
-                        />
-                    </div>
-                    <div class="col-dim">
-                        <label for="unw-pro" class="form-label"></label>
-                        <select
-                            id="unw-pro"
-                            class="form-select"                  
-                            v-model="formData.stepThreeWidthUnit"
-                        >
-                            <option value="cm">cm</option>
-                            <option value="in">in</option>
-                        </select>
+                        <div class="input-group">
+                            <input 
+                                type="text"
+                                class="form-control input-data-unit"
+                                :class="errorMessageSize ? 'is-invalid-dbm' : ''"
+                                placeholder="0,0"
+                                id="width-pro"
+                                v-model="formData.stepThreeWidth"
+                                @input="handleNumericInput('stepThreeWidth')" 
+                            >
+                            <span class="input-group-text">cm</span>
+                        </div>
                     </div>
                 </div>
                 <div class="row-child-dim">
                     <div class="col-dim">
                         <label for="long-pro" class="form-label">Largo*</label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            :class="errorMessageSize ? 'is-invalid-dbm' : ''"
-                            placeholder="0,0"
-                            id="long-pro"
-                            v-model="formData.stepThreeLength"
-                            @input="handleNumericInput('stepThreeLength')"
-                        />
-                    </div>
-                    <div class="col-dim">
-                        <label for="unl-pro" class="form-label"></label>
-                        <select
-                            id="unl-pro"
-                            class="form-select"                   
-                            v-model="formData.stepThreeLengthUnit"
-                        >
-                            <option value="cm">cm</option>
-                            <option value="in">in</option>
-                        </select>
+                        <div class="input-group">
+                            <input 
+                                type="text"
+                                class="form-control input-data-unit"
+                                :class="errorMessageSize ? 'is-invalid-dbm' : ''"
+                                placeholder="0,0"
+                                id="long-pro"
+                                v-model="formData.stepThreeLength"
+                                @input="handleNumericInput('stepThreeLength')"
+                            >
+                            <span class="input-group-text">cm</span>
+                        </div>
                     </div>
                 </div>
                 <div class="row-child-dim">
@@ -191,14 +143,13 @@
                     </div>
                     <div class="col-dim position-relative">
                         <label for="unwe-pro" class="form-label"></label>
-                        <select
+                        <select-dbm-static
                             id="unwe-pro"
-                            class="form-select"                 
-                            v-model="formData.stepThreeWeightUnit"
-                        >
-                            <option value="g">g</option>
-                            <option value="Kg">Kg</option>
-                        </select>
+                            :items="weightData"   
+                            :selected="formData.stepThreeWeightUnit"
+                            @update:selected-static="updateSelectedWeight"
+                            placeholder="Seleccione"
+                        />
                         <!-- Custom Tooltip -->
                         <div class="info-tool">
                             <svg
@@ -246,6 +197,7 @@
 
 import { useFormStore } from "../../../stores/valuesTwo";
 import { ref, onMounted, defineEmits } from "vue";
+import SelectDbmStatic from "../../Dbm/SelectDbmStatic.vue";
 
 const emit = defineEmits(["next-step", "constant-emitted", "active-subtitles","close-step"]);
 
@@ -256,6 +208,11 @@ const slug = ref('');
 const formStore = useFormStore();
 const formData = formStore.formData;
 const errorMessageSize = ref('');
+
+const weightData = ref([
+    {id: 1, value: "g", name:"g"},
+    {id: 2, value: "Kg", name:"Kg"},
+]);
 
 const nextStep = async () => {
     if (!formData.stepThreeHeightReal || !formData.stepThreeWidthReal ||  !formData.stepThreeLengthReal || !formData.stepThreeHeight || !formData.stepThreeWidth ||  !formData.stepThreeLength || !formData.stepThreeWeight) {
@@ -323,6 +280,11 @@ const getSlug = async(slug) => {
         console.error("Error fetching the slug:", error);
     }
 }
+
+// Handle gender update
+const updateSelectedWeight = (newWeight) => {
+    formData.stepThreeWeightUnit = newWeight;
+};
 
 onMounted(() => {
     emit("constant-emitted", mainStep);

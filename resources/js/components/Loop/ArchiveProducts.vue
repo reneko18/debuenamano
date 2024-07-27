@@ -3,18 +3,26 @@
         <div class="row">
             <!-- Search Input -->
             <div id="search-bar-archive" class="col-12">
-                <div class="input-group mb-3">
+                <div class="input-group cont-search-box mb-3" :class="{ 'focused': isFocused }" >
                     <span class="input-group-text icon-search" @click="fetchProducts">
                         <font-awesome-icon :icon="['fas', 'magnifying-glass']" />
                     </span>
                     <input
                         type="text"
-                        class="form-control search-input"
+                        class="form-control search-input"                              
                         placeholder="¿Que estás buscando?"
                         v-model="searchQuery"
+                        @focus="handleFocus(true)"
+                        @blur="handleFocus(false)"
                         @keyup.enter="fetchProducts"
                     />
-                    <button class="btn icon-x" type="button" @click="clearSearch">
+                    <button 
+                        class="btn icon-x" 
+                        type="button"                         
+                        @focus="handleFocus(true)"
+                        @blur="handleFocus(false)"
+                        @click="clearSearch"
+                    >
                         <font-awesome-icon :icon="['fas', 'xmark']" />
                     </button>
                 </div>
@@ -313,6 +321,7 @@ const categories = ref([]);
 const genders = ref([]);
 const ageFilters = ref([]);
 const searchQuery = ref('');
+const isFocused = ref(false)
 const layout = ref('col-3'); // Default layout
 const setLayout = (newLayout) => {
   layout.value = newLayout;
@@ -551,6 +560,11 @@ const clearFilters = () => {
 const clearSearch = () => {
   searchQuery.value = '';
 };
+
+//Handle Focus
+const handleFocus = (focused) => {
+  isFocused.value = focused
+}
 
 watch(
     () => [

@@ -45,7 +45,7 @@ items: {
 },
 selected: {
   type: String,
-  default: '',
+  default: ''
 },
 placeholder: {
   type: String,
