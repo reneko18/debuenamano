@@ -443,11 +443,8 @@ class ProductController extends Controller
         try {   
             $requestData = request()->only([
                 'name',
-                'genre',
-                'age_ini',
-                'age_date_ini',
-                'age_fin',
-                'age_date_fin',
+                'gender_id',
+                'age_filter_id',
                 'description',
                 'category_id',
                 'brand',
@@ -544,11 +541,8 @@ class ProductController extends Controller
         try {   
             $requestData = request()->only([
                 'name',
-                'genre',
-                'age_ini',
-                'age_date_ini',
-                'age_fin',
-                'age_date_fin',
+                'gender_id',
+                'age_filter_id',
                 'description',
                 'category_id',
                 'brand',

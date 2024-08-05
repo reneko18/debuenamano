@@ -13,10 +13,7 @@ class Product extends Model
 protected $fillable = [
     'name',
     'gender_id',
-    'age_ini',
-    'age_date_ini',
-    'age_fin',
-    'age_date_fin',
+    'age_filter_id',
     'description',
     'category_id',
     'brand',

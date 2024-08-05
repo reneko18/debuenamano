@@ -25,40 +25,11 @@ class ProductFactory extends Factory
 
         $createdAt = fake()->dateTimeBetween('-1 year', 'now');
 
-        if($ageFilter == 1){
-            $age_ini = '';
-            $age_date_ini = 'Recién nacido';
-            $age_fin = '';
-            $age_date_fin = '';
-        }
-        else if($ageFilter == 2){
-            $age_ini = 3;
-            $age_date_ini = 'Meses';
-            $age_fin = 12;
-            $age_date_fin = 'Meses';
-        }
-        else if($ageFilter == 3){
-            $age_ini = 12;
-            $age_date_ini = 'Meses';
-            $age_fin = 24;
-            $age_date_fin = 'Meses';
-        }
-        else {
-            $age_ini = 2;
-            $age_date_ini = 'Años';
-            $age_fin = 6;
-            $age_date_fin = 'Años';
-        }
-
         return [
             'name' => 'Producto Test Plantilla',
             'category_id' => fake()->randomElement($categoryIds),
             'age_filter_id' => $ageFilter,
             'gender_id'=> fake()->numberBetween(1,3),
-            'age_ini' => $age_ini,
-            'age_date_ini' => $age_date_ini,
-            'age_fin' => $age_fin,
-            'age_date_fin' => $age_date_fin,
             'description' => fake()->realText(200),
             'brand' => fake()->company(), 
             'model' => fake()->realTextBetween(10,25),

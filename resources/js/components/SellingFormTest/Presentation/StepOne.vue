@@ -138,19 +138,7 @@
                 </div>
                 <div class="cont-genre">
                     <label for="productGenre" class="form-label">Género</label>
-                    <!-- <select
-                        id="productGenre"
-                        class="form-select"
-                        v-model="formData.stepOneGenre"
-                    >
-                        <option disabled selected value="">
-                            Seleccione un género
-                        </option>
-                        <option value="Niño">Niño</option>
-                        <option value="Niña">Niña</option>
-                        <option value="Unisex">Unisex</option>
-                    </select> -->
-                    <select-dbm 
+                    <select-dbm
                         id="productGenre"
                         :items="genders"   
                         :selected="formData.stepOneGenre"
@@ -159,74 +147,16 @@
                     />
                 </div>
             </div>
-            <div class="col-lg-7 col-md-12">
-                <span class="tit-age-range">Rango de edad de tu articulo*</span>
+            <div class="col-lg-7 col-md-12">                
                 <div class="row row-age-range" :class="errorMessageRange ? 'error-dbm' : ''">  
-                    <div class="col-md-2" v-if="formData.stepOneShowFirstInput">
-                        <input                            
-                            type="text"
-                            class="form-control"
-                            :class="errorMessageRange ? 'is-invalid-dbm' : ''"
-                            placeholder="00"
-                            id="age-pro"
-                            v-model="formData.stepOneAgeIni"  
-                            @input="handleNumericInput('stepOneAgeIni')"                          
-                        />
-                    </div>
-                    <div class="col-md-4">   
-                        <!-- <select
-                            id="neonat-pro"
-                            class="form-select"                            
-                            v-model="formData.stepOneAgeDateIni"
-                        >
-                            <option value="Recién nacido">Recién nacido</option>
-                            <option value="Semanas">Semanas</option>
-                            <option value="Meses">Meses</option>
-                            <option value="Años">Años</option>
-                        </select> -->
-                        <select-dbm-static
-                            id="neonat-pro"
-                            :items="ageDataIni"   
-                            :selected="formData.stepOneAgeDateIni"
-                            @update:selected-static="updateSelectedAgeIni"
-                            placeholder="Seleccione"
-                        />
-                    </div>
-                    <div
-                        v-if="formData.stepOneShowFirstInput"
-                        class="col-md-1 col-a flex-column justify-content-center"   
-                    >
-                        <span>a</span>
-                    </div>
-                    <div v-if="formData.stepOneShowFirstInput" class="col-md-2">  
-                        <input
-                            type="text"
-                            class="form-control"
-                            :class="errorMessageRange ? 'is-invalid-dbm' : ''"
-                            placeholder="00"
-                            id="month-pro"
-                            v-model="formData.stepOneAgeFin"
-                            @input="handleNumericInput('stepOneAgeFin')"                            
-                        />
-                    </div>
-                    <div  v-if="formData.stepOneShowFirstInput" class="col-md-3">              
-                        <!-- <select
-                            id="monthsel-pro"
-                            class="form-select"                           
-                            v-model="formData.stepOneAgeDateFin"
-                        >
-                            <option value="Semanas">Semanas</option>
-                            <option value="Meses">Meses</option>
-                            <option value="Años">Años</option>
-                        </select> -->
-                        <select-dbm-static
-                            id="monthsel-pro"
-                            :items="ageDataFin"   
-                            :selected="formData.stepOneAgeDateFin"
-                            @update:selected-static="updateSelectedAgeFin"
-                            placeholder="Seleccione"
-                        />
-                    </div>
+                    <label for="range-age" class="form-label">Rango de edad de tu articulo*</label>
+                    <select-dbm-static
+                            id="range-age"
+                            :items="rangeAge"   
+                            :selected="formData.stepOneRangeAge"
+                            @update:selected-static="updateSelectedRangeAge"
+                            placeholder="Seleccione un rango"
+                    />
                 </div>
                 <div v-if="errorMessageRange" class="invalid-dbm">
                     {{ errorMessageRange }}
@@ -286,17 +216,11 @@ const activeTrigger = ref(false);
 const textareaHeight = ref(100);
 const categories = ref([]);
 const genders = ref([]);
-const ageDataIni = ref([
-    {id: 1, value: "Recién nacido", name:"Recién nacido"},
-    {id: 2, value: "Semanas", name:"Semanas"},
-    {id: 3, value: "Meses", name:"Meses"},
-    {id: 4, value: "Años", name:"Años"},
-]);
-
-const ageDataFin = ref([
-    {id: 1, value: "Semanas", name:"Semanas"},
-    {id: 2, value: "Meses", name:"Meses"},
-    {id: 3, value: "Años", name:"Años"},
+const rangeAge = ref([
+    {id: 1, value: 1, name:"Recién nacido"},
+    {id: 2, value: 2, name:"3 a 12 Meses"},
+    {id: 3, value: 3, name:"12 a 24 Meses"},
+    {id: 4, value: 4, name:"2 a 6 Años"},
 ]);
 
 const fetchData = async () => {
@@ -310,8 +234,12 @@ const fetchData = async () => {
 
 const fetchGenders = async () => {
   try{
-    const response = await axios.get("/api/tienda/genders");
-    genders.value = response.data;
+    const response = await axios.get("/api/product/getgenders");
+    genders.value = response.data.map(gender => ({
+        id: gender.id,
+        name: gender.name,
+        value: gender.id,
+    }));
   } catch (error){
       console.error("Error fetching agefilters:", error);
   }
@@ -327,7 +255,7 @@ const nextStep = () => {
         errorMessageCat.value = "Por favor, ingrese una categoría.";
         return;
     }
-    if (!formData.stepOneAgeFin) {
+    if (!formData.stepOneRangeAge) {
         errorMessageRange.value = "Por favor, complete todos los campos de rango de edad.";
         return;
     }
@@ -404,47 +332,23 @@ const updateTextareaHeight = () => {
     textareaHeight.value = leftHeight;
 };
 
-const handleNumericInput = (fieldName) => {
-    let value = formData[fieldName];
-    value = value.replace(/[^0-9]/g, '');
-    formData[fieldName] = value;
-};
-
 // Handle gender update
 const updateSelectedGender = (newGender) => {
     formData.stepOneGenre = newGender;
 };
 
-// Handle Age Ini update
-const updateSelectedAgeIni = (newAgeDateIni) => {
-    formData.stepOneAgeDateIni = newAgeDateIni;
+// Handle Range Age update
+const updateSelectedRangeAge = (newRangeAge) => {
+    formData.stepOneRangeAge = newRangeAge;
 };
-
-// Handle Age Fin update
-const updateSelectedAgeFin = (newAgeDateFin) => {
-    formData.stepOneAgeDateFin = newAgeDateFin;
-};
-
-
-// Watch for changes in formData.stepOneAgeDateIni
-watch(() => formData.stepOneAgeDateIni, (newValue, oldValue) => {
-    if (newValue === "Recién nacido") {
-        formData.stepOneShowFirstInput = false; // Hide the second select
-    } else {
-        formData.stepOneShowFirstInput = true; // Show the second select
-    }
-});
 
 // Watch for changes in textareaHeight and update it accordingly
 watch(() => [dropdown.value, activeTrigger.value], () => {
     updateTextareaHeight();
 });
 
-// // Call updateTextareaHeight initially to set the correct height
-// updateTextareaHeight();
-
 onMounted(() => {
-    fetchData(); // Fetch categories data
+    fetchData(); 
     fetchGenders();
     emit("constant-emitted", mainStep);
     updateTextareaHeight();

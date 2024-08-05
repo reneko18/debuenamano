@@ -85,7 +85,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/tienda/all',[ShopController::class, 'getArchiveProducts']);
 Route::get('/tienda/categories/all',[ShopController::class, 'getArchiveCategories']);
 Route::get('/tienda/agefilter/all',[ShopController::class, 'getAgeFilters']);
-Route::get('/tienda/genders',[ShopController::class, 'getGenders']);
+Route::get('/tienda/genders',[ShopController::class, 'getGendersShop']);
 
 //Related products
 Route::get('/related-products',[Shopcontroller::class,'getRelatedProducts']);
@@ -143,7 +143,7 @@ Route::post('/product/store/draft-status/{product}', [ProductControllerTest::cla
 Route::post('/product/store/oneupdate/{product}',[ProductControllerTest::class,'updatePhaseOne'])->middleware('api');
 
 Route::get('/product/getinfo/{product}',[ProductControllerTest::class,'getInfo'])->middleware('api');
-
+Route::get('/product/getgenders',[ProductControllerTest::class,'getGenders'])->middleware('api');
 Route::get('/product/getslug/{product}',[ProductControllerTest::class,'getSlug'])->middleware('api');
 
 //Delete Image

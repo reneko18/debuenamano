@@ -125,69 +125,25 @@
                 </div>
                 <div class="cont-genre">
                     <label for="productGenre" class="form-label">Género</label>
-                    <select
+                    <select-dbm-static
                         id="productGenre"
-                        class="form-select"
-                        v-model="formData.stepOneGenre"
-                    >
-                        <option selected>Seleccione un género</option>
-                        <option value="Niño">Niño</option>
-                        <option value="Niña">Niña</option>
-                        <option value="Unisex">Unisex</option>
-                    </select>
+                        :items="genders"   
+                        :selected="formData.stepOneGenre"
+                        @update:selected="updateSelectedGender"
+                        placeholder="Seleccione un género"
+                    />
                 </div>
             </div>
             <div class="col-6">
-                <span class="tit-age-range">Rango de edad de tu articulo*</span>
-                <div class="row row-age-range">  
-                    <div class="col-md-2" v-if="formData.stepOneShowFirstInput">
-                        <input                            
-                            type="text"
-                            class="form-control"                           
-                            placeholder="00"
-                            id="age-pro"
-                            v-model="formData.stepOneAgeIni"
-                            @input="handleNumericInput('stepOneAgeIni')"
-                        />
-                    </div>
-                    <div class="col-md-4">   
-                        <select
-                            id="neonat-pro"
-                            class="form-select"                            
-                            v-model="formData.stepOneAgeDateIni"
-                        >
-                            <option value="Recién nacido">Recién nacido</option>
-                            <option value="Semanas">Semanas</option>
-                            <option value="Meses">Meses</option>
-                            <option value="Años">Años</option>
-                        </select>
-                    </div>
-                    <div
-                        class="col-md-1 col-a flex-column justify-content-center"   
-                    >
-                        <span>a</span>
-                    </div>
-                    <div class="col-md-2">  
-                        <input
-                            type="text"
-                            class="form-control"                           
-                            placeholder="00"
-                            id="month-pro"
-                            v-model="formData.stepOneAgeFin"
-                            @input="handleNumericInput('stepOneAgeFin')"
-                        />
-                    </div>
-                    <div class="col-md-3">              
-                        <select
-                            id="monthsel-pro"
-                            class="form-select"                           
-                            v-model="formData.stepOneAgeDateFin"
-                        >
-                            <option value="Semanas">Semanas</option>
-                            <option value="Meses">Meses</option>
-                            <option value="Años">Años</option>
-                        </select>
-                    </div>
+                <div class="row row-age-range">   
+                    <label for="range-age" class="form-label">Rango de edad de tu articulo*</label>
+                    <select-dbm-static
+                        id="range-age"
+                        :items="rangeAge"   
+                        :selected="formData.stepOneRangeAge"
+                        @update:selected-static="updateSelectedRangeAge"
+                        placeholder="Seleccione un rango"
+                    />                    
                 </div>
                 <div>
                     <label for="desc-pro" class="form-label"
@@ -243,76 +199,52 @@
                 <div class="row-child-dim">
                     <div class="col-dim">
                         <label for="height-pro" class="form-label">Alto*</label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            placeholder="0,0"
-                            id="height-pro"
-                            v-model="formData.stepThreeHeight"
-                            @input="handleNumericInput('stepThreeHeight')"
-                        />
-                    </div>
-                    <div class="col-dim">
-                        <label for="unh-pro" class="form-label"></label>
-                        <select
-                            id="unh-pro"
-                            class="form-select"
-                            v-model="formData.stepThreeHeightUnit"
-                        >
-                            <option selected>Seleccione</option>
-                            <option value="cm">cm</option>
-                            <option value="in">in</option>
-                        </select>
+                        <div class="input-group">
+                            <input 
+                                type="text"
+                                class="form-control input-data-unit"
+                                :class="errorMessageSize ? 'is-invalid-dbm' : ''"
+                                placeholder="0,0"
+                                id="height-pro"
+                                v-model="formData.stepThreeHeight"  
+                                @input="handleNumericInput('stepThreeHeight')"  
+                            >
+                            <span class="input-group-text">cm</span>
+                        </div>
                     </div>
                 </div>
                 <div class="row-child-dim">
                     <div class="col-dim">
                         <label for="width-pro" class="form-label">Ancho*</label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            placeholder="0,0"
-                            id="width-pro"
-                            v-model="formData.stepThreeWidth"
-                            @input="handleNumericInput('stepThreeWidth')"
-                        />
-                    </div>
-                    <div class="col-dim">
-                        <label for="unw-pro" class="form-label"></label>
-                        <select
-                            id="unw-pro"
-                            class="form-select"
-                            v-model="formData.stepThreeWidthUnit"
-                        >
-                            <option selected>Seleccione</option>
-                            <option value="cm">cm</option>
-                            <option value="in">in</option>
-                        </select>
+                        <div class="input-group">
+                            <input 
+                                type="text"
+                                class="form-control input-data-unit"
+                                :class="errorMessageSize ? 'is-invalid-dbm' : ''"
+                                placeholder="0,0"
+                                id="width-pro"
+                                v-model="formData.stepThreeWidth"
+                                @input="handleNumericInput('stepThreeWidth')" 
+                            >
+                            <span class="input-group-text">cm</span>
+                        </div>
                     </div>
                 </div>
                 <div class="row-child-dim">
                     <div class="col-dim">
                         <label for="long-pro" class="form-label">Largo*</label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            placeholder="0,0"
-                            id="long-pro"
-                            v-model="formData.stepThreeLength"
-                            @input="handleNumericInput('stepThreeLength')"
-                        />
-                    </div>
-                    <div class="col-dim">
-                        <label for="unl-pro" class="form-label"></label>
-                        <select
-                            id="unl-pro"
-                            class="form-select"
-                            v-model="formData.stepThreeLengthUnit"
-                        >
-                            <option selected>Seleccione</option>
-                            <option value="cm">cm</option>
-                            <option value="in">in</option>
-                        </select>
+                        <div class="input-group">
+                            <input 
+                                type="text"
+                                class="form-control input-data-unit"
+                                :class="errorMessageSize ? 'is-invalid-dbm' : ''"
+                                placeholder="0,0"
+                                id="long-pro"
+                                v-model="formData.stepThreeLength"
+                                @input="handleNumericInput('stepThreeLength')"
+                            >
+                            <span class="input-group-text">cm</span>
+                        </div>
                     </div>
                 </div>
                 <div class="row-child-dim">
@@ -329,15 +261,13 @@
                     </div>
                     <div class="col-dim position-relative">
                         <label for="unwe-pro" class="form-label"></label>
-                        <select
+                        <select-dbm-static
                             id="unwe-pro"
-                            class="form-select"
-                            v-model="formData.stepThreeWeightUnit"
-                        >
-                            <option selected>Seleccione</option>
-                            <option value="g">g</option>
-                            <option value="Kg">Kg</option>
-                        </select>
+                            :items="weightData"   
+                            :selected="formData.stepThreeWeightUnit"
+                            @update:selected-static="updateSelectedWeight"
+                            placeholder="Seleccione"
+                        />
                     </div>
                 </div>
             </div>
@@ -348,73 +278,52 @@
                 <div class="row-child-dim">
                     <div class="col-dim">
                         <label for="height-pro" class="form-label">Alto*</label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            placeholder="0,0"
-                            id="height-pro"
-                            v-model="formData.stepThreeHeightReal"  
-                            @input="handleNumericInput('stepThreeHeightReal')"                          
-                        />
-                    </div>
-                    <div class="col-dim">
-                        <label for="unh-pro" class="form-label"></label>
-                        <select
-                            id="unh-pro"
-                            class="form-select"                      
-                            v-model="formData.stepThreeHeightRealUnit"
-                        >
-                            <option value="cm">cm</option>
-                            <option value="in">in</option>
-                        </select>
+                        <div class="input-group">
+                            <input 
+                                type="text"
+                                class="form-control input-data-unit"
+                                :class="errorMessageSize ? 'is-invalid-dbm' : ''"
+                                placeholder="0,0"
+                                id="height-pro"
+                                v-model="formData.stepThreeHeightReal"  
+                                @input="handleNumericInput('stepThreeHeightReal')" 
+                            >
+                            <span class="input-group-text">cm</span>
+                        </div>
                     </div>
                 </div>
                 <div class="row-child-dim">
                     <div class="col-dim">
                         <label for="width-pro" class="form-label">Ancho*</label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            placeholder="0,0"
-                            id="width-pro"
-                            v-model="formData.stepThreeWidthReal"
-                            @input="handleNumericInput('stepThreeWidthReal')"
-                        />
-                    </div>
-                    <div class="col-dim">
-                        <label for="unw-pro" class="form-label"></label>
-                        <select
-                            id="unw-pro"
-                            class="form-select"                  
-                            v-model="formData.stepThreeWidthRealUnit"
-                        >
-                            <option value="cm">cm</option>
-                            <option value="in">in</option>
-                        </select>
+                        <div class="input-group">
+                            <input 
+                                type="text"
+                                class="form-control input-data-unit"
+                                :class="errorMessageSize ? 'is-invalid-dbm' : ''"
+                                placeholder="0,0"
+                                id="width-pro"
+                                v-model="formData.stepThreeWidthReal"
+                                @input="handleNumericInput('stepThreeWidthReal')"
+                            >
+                            <span class="input-group-text">cm</span>
+                        </div>
                     </div>
                 </div>
                 <div class="row-child-dim">
                     <div class="col-dim">
                         <label for="long-pro" class="form-label">Largo*</label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            placeholder="0,0"
-                            id="long-pro"
-                            v-model="formData.stepThreeLengthReal"
-                            @input="handleNumericInput('stepThreeLengthReal')"
-                        />
-                    </div>
-                    <div class="col-dim">
-                        <label for="unl-pro" class="form-label"></label>
-                        <select
-                            id="unl-pro"
-                            class="form-select"                   
-                            v-model="formData.stepThreeLengthRealUnit"
-                        >
-                            <option value="cm">cm</option>
-                            <option value="in">in</option>
-                        </select>
+                        <div class="input-group">
+                            <input 
+                                type="text"
+                                class="form-control input-data-unit"
+                                :class="errorMessageSize ? 'is-invalid-dbm' : ''"
+                                placeholder="0,0"
+                                id="long-pro"
+                                v-model="formData.stepThreeLengthReal"
+                                @input="handleNumericInput('stepThreeLengthReal')"
+                            >
+                            <span class="input-group-text">cm</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -649,52 +558,40 @@
                         <label for="region" class="form-label"
                             >Tu región *</label
                         >
-                        <select
+                        <select-dbm-static
                             id="region"
-                            class="form-select"
-                            v-model="selected.region"
-                        >
-                            <option disabled selected value="">
-                                Selecciona una región
-                            </option>
-                            <option :value="r.regionId" v-for="r in regions">
-                                {{ r.regionName }}
-                            </option>
-                        </select>
+                            class="select-chilexpress"
+                            :items="regions"   
+                            :selected="selected.region"
+                            @update:selected-static="updateSelectedRegion"
+                            placeholder="Selecciona una región"
+                        />
                         <label for="city" class="form-label">Tu comuna *</label>
-                        <select
+                        <select-dbm-static
                             id="city"
-                            class="form-select"
-                            v-model="selected.city"
-                        >
-                            <option disabled selected value="">
-                                Selecciona tu comuna
-                            </option>
-                            <option
-                                :value="com"
-                                v-for="com in cities"
-                            >
-                                {{ com.countyName }}
-                            </option>
-                        </select>
-                        <label for="offices" class="form-label"
-                            >Sucursal de Chilexpress *</label
-                        >
-                        <select
-                            id="offices"
-                            class="form-select"
-                            v-model="formData.stepSevenChilexpressOffice"
-                        >
-                            <option disabled selected value="">
-                                Selecciona una sucursal
-                            </option>
-                            <option
-                                :value="offi.officeName"
-                                v-for="offi in offices"
-                            >
-                                {{ offi.officeName }}
-                            </option>
-                        </select>
+                            class="select-chilexpress"
+                            :items="cities"   
+                            :selected="selected.city"
+                            @update:selected-static="updateSelectedCity"
+                            placeholder="Selecciona tu comuna"
+                        />
+                        <template v-if="officesError.statusCode === 0">
+                            <label for="offices" class="form-label">Sucursal de Chilexpress *</label>
+                            <select-dbm-static
+                                id="offices"
+                                class="select-chilexpress"
+                                :items="offices"   
+                                :selected="formData.stepSevenChilexpressOffice"
+                                @update:selected-static="updateSelectedOffice"
+                                placeholder="Selecciona una sucursal"
+                            />
+                            <div v-if="errorMessageOficina" class="invalid-dbm">
+                                {{ errorMessageOficina }}
+                            </div>
+                        </template>
+                        <template v-else>
+                            <p>{{ officesError.statusDescription }}</p>
+                        </template>
                     </div>
                     <div
                         v-else-if="
@@ -739,41 +636,27 @@
                             <label for="regionHouse" class="form-label"
                                 >Tu región *</label
                             >
-                            <select
+                            <select-dbm-static
                                 id="regionHouse"
-                                class="form-select"
-                                v-model="selected.region"
-                            >
-                                <option disabled selected value="">
-                                    Selecciona una región
-                                </option>
-                                <option
-                                    :value="r.regionId"
-                                    v-for="r in regions"
-                                >
-                                    {{ r.regionName }}
-                                </option>
-                            </select>
+                                class="select-chilexpress"
+                                :items="regions"   
+                                :selected="selected.region"
+                                @update:selected-static="updateSelectedRegion"
+                                placeholder="Selecciona una región"
+                            />
                         </div>
                         <div>
                             <label for="cityHouse" class="form-label"
                                 >Tu comuna *</label
                             >
-                            <select
+                            <select-dbm-static
                                 id="cityHouse"
-                                class="form-select"
-                                v-model="selected.city"
-                            >
-                                <option disabled selected value="">
-                                    Selecciona tu comuna
-                                </option>
-                                <option
-                                    :value="com"
-                                    v-for="com in cities"
-                                >
-                                    {{ com.countyName }}
-                                </option>
-                            </select>
+                                class="select-chilexpress"
+                                :items="cities"   
+                                :selected="selected.city"
+                                @update:selected-static="updateSelectedCity"
+                                placeholder="Selecciona tu comuna"
+                            />
                         </div>
                     </div>
                 </div>
@@ -937,11 +820,14 @@
     </Dialog>
 </template>
 <script setup>
+    import { ref, watch , watchEffect, onMounted } from "vue";
+    import { debounce } from 'lodash';
     import Dialog from 'primevue/dialog';
     import Button from "primevue/button";
+    import SelectDbmStatic from "../../Dbm/SelectDbmStatic.vue";
     import { useFormStore } from "../../../stores/valuesTwo";
     import { useDropzone } from "vue3-dropzone";
-    import { ref, watch , onMounted } from "vue";
+    
 
     const props = defineProps({
         userId: { 
@@ -972,6 +858,52 @@
     const characterCountObs = ref(0);
     const characterCountReco = ref(0);
     const productInfo = ref('');
+    const genders = ref([]);
+
+    const rangeAge = ref([
+        {id: 1, value: 1, name:"Recién nacido"},
+        {id: 2, value: 2, name:"3 a 12 Meses"},
+        {id: 3, value: 3, name:"12 a 24 Meses"},
+        {id: 4, value: 4, name:"2 a 6 Años"},
+    ]);
+
+    const weightData = ref([
+        {id: 1, value: "g", name:"g"},
+        {id: 2, value: "Kg", name:"Kg"},
+    ]);
+
+    // Handle gender update
+    const updateSelectedGender = (newGender) => {
+        formData.stepOneGenre = newGender;
+    };
+
+    // Handle Range Age update
+    const updateSelectedRangeAge = (newRangeAge) => {
+        formData.stepOneRangeAge = newRangeAge;
+    };
+
+    // Handle Weight update
+    const updateSelectedWeight = (newWeight) => {
+        formData.stepThreeWeightUnit = newWeight;
+    };
+
+    // Handle region update
+    const updateSelectedRegion = (newRegion) => {
+        selected.value.region = newRegion;
+    };
+
+    // Handle city update
+    const updateSelectedCity = (newCity) => {
+        selected.value.city = newCity;
+    };
+
+    // Handle offices update
+    const updateSelectedOffice = (newOffice) => {
+        formData.stepSevenChilexpressOffice = newOffice;
+    };
+
+
+
 
     //Despacho
     const selected = ref({
@@ -984,8 +916,12 @@
         city: "",
     });
 
-    const cities = ref([]);
+    const cities = ref([]);    
     const offices = ref([]);
+    const officesError = ref({
+        statusCode: 0, 
+        statusDescription: 'No hay oficinas de Chilexpress en la comuna seleccionada, por favor, intenta con otra comuna',
+    });
     // Define and initialize regions as an empty array
     const regions = ref([]);
     const loading = ref(false); // Define loading as a ref and initialize it
@@ -1004,10 +940,43 @@
             }
     };
 
+    const fetchGenders = async () => {
+        try{
+            const response = await axios.get("/api/product/getgenders");
+            // genders.value = response.data;
+            genders.value = response.data.map(gender => ({
+                id: gender.id,
+                name: gender.name,
+                value: gender.id,
+            }));
+        } catch (error){
+            console.error("Error fetching agefilters:", error);
+        }
+    }
+
     const updateCharacterCount = () => {
         const text = formData.stepOneDescriptionProduct;
         const newCharacterCount = text.length;
         characterCount.value = newCharacterCount;
+    };
+
+    //Precio
+    const feeDBM = () => {
+        // Remove dots to get the raw number for calculations
+        const rawPrice = formData.stepEightPrice.replace(/[.]/g, "");
+        // Check if rawPrice is a valid number
+        if (!isNaN(rawPrice)) {
+            const fee = Math.round(rawPrice * 0.22);
+            const finalAmount = rawPrice - fee;
+
+            // Convert numeric values to strings and format with point as separator and no decimal places
+            formData.stepEightPriceFee = fee.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            formData.stepEightPriceFinalAmount = finalAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        } else {
+            // Set a default message when the input is not a valid number
+            formData.stepEightPriceFee = 'Ingrese un precio valido';
+            formData.stepEightPriceFinalAmount = 'Ingrese un precio valido';
+        }
     };
 
     const fetchProductInfo = async () => {
@@ -1025,11 +994,8 @@
                         formData.stepOneCategoryProduct = productInfo.value.category; 
                     }
 
-                    formData.stepOneGenre = productInfo.value.genre;
-                    formData.stepOneAgeIni = productInfo.value.age_ini;
-                    formData.stepOneAgeDateIni = productInfo.value.age_date_ini;
-                    formData.stepOneAgeFin = productInfo.value.age_fin;
-                    formData.stepOneAgeDateFin = productInfo.value.age_date_fin;
+                    formData.stepOneGenre = productInfo.value.gender_id;
+                    formData.stepOneRangeAge = productInfo.value.age_filter_id;
                     formData.stepOneDescriptionProduct = productInfo.value.description;
                     formData.stepTwoBrandProduct = productInfo.value.brand;
                     formData.stepTwoModelProduct = productInfo.value.model;                    
@@ -1039,6 +1005,7 @@
                     formData.stepFiveDetails = productInfo.value.remark;
                     formData.stepFiveAdvice = productInfo.value.advice;
                     formData.stepEightPrice = productInfo.value.price;
+                    feeDBM();
                     formData.stepThreeLengthReal = productInfo.value.length_real;                       
                     formData.stepThreeLengthRealUnit = productInfo.value.length_real_unit;   
                     formData.stepThreeWidthReal = productInfo.value.width_real;                      
@@ -1063,11 +1030,15 @@
                         //     countyCode: productInfo.value.delivery_information.city_code
                         // };
                         selected.value.region = productInfo.value.delivery_information.region_code;
-                        selected.value.city = {
-                            countyName: productInfo.value.delivery_information.city_name,
-                            countyCode: productInfo.value.delivery_information.city_code,
-                            regionCode: productInfo.value.delivery_information.region_code,
-                        }
+                        selected.value.city = productInfo.value.delivery_information.city_code;
+                        // {
+                            // countyName: productInfo.value.delivery_information.city_name,
+                            // countyCode: productInfo.value.delivery_information.city_code,
+                            // regionCode: productInfo.value.delivery_information.region_code,
+                            // id: productInfo.value.delivery_information.city_code,
+                            // name: productInfo.value.delivery_information.city_name,
+                            // value: productInfo.value.delivery_information.city_code,
+                        // }
                         formData.stepSevenChilexpressOffice = productInfo.value.delivery_information.chile_office;
                         formData.stepSevenStreet = productInfo.value.delivery_information.address;
                         formData.stepSevenStreetNumber = productInfo.value.delivery_information.address_number;
@@ -1083,6 +1054,11 @@
             console.error("Error fetching categories:", error);
         }
     };
+
+    // Use watchEffect to reactively call feeDBM whenever stepEightPrice changes
+    watchEffect(() => {
+        feeDBM();
+    });
 
     const submitForm = async () => {
         try {
@@ -1144,7 +1120,17 @@
             const csrfToken = document.head.querySelector(
                 'meta[name="csrf-token"]'
             ).content;
-            const slug = props.productSlug ? props.productSlug : formData.stepZeroSlug;
+            const slug = props.productSlug ? props.productSlug : formData.stepZeroSlug;            
+            const transformCity = (city) => {
+                if (!city) return null;
+
+                return {
+                    countyCode: city.value,  
+                    countyName: city.name    
+                };
+            };
+            const transformedCity = transformCity(finalCity.value);
+            formData.stepSevenCity = transformedCity;
             const response = await axios.post(
                 `/api/product/store/four/${slug}`,
                 formData,
@@ -1345,7 +1331,11 @@
                     api_key: apiKey,
                 },
             });
-            regions.value = response.data.regions;
+            regions.value = response.data.regions.map(region => ({
+                id: region.regionId,
+                name: region.regionName,
+                value: region.regionId
+            }));
         } catch (error) {
             console.error("Error fetching regions:", error);
         } finally {
@@ -1365,17 +1355,39 @@
                     type: 1,
                 },
             });
-            cities.value = response.data.coverageAreas;
+            cities.value = response.data.coverageAreas.map(city => ({
+                id: city.countyCode,
+                name: city.countyName,
+                value: city.countyCode,
+            }));
+            console.log(cities.value);
         } catch (error) {
             console.error("Error fetching cities:", error);
         } finally {
             loading.value = false;
         }
     };
-    const getCoberturaOptions = async function () {
+
+    const newCityCode = ref("");
+    watch(() => formData.stepSevenCity, (newCity) => {
+        console.log('Form City Updated:', newCity);
+        newCityCode.value = newCity;
+    }); 
+
+
+    const getCoberturaOptions = debounce(async function () {
         const apiUrl = "https://testservices.wschilexpress.com/georeference/api/v1.0/offices?Type=0";   
-        const regionCode = selected.value.region;            
-        const cityName = selected.value.city;
+        const regionCode = selected.value.region; 
+        const cityName = finalCity.value?.name || productInfo.value.delivery_information.city_name;  
+        // let cityName;
+        // if(finalCity.value){
+        //     cityName = finalCity.value?.name;
+        //     console.log("New City",cityName);
+        // } else {
+        //     cityName = productInfo.value.delivery_information.city_name;
+        //     console.log("aaaaaaaaaaa",cityName);
+        // }        
+        
 
         try {
             const response = await axios.get(apiUrl, {
@@ -1385,14 +1397,37 @@
                 },
                 params: {
                     RegionCode: regionCode,
-                    CountyName: cityName.countyName,
+                    CountyName: cityName,
                 },
             });
-            offices.value = response.data.offices;
+            offices.value = response.data.offices.map(office => ({
+                id: office.officeCode,
+                name: office.officeName,
+                value: office.officeName,
+            }));
+            officesError.value.statusCode = response.data.statusCode;
         } catch (error) {
             console.error("Error:", error);
         }
-    };
+    }, 300);
+
+    const finalCity = ref({});
+    watchEffect(() => {
+        if (Array.isArray(cities.value)) {
+            const city = cities.value.find(item => item.id === newCityCode.value);
+            finalCity.value = city || null;
+            console.log("Final City Name:",finalCity.value?.name);         
+        } else {
+            console.error('cities is not an array:', cities.value);
+        }
+    });
+
+    watchEffect(() => {
+        if (finalCity.value) {
+            getCoberturaOptions();
+        }
+    });
+
 
     const formatAndValidateRUT = () => {
     let rut = formData.stepNineRut.replace(/[^\dKk]/g, "").toUpperCase();
@@ -1436,15 +1471,6 @@
         });
     };
 
-    // Watch for changes in formData.stepOneAgeDateIni
-    watch(() => formData.stepOneAgeDateIni, (newValue, oldValue) => {
-        if (newValue === "Recién nacido") {
-            formData.stepOneShowFirstInput = false; // Hide the second select
-        } else {
-            formData.stepOneShowFirstInput = true; // Show the second select
-        }
-    });
-
     // Watch for changes in textareaHeight and update it accordingly
     watch(() => [dropdown.value, activeTrigger.value], () => {
         updateTextareaHeight();
@@ -1453,7 +1479,8 @@
 
 
     onMounted(() => {
-        fetchData();   
+        fetchData(); 
+        fetchGenders();  
         fetchProductInfo();
         updateTextareaHeight();
         getRegionsChilexpress();
@@ -1489,10 +1516,6 @@
             }
         );
 
-        // Set the initial selected region and city values from formData
-        // selected.value.region = formData.stepSevenRegion;
-        // selected.value.city = formData.stepSevenCity;
-        // Set the initial selected region and city values from formData
         if (!props.productId) {
             selected.value.region = formData.stepSevenRegion;
             selected.value.city = formData.stepSevenCity;

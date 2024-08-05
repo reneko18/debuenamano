@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\BankDetail;
 use App\Models\DeliveryInformation;
+use App\Models\Gender;
 use App\Models\Product;
 use App\Models\ProductGallery;
 use Illuminate\Support\Facades\File;
@@ -46,11 +47,8 @@ class ProductControllerTest extends Controller
         //Presentacion
         $product->name = $request->input('stepOneNameProduct');
         $product->category_id = $request->input('stepOneCategoryProduct.id');
-        $product->genre = $request->input('stepOneGenre');
-        $product->age_ini = $request->input('stepOneAgeIni');
-        $product->age_date_ini = $request->input('stepOneAgeDateIni');
-        $product->age_fin = $request->input('stepOneAgeFin');
-        $product->age_date_fin = $request->input('stepOneAgeDateFin');
+        $product->gender_id = $request->input('stepOneGenre.id');
+        $product->age_filter_id = $request->input('stepOneRangeAge');
         $product->description = $request->input('stepOneDescriptionProduct');
         //Marca
         $product->brand = $request->input('stepTwoBrandProduct');
@@ -172,7 +170,7 @@ class ProductControllerTest extends Controller
         $product->advice = $request->input('stepFiveAdvice');
         // Precio
         $priceString = $request->input('stepEightPrice');
-        $priceFormatted = (float) str_replace('.', '', $priceString);
+        $priceFormatted = (float)str_replace('.', '', $priceString);
         $product->price = $priceFormatted;
 
         // Save the updated product
@@ -424,5 +422,12 @@ class ProductControllerTest extends Controller
         $productGallery->delete();
     
         return response()->json(['message' => 'Image deleted successfully'], 200);
+    }
+
+    public function getGenders()
+    {
+        $genders = Gender::get();
+
+        return response()->json($genders);
     }
 }

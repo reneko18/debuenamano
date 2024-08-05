@@ -58,68 +58,47 @@
                     </p>
 
                     <label for="region" class="form-label">Tu región *</label>
-                    <select
+                    <select-dbm-static
                         id="region"
-                        class="form-select"
-                        :class="errorMessageRegion ? 'is-invalid-dbm' : ''"
-                        v-model="selected.region"
-                    >
-                        <option disabled selected value="">
-                            Selecciona una región
-                        </option>
-                        <option :value="r.regionId" v-for="r in regions">
-                            {{ r.regionName }}
-                        </option>
-                    </select>
+                        class="select-chilexpress"
+                        :items="regions"   
+                        :selected="selected.region"
+                        @update:selected-static="updateSelectedRegion"
+                        placeholder="Selecciona una región"
+                    />
                     <div v-if="errorMessageRegion" class="invalid-dbm">
                         {{ errorMessageRegion }}
                     </div>
 
                     <label for="city" class="form-label">Tu comuna *</label>
-                    <select
+                    <select-dbm-static
                         id="city"
-                        class="form-select"
-                        :class="errorMessageCity ? 'is-invalid-dbm' : ''"
-                        v-model="selected.city"
-                    >
-                        <option disabled selected value="">
-                            Selecciona tu comuna
-                        </option>
-                        <option 
-                            :value="com" 
-                            v-for="com in cities"
-                            :key="com.countyCode"
-                        >
-                            {{ com.countyName }}
-                        </option>
-                    </select>
+                        class="select-chilexpress"
+                        :items="cities"   
+                        :selected="selected.city"
+                        @update:selected-static="updateSelectedCity"
+                        placeholder="Selecciona tu comuna"
+                    />
                     <div v-if="errorMessageCity" class="invalid-dbm">
                         {{ errorMessageCity }}
-                    </div>
-
-                    <label for="offices" class="form-label"
-                        >Sucursal de Chilexpress *</label
-                    >
-                    <select
-                        id="offices"
-                        class="form-select"
-                        :class="errorMessageOficina ? 'is-invalid-dbm' : ''"
-                        v-model="formData.stepSevenChilexpressOffice"
-                    >
-                        <option disabled selected value="">
-                            Selecciona una sucursal
-                        </option>
-                        <option
-                            :value="offi.officeName"
-                            v-for="offi in offices"
-                        >
-                            {{ offi.officeName }}
-                        </option>
-                    </select>
-                    <div v-if="errorMessageOficina" class="invalid-dbm">
-                        {{ errorMessageOficina }}
-                    </div>
-
+                    </div>        
+                    <template v-if="officesError.statusCode === 0">
+                        <label for="offices" class="form-label">Sucursal de Chilexpress *</label>
+                        <select-dbm-static
+                            id="offices"
+                            class="select-chilexpress"
+                            :items="offices"   
+                            :selected="formData.stepSevenChilexpressOffice"
+                            @update:selected-static="updateSelectedOffice"
+                            placeholder="Selecciona una sucursal"
+                        />
+                        <div v-if="errorMessageOficina" class="invalid-dbm">
+                            {{ errorMessageOficina }}
+                        </div>
+                    </template>
+                    <template v-else>
+                        <p>{{ officesError.statusDescription }}</p>
+                    </template>
                 </div>
                 <div
                     v-else-if="
@@ -171,19 +150,14 @@
                         <label for="regionHouse" class="form-label"
                             >Tu región *</label
                         >
-                        <select
+                        <select-dbm-static
                             id="regionHouse"
-                            class="form-select"
-                            :class="errorMessageRegionHouse ? 'is-invalid-dbm' : ''"
-                            v-model="selected.region"
-                        >
-                            <option disabled selected value="">
-                                Selecciona una región
-                            </option>
-                            <option :value="r.regionId" v-for="r in regions">
-                                {{ r.regionName }}
-                            </option>
-                        </select>
+                            class="select-chilexpress"
+                            :items="regions"   
+                            :selected="selected.region"
+                            @update:selected-static="updateSelectedRegion"
+                            placeholder="Selecciona una región"
+                        />
                         <div v-if="errorMessageRegionHouse" class="invalid-dbm">
                             {{ errorMessageRegionHouse }}
                         </div>
@@ -193,22 +167,14 @@
                         <label for="cityHouse" class="form-label"
                             >Tu comuna *</label
                         >
-                        <select
+                        <select-dbm-static
                             id="cityHouse"
-                            class="form-select"
-                            :class="errorMessageCityHouse ? 'is-invalid-dbm' : ''"
-                            v-model="selected.city"
-                        >
-                            <option disabled selected value="">
-                                Selecciona tu comuna
-                            </option>
-                            <option
-                                :value="com"
-                                v-for="com in cities"
-                            >
-                                {{ com.countyName }}
-                            </option>
-                        </select>
+                            class="select-chilexpress"
+                            :items="cities"   
+                            :selected="selected.city"
+                            @update:selected-static="updateSelectedCity"
+                            placeholder="Selecciona tu comuna"
+                        />
                         <div v-if="errorMessageCityHouse" class="invalid-dbm">
                             {{ errorMessageCityHouse }}
                         </div>
@@ -226,6 +192,7 @@
 <script setup>
 import { onMounted, watch, ref } from "vue";
 import { useFormStore } from "../../../stores/valuesTwo";
+import SelectDbmStatic from "../../Dbm/SelectDbmStatic.vue";
 
 const emit = defineEmits(["next-step", "constant-emitted"]);
 
@@ -241,6 +208,10 @@ const lastSelected = ref({
 
 const cities = ref([]);
 const offices = ref([]);
+const officesError = ref({
+     statusCode: 0, 
+     statusDescription: 'No hay oficinas de Chilexpress en la comuna seleccionada, por favor, intenta con otra comuna',
+});
 const mainStep = 4;
 
 const errorMessageRegion = ref('');
@@ -308,8 +279,12 @@ const getRegionsChilexpress = async function () {
             params: {
                 api_key: apiKey,
             },
-        });
-        regions.value = response.data.regions;
+        });    
+        regions.value = response.data.regions.map(region => ({
+            id: region.regionId,
+            name: region.regionName,
+            value: region.regionId
+        }));
     } catch (error) {
         console.error("Error fetching regions:", error);
     } finally {
@@ -329,8 +304,12 @@ const getComunasChilexpress = async function () {
                 RegionCode: selected.value.region,
                 type: 1,
             },
-        });
-        cities.value = response.data.coverageAreas;
+        });     
+        cities.value = response.data.coverageAreas.map(city => ({
+            id: city.countyCode,
+            name: city.countyName,
+            value: city,
+        }));
     } catch (error) {
         console.error("Error fetching cities:", error);
     } finally {
@@ -354,10 +333,30 @@ const getCoberturaOptions = async function () {
                 CountyName: cityName.countyName,
             },
         });
-        offices.value = response.data.offices;
+        offices.value = response.data.offices.map(office => ({
+            id: office.officeCode,
+            name: office.officeName,
+            value: office.officeName,
+        }));
+        officesError.value.statusCode = response.data.statusCode;
     } catch (error) {
         console.error("Error:", error);
     }
+};
+
+// Handle region update
+const updateSelectedRegion = (newRegion) => {
+    selected.value.region = newRegion;
+};
+
+// Handle city update
+const updateSelectedCity = (newCity) => {
+    selected.value.city = newCity;
+};
+
+// Handle offices update
+const updateSelectedOffice = (newOffice) => {
+    formData.stepSevenChilexpressOffice = newOffice;
 };
 
 onMounted(() => {
