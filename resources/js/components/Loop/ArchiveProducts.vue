@@ -495,8 +495,8 @@ const fetchGenders = async () => {
 
 const fetchAgeFilters = async () => {
   try{
-    const response = await axios.get("/api/tienda/agefilter/all");
-    ageFilters.value = response.data;
+    const response = await axios.get("/api/tienda/agefilter/all");    
+    ageFilters.value = response.data; 
   } catch (error){
       console.error("Error fetching agefilters:", error);
   }

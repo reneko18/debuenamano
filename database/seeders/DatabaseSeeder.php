@@ -48,9 +48,7 @@ class DatabaseSeeder extends Seeder
         ])->assignRole('customer');
         $this->call(CategoriesTableSeeder::class);       
         $this->call(GenderTableSeeder::class);       
-        $this->call(AgeFiltersTableSeeder::class);       
-        // $this->call(ProductContactTableSeeder::class);       
-        // $this->call(StatusProductsTableSeeder::class);
+        $this->call(AgeFiltersTableSeeder::class);
         $products = Product::factory()->count(60)->withNameSequence()->create();
         foreach ($products as $product) {
             // Create delivery information for each product
@@ -97,8 +95,6 @@ class DatabaseSeeder extends Seeder
                 $productGallery->save(); // Save each product gallery
             }
         }
-        // Order::factory(20)->create();
-        // $this->call(ProductContactProductSeeder::class);
         $this->call(RegionsTableSeeder::class);
         $this->call(CitiesTableSeeder::class);
         Author::factory(10)->create();

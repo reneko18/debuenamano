@@ -113,5 +113,3 @@ watch(selectedItemStatic, (newVal) => {
 emit('update:selected-static', newVal);
 });
 </script>
-
-

@@ -56,12 +56,12 @@ protected $fillable = [
 
    public function gender()
    {       
-       return $this->belongsTo(Gender::class);
+       return $this->belongsTo(Gender::class, 'gender_id', 'id');
    }
 
    public function agefilter()
    {
-       return $this->belongsTo(AgeFilter::class);
+       return $this->belongsTo(AgeFilter::class,'age_filter_id', 'id');
    }
 
    public function address()

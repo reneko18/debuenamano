@@ -18,8 +18,7 @@
                         id="productName"
                         placeholder="Nombre del artículo"
                         v-model="formData.stepOneNameProduct"
-                    />
-                    <!--<p v-if="msg.name">{{ msg.name }}</p>-->
+                    />      
                 </div>
                 <div
                     class="position-relative"
@@ -333,20 +332,16 @@
             <div class="col-6">
                 <div>
                     <label for="statusItem" class="form-label">Estado</label>
-                    <select
-                        id="statusItem"
-                        class="form-select"
-                        v-model="formData.stepFourState"
-                    >
-                        <option selected>Seleccione un estado</option>
-                        <option value="Usado en buen estado">
-                            Usado en buen estado
-                        </option>
-                        <option value="Sin uso">Sin uso</option>
-                    </select>
+                    <select-dbm-static
+                            id="statusItem"
+                            :items="stateUse"                              
+                            :selected="formData.stepFourState"
+                            @update:selected-static="updateSelectedState"
+                            placeholder="Seleccione un estado"
+                    />
                 </div>
             </div>
-            <div class="col-6">
+            <div class="col-6" v-if="formData.stepFourState !== 'Sin uso'">
                 <div class="row">
                     <div class="col-md-3">
                         <label for="usageItem" class="form-label"
@@ -363,16 +358,12 @@
                     </div>
                     <div class="col-md-4">
                         <label for="usageItem-pro" class="form-label"></label>
-                        <select
+                        <select-dbm-static
                             id="usageItem-pro"
-                            class="form-select"
-                            v-model="formData.stepFourUsageUnit"
-                        >
-                            <option selected>Seleccione un estado</option>
-                            <option value="Dias">Dias</option>
-                            <option value="Meses">Meses</option>
-                            <option value="Años">Años</option>
-                        </select>
+                            :items="usageTimeUnit"                              
+                            :selected="formData.stepFourUsageUnit"
+                            @update:selected-static="updateSelectedUsageTimeUnit"
+                        />
                     </div>
                 </div>
             </div>
@@ -681,8 +672,8 @@
                     class="form-control"
                     id="priceItem"
                     placeholder="Precio"
-                    v-model="formData.stepEightPrice"
-                    @input="feeDBM"
+                    v-model="formattedPrice"
+                    @input="handleInput"
                 />
                 <div class="row row-income">
                 <div class="col">
@@ -715,53 +706,13 @@
                 </div>
                 <div>
                     <label for="infoPayBank" class="form-label">Banco</label>
-                    <select
+                    <select-dbm-static
                         id="infoPayBank"
-                        class="form-select"
-                        v-model="formData.stepNineBank"
-                    >
-                        <option selected>Elige el banco</option>
-                        <option value="Banco BICE">Banco BICE</option>
-                        <option value="Banco Consorcio">Banco Consorcio</option>
-                        <option value="Banco Corpbanca">Banco Corpbanca</option>
-                        <option value="Banco Crédito e Inversiones">
-                            Banco Crédito e Inversiones
-                        </option>
-                        <option value="Banco Estado">Banco Estado</option>
-                        <option value="Banco Falabella">Banco Falabella</option>
-                        <option value="Banco Internacional">
-                            Banco Internacional
-                        </option>
-                        <option value="Banco Paris">Banco Paris</option>
-                        <option value="Banco Ripley">Banco Ripley</option>
-                        <option value="Banco Santander">Banco Santander</option>
-                        <option value="Banco Security">Banco Security</option>
-                        <option value="Banco de Chile / Edwards-Citi">
-                            Banco de Chile / Edwards-Citi
-                        </option>
-                        <option value="Banco del Desarrollo">
-                            Banco del Desarrollo
-                        </option>
-                        <option value="Coopeuch">Coopeuch</option>
-                        <option value="HSBC Bank">HSBC Bank</option>
-                        <option value="Itau">Itau</option>
-                        <option value="Rabobank">Rabobank</option>
-                        <option value="Tenpo Prepago">Tenpo Prepago</option>
-                        <option value="Prepago Los Héroes">
-                            Prepago Los Héroes
-                        </option>
-                        <option value="Scotiabank">Scotiabank</option>
-                        <option value="Scotiabank Azul">Scotiabank Azul</option>
-                        <option value="Mercado Pago">Mercado Pago</option>
-                        <option value="TAPP Caja Los Andes">
-                            TAPP Caja Los Andes
-                        </option>
-                        <option value="Copec Pay">Copec Pay</option>
-                        <option value="La Polar Prepago">
-                            La Polar Prepago
-                        </option>
-                        <option value="Global66">Global66</option>
-                    </select>
+                        :items="bankList"                              
+                        :selected="formData.stepNineBank"
+                        @update:selected-static="updateSelectedBank"
+                        placeholder="Elige el banco"
+                    />
                 </div>
                 <div>
                     <label for="infoPayAccountNumber" class="form-label"
@@ -787,24 +738,18 @@
                         v-model="formData.stepNineRut"
                         @input="formatAndValidateRUT"
                     />
-                    <!-- <div v-if="isValidRUT" class="text-success">Valid RUT</div>
-                    <div v-else class="text-danger">Invalid RUT</div> -->
                 </div>
                 <div>
                     <label for="infoPayTypeAccount" class="form-label"
                         >Tipo de cuenta</label
                     >
-                    <select
+                    <select-dbm-static
                         id="infoPayTypeAccount"
-                        class="form-select"
-                        v-model="formData.stepNineBankType"
-                    >
-                        <option selected>Elige el tipo de cuenta</option>
-                        <option value="Cuenta Vista">Cuenta Vista</option>
-                        <option value="Cuenta Corriente">
-                            Cuenta Corriente
-                        </option>
-                    </select>
+                        :items="typeBankAccount"                              
+                        :selected="formData.stepNineBankType"
+                        @update:selected-static="updateSelectedTypeBankAccount"
+                        placeholder="Elige el tipo de cuenta"
+                    />
                 </div>
             </div>
         </div>
@@ -820,7 +765,7 @@
     </Dialog>
 </template>
 <script setup>
-    import { ref, watch , watchEffect, onMounted } from "vue";
+    import { ref, watch, computed , watchEffect, onMounted } from "vue";
     import { debounce } from 'lodash';
     import Dialog from 'primevue/dialog';
     import Button from "primevue/button";
@@ -867,9 +812,54 @@
         {id: 4, value: 4, name:"2 a 6 Años"},
     ]);
 
+    const stateUse = ref([
+        {id: 1, value: "Usado en buen estado", name:"Usado en buen estado"},
+        {id: 2, value: "Sin uso", name:"Sin uso"},
+    ]);
+
+    const usageTimeUnit = ref([
+        {id: 1, value: "Dias", name:"Dias"},
+        {id: 2, value: "Meses", name:"Meses"},
+        {id: 2, value: "Años", name:"Años"},
+    ]);
+
     const weightData = ref([
         {id: 1, value: "g", name:"g"},
         {id: 2, value: "Kg", name:"Kg"},
+    ]);
+
+    const bankList = ref([
+        {id: 1, value: "Banco BICE", name:"Banco BICE"},
+        {id: 2, value: "Banco Consorcio", name:"Banco Consorcio"},
+        {id: 3, value: "Banco Corpbanca", name:"Banco Corpbanca"},
+        {id: 4, value: "Banco Crédito e Inversiones", name:"Banco Crédito e Inversiones"},
+        {id: 5, value: "Banco Estado", name:"Banco Estado"},
+        {id: 6, value: "Banco Falabella", name:"Banco Falabella"},
+        {id: 7, value: "Banco Internacional", name:"Banco Internacional"},
+        {id: 8, value: "Banco Paris", name:"Banco Paris"},
+        {id: 9, value: "Banco Ripley", name:"Banco Ripley"},
+        {id: 10, value: "Banco Santander", name:"Banco Santander"},
+        {id: 11, value: "Banco Security", name:"Banco Security"},
+        {id: 12, value: "Banco de Chile / Edwards-Citi", name:"Banco de Chile / Edwards-Citi"},
+        {id: 13, value: "Banco del Desarrollo", name:"Banco del Desarrollo"},
+        {id: 14, value: "Coopeuch", name:"Coopeuch"},
+        {id: 15, value: "HSBC Bank", name:"HSBC Bank"},
+        {id: 16, value: "Itau", name:"Itau"},
+        {id: 17, value: "Rabobank", name:"Rabobank"},
+        {id: 18, value: "Tenpo Prepago", name:"Tenpo Prepago"},
+        {id: 19, value: "Prepago Los Héroes", name:"Prepago Los Héroes"},
+        {id: 20, value: "Scotiabank", name:"Scotiabank"},
+        {id: 21, value: "Scotiabank Azul", name:"Scotiabank Azul"},
+        {id: 22, value: "Mercado Pago", name:"Mercado Pago"},
+        {id: 23, value: "TAPP Caja Los Andes", name:"TAPP Caja Los Andes"},
+        {id: 24, value: "Copec Pay", name:"Copec Pay"},
+        {id: 25, value: "La Polar Prepago", name:"La Polar Prepago"},
+        {id: 26, value: "Global66", name:"Global66"}
+    ]);
+
+    const typeBankAccount = ref([
+        {id: 1, value: "Cuenta Vista", name:"Cuenta Vista"},
+        {id: 2, value: "Cuenta Corriente", name:"Cuenta Corriente"},
     ]);
 
     // Handle gender update
@@ -880,6 +870,16 @@
     // Handle Range Age update
     const updateSelectedRangeAge = (newRangeAge) => {
         formData.stepOneRangeAge = newRangeAge;
+    };
+
+    // Handle state update
+    const updateSelectedState = (newState) => {
+        formData.stepFourState = newState;
+    };
+
+    // Handle using time unit
+    const updateSelectedUsageTimeUnit = (newUsingTime) => {
+        formData.stepFourUsageUnit = newUsingTime;
     };
 
     // Handle Weight update
@@ -902,7 +902,15 @@
         formData.stepSevenChilexpressOffice = newOffice;
     };
 
+    // Handle bank
+    const updateSelectedBank = (newBank) => {
+        formData.stepNineBank = newBank;
+    };
 
+    // Handle Type Bank Account
+    const updateSelectedTypeBankAccount = (newType) => {
+        formData.stepNineBankType = newType;
+    };
 
 
     //Despacho
@@ -961,23 +969,38 @@
     };
 
     //Precio
-    const feeDBM = () => {
-        // Remove dots to get the raw number for calculations
-        const rawPrice = formData.stepEightPrice.replace(/[.]/g, "");
-        // Check if rawPrice is a valid number
-        if (!isNaN(rawPrice)) {
-            const fee = Math.round(rawPrice * 0.22);
-            const finalAmount = rawPrice - fee;
+    const formattedPrice = computed(() => {
+        if (formData.stepEightPrice === '') return '';
+        return formData.stepEightPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    });
 
-            // Convert numeric values to strings and format with point as separator and no decimal places
-            formData.stepEightPriceFee = fee.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-            formData.stepEightPriceFinalAmount = finalAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-        } else {
-            // Set a default message when the input is not a valid number
-            formData.stepEightPriceFee = 'Ingrese un precio valido';
-            formData.stepEightPriceFinalAmount = 'Ingrese un precio valido';
-        }
+    const updatePrice = (value) => {
+        const numericValue = value.replace(/\./g, '');
+        formData.stepEightPrice = isNaN(numericValue) ? '' : parseInt(numericValue, 10);
+        feeDBM();
     };
+
+    const handleInput = (event) => {
+        updatePrice(event.target.value);
+    };
+    const feeDBM = () => {
+    const rawPrice = formData.stepEightPrice;
+
+    if (!isNaN(rawPrice) && rawPrice !== null && rawPrice !== '') {
+        const fee = Math.round(rawPrice * 0.22);
+        const finalAmount = rawPrice - fee;
+
+        formData.stepEightPriceFee = fee.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        formData.stepEightPriceFinalAmount = finalAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    } else {
+        formData.stepEightPriceFee = 'Ingrese un precio valido';
+        formData.stepEightPriceFinalAmount = 'Ingrese un precio valido';
+    }
+    };
+
+    watch(() => formData.stepEightPrice, (newVal) => {
+        feeDBM();
+    });
 
     const fetchProductInfo = async () => {
         try {
@@ -1005,7 +1028,7 @@
                     formData.stepFiveDetails = productInfo.value.remark;
                     formData.stepFiveAdvice = productInfo.value.advice;
                     formData.stepEightPrice = productInfo.value.price;
-                    feeDBM();
+                    // feeDBM();
                     formData.stepThreeLengthReal = productInfo.value.length_real;                       
                     formData.stepThreeLengthRealUnit = productInfo.value.length_real_unit;   
                     formData.stepThreeWidthReal = productInfo.value.width_real;                      
@@ -1056,9 +1079,9 @@
     };
 
     // Use watchEffect to reactively call feeDBM whenever stepEightPrice changes
-    watchEffect(() => {
-        feeDBM();
-    });
+    // watchEffect(() => {
+    //     feeDBM();
+    // });
 
     const submitForm = async () => {
         try {
@@ -1518,7 +1541,7 @@
 
         if (!props.productId) {
             selected.value.region = formData.stepSevenRegion;
-            selected.value.city = formData.stepSevenCity;
+            selected.value.city = formData.stepSevenCity.countyCode;
         }
     });
 </script>

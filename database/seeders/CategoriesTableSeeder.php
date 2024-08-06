@@ -15,25 +15,26 @@ class CategoriesTableSeeder extends Seeder
      */
     public function run()
     {
-        $categories = [
-            'Accesorios de baño',
-            'Alimentación del bebé' => [
+        $categories = [            
+            'Alimentación' => [
                 'Batidoras y mezcladores',
                 'Calientamamaderas',
+                'Silla para comer',
             ],
-            'Andadores y Triciclos' => [
-                'Andadores',
-                'Bicicletas',
-                'Correpasillos',
-                'Triciclos',
+            'Baño',
+            'Calzado' => [
+                'Zapatilla',
+                'Botas/Botines/Bototos',
+                'Pantuflas',
+                'Sandalias',
             ],
             'Cunas y camas' => [
                 'Cunas',
-                'Camas infantiles',
-                'Iluminación',
+                'Camas infantiles',                                
                 'Ropa de cuna',
                 'Ropa de cama infantil',
                 'Saco de dormir',
+                'Mecedora',
             ],
             'Decoración' => [
                 'Alfombras',
@@ -43,32 +44,53 @@ class CategoriesTableSeeder extends Seeder
                 'Móviles',
             ],
             'Disfraces infantiles',
-            'Juguetes, juegos y peluches' => [
+            'Juguetes' => [
                 'Juegos de mesa',
                 'Juguetes',
                 'Peluches',
             ],
-            'Lactancia',
             'Libros' => [
                 'Para niños y niñas',
                 'Para cuidadores',
             ],
             'Mobiliario infantil',
             'Paseo' => [
-                'Bolsos',
+                'Bolsos/Mochilas',
                 'Mat',
                 'Mudadores',
+                'Outdoor',
             ],
-            'Transporte del bebé' => [
-                'Sillas de auto',
-                'Sillas de paseo',
-                'Portabebés',
+            'Sobre ruedas' => [
+                'Andadores',
+                'Bicicletas',
+                'Correpasillos',
+                'Triciclos',
+                'Scooter',
+            ],
+            'Transporte' => [
                 'Coches',
+                'Portabebés',
+                'Sillas de auto',
+                'Sillas de paseo',               
             ],
             'Seguridad y cuidado' => [
+                'Barandas y corrales',
                 'Monitores para bebés',
                 'Puertas de seguridad',
                 'Barandas de cama',
+            ],
+            'Vestuario' => [
+                'Abrigos y chaquetas',
+                'Bermudas y short',
+                'Blusas, bodys y camisas',
+                'Jardineras y enteritos',
+                'Pantalones',
+                'Pijamas',
+                'Poleras y beatles',
+                'Trajes de baño',
+                'Sweaters, chalecos y polerones',
+                'Vestidos y faldas',
+                'Otros',
             ],
             'Otros',
         ];

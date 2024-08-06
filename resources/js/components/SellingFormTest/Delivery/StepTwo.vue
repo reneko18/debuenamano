@@ -13,7 +13,7 @@
             </div>
         </div>
 
-        <div class="row col-md-11 mx-auto bank-form" v-if="useBankDetails">      
+        <div class="row col-md-11 mx-auto bank-form">      
             <div class="col">
                 <div>
                     <label for="infoPayName" class="form-label"       
@@ -22,68 +22,22 @@
                     <input
                         type="text"
                         class="form-control"
+                        :class="useBankDetails ? 'asText' : ''"
                         id="infoPayName"
                         placeholder="Nombre y Apellido"
                         v-model="formData.stepNineName"
+                        :readonly="useBankDetails"
                     />
                 </div>
                 <div>
                     <label for="infoPayBank" class="form-label">Banco</label>
-                    <!-- <select
-                        id="infoPayBank"
-                        class="form-select"
-                        v-model="formData.stepNineBank"
-                    >
-                        <option disabled selected value="">
-                            Elige el banco
-                        </option>
-                        <option value="Banco BICE">Banco BICE</option>
-                        <option value="Banco Consorcio">Banco Consorcio</option>
-                        <option value="Banco Corpbanca">Banco Corpbanca</option>
-                        <option value="Banco Crédito e Inversiones">
-                            Banco Crédito e Inversiones
-                        </option>
-                        <option value="Banco Estado">Banco Estado</option>
-                        <option value="Banco Falabella">Banco Falabella</option>
-                        <option value="Banco Internacional">
-                            Banco Internacional
-                        </option>
-                        <option value="Banco Paris">Banco Paris</option>
-                        <option value="Banco Ripley">Banco Ripley</option>
-                        <option value="Banco Santander">Banco Santander</option>
-                        <option value="Banco Security">Banco Security</option>
-                        <option value="Banco de Chile / Edwards-Citi">
-                            Banco de Chile / Edwards-Citi
-                        </option>
-                        <option value="Banco del Desarrollo">
-                            Banco del Desarrollo
-                        </option>
-                        <option value="Coopeuch">Coopeuch</option>
-                        <option value="HSBC Bank">HSBC Bank</option>
-                        <option value="Itau">Itau</option>
-                        <option value="Rabobank">Rabobank</option>
-                        <option value="Tenpo Prepago">Tenpo Prepago</option>
-                        <option value="Prepago Los Héroes">
-                            Prepago Los Héroes
-                        </option>
-                        <option value="Scotiabank">Scotiabank</option>
-                        <option value="Scotiabank Azul">Scotiabank Azul</option>
-                        <option value="Mercado Pago">Mercado Pago</option>
-                        <option value="TAPP Caja Los Andes">
-                            TAPP Caja Los Andes
-                        </option>
-                        <option value="Copec Pay">Copec Pay</option>
-                        <option value="La Polar Prepago">
-                            La Polar Prepago
-                        </option>
-                        <option value="Global66">Global66</option>
-                    </select> -->
                     <select-dbm-static
                         id="infoPayBank"
+                        :class="useBankDetails ? 'asText' : ''"
                         :items="bankList"                              
                         :selected="formData.stepNineBank"
                         @update:selected-static="updateSelectedBank"
-                        placeholder="Elige el banco"
+                        placeholder="Elige el banco"      
                     />
                 </div>
                 <div>
@@ -93,9 +47,11 @@
                     <input
                         type="text"
                         class="form-control"
+                        :class="useBankDetails ? 'asText' : ''"
                         id="infoPayAccountNumber"
                         placeholder=""
                         v-model="formData.stepNineBankNumber"
+                        :readonly="useBankDetails"
                     />
                 </div>
             </div>
@@ -105,37 +61,25 @@
                     <input
                         type="text"
                         class="form-control"
+                        :class="useBankDetails ? 'asText' : ''"
                         id="infoPayRut"
                         placeholder="Ej: 12.345.678-K"
                         v-model="formData.stepNineRut"
                         @input="formatAndValidateRUT"
+                        :readonly="useBankDetails"
                     />
-                    <!-- <div v-if="isValidRUT" class="text-success">Valid RUT</div>
-                    <div v-else class="text-danger">Invalid RUT</div> -->
                 </div>
                 <div>
                     <label for="infoPayTypeAccount" class="form-label"
                         >Tipo de cuenta</label
                     >
-                    <!-- <select
-                        id="infoPayTypeAccount"
-                        class="form-select"
-                        v-model="formData.stepNineBankType"
-                    >
-                        <option disabled selected value="">
-                            Elige el tipo de cuenta
-                        </option>
-                        <option value="Cuenta Vista">Cuenta Vista</option>
-                        <option value="Cuenta Corriente">
-                            Cuenta Corriente
-                        </option>
-                    </select> -->
                     <select-dbm-static
                         id="infoPayTypeAccount"
+                        :class="useBankDetails ? 'asText' : ''"
                         :items="typeBankAccount"                              
                         :selected="formData.stepNineBankType"
                         @update:selected-static="updateSelectedTypeBankAccount"
-                        placeholder="Elige el tipo de cuenta"
+                        placeholder="Elige el tipo de cuenta"                        
                     />
                 </div>
                 <div class="d-flex flex-column justify-content-center sec-bank-default-form">
@@ -157,14 +101,15 @@
                             />
                             <path class="st0" d="M1,6.2h19.3" />
                         </svg>
-                        <span>Definir como cuenta prederterminada</span>
+                        <span v-if="useBankDetails">Editar cuenta</span>
+                        <span v-else>Definir como cuenta prederterminada</span>
                     </a>
                 </div>
             </div>
         </div>
 
 
-        <div class="row col-md-11 mx-auto bank-default" v-else> 
+        <!-- <div class="row col-md-11 mx-auto bank-default" v-else> 
             <h3>Te depositaremos a:</h3>           
             <div class="col">                
                 <div>
@@ -248,7 +193,7 @@
                     </a>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
     <div class="d-flex justify-content-end mt-4">
         <button class="btn boton-principal" @click="nextStep">
@@ -441,5 +386,9 @@ onMounted(() => {
     stroke-width: 2;
     stroke-linecap: round;
     stroke-linejoin: round;
+}
+.asText{
+    background-color: transparent;
+    cursor: not-allowed;
 }
 </style>

@@ -16,20 +16,6 @@
             <div class="col-lg-5 col-md-12">
                 <div>
                     <label for="statusItem" class="form-label">Estado*</label>
-                    <!-- <select
-                        id="statusItem"
-                        class="form-select"
-                        :class="errorMessageStatus ? 'is-invalid-dbm' : ''"
-                        v-model="formData.stepFourState"
-                    >
-                        <option disabled selected value="">
-                            Seleccione un estado
-                        </option>
-                        <option value="Usado en buen estado">
-                            Usado en buen estado
-                        </option>
-                        <option value="Sin uso">Sin uso</option>
-                    </select> -->
                     <select-dbm-static
                             id="statusItem"
                             :items="stateUse"                              
@@ -60,16 +46,6 @@
                     </div>
                     <div class="col-md-4">
                         <label for="usageItem-pro" class="form-label"></label>
-                        <!-- <select
-                            id="usageItem-pro"
-                            class="form-select"
-                            :class="errorMessageUsageTime ? 'error-dbm' : ''"
-                            v-model="formData.stepFourUsageUnit"
-                        >
-                            <option value="Dias">Dias</option>
-                            <option value="Meses">Meses</option>
-                            <option value="Años">Años</option>
-                        </select> -->
                         <select-dbm-static
                             id="usageItem-pro"
                             :items="usageTimeUnit"                              

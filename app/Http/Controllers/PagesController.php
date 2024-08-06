@@ -19,4 +19,9 @@ class PagesController extends Controller
     {
         return view('others.terms_conditions');
     }
+
+    public function landing()
+    {
+        return view('landing.index');
+    }
 }

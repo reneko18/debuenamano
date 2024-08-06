@@ -109,12 +109,8 @@
                                         </div>
                                         <div class="col-md-4">
                                             <div class="pb-3">
-                                                <span class="title-in-tab">Edad</span>
-                                                @if($product->age_date_ini == 'Recién nacido')
-                                                    <span class="txt-in-tab">{{ $product->age_date_ini }}</span>
-                                                @else
-                                                    <span class="txt-in-tab">{{ $product->age_ini }} {{ $product->age_date_ini }} a {{ $product->age_fin }} {{ $product->age_date_fin }}</span>
-                                                @endif
+                                                <span class="title-in-tab">Edad</span>                                                
+                                                <span class="txt-in-tab">{{ $product->agefilter->name }}</span>                                   
                                             </div>
                                         </div>
                                     </div>                                

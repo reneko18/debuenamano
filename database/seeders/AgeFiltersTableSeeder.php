@@ -27,5 +27,8 @@ class AgeFiltersTableSeeder extends Seeder
         AgeFilter::create([
             'name' => '2 a 6 años',
         ]);
+        AgeFilter::create([
+            'name' => 'Todas las edades',
+        ]);
     }
 }

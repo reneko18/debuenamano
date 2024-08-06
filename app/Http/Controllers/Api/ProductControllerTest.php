@@ -11,6 +11,7 @@ use App\Models\ProductGallery;
 use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
 
+
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 
@@ -42,14 +43,14 @@ class ProductControllerTest extends Controller
     }
 
     public function storePhaseOne(Request $request)
-    {
+    {               
         $product = new Product();
         //Presentacion
         $product->name = $request->input('stepOneNameProduct');
         $product->category_id = $request->input('stepOneCategoryProduct.id');
         $product->gender_id = $request->input('stepOneGenre.id');
         $product->age_filter_id = $request->input('stepOneRangeAge');
-        $product->description = $request->input('stepOneDescriptionProduct');
+        $product->description = $request->input('stepOneDescriptionProduct');        
         //Marca
         $product->brand = $request->input('stepTwoBrandProduct');
         $product->model = $request->input('stepTwoModelProduct');
@@ -63,17 +64,18 @@ class ProductControllerTest extends Controller
         //Status
         $product->publish_status = 'Guardado/borrador';
         //SKU
-        $product->sku = $this->generateSKU($request->input('stepOneCategoryProduct.name'));
+        $sanitizedCategoryName = sanitizeString($request->input('stepOneCategoryProduct.name'));
+        $product->sku = $this->generateSKU($sanitizedCategoryName);
         //Slug
         $slug = Str::slug($product->name,'-')."-";
         $slug .= Carbon::now()->timestamp;
         $product->slug = $slug;
-
         //Main Step
         // Define the array
         $mainStepArray = ['1'];
 
         // Convert the array to JSON format
+        // $mainStepJson = json_encode($mainStepArray);
         $mainStepJson = json_encode($mainStepArray);
 
         // Assign the JSON string to the main_step attribute of the product

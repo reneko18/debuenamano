@@ -1333,6 +1333,13 @@ h1.parallax-txt {
   .second-sec-post{
     margin-bottom:6rem;
   }
+  .second-sec-post img{
+    display: block;
+    width: 100%;
+    max-width: 750px;
+    height: auto;
+    margin: 0 auto;
+  }
   .second-sec-post .caption-img{
     font-size:14px;
     font-weight:400;

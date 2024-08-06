@@ -221,6 +221,7 @@ const rangeAge = ref([
     {id: 2, value: 2, name:"3 a 12 Meses"},
     {id: 3, value: 3, name:"12 a 24 Meses"},
     {id: 4, value: 4, name:"2 a 6 Años"},
+    {id: 5, value: 5, name:"Todas las edades"},
 ]);
 
 const fetchData = async () => {

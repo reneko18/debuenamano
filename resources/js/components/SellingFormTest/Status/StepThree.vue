@@ -17,9 +17,8 @@
                     class="form-control input-precio"
                     id="priceItem"
                     placeholder="Precio"
-                    v-model="formData.stepEightPrice"
-                    @input="feeDBM"
-                    v-price-format
+                    v-model="formattedPrice"
+                    @input="handleInput"
                 />
             </div>
             <div class="row row-income">
@@ -43,7 +42,7 @@
 </template>
 <script setup>
 import { useFormStore } from "../../../stores/valuesTwo";
-import { onMounted, defineEmits } from "vue";
+import { computed, watch, onMounted, defineEmits } from "vue";
 
 const props = defineProps({
     userId: { 
@@ -73,30 +72,6 @@ const formStore = useFormStore();
 const formData = formStore.formData;
 let fee = 0;
 let finalAmount = 0;
-
-//VER EL TEMA DEL FORMATO DEL PRECIO
-
-// const priceFormatDirective = {
-//     mounted(el, binding) {
-//         const context = binding.instance;
-
-//         el.addEventListener("input", function (e) {
-//             // Remove non-numeric characters
-//             const value = e.target.value.replace(/[^0-9]/g, "");
-
-//             // Insert a point separator for thousands
-//             const formattedValue = value.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-
-//             // Set the formatted value as a string
-//             e.target.value = formattedValue;
-
-//             // Save the formatted string to formData.stepEightPrice
-//             // If you need to save the numeric value, convert it back to a number
-//             // context.formData.stepEightPrice = parseFloat(value);
-//             context.formData.stepEightPrice = formattedValue;
-//         });
-//     },
-// };
 
 const nextStep = async () => {
     formStore.setFormData(formData);
@@ -139,23 +114,57 @@ const submitForm = async () => {
 };
 
 
-const feeDBM = () => {
-    // Remove dots to get the raw number for calculations
-    const rawPrice = formData.stepEightPrice.replace(/[.]/g, "");
-    // Check if rawPrice is a valid number
-    if (!isNaN(rawPrice)) {
-        fee = Math.round(rawPrice * 0.22);
-        finalAmount = rawPrice - fee;
+const formattedPrice = computed(() => {
+  if (formData.stepEightPrice === '') return '';
+  return formData.stepEightPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+});
 
-        // Convert numeric values to strings and format with point as separator and no decimal places
-        formData.stepEightPriceFee = fee.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-        formData.stepEightPriceFinalAmount = finalAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-    } else {
-        // Set a default message when the input is not a valid number
-        formData.stepEightPriceFee = 'Ingrese un precio valido';
-        formData.stepEightPriceFinalAmount = 'Ingrese un precio valido';
-    }
+const updatePrice = (value) => {
+  const numericValue = value.replace(/\./g, '');
+  formData.stepEightPrice = isNaN(numericValue) ? '' : parseInt(numericValue, 10);
+  feeDBM();
 };
+
+const handleInput = (event) => {
+  updatePrice(event.target.value);
+};
+
+const feeDBM = () => {
+  const rawPrice = formData.stepEightPrice;
+
+  if (!isNaN(rawPrice) && rawPrice !== null && rawPrice !== '') {
+    const fee = Math.round(rawPrice * 0.22);
+    const finalAmount = rawPrice - fee;
+
+    formData.stepEightPriceFee = fee.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    formData.stepEightPriceFinalAmount = finalAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  } else {
+    formData.stepEightPriceFee = 'Ingrese un precio valido';
+    formData.stepEightPriceFinalAmount = 'Ingrese un precio valido';
+  }
+};
+
+watch(() => formData.stepEightPrice, (newVal) => {
+  feeDBM();
+});
+
+// const feeDBM = () => {
+//     // Remove dots to get the raw number for calculations
+//     const rawPrice = formData.stepEightPrice.replace(/[.]/g, "");
+//     // Check if rawPrice is a valid number
+//     if (!isNaN(rawPrice)) {
+//         fee = Math.round(rawPrice * 0.22);
+//         finalAmount = rawPrice - fee;
+
+//         // Convert numeric values to strings and format with point as separator and no decimal places
+//         formData.stepEightPriceFee = fee.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+//         formData.stepEightPriceFinalAmount = finalAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+//     } else {
+//         // Set a default message when the input is not a valid number
+//         formData.stepEightPriceFee = 'Ingrese un precio valido';
+//         formData.stepEightPriceFinalAmount = 'Ingrese un precio valido';
+//     }
+// };
 
 onMounted(() => {
     emit("constant-emitted", mainStep);

@@ -135,5 +135,8 @@ Route::get('/home', [HomeController::class, 'index'])->name('home')->middleware(
 Route::get('/terminos-y-condiciones',[PagesController::class,'terms'])->name('terms');
 
 
+//Ruta Landing
+Route::get('/landing',[PagesController::class,'landing'])->name('landing');
+
 
 
