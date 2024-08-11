@@ -9,6 +9,7 @@ use App\Models\Gender;
 use App\Models\Product;
 use App\Models\ProductGallery;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 
 
@@ -207,7 +208,16 @@ class ProductControllerTest extends Controller
         $imagesData = $request->input('stepSixPhoto');
 
         foreach ($imagesData as $imageData) {
-            $src = str_replace('data:image/png;base64,', '', $imageData['src']); 
+            // $src = str_replace('data:image/png;base64,', '', $imageData['src']); 
+            // Check the image type and remove the appropriate base64 prefix
+            if (strpos($imageData['src'], 'data:image/png;base64,') === 0) {
+                $src = str_replace('data:image/png;base64,', '', $imageData['src']);
+            } elseif (strpos($imageData['src'], 'data:image/jpeg;base64,') === 0) {
+                $src = str_replace('data:image/jpeg;base64,', '', $imageData['src']);
+            } else {
+                // Handle other image types if necessary or return an error
+                return response()->json(['message' => 'Unsupported image format'], 415);
+            }
             $originalName = $imageData['name'];
             $size = $imageData['size'];
             $name = preg_replace('/[^\w\d\.\-_]/', '_', $originalName); 
@@ -417,7 +427,7 @@ class ProductControllerTest extends Controller
             File::delete($filePath);
         } else {
             // Log a warning if the file is not found
-            \Log::warning('File not found:', ['path' => $filePath]);
+            Log::warning('File not found:', ['path' => $filePath]);
         }
     
         // Delete the product gallery entry

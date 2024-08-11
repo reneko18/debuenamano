@@ -28,9 +28,13 @@
             <img src="{{ asset($post->author->authorimage->url) }}" alt="image">
             <span>{{ $post->author->firstname }} {{ $post->author->lastname }}</span>
           </div>
+          @php
+          \Carbon\Carbon::setLocale('es');
+          @endphp
+          
           <div class="col2">
-            {{ \Carbon\Carbon::parse($post->created_ate)->format('j \d\e F Y') }}
-          </div>          
+              {{ \Carbon\Carbon::parse($post->created_ate)->translatedFormat('j \d\e F Y') }}
+          </div>              
         </div>
         <h1>{{ $post->title }}</h1>
         <div class="row-cats-share">

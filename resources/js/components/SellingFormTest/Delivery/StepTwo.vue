@@ -26,7 +26,7 @@
                         id="infoPayName"
                         placeholder="Nombre y Apellido"
                         v-model="formData.stepNineName"
-                        :readonly="useBankDetails"
+                        :readonly="useBankDetails ? true : false"
                     />
                 </div>
                 <div>
@@ -38,6 +38,7 @@
                         :selected="formData.stepNineBank"
                         @update:selected-static="updateSelectedBank"
                         placeholder="Elige el banco"      
+                        :readonly-mode="useBankDetails ? true : false"
                     />
                 </div>
                 <div>
@@ -51,7 +52,7 @@
                         id="infoPayAccountNumber"
                         placeholder=""
                         v-model="formData.stepNineBankNumber"
-                        :readonly="useBankDetails"
+                        :readonly="useBankDetails ? true : false"
                     />
                 </div>
             </div>
@@ -66,7 +67,7 @@
                         placeholder="Ej: 12.345.678-K"
                         v-model="formData.stepNineRut"
                         @input="formatAndValidateRUT"
-                        :readonly="useBankDetails"
+                        :readonly="useBankDetails ? true : false"
                     />
                 </div>
                 <div>
@@ -79,7 +80,8 @@
                         :items="typeBankAccount"                              
                         :selected="formData.stepNineBankType"
                         @update:selected-static="updateSelectedTypeBankAccount"
-                        placeholder="Elige el tipo de cuenta"                        
+                        placeholder="Elige el tipo de cuenta"
+                        :readonly-mode="useBankDetails ? true : false"                       
                     />
                 </div>
                 <div class="d-flex flex-column justify-content-center sec-bank-default-form">
@@ -204,7 +206,7 @@
 </template>
 <script setup>
 import { useFormStore } from "../../../stores/valuesTwo";
-import { onMounted, ref, defineEmits } from "vue";
+import { onMounted, ref, watch, defineEmits } from "vue";
 import SelectDbmStatic from "../../Dbm/SelectDbmStatic.vue";
 
 const emit = defineEmits(["active-subtitles","close-step"]);
@@ -236,7 +238,7 @@ const subValue = 4;
 const closeStep = 4;
 
 const bankDetails = ref([]);
-const useBankDetails = ref(props.userBank);
+const useBankDetails = ref(false);
 
 const bankList = ref([
     {id: 1, value: "Banco BICE", name:"Banco BICE"},
@@ -346,7 +348,12 @@ const fetchBankDetails = () => {
       formData.stepNineBankNumber = response.data.account_number;
       formData.stepNineRut = response.data.rut;
       formData.stepNineBankType = response.data.account_type;
-      useBankDetails.value = true;
+      bankDetails.value = response.data;
+      if(Object.keys(bankDetails.value).length > 0){
+        useBankDetails.value = true;
+      } else {
+        useBankDetails.value = false;
+      }
     })
     .catch((error) => {
       console.error("Error fetching user details:", error);
@@ -391,4 +398,10 @@ onMounted(() => {
     background-color: transparent;
     cursor: not-allowed;
 }
+
+:deep(.asText .cat-select:disabled){
+    background-color: transparent;
+    cursor: not-allowed;
+}
+
 </style>

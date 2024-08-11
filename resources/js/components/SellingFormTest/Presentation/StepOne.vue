@@ -155,7 +155,7 @@
                             :items="rangeAge"   
                             :selected="formData.stepOneRangeAge"
                             @update:selected-static="updateSelectedRangeAge"
-                            placeholder="Seleccione un rango"
+                            placeholder="Seleccione un rango"                            
                     />
                 </div>
                 <div v-if="errorMessageRange" class="invalid-dbm">

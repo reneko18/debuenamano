@@ -8,6 +8,7 @@
               @click="showAndCloseDropdownDbmStatic"
               readonly
               :placeholder="placeholder"
+              :disabled="readonlyMode"
           />
           <font-awesome-icon
               :icon="['fas', 'chevron-down']"
@@ -50,6 +51,10 @@ selected: {
 placeholder: {
   type: String,
   default: ''
+},
+readonlyMode: { 
+  type: Boolean,
+  default: false,
 }
 });
 

@@ -40,8 +40,9 @@
         </div>
         <div class="cont-upload-image">
             <h2>Fotografías</h2>
-            <div v-bind="getRootProps()" class="dropzone">
+            <div v-bind="getRootProps()" class="dropzone" :class="hasError ? 'error-drop' : ''">
                 <svg
+                    v-if="!hasError"
                     version="1.1"
                     id="icon-upload"
                     xmlns="http://www.w3.org/2000/svg"
@@ -60,9 +61,17 @@
                     <path class="st0" d="M21.8,9.1l-6.9-6.9L7.9,9.1" />
                     <path class="st0" d="M14.8,2.2v16.7" />
                 </svg>
+                <svg v-else version="1.1" id="icon-error" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                    viewBox="0 0 32 29" style="enable-background:new 0 0 32 29;" xml:space="preserve">         
+                    <path class="st0" d="M13.6,3L1.9,22.6c-0.2,0.4-0.4,0.9-0.4,1.4c0,0.5,0.1,1,0.4,1.4c0.2,0.4,0.6,0.8,1,1c0.4,0.2,0.9,0.4,1.4,0.4
+                        h23.4c0.5,0,1-0.1,1.4-0.4c0.4-0.2,0.8-0.6,1-1c0.2-0.4,0.4-0.9,0.4-1.4c0-0.5-0.1-1-0.4-1.4L18.3,3c-0.2-0.4-0.6-0.7-1-1
+                        c-0.4-0.2-0.9-0.4-1.4-0.4S15,1.8,14.6,2.1C14.2,2.3,13.8,2.6,13.6,3z"/>
+                    <path class="st0" d="M15.9,10.1v5.5"/>
+                    <path class="st0" d="M15.9,21.2L15.9,21.2"/>
+                </svg>
                 <h3 v-if="isDragActive">Suelta las fotos aquí</h3>
                 <h3 v-else>Arrastra y suelta tus fotos aquí</h3>
-                <h4>Archivos soportados JPG, PNG</h4>
+                <h4 v-if="!hasError">Archivos soportados JPG, PNG</h4>
                 <h4>o</h4>
                 <input v-bind="getInputProps()" />
                 <button class="btn" @click="openFileInput">
@@ -74,7 +83,8 @@
                     style="display: none"
                     v-bind="getInputProps()"
                 />
-                <p>Peso máximo 2MB</p>
+                <p v-if="!hasError">Peso máximo 2MB</p>
+                <p v-else class="error-drop">Sólo se permiten imágenes en formato JPG y/o PNG con un peso máximo de 2MB</p>
             </div>
             <div class="cont-images-result">
                 <span v-show="formData.stepSixPhoto != ''">Archivos</span>
@@ -174,6 +184,7 @@ const submitForm = async () => {
     }
 };
 
+const hasError = ref(false);
 const isDragActive = ref(false);
 const fileInput = ref(null);
 
@@ -183,32 +194,60 @@ const openFileInput = () => {
     }
 };
 
+// function onDrop(acceptedFiles, rejectedFiles) {
+//     Promise.all(
+//         acceptedFiles.map((file) => {
+//             return new Promise((resolve) => {
+//                 const reader = new FileReader();
+
+//                 reader.onload = () => {
+//                     const image = {
+//                         src: reader.result,
+//                         name: file.name,
+//                         size: `${(file.size / (1024 * 1024)).toFixed(2)} MB`,
+//                     };
+
+//                     formData.stepSixPhoto.push(image);
+//                     resolve();
+//                 };
+
+//                 reader.readAsDataURL(file);
+//             });
+//         })
+//     ).then(() => {
+//         console.log("All files processed:", formData.stepSixPhoto);
+//     });
+
+//     console.log(acceptedFiles);
+//     console.log(rejectedFiles);
+// }
+
 function onDrop(acceptedFiles, rejectedFiles) {
-    Promise.all(
-        acceptedFiles.map((file) => {
-            return new Promise((resolve) => {
-                const reader = new FileReader();
+    hasError.value = false;  // Reset error state
 
-                reader.onload = () => {
-                    const image = {
-                        src: reader.result,
-                        name: file.name,
-                        size: `${(file.size / (1024 * 1024)).toFixed(2)} MB`,
-                    };
+    acceptedFiles.forEach((file) => {
+        if (file.size > 2 * 1024 * 1024 || !["image/jpeg", "image/png"].includes(file.type)) {
+            hasError.value = true;  // Set error state if validation fails
+        } else {
+            const reader = new FileReader();
 
-                    formData.stepSixPhoto.push(image);
-                    resolve();
+            reader.onload = () => {
+                const image = {
+                    src: reader.result,
+                    name: file.name,
+                    size: `${(file.size / (1024 * 1024)).toFixed(2)} MB`,
                 };
 
-                reader.readAsDataURL(file);
-            });
-        })
-    ).then(() => {
-        console.log("All files processed:", formData.stepSixPhoto);
+                formData.stepSixPhoto.push(image);
+            };
+
+            reader.readAsDataURL(file);
+        }
     });
 
-    console.log(acceptedFiles);
-    console.log(rejectedFiles);
+    console.log("Accepted files:", acceptedFiles);
+    console.log("Rejected files:", rejectedFiles);
+    console.log("Error state:", hasError.value);
 }
 
 const { getRootProps, getInputProps, ...rest } = useDropzone({
@@ -216,6 +255,7 @@ const { getRootProps, getInputProps, ...rest } = useDropzone({
     onDragEnter: () => (isDragActive.value = true),
     onDragLeave: () => (isDragActive.value = false),
     onDropAccepted: () => (isDragActive.value = false),
+    onDropRejected: () => (hasError.value = true),
 });
 
 function deleteImage(index) {
@@ -274,11 +314,16 @@ onMounted(() => {
     padding: 3rem 0;
     border: 1px dashed #c0c6b9;
 }
-#icon-upload {
+.cont-upload-image .dropzone.error-drop{
+    border: 1px dashed #DC3545;
+}
+
+#icon-upload, #icon-error {
     width: 25px;
     height: auto;
     margin-bottom: 1rem;
 }
+
 #icon-upload .st0 {
     fill: none;
     stroke: #728c54;
@@ -286,6 +331,15 @@ onMounted(() => {
     stroke-linecap: round;
     stroke-linejoin: round;
 }
+
+#icon-error .st0{
+    fill: none;
+    stroke: #dc3545;
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
 .dropzone {
     margin-bottom: 1rem;
 }
@@ -307,6 +361,13 @@ onMounted(() => {
     font-weight: 300;
     line-height: 16px;
 }
+
+.dropzone p.error-drop{
+    color: #DC3545;
+    font-weight: 700;
+    margin-top:1rem;
+}
+
 .dropzone button {
     color: #728c54;
     border: 2px solid #727c54;
