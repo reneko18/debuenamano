@@ -316,7 +316,7 @@
                     </select>
                 </div>
             </div>
-            <div class="col-lg-7 col-md-12">
+            <div class="col-lg-7 col-md-12" v-if="productInfo.status !== 'Sin uso'">
                 <div class="row">
                     <div class="col-md-3">
                         <label for="usageItem" class="form-label"
@@ -667,15 +667,17 @@
                 </div>
             </div>
             <div class="col-lg-6 col-md-12">
-                <input
-                    type="text"
-                    class="form-control"
-                    id="priceItem"
-                    placeholder="Precio"
-                    v-model="productInfo.price"
-                    @input="feeDBM"
-                    v-price-format
-                />
+                <div class="input-group mb-3">
+                    <span class="input-group-text">$</span>
+                    <input
+                        type="text"
+                        class="form-control input-precio"
+                        id="priceItem"
+                        placeholder="Precio"
+                        v-model="productInfo.price"
+                        @input="feeDBM"
+                    />
+                </div>
                 <div class="row row-income">
                 <div class="col">
                         <p>- $ {{ isNaN(priceFee) ? 'Ingrese un precio valido' : priceFee }}</p>

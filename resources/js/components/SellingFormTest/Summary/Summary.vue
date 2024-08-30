@@ -677,14 +677,17 @@
                 </div>
             </div>
             <div class="col-lg-6 col-md-12">
-                <input
-                    type="text"
-                    class="form-control"
-                    id="priceItem"
-                    placeholder="Precio"
-                    v-model="formattedPrice"
-                    @input="handleInput"
-                />
+                <div class="input-group mb-3">
+                    <span class="input-group-text">$</span>
+                    <input
+                        type="text"
+                        class="form-control input-precio"
+                        id="priceItem"
+                        placeholder="Precio"
+                        v-model="formattedPrice"
+                        @input="handleInput"
+                    />
+                </div>
                 <div class="row row-income">
                 <div class="col">
                         <p>- $ {{ isNaN(formData.stepEightPriceFee) ? 'Ingrese un precio valido' : formData.stepEightPriceFee }}</p>

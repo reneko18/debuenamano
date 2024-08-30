@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Author;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
 class AuthorController extends Controller
@@ -18,5 +19,64 @@ class AuthorController extends Controller
         }])->get();       
     
         return response()->json($authors);
+    }
+
+    public function adminindex()
+    {
+        $authors = Author::get();
+
+        $authorWithData = $authors->map(function ($author) {
+            return [
+                'author' => $author,
+                'authorFullName' => $author->firstname . ' ' . $author->lastname, 
+            ];
+        });
+
+        return response()->json($authorWithData);
+    }
+
+    public function store(Request $request)
+    {
+
+        // Handle main image upload if provided
+        $mainImageUrl = null;
+        if ($request->has('main_img')) {
+            $mainImageBase64 = $request->input('main_img');
+            $mainImage = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $mainImageBase64));
+
+            // Generate unique filename for main image
+            $mainImageName = 'main_image_' . Str::random(10) . '.jpg';
+            $mainImagePath = public_path('images/author_profil') . '/' . $mainImageName;
+
+            // Save main image to the specified directory
+            file_put_contents($mainImagePath, $mainImage);
+
+            // Get URL of the uploaded main image
+            $mainImageUrl = url('images/author_profil/' . $mainImageName);
+        }
+
+        // Create a new author
+        $author = Author::create([
+            'firstname' => $request->input('firstname'),
+            'lastname' => $request->input('lastname'),
+            'main_img' => $mainImageUrl,
+        ]);
+
+
+        return response()->json(['message' => 'Author created successfully', 'author' => $author], 201);
+    }
+
+    public function destroy($id)
+    {
+        $author = Author::find($id);
+
+        if (!$author) {
+            return response()->json(['message' => 'Author not found'], 404);
+        }
+
+        // Now delete the author
+        $author->delete();
+
+        return response()->json(['message' => 'Author deleted successfully']);
     }
 }

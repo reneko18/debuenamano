@@ -19,6 +19,7 @@ class AuthorFactory extends Factory
         return [
             'firstname' => fake()->firstName(null),
             'lastname' => fake()->lastName(),
+            'main_img' => 'images/author_profil/author-profil.jpg',
         ];
     }
 }

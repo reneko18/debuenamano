@@ -14,8 +14,8 @@
       <div class="container">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#">Inicio</a></li>
-                <li class="breadcrumb-item"><a href="#">Blog</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('inicio') }}">Inicio</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('post.blog') }}">Blog</a></li>
                 <li class="breadcrumb-item active" aria-current="page">{{ $post->title }}</li>
             </ol>
         </nav>
@@ -25,8 +25,10 @@
       <div class="col-8 mx-auto cont-1">
         <div class="row-meta">
           <div class="col1">
-            <img src="{{ asset($post->author->authorimage->url) }}" alt="image">
-            <span>{{ $post->author->firstname }} {{ $post->author->lastname }}</span>
+            <a href="{{ route('author.index') }}">
+              <img src="{{ asset($post->author->main_img) }}" alt="image">
+              <span>{{ $post->author->firstname }} {{ $post->author->lastname }}</span>
+            </a>
           </div>
           @php
           \Carbon\Carbon::setLocale('es');
@@ -40,7 +42,7 @@
         <div class="row-cats-share">
           <div class="cont-1">
               @foreach ( $post->postcategories as $cats )
-                <span class="cat-meta">{{ $cats->name }}</span>
+                <a href="{{ route('postcategories.archive') }}" class="cat-meta">{{ $cats->name }}</a>
               @endforeach   
           </div>
           <div class="cont-2">

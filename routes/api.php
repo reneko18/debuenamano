@@ -107,9 +107,15 @@ Route::post('/upload-image', [ImageUploadController::class, 'upload']);
 
 //API Categories
 Route::get('/postscategories', [PostCategoryController::class,'index']);
+Route::get('/postscategories/all', [PostCategoryController::class,'adminindex']);
+Route::post('/postcategory/store', [PostCategoryController::class,'store']);
+Route::delete('/postcategory/delete/{id}', [PostCategoryController::class, 'destroy']);
 
 //API Authors
 Route::get('/authors', [AuthorController::class,'index']);
+Route::get('/authors/all', [AuthorController::class,'adminindex']);
+Route::delete('/author/delete/{id}', [AuthorController::class, 'destroy']);
+Route::post('/author/store', [AuthorController::class,'store']);
 
 //API User Dashboard
 Route::get('/user/{user}', [UserController::class,'index']);
@@ -118,6 +124,8 @@ Route::put('/user/{user}/updatepass', [UserController::class,'updatepass']);
 Route::put('/user/{user}/bankdetails', [UserController::class,'bankdetails']);
 
 Route::get('/user/{user}/getbankdetails',[UserController::class,'getbankdetails']);
+
+Route::post('/user/profil-image/{user}',[UserController::class,'uploadImage']);
 
 //Count Products
 Route::get('/cart/count',[CartController::class,'count'])->name('cart.count');

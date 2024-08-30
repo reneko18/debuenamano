@@ -67,24 +67,6 @@ class AuthorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Author $author)
-    {
-        $id = $author->id;
-        $image = AuthorImage::whereHas('author', function ($query) use ($id) {
-            $query->where('author_id',$id);
-            })->first();
-        return view('admin.authors.edit',compact('author','image'));
-    }
-
-    public function editimage(Author $author)
-    {
-        $id = $author->id;
-        $image = AuthorImage::whereHas('author', function ($query) use ($id) {
-            $query->where('author_id',$id);
-            })->first();
-
-        return view('admin.authors.editimage',compact('author','image'));
-    }
 
     /**
      * Update the specified resource in storage.
@@ -112,6 +94,12 @@ class AuthorController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function archive()
+    {
+        $authors = Author::get();
+        return view('authors.archive', compact('authors'));
     }
 
 

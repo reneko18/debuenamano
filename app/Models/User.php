@@ -25,6 +25,7 @@ class User extends Authenticatable
         'slug',
         'phone',
         'birthdate',
+        'profil_image',
         'password',
         'address',
         'region',

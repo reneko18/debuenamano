@@ -9,10 +9,11 @@ class Author extends Model
 {
     use HasFactory;
 
-    public function authorimage()
-    {
-        return $this->hasOne(AuthorImage::class);
-    }
+    protected $fillable = [
+        'firstname',
+        'lastname',
+        'main_img',
+    ];
 
     public function posts()
     {

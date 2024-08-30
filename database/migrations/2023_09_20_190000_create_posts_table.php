@@ -19,7 +19,7 @@ return new class extends Migration
             $table->text('content')->nullable();
             $table->string('main_img')->nullable();
             $table->string('caption_img')->nullable();
-            $table->foreignId('author_id')->constrained('authors');
+            $table->foreignId('author_id')->constrained('authors')->onDelete('cascade');
             $table->string('slug');
             $table->string('meta_title');
             $table->text('meta_description')->nullable();

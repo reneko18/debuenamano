@@ -78,6 +78,7 @@ import NewCart from "./views/NewCart.vue";
 import ProductsLoop from "./views/ProductsLoop.vue";
 import RelatedProducts from "./components/Loop/RelatedProducts.vue"
 import ProductGallery from "./components/Dbm/ProductGallery.vue"
+import AddProfilPhotoUser from "./views/AddProfilPhotoUser.vue"
 
 app.use(pinia);
 app.use(vueClickOutsideElement);
@@ -100,6 +101,7 @@ app.component("admin-product-edit", AdminProductEdit);
 app.component("new-admin", NewAdmin);
 app.component("new-cart", NewCart);
 app.component("slider-home", Slider);
+app.component("add-profil-photo-user", AddProfilPhotoUser);
 app.component("font-awesome-icon", FontAwesomeIcon);
 app.component('Toast', Toast);
 app.use(PrimeVue,{

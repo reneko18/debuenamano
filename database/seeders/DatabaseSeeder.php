@@ -99,10 +99,15 @@ class DatabaseSeeder extends Seeder
         $this->call(CitiesTableSeeder::class);
         Author::factory(10)->create();
         $cats = PostCategory::factory(10)->create();
-        AuthorImage::factory(10)->create();
         // Create 20 posts and associate each post with a random category
-        Post::factory(20)->create()->each(function ($post) use ($cats) {
-            $post->postcategories()->attach($cats->random(1)->pluck('id'));
+        // Post::factory(20)->create()->each(function ($post) use ($cats) {
+        //     $post->postcategories()->attach($cats->random(1)->pluck('id'));
+        // });
+        Post::factory(30)->create()->each(function ($post) use ($cats) {
+            // Attach 2 or 3 random categories to each post
+            $post->postCategories()->attach(
+                $cats->random(rand(1, 4))->pluck('id')->toArray()
+            );
         });
     }
 }

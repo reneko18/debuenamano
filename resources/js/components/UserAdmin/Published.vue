@@ -29,8 +29,9 @@
             ]"
         >
             <Column field="image" header="Imagen">
-                <template #body="slotProps">
+                <template #body="slotProps">                    
                     <img
+                        v-if="slotProps.data.galleries[0] && slotProps.data.galleries[0].url"
                         class="img-fluid img-product"
                         :src="'/' + slotProps.data.galleries[0].url"
                         :alt="slotProps.data.galleries[0].alt"

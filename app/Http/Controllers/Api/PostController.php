@@ -60,7 +60,10 @@ class PostController extends Controller
         ]);
 
         // Sync post categories
-        $post->postcategories()->sync($request->input('post_category_id'));
+        // $post->postcategories()->sync($request->input('post_category_id'));
+        if ($request->has('category_ids')) {
+            $post->postcategories()->sync($request->input('category_ids'));
+        }
 
         return response()->json(['message' => 'Post created successfully', 'post' => $post], 201);
     }

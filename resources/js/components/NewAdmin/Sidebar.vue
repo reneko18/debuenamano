@@ -1,7 +1,7 @@
 <template>
     <div class="sidebar">
         <h2 class="title-admin">DBM Admin</h2>
-        <Tree v-model:selectionKeys="selectedKey" :value="nodes" class="w-full" selectionMode="single" @node-select="handleNodeSelect" />
+        <Tree v-model:selectionKeys="selectedKey" :value="nodes" class="w-full" selectionMode="single" @node-select="handleNodeSelect" />       
     </div>
 </template>
 <script setup>
@@ -14,9 +14,22 @@ const nodes = ref(null);
 const emit = defineEmits()
 const selectedKey = ref(null);
 
+
+
 const handleNodeSelect = (node) => {
-  emit('nodeSelected', node.component); 
+  if (node.isLogout) {
+    NodeService.logout().then(() => {
+      // Redirect to login page or perform another action after logout
+      window.location.href = '/login'; // Replace with your actual login route
+    }).catch(error => {
+      console.error('Error logging out:', error);
+      // Handle error (e.g., show notification)
+    });
+  } else {
+    emit('nodeSelected', node.component); 
+  }
 };
+
 
 onMounted(() => {
     NodeService.getTreeNodes().then((data) => (nodes.value = data));

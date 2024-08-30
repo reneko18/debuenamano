@@ -2,29 +2,17 @@
     <div class="container row p-5">
         <div class="col-6">
             <div class="mb-3">
-                <label for="title" class="form-label">Titulo del post</label>
-                <input type="text" class="form-control" id="title" v-model="title">
+                <label for="firstname" class="form-label">Nombre del autor</label>
+                <input type="text" class="form-control" id="firstname" v-model="firstname">
             </div>
             <div class="mb-3">
-                <label for="category" class="form-label">Categoria del post</label>
-                <MultiSelect v-model="selectedCategory" :showToggleAll="false" :options="postscategories" optionLabel="name" placeholder="Seleccionar categoria(s)" class="w-full"/>
+                <label for="lastname" class="form-label">Apellido del autor</label>
+                <input type="text" class="form-control" id="lastname" v-model="lastname">
             </div>
-            <div class="mb-3">
-                
-                <label for="author" class="form-label">Autor post</label>
-                <select type="text" class="form-select" id="author" v-model="author">
-                    <option disabled selected value="">Seleccione un  autor</option>
-                    <option :value="author.id" v-for="author in authors">{{ author.firstname }} {{ author.lastname }}</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Contenido del post</label>
-                <Editor v-model="editorValue" editorStyle="height: 320px" />
-            </div>
-            <a class="btn boton-principal" @click="createPost">Crear post</a>
+            <a class="btn boton-principal" @click="createAuthor">Crear autor</a>
         </div>
         <div class="col-6 admin-img">
-            <label for="main-img" class="form-label">Agregar imagen principal del post</label>
+            <label for="main-img" class="form-label">Agregar imagen para el autor</label>
             <div class="modulo-pasos paso-fotos">
                 <div class="cont-upload-image">
                     <h2>Fotografías</h2>
@@ -90,46 +78,21 @@
     <Toast />
 </template>
 <script setup>
-import { ref, onMounted, defineEmits } from 'vue';
-import Editor from 'primevue/editor';
+import { ref, defineEmits } from 'vue';
 import { useToast } from "primevue/usetoast";
-import MultiSelect from 'primevue/multiselect';
 import { useDropzone } from "vue3-dropzone";
 
-const emit = defineEmits(['postCreated']);
+const emit = defineEmits(['authorCreated']);
 
 const toast = useToast();
 
-const postscategories = ref([]);
-const authors = ref([]);
-const editorValue = ref('');
-const title = ref('');
-const selectedCategory = ref('');
-const author = ref('');
-
+const firstname = ref('');
+const lastname = ref('');
 
 //Main Photo
 const mainImg = ref([]);
 const isDragActive = ref(false);
 const fileInput = ref(null);
-
-const fetchPostCategories = async () => {
-    try {
-        const response = await axios.get('/api/postscategories');
-        postscategories.value = response.data;
-    } catch (error) {
-        console.error("Error fetching data:", error);
-    }
-};
-
-const fetchAuthors = async () => {
-    try {
-        const response = await axios.get('/api/authors');
-        authors.value = response.data;
-    } catch (error) {
-        console.error("Error fetching data:", error);
-    }
-};
 
 //Main Image Methods
 const openFileInput = () => {
@@ -177,85 +140,34 @@ function deleteImage(index) {
     mainImg.value.splice(index, 1);
 }
 
-
-const uploadImage = async (file) => {
-  const formData = new FormData();
-  formData.append('image', file);
-  const response = await axios.post('/api/upload-image', formData, {
-    headers: {
-      'Content-Type': 'multipart/form-data'
-    }
-  });
-  return response.data.url;
-};
-
-
-const createPost = async () => {
-  try {
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(editorValue.value, 'text/html');
-    const images = doc.querySelectorAll('img');
-    const imageUploadPromises = [];
-
-    // Upload images embedded in the editor content
-    images.forEach(image => {
-      const file = dataURLtoFile(image.src);
-      imageUploadPromises.push(uploadImage(file).then(url => {
-        image.src = url;
-      }));
-    });
-
-    await Promise.all(imageUploadPromises);
-
-    const updatedContent = doc.body.innerHTML;
+const createAuthor = async () => {
+  try {   
 
     // Extract main image data
     const mainImage = mainImg.value[0]; // Assuming mainImg is an array with one item
     const mainImageBase64 = mainImage.src; // Assuming src is the base64 data
 
-    // Collect selected category IDs
-    const selectedCategoryIds = selectedCategory.value.map(category => category.id);
-
-    const response = await axios.post('/api/posts/store', {
-      title: title.value,
-      category_ids: selectedCategoryIds, // Send array of category IDs
-      author_id: author.value,
-      content: updatedContent,      
+    const response = await axios.post('/api/author/store', {
+      firstname: firstname.value,
+      lastname: lastname.value,      
       main_img: mainImageBase64,
     });
     toast.add({
         severity: 'success',
         summary: 'Success',
-        detail: 'El post ha sido creado con éxito',
+        detail: 'El autor ha sido creado con éxito',
         life: 3000,
     });
-    console.log("Post created successfully:", response.data);
-    // Emit event to switch to "Ver Posts" view
+    console.log("Author created successfully:", response.data);
+    // Emit event to switch to "Ver Autores" view
     // Delay the emit by 4000 milliseconds (4 seconds)
     setTimeout(() => {
-      emit('postCreated'); // Emit the event after the delay
+      emit('authorCreated'); // Emit the event after the delay
     }, 3000); 
   } catch (error) {
     console.error("Error creating post:", error);
   }
 };
-
-const dataURLtoFile = (dataurl) => {
-  const arr = dataurl.split(',');
-  const mime = arr[0].match(/:(.*?);/)[1];
-  const bstr = atob(arr[1]);
-  let n = bstr.length;
-  const u8arr = new Uint8Array(n);
-  while(n--){
-    u8arr[n] = bstr.charCodeAt(n);
-  }
-  return new File([u8arr], 'image.png', {type:mime});
-};
-
-onMounted(() => {
-    fetchPostCategories();
-    fetchAuthors();
-});
 </script>
 
 <style scoped>

@@ -63,12 +63,13 @@
                   <div class="card-body">
                       <div class="meta-content d-flex justify-content-between">
                           <div class="author">
-                              <!-- disponer enlace hacia archive según autor -->
-                              <!--<img :src="post.author.authorimage.url" alt="">-->
-                              <span
-                                  >{{ post.author.firstname }}
-                                  {{ post.author.lastname }}</span
-                              >
+                              <a href="/autores">
+                                <img :src="post.author.main_img" alt="imagen-autor">                             
+                                <span
+                                    >{{ post.author.firstname }}
+                                    {{ post.author.lastname }}
+                                </span>
+                              </a>  
                           </div>
                           <span class="date">{{ formatDate(post.created_at) }}</span>
                       </div>
@@ -78,9 +79,9 @@
                       <p>{{ truncatedContent(post.content) }}</p>
 
                       <!-- disponer enlace hacia archive según nombre de categoría -->
-                      <span class="cat-meta" v-for="cats in post.postcategories">
-                          {{ cats.name }}
-                      </span>
+                       <a href="/categorias-posts" class="cat-meta" v-for="cats in post.postcategories">
+                        {{ cats.name }}
+                       </a>
                   </div>
               </div>
           </div>

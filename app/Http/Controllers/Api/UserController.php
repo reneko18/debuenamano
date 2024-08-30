@@ -77,4 +77,45 @@ class UserController extends Controller
         // Return the user's bank details as JSON
         return response()->json($user->bankDetail);
     }
+
+    public function uploadImage(Request $request,User $user)
+    {
+        $imagesData = $request->input('profilImage');
+
+        if (!is_array($imagesData)) {
+            return response()->json(['message' => 'Invalid data format'], 400);
+        }
+
+        foreach ($imagesData as $imageData) {
+            // $src = str_replace('data:image/png;base64,', '', $imageData['src']); 
+            // Check the image type and remove the appropriate base64 prefix
+            if (strpos($imageData['src'], 'data:image/png;base64,') === 0) {
+                $src = str_replace('data:image/png;base64,', '', $imageData['src']);
+            } elseif (strpos($imageData['src'], 'data:image/jpeg;base64,') === 0) {
+                $src = str_replace('data:image/jpeg;base64,', '', $imageData['src']);
+            } else {
+                // Handle other image types if necessary or return an error
+                return response()->json(['message' => 'Unsupported image format'], 415);
+            }
+            $originalName = $imageData['name'];
+            // $size = $imageData['size'];
+            $name = preg_replace('/[^\w\d\.\-_]/', '_', $originalName); 
+                    
+            // Add unique identifier to the image name
+            $imageName = uniqid() . '_' . $name;
+                    
+            // Save the image to the public folder
+            $imagePath = public_path('images/profil-users/' . $imageName);
+            $decodedImage = base64_decode($src);
+        
+            file_put_contents($imagePath, $decodedImage);
+        
+             // Update user's profile image path
+             $user->profil_image = 'images/profil-users/' . $imageName;
+             $user->save();  // Save the user with updated profile image path
+        }
+
+        // Optionally, you can return a response indicating success or failure
+        return response()->json(['message' => 'User image updated successfully'], 200);
+    }
 }

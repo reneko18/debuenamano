@@ -94,4 +94,10 @@ class PostCategoryController extends Controller
     {
         //
     }
+
+    public function archive()
+    {
+        $categories = PostCategory::get();
+        return view('postcategories.archive', compact('categories'));
+    }
 }

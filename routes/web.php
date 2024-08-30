@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\admin\AuthorController;
-use App\Http\Controllers\admin\AuthorImageController;
 use App\Http\Controllers\admin\DashboardController;
 use App\Http\Controllers\admin\ImageUploadController;
 use App\Http\Controllers\admin\InvoiceController;
@@ -71,10 +70,6 @@ Route::get('/single-product/{product}',[SingleProductController::class,'singleSh
 Route::get('/new-tienda',[SingleProductController::class,'loop'])->name('loop.index');
 
 
-//Image for authors
-Route::post('author/{author}/photo',[AuthorImageController::class, 'store'])->name('image.store');
-Route::delete('image/{image}',[AuthorImageController::class, 'destroy'])->name('image.destroy');
-
 //Test Image CKEditor5*/
 Route::post('image-upload', [ImageUploadController::class, 'storeImage'])->name('image.upload');
 
@@ -85,6 +80,12 @@ Route::delete('post/{post}',[PostController::class, 'destroyImage'])->name('main
 //Blog Routes
 Route::get('/blog',[PostController::class, 'blog'])->name('post.blog');
 Route::get('/entradas/{post}',[PostController::class, 'show'])->name('post.show');
+
+//Authors Routes
+Route::get('/autores',[AuthorController::class, 'archive'])->name('author.index');
+
+//Post Categories
+Route::get('/categorias-posts',[PostCategoryController::class, 'archive'])->name('postcategories.archive');
 
 //Test API Chilexpress Route
 Route::get('/chilexpress',[ChilexpressController::class, 'index'])->name('api.index');

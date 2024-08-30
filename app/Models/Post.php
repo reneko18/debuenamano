@@ -26,7 +26,7 @@ class Post extends Model
 
     public function postcategories()
     {
-        return $this->belongsToMany(PostCategory::class,'post_category');
+        return $this->belongsToMany(PostCategory::class, 'post_category', 'post_id', 'post_category_id');
     }
 
     /*Scope Filters*/ 

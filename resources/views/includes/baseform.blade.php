@@ -23,7 +23,6 @@
     {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.2/croppie.js"></script> --}}
     {{-- <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script> --}}
     @stack('dbm-parallax')
-    {{-- @stack('img-profil') --}}
     @stack('password-eye')
     @stack('confetti')
     @stack('ajax-cart')
