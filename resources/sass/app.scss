@@ -569,6 +569,15 @@ label {
     font-size: 12px;
 }
 
+.admin-edit .div-cat .fa-chevron-down{
+    cursor: pointer;
+    position: absolute;
+    z-index: 999;
+    top: 47px;
+    right: 15px;
+    font-size: 12px;
+}
+
 .step1-sell-form .div-cat .fa-chevron-down, .modulo-resumen .div-cat .fa-chevron-down {
     top: 46px;
 }

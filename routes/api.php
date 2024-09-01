@@ -34,6 +34,7 @@ Route::get('/table/publish/{user_id}', [ProductController::class, 'getProductsPu
 Route::get('/table/display/{user_id}', [ProductController::class, 'getProductsDisplayedByUserId']);
 Route::get('/table/purchase/{user_id}', [ProductController::class, 'getProductsPurchasedByUserId']);
 Route::get('/table/sold/{user_id}', [ProductController::class, 'getProductsSoldByUserId']);
+Route::get('/table/total/{user_id}',[ProductController::class, 'getTotalProductsByUserId']);
 
 //Test Admin by Case
 Route::get('/table/admindraft', [ProductController::class, 'getProductsAdminDraftByUserId']);

@@ -138,11 +138,11 @@
                 </div>
                 <div class="cont-genre">
                     <label for="productGenre" class="form-label">Género</label>
-                    <select-dbm
+                    <select-dbm-static
                         id="productGenre"
                         :items="genders"   
                         :selected="formData.stepOneGenre"
-                        @update:selected="updateSelectedGender"
+                        @update:selected-static="updateSelectedGender"
                         placeholder="Seleccione un género"
                     />
                 </div>
@@ -151,11 +151,11 @@
                 <div class="row row-age-range" :class="errorMessageRange ? 'error-dbm' : ''">  
                     <label for="range-age" class="form-label">Rango de edad de tu articulo*</label>
                     <select-dbm-static
-                            id="range-age"
-                            :items="rangeAge"   
-                            :selected="formData.stepOneRangeAge"
-                            @update:selected-static="updateSelectedRangeAge"
-                            placeholder="Seleccione un rango"                            
+                        id="range-age"
+                        :items="rangeAge"   
+                        :selected="formData.stepOneRangeAge"
+                        @update:selected-static="updateSelectedRangeAge"
+                        placeholder="Seleccione un rango"                            
                     />
                 </div>
                 <div v-if="errorMessageRange" class="invalid-dbm">

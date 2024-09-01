@@ -66,7 +66,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, defineEmits } from "vue";
+import { ref, onMounted } from "vue";
 import { FilterMatchMode } from "primevue/api";
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
@@ -75,8 +75,8 @@ const props = defineProps({
     userId: { type: Number, default: "" },
 });
 const products = ref([]);
-const emit = defineEmits(["update-products-published-count"]);
-const productsCount = ref("");
+// const emit = defineEmits(["update-products-published-count"]);
+// const productsCount = ref("");
 
 const filters = ref({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -89,10 +89,10 @@ const fetchData = async (user_id) => {
             categoryName: product.category ? product.category.name : null,
             formattedPrice: formatPrice(product.price),
         }));
-        productsCount.value = response.data.length;
-        console.log("Productos publicados", productsCount.value);
+        // productsCount.value = response.data.length;
+        // console.log("Productos publicados", productsCount.value);
         // Emit the custom event with the products count to the parent component
-        emit("update-products-published-count", productsCount.value);
+        // emit("update-products-published-count", productsCount.value);
     } catch (error) {
         console.error("Error fetching data:", error);
     }

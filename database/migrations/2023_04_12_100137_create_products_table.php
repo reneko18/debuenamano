@@ -44,9 +44,8 @@ return new class extends Migration
             $table->string('payment_date')->nullable();               
            
             //Para después testear los siguientes datos (todo sera nullable)
-            $table->string('sku')->nullable();        
-            
-            //$table->foreignId('user_id')->constrained()->onDelete('cascade')->nullable();
+            $table->string('sku')->nullable();           
+
             $table->foreignId('address_id')->nullable();
             $table->string('slug')->nullable();
             $table->string('meta_title')->nullable();
@@ -55,6 +54,7 @@ return new class extends Migration
             $table->string('active_title')->nullable();
             $table->string('received_constant')->nullable();
             $table->string('current_step')->nullable();
+            $table->timestamp('published_at')->nullable();
             $table->timestamps();
         });
     }

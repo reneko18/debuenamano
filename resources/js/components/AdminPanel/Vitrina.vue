@@ -33,12 +33,6 @@
             <Column :field="getFormatDate" header="Fecha publicacion"></Column>
             <Column field="selling_status" header="Disponible">
                 <template #body="slotProps">
-                    <!-- <Dropdown
-                    v-model="slotProps.data.selectedCity"
-                    :options="cities"
-                    optionLabel="name"
-                    placeholder="Select a City"
-                /> -->
                     <select
                         class="form-select"
                         v-model="slotProps.data.selectedAvailable"
@@ -155,7 +149,7 @@ const fetchProducts = async () => {
             categoryName: item.product.category
                 ? item.product.category.name
                 : null,
-            formattedDate:  formatDate(item.product.created_at),
+            formattedDate:  formatDate(item.product.published_at),
             formattedPrice: formatPrice(item.product.price),
             selectedAvailable: item.product.selling_status,
             selectedMedia: item.product.product_contacts.map((pc) => pc.id),

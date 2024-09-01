@@ -61,7 +61,8 @@ class ProductFactory extends Factory
             'received_constant' => 5,
             'current_step' => 9,
             'created_at' => $createdAt,
-            'updated_at' => $createdAt, // Assuming you want updated_at to be the same as created_at initially
+            'updated_at' => $createdAt, 
+            'published_at' => $createdAt,
         ];
     }
 

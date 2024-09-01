@@ -49,7 +49,7 @@ class ProductControllerTest extends Controller
         //Presentacion
         $product->name = $request->input('stepOneNameProduct');
         $product->category_id = $request->input('stepOneCategoryProduct.id');
-        $product->gender_id = $request->input('stepOneGenre.id');
+        $product->gender_id = $request->input('stepOneGenre');
         $product->age_filter_id = $request->input('stepOneRangeAge');
         $product->description = $request->input('stepOneDescriptionProduct');        
         //Marca

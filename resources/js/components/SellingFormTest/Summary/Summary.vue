@@ -128,7 +128,7 @@
                         id="productGenre"
                         :items="genders"   
                         :selected="formData.stepOneGenre"
-                        @update:selected="updateSelectedGender"
+                        @update:selected-static="updateSelectedGender"
                         placeholder="Seleccione un género"
                     />
                 </div>

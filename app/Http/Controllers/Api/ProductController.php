@@ -466,6 +466,15 @@ class ProductController extends Controller
                 'publish_status',
                 'visible_status',
             ]);
+
+            // Update product information
+            $product->update($requestData);
+
+    
+            // Update published_at to the current timestamp
+            $product->published_at = now();
+            $product->save();
+          
     
             // If you have nested data, you might want to format it properly before updating
             $deliveryInformationData = request()->only([
@@ -480,6 +489,11 @@ class ProductController extends Controller
                 'dpto_house',
             ]);
 
+            // Update delivery information if provided
+            if (!empty($deliveryInformationData)) {
+                $product->deliveryInformation()->updateOrCreate([], $deliveryInformationData);
+            }
+
             $bankDetailsData = request()->only([
                 'full_name',
                 'bank',
@@ -487,14 +501,6 @@ class ProductController extends Controller
                 'account_type',
                 'rut',
             ]);
-    
-            // Update product information
-            $product->update($requestData);
-    
-            // Update delivery information if provided
-            if (!empty($deliveryInformationData)) {
-                $product->deliveryInformation()->updateOrCreate([], $deliveryInformationData);
-            }
 
             // Update bank details if provided
             if (!empty($bankDetailsData)) {
@@ -785,5 +791,15 @@ class ProductController extends Controller
         });
 
         return response()->json($products);    
+    }
+
+    public function getTotalProductsByUserId($user_id)
+    {
+        // Fetch the total number of products with 'En vitrina' or 'Vendido' status
+        $totalProducts = Product::where('user_id', $user_id)
+                                ->whereIn('publish_status', ['En vitrina', 'Vendido'])
+                                ->count();
+    
+        return response()->json(['total' => $totalProducts]);
     }
 }

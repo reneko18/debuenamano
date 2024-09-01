@@ -1,6 +1,6 @@
 <template>
     <Toast/>
-    <div class="container pt-5">
+    <div class="admin-edit container pt-5">
         <div class="row">
             <div class="col">
                 <h1>Publicación en revisión</h1>

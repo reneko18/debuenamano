@@ -130,7 +130,7 @@ protected $fillable = [
                 $query->orderBy('price', 'asc');
                 break;
             default:
-                $query->orderBy('created_at', 'desc');
+                $query->orderBy('published_at', 'desc');
                 break;
         }
 

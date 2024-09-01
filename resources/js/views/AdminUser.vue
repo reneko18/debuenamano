@@ -29,9 +29,6 @@
             <Tab title="Revisión" icon="fa-regular fa-eye">
                 <published
                     :user-id="userId"
-                    @update-products-published-count="
-                        updateProductsPublishedCount
-                    "
                 />
             </Tab>
 
@@ -68,7 +65,7 @@
     </div>
 </template>
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import Tabs from "../components/Tabs/Tabs.vue";
 import Tab from "../components/Tabs/Tab.vue";
 import Draft from "../components/UserAdmin/Draft.vue";
@@ -87,9 +84,9 @@ const productsDisplayedCount = ref("");
 const productsPurchasedCount = ref("");
 const productsSoldCount = ref("");
 
-const updateProductsPublishedCount = (count) => {
-    productsPublishedCount.value = count;
-};
+// const updateProductsPublishedCount = (count) => {
+//     productsPublishedCount.value = count;
+// };
 
 const updateProductsDisplayedCount = (count) => {
     productsDisplayedCount.value = count;
@@ -101,4 +98,17 @@ const updateProductsPurchasedCount = (count) => {
 const updateProductsSoldCount = (count) => {
     productsSoldCount.value = count;
 };
+
+const fetchTotalProducts = async (user_id) => {
+    try {
+        const response = await axios.get(`/api/table/total/${user_id}`);
+        productsPublishedCount.value = response.data.total;
+    } catch (error) {
+        console.error("Error fetching data:", error);
+    }
+};
+
+onMounted(() => {
+    fetchTotalProducts(props.userId);
+});
 </script>
