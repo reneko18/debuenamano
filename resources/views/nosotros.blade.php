@@ -105,3 +105,5 @@
 <div class="mt-130">
     <!-- slider -->
 </div>
+
+@endsection

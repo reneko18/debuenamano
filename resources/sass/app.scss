@@ -70,6 +70,13 @@ body {
     background-size: cover;
 }
 
+.bg-hero-landing {
+    background-image: url(../../public/img/hero-landing.svg);
+    background-repeat: no-repeat;
+    background-position: left top;
+    background-size: contain;
+}
+
 /* TIPOGRAFÍA ****************************************************** */
 
 h1,
@@ -846,7 +853,24 @@ label {
     text-decoration: none;
 }
 
-.boton-secundario:hover {
+.input-landing { border-right: none!important; height: 50px;}
+.boton-landing {
+    color: #728c54;
+    border-radius: 0 4px 4px 0 ;
+    border: 2.5px solid #728c54;
+    font-family: "Quicksand", sans-serif;
+    font-size: 15px;
+    height: 50px;
+    font-weight: 700;
+    padding-left: 32px;
+    padding-right: 32px;
+    background: transparent;
+    text-decoration: none;
+    z-index: 99;
+}
+
+
+.boton-secundario:hover, .boton-landing:hover {
     background-color: #728c54;
     color: #f8faf7;
 }
@@ -1120,6 +1144,16 @@ footer a {
     height: 100vh;
     background-image: url(../../public/img/cuna.png),
         url(../../public/img/elipse.svg), url(../../public/img/back.svg);
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: auto;
+}
+#parallax-landing {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background-image: url(../../public/img/usuarios.svg),
+        url(../../public/img/articulos.svg), url(../../public/img/elipse-landing.svg) ;
     background-repeat: no-repeat;
     background-position: center center;
     background-size: auto;
