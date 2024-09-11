@@ -5,9 +5,14 @@
             <div class="col">
                 <h1>Publicación en revisión</h1>
             </div>
-            <div class="col d-flex justify-content-end align-items-center">
-                <a class="underline-dbm save-edit-pro cursor-pointer" @click="SaveProductStatus">Guardar</a>
-                <a class="btn boton-principal" @click="UpdateProductStatus">Enviar a Vitrina <font-awesome-icon :icon="['fas', 'chevron-right']" /></a>
+            <div class="col d-flex justify-content-end align-items-center">           
+                <a class="underline-dbm save-edit-pro cursor-pointer" @click="SaveProductStatus">
+                    Guardar
+                </a>
+            
+                <a class="btn boton-principal" @click="UpdateProductStatus">
+                    {{ textUpdate  }} <font-awesome-icon :icon="['fas', 'chevron-right']" />
+                </a>                
             </div>
         </div> 
         <div class="row">
@@ -821,6 +826,16 @@ const toast = useToast();
 //   // Insert a point separator for thousands
 //   return numericValue.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 // };
+const statusProduct = ref('');
+const statusVisible = ref('');
+
+const textUpdate = computed(() => {
+    if(productInfo.value?.publish_status === 'Guardado/borrador' || productInfo.value?.publish_status === 'En revisión'){
+        return 'Enviar a Vitrina ';
+    }else if(productInfo.value?.publish_status === 'En vitrina'){
+        return 'Actualizar';
+    }
+});
 
 const genders = ref([]);
 const rangeAge = ref([
@@ -1262,6 +1277,13 @@ const UpdateProductStatus = async() => {
 const SaveProductStatus = async() => {
     try{
         // const csrfToken = document.head.querySelector('meta[name="csrf-token"]').content;
+        if(productInfo.value?.publish_status !== 'En vitrina'){
+            statusProduct.value = 'En revisión';
+            statusVisible.value = 'No';
+        } else {
+            statusProduct.value = 'En vitrina';
+            statusVisible.value = 'Si';
+        }
 
         const response = await axios.put(
             `/api/savestatus/${props.productSlug}`, 
@@ -1303,8 +1325,9 @@ const SaveProductStatus = async() => {
                 bank: userBank.value ,
                 account_number: userBankAccount.value,
                 account_type: userBankAccountType.value,
-                rut: userRut.value,   
-                publish_status: 'En revisión',               
+                rut: userRut.value,  
+                publish_status: statusProduct.value,   
+                visible_status: statusVisible.value,                          
             },
             // {
             //     headers: {

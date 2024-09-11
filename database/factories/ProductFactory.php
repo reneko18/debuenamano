@@ -49,7 +49,7 @@ class ProductFactory extends Factory
             'publish_status' => 'En vitrina',
             'selling_status' => '',
             'admin_status' => '',     
-            'visible_status' => '',     
+            'visible_status' => 'Si',     
             'payment_status' => '',     
             'payment_date' => '',     
             'sku' => $sku,

@@ -568,6 +568,7 @@ class ProductController extends Controller
                 'advice',
                 'price', 
                 'publish_status',
+                'visible_status',
             ]);
     
             // If you have nested data, you might want to format it properly before updating
@@ -713,6 +714,8 @@ class ProductController extends Controller
     
     public function destroyProduct(Product $product)
     {
+        $product->deliveryInformation()->delete();
+
         $product->delete();
     
         return response()->json(['message' => 'Product deleted successfully']);

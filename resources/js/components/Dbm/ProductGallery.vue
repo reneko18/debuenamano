@@ -55,9 +55,9 @@
   
 <style scoped>
     .vueGallery .activePhoto {
-    width: 100%;
+    width: 80%;
     margin-bottom: 5px;
-    padding-bottom: 65%;
+    padding-bottom: 100%;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;

@@ -1,5 +1,23 @@
 <template>
     <div>
+        <div class="w-100 mb-3 flex justify-content-end gap-2">
+            <!-- Button for sorting by date descending -->
+            <Button
+                icon="pi pi-sort-amount-down"
+                label="Fecha Desc"
+                rounded
+                raised
+                @click="sortByDateDesc"
+            />
+            <!-- Button for sorting by date ascending -->
+            <Button
+                icon="pi pi-sort-amount-up"
+                label="Fecha Asc"
+                rounded
+                raised
+                @click="sortByDateAsc"
+            />
+        </div>
         <div class="search-box input-group">
             <input
                 type="text"
@@ -96,13 +114,8 @@
             <Column :field="getFormattedPrice" header="Precio"></Column>
             <Column header="Acciones">
                 <template #body="slotProps">
-                    <Button icon="pi pi-pencil" outlined rounded />
-                    <Button
-                        icon="pi pi-trash"
-                        outlined
-                        rounded
-                        severity="danger"
-                    />
+                    <Button icon="pi pi-pencil" outlined rounded @click="editProduct(slotProps.data.editUrl)"/>
+                    <Button icon="pi pi-trash" outlined rounded severity="danger" @click="confirmDelete(slotProps.data)"/>
                 </template>
             </Column>
             <Column header="En vitrina">
@@ -112,6 +125,11 @@
             </Column>
         </DataTable>  
     </div>
+    <Dialog v-model="displayDialog" modal :visible="displayDialog" @hide="cancelDelete">
+      <span>Estas seguro que deseas eliminar este producto?</span>
+      <Button label="Anular" class="p-button-text" @click="cancelDelete" />
+      <Button label="Eliminar" class="p-button-text" @click="deleteConfirmed" />
+    </Dialog>
 </template>
 <script setup>
 import { ref, onMounted } from "vue";
@@ -122,12 +140,16 @@ import Dropdown from "primevue/dropdown";
 import Button from "primevue/button";
 import Checkbox from "primevue/checkbox";
 import InputSwitch from 'primevue/inputswitch';
+import Dialog from 'primevue/dialog';
 
 const filters = ref({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
 });
 
 const products = ref([]);
+const selectedProductId = ref(null);
+const selectedProductSlug = ref(null);
+const displayDialog = ref(false);
 
 const mediaTypes = ref([
     { id: 1, name: "Mail" },
@@ -153,6 +175,7 @@ const fetchProducts = async () => {
             formattedPrice: formatPrice(item.product.price),
             selectedAvailable: item.product.selling_status,
             selectedMedia: item.product.product_contacts.map((pc) => pc.id),
+            editUrl: `/admin/productos/${item.product.slug}/edit`, 
         }));
     } catch (error) {
         console.error("Error fetching products:", error);
@@ -247,6 +270,44 @@ const updateProductVisibilityInDatabase = async (productSlug, visibleStatus) => 
 
 // Computed property to convert visible_status to boolean for InputSwitch
 const getProductVisibleStatus = (product) => product.visible_status === 'Si';
+
+//Functions to order the products by date ASC or DESC 
+const sortByDateDesc = () => {
+    products.value.sort((a, b) => new Date(b.published_at) - new Date(a.published_at));
+};
+
+const sortByDateAsc = () => {
+    products.value.sort((a, b) => new Date(a.published_at) - new Date(b.published_at));
+};
+
+const editProduct = (editUrl) => {
+    window.open(editUrl, '_blank'); // Opens the URL in a new tab
+};
+
+const confirmDelete = (product) => {
+  selectedProductId.value = product.id;
+  selectedProductSlug.value = product.slug;
+  displayDialog.value = true;
+};
+
+const cancelDelete = () => {
+  displayDialog.value = false;
+};
+
+const deleteConfirmed = async () => {   
+    if (selectedProductId.value !== null) {
+    try {
+      await axios.delete(`/api/products/delete/${selectedProductSlug.value}`);
+      const index = products.value.findIndex(product => product.id === selectedProductId.value);
+      if (index !== -1) {
+        products.value.splice(index, 1); // Remove the product at the found index
+      }
+      displayDialog.value = false;
+    } catch (error) {
+      console.error("Error deleting product:", error);
+    }
+  }
+};
 
 onMounted(() => {
     fetchProducts();

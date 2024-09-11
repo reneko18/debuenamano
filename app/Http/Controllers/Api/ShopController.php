@@ -23,6 +23,7 @@ class ShopController extends Controller
 
         $products = Product::with('category','galleries')
             ->where('publish_status', 'En vitrina')
+            ->where('visible_status', 'Si')
             ->withFilters($category_id, $gender_id, $min_price, $max_price,$age,$search_query,$order)
             ->paginate(12); 
 
@@ -81,6 +82,8 @@ class ShopController extends Controller
         
         $relatedProducts = Product::where('category_id', $categoryId)
                           ->where('id', '!=', $excludeId)
+                          ->where('publish_status', 'En vitrina')
+                          ->where('visible_status', 'Si')
                           ->with('galleries')
                           ->inRandomOrder()
                           ->take(4)

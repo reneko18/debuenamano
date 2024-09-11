@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('delivery_informations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('product_id')->constrained();
+            $table->foreignId('product_id')->constrained()->onDelete('cascade');
             $table->string('length');
             $table->string('length_unit');
             $table->string('width');
