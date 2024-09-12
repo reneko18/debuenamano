@@ -694,6 +694,26 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-lg-6 col-md-12">
+                    <h3>Precio de referencia</h3>
+                    <p class="bajada-h3-precio">
+                        Busca en internet el precio de referencia. Fíjate en si el producto está con descuento o no y en cuánto vale hoy ese producto.
+                    </p>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-12">
+                <div class="input-group mb-3">
+                    <span class="input-group-text">$</span>
+                    <input
+                        type="text"
+                        class="form-control input-precio"
+                        id="priceItem"
+                        placeholder="Precio"
+                        v-model="productInfo.reference_price"
+                    />
+                </div>
+            </div>
         </div>
 
         <div>
@@ -1253,6 +1273,7 @@ const UpdateProductStatus = async() => {
                 address_number: productInfo.value.delivery_information.address_number,
                 dpto_house: productInfo.value.delivery_information.dpto_house,
                 price: productInfo.value.price,
+                reference_price: productInfo.value.reference_price,
                 //Bank Details
                 full_name: userFullName.value,
                 bank: userBank.value ,
@@ -1320,6 +1341,7 @@ const SaveProductStatus = async() => {
                 address_number: productInfo.value.delivery_information.address_number,
                 dpto_house: productInfo.value.delivery_information.dpto_house,
                 price: productInfo.value.price,
+                reference_price: productInfo.value.reference_price,
                 //Bank Details
                 full_name: userFullName.value,
                 bank: userBank.value ,

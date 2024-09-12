@@ -175,6 +175,13 @@ class ProductControllerTest extends Controller
         $priceString = $request->input('stepEightPrice');
         $priceFormatted = (float)str_replace('.', '', $priceString);
         $product->price = $priceFormatted;
+        // Precio Referencia
+        $priceReferenceString = $request->input('stepEightPriceReference');
+        $priceReferenceFormatted = (float)str_replace('.', '', $priceReferenceString);
+        $product->reference_price = $priceReferenceFormatted;
+
+        $productDiscount = round((($priceReferenceFormatted - $priceFormatted) / $priceReferenceFormatted) * 100);
+        $product->reduction_percent = $productDiscount;
 
         // Save the updated product
         $product->save();

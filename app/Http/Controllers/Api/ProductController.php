@@ -467,6 +467,18 @@ class ProductController extends Controller
                 'visible_status',
             ]);
 
+            // Calculate the discount percentage
+            if (isset($requestData['price']) && isset($requestData['reference_price'])) {
+                $priceFormatted = $requestData['price'];
+                $priceReferenceFormatted = $requestData['reference_price'];
+                
+                // Ensure reference price is not zero to avoid division by zero
+                if ($priceReferenceFormatted > 0) {
+                    $productDiscount = round((($priceReferenceFormatted - $priceFormatted) / $priceReferenceFormatted) * 100);
+                    $requestData['reduction_percent'] = $productDiscount;
+                }
+            }
+
             // Update product information
             $product->update($requestData);
 
@@ -567,6 +579,7 @@ class ProductController extends Controller
                 'remark',
                 'advice',
                 'price', 
+                'reference_price', 
                 'publish_status',
                 'visible_status',
             ]);
@@ -591,6 +604,18 @@ class ProductController extends Controller
                 'account_type',
                 'rut',
             ]);
+
+            // Calculate the discount percentage
+            if (isset($requestData['price']) && isset($requestData['reference_price'])) {
+                $priceFormatted = $requestData['price'];
+                $priceReferenceFormatted = $requestData['reference_price'];
+                
+                // Ensure reference price is not zero to avoid division by zero
+                if ($priceReferenceFormatted > 0) {
+                    $productDiscount = round((($priceReferenceFormatted - $priceFormatted) / $priceReferenceFormatted) * 100);
+                    $requestData['reduction_percent'] = $productDiscount;
+                }
+            }
     
             // Update product information
             $product->update($requestData);

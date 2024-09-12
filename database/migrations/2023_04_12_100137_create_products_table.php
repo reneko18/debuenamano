@@ -34,6 +34,8 @@ return new class extends Migration
             $table->text('remark')->nullable();
             $table->text('advice')->nullable();
             $table->string('price')->nullable();
+            $table->string('reference_price')->nullable();
+            $table->string('reduction_percent')->nullable();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('publish_status')->nullable();
             $table->string('selling_status')->nullable();

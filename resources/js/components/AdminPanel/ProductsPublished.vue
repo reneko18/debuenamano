@@ -40,6 +40,7 @@
                 :filter="true"
             ></Column>
             <Column :field="getFormattedPrice" header="Precio"></Column>
+            <Column :field="getFormattedReferencePrice" header="Precio de referencia"></Column>
             <Column header="Enlace">
                 <template #body="slotProps">
                     <a :href="slotProps.data.editUrl" target="_blank"> ver ficha </a> 
@@ -86,6 +87,7 @@ const fetchData = async () => {
                 : null,
             formattedDate:  formatDate(item.product.created_at),
             formattedPrice: formatPrice(item.product.price),
+            formattedReferencePrice: formatReferencePrice(item.product.reference_price),
             sellerFullName: item.sellerFullName,
             // editUrl: item.editUrl,
             editUrl: `/admin/productos/${item.product.slug}/edit`,            
@@ -112,6 +114,23 @@ const formatPrice = (price) => {
     }
 };
 
+const formatReferencePrice = (price) => {
+    const numericPrice = parseFloat(price.replace(/[$,.]/g, ""));
+
+    if (!isNaN(numericPrice) && typeof numericPrice === "number") {
+        const formattedReferencePrice = new Intl.NumberFormat("es-CL", {
+            style: "currency",
+            currency: "CLP",
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0,
+        }).format(numericPrice);
+
+        return formattedReferencePrice;
+    } else {
+        return "Invalid Price";
+    }
+};
+
 const formatDate = (date) => {
     const dateObject = new Date(date);
     const day = dateObject.getDate().toString().padStart(2, '0');
@@ -127,6 +146,10 @@ const getFormatDate = (rowData) => {
 
 const getFormattedPrice = (rowData) => {
     return rowData.formattedPrice;
+};
+
+const getFormattedReferencePrice = (rowData) => {
+    return rowData.formattedReferencePrice;
 };
 
 const getCategoryName = (rowData) => {

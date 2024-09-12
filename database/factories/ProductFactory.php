@@ -25,6 +25,12 @@ class ProductFactory extends Factory
 
         $createdAt = fake()->dateTimeBetween('-1 year', 'now');
 
+        $price = fake()->numberBetween(10000, 100000);
+        $referencePrice = fake()->numberBetween(100000, 200000);
+    
+        // Calculate the reduction percent
+        $reductionPercent = round((($referencePrice - $price) / $referencePrice) * 100);
+
         return [
             'name' => 'Producto Test Plantilla',
             'category_id' => fake()->randomElement($categoryIds),
@@ -44,7 +50,9 @@ class ProductFactory extends Factory
             'used_time_unit' => 'Dias',
             'remark' => fake()->realTextBetween(10,25),
             'advice' => fake()->realTextBetween(10,25),
-            'price' => fake()->numberBetween(10000, 100000),
+            'price' => $price,
+            'reference_price' => $referencePrice,
+            'reduction_percent' => $reductionPercent,
             'user_id' => 2,
             'publish_status' => 'En vitrina',
             'selling_status' => '',

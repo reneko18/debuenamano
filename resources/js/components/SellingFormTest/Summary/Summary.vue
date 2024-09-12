@@ -699,6 +699,27 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-lg-6 col-md-12">
+                    <h3>Precio de referencia</h3>
+                    <p class="bajada-h3-precio">
+                        Busca en internet el precio de referencia. Fíjate en si el producto está con descuento o no y en cuánto vale hoy ese producto.
+                    </p>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-12">
+                <div class="input-group mb-3">
+                    <span class="input-group-text">$</span>
+                    <input
+                        type="text"
+                        class="form-control input-precio"
+                        id="priceItem"
+                        placeholder="Precio"
+                        v-model="formattedPriceReference"
+                        @input="handleInputReference"
+                    />
+                </div>
+            </div>
         </div>
         <div>
             <h2>Cuenta depósito</h2>
@@ -987,14 +1008,28 @@
         return formData.stepEightPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
     });
 
+    const formattedPriceReference = computed(() => {
+        if (formData.stepEightPriceReference === '') return '';
+        return formData.stepEightPriceReference.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    });
+
     const updatePrice = (value) => {
         const numericValue = value.replace(/\./g, '');
         formData.stepEightPrice = isNaN(numericValue) ? '' : parseInt(numericValue, 10);
         feeDBM();
     };
 
+    const updatePriceReference = (value) => {
+        const numericValue = value.replace(/\./g, '');
+        formData.stepEightPriceReference = isNaN(numericValue) ? '' : parseInt(numericValue, 10);
+    };
+
     const handleInput = (event) => {
         updatePrice(event.target.value);
+    };
+
+    const handleInputReference = (event) => {
+        updatePriceReference(event.target.value);
     };
     const feeDBM = () => {
     const rawPrice = formData.stepEightPrice;
@@ -1041,6 +1076,7 @@
                     formData.stepFiveDetails = productInfo.value.remark;
                     formData.stepFiveAdvice = productInfo.value.advice;
                     formData.stepEightPrice = productInfo.value.price;
+                    formData.stepEightPriceReference = productInfo.value.reference_price;
                     // feeDBM();
                     formData.stepThreeLengthReal = productInfo.value.length_real;                       
                     formData.stepThreeLengthRealUnit = productInfo.value.length_real_unit;   

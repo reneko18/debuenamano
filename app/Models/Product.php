@@ -32,6 +32,7 @@ protected $fillable = [
     'remark',
     'advice',
     'price', 
+    'reference_price', 
     'publish_status',
     'selling_status', 
     'admin_status', 

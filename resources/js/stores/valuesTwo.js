@@ -43,6 +43,7 @@ export const useFormStore = defineStore("form", {
             stepSevenStreetDptoHouse: "",
             //Delivery and price Step 2
             stepEightPrice: "",
+            stepEightPriceReference: "",
             stepEightPriceFee: 0,
             stepEightPriceFinalAmount: 0,
             //Delivery and price Step 3

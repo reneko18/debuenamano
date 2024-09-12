@@ -91,18 +91,6 @@
                             {{ media.name }}
                         </label>
                     </div>
-                    <!-- <Checkbox
-                        v-model="slotProps.data.selectedCategories"
-                        :inputId="
-                            category.key + slotProps.data.selectedCategories
-                        "
-                        :name="'category_' + slotProps.data.selectedCategories"
-                        :value="category.name"
-                    />
-                    <label
-                        :for="category.key + slotProps.data.selectedCategories"
-                        >{{ category.name }}</label
-                    > -->
                 </template>
             </Column>
             <Column
@@ -112,6 +100,7 @@
             ></Column>
             <Column field="sellerMail" header="Correo" :filter="true"></Column>
             <Column :field="getFormattedPrice" header="Precio"></Column>
+            <Column :field="getFormattedReferencePrice" header="Precio referencia"></Column>
             <Column header="Acciones">
                 <template #body="slotProps">
                     <Button icon="pi pi-pencil" outlined rounded @click="editProduct(slotProps.data.editUrl)"/>
@@ -173,6 +162,7 @@ const fetchProducts = async () => {
                 : null,
             formattedDate:  formatDate(item.product.published_at),
             formattedPrice: formatPrice(item.product.price),
+            formattedReferencePrice: formatReferencePrice(item.product.reference_price),
             selectedAvailable: item.product.selling_status,
             selectedMedia: item.product.product_contacts.map((pc) => pc.id),
             editUrl: `/admin/productos/${item.product.slug}/edit`, 
@@ -231,6 +221,23 @@ const formatPrice = (price) => {
     }
 };
 
+const formatReferencePrice = (price) => {
+    const numericPrice = parseFloat(price.replace(/[$,.]/g, ""));
+
+    if (!isNaN(numericPrice) && typeof numericPrice === "number") {
+        const formattedReferencePrice = new Intl.NumberFormat("es-CL", {
+            style: "currency",
+            currency: "CLP",
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0,
+        }).format(numericPrice);
+
+        return formattedReferencePrice;
+    } else {
+        return "Invalid Price";
+    }
+};
+
 const formatDate = (date) => {
     const dateObject = new Date(date);
     const day = dateObject.getDate().toString().padStart(2, '0');
@@ -246,6 +253,10 @@ const getFormatDate = (rowData) => {
 
 const getFormattedPrice = (rowData) => {
     return rowData.formattedPrice;
+};
+
+const getFormattedReferencePrice = (rowData) => {
+    return rowData.formattedReferencePrice;
 };
 
 const getCategoryName = (rowData) => {

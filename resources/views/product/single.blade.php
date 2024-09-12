@@ -41,10 +41,10 @@
                             <span class="precio">$ {{ number_format($product->price,0,',', '.') }}</span>
                         </div>
                         <div class="mr-3 pb-3">
-                            <span class="porcentaje">-29,7%</span>
+                            <span class="porcentaje">-{{$product->reduction_percent}}%</span>
                         </div>
                         <div class="d-flex precio-referencia flex-column pb-3">
-                            <b>$120.000</b>
+                            <b>$ {{ number_format($product->reference_price,0,',', '.') }}</b>
                             <span>Precio referencial del producto nuevo</span>
                         </div>
                     </div>
