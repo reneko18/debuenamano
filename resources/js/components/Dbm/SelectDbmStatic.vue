@@ -45,7 +45,7 @@ items: {
   default: () => [],
 },
 selected: {
-  type: String,
+  type: [String, Number],
   default: ''
 },
 placeholder: {

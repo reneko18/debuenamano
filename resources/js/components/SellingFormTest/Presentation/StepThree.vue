@@ -211,7 +211,7 @@ const errorMessageSize = ref('');
 
 const weightData = ref([
     {id: 1, value: "g", name:"g"},
-    {id: 2, value: "Kg", name:"Kg"},
+    {id: 2, value: "kg", name:"Kg"},
 ]);
 
 const nextStep = async () => {

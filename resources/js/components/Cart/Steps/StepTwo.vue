@@ -303,8 +303,8 @@ const getComunasOriChilexpress = async () => {
 
 const getCotizasForCartItems = async () => {
     for (const item of Object.values(props.cartItems)) {
-        const { weight, height, width, length, price, delivery_information } = item;
-        const serviceOptions = await getCotizaChilexpress(delivery_information.city_code, weight, height, width, length, price);
+        const { price, delivery_information } = item;
+        const serviceOptions = await getCotizaChilexpress(delivery_information.city_code, delivery_information.weight, delivery_information.height, delivery_information.width, delivery_information.length, price);
         item.services = serviceOptions;
         if (serviceOptions.length > 0) {
             // Set the selected service to the first one

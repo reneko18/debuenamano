@@ -205,74 +205,50 @@
         <div class="edit-pro-admin row-main-dim">
                 <div class="row-child-dim">
                     <div class="col-dim">
-                        <label for="height-pro" class="form-label">Alto*</label>
-                        <input
-                            type="text"
-                            class="form-control"  
-                            placeholder="0,0"
-                            id="height-pro"
-                            v-model="deliveryInformation.height"  
-                            @input="handleNumericInput('height')"                          
-                        />
-                    </div>
-                    <div class="col-dim">
-                        <label for="unh-pro" class="form-label"></label>
-                        <select
-                            id="unh-pro"
-                            class="form-select"                      
-                            v-model="deliveryInformation.height_unit"
-                        >
-                            <option value="cm">cm</option>
-                            <option value="in">in</option>
-                        </select>
+                        <label for="height-chile" class="form-label">Alto*</label>
+                        <div class="input-group">
+                            <input 
+                                type="text"
+                                class="form-control input-data-unit"      
+                                placeholder="0,0"
+                                id="height-chile"
+                                v-model="deliveryInformation.height" 
+                                @input="handleNumericInput('height')"   
+                            >
+                            <span class="input-group-text">cm</span>
+                        </div>
                     </div>
                 </div>
                 <div class="row-child-dim">
                     <div class="col-dim">
-                        <label for="width-pro" class="form-label">Ancho*</label>
-                        <input
-                            type="text"
-                            class="form-control"           
-                            placeholder="0,0"
-                            id="width-pro"
-                            v-model="deliveryInformation.width"
-                            @input="handleNumericInput('width')"
-                        />
-                    </div>
-                    <div class="col-dim">
-                        <label for="unw-pro" class="form-label"></label>
-                        <select
-                            id="unw-pro"
-                            class="form-select"                  
-                            v-model="deliveryInformation.width_unit"
-                        >
-                            <option value="cm">cm</option>
-                            <option value="in">in</option>
-                        </select>
+                        <label for="width-chile" class="form-label">Ancho*</label>
+                        <div class="input-group">
+                            <input 
+                                type="text"
+                                class="form-control input-data-unit"  
+                                placeholder="0,0"
+                                id="width-chile"
+                                v-model="deliveryInformation.width"
+                                @input="handleNumericInput('width')"
+                            >
+                            <span class="input-group-text">cm</span>
+                        </div>
                     </div>
                 </div>
                 <div class="row-child-dim">
                     <div class="col-dim">
-                        <label for="long-pro" class="form-label">Largo*</label>
-                        <input
-                            type="text"
-                            class="form-control"  
-                            placeholder="0,0"
-                            id="long-pro"
-                            v-model="deliveryInformation.length"
-                            @input="handleNumericInput('length')"
-                        />
-                    </div>
-                    <div class="col-dim">
-                        <label for="unl-pro" class="form-label"></label>
-                        <select
-                            id="unl-pro"
-                            class="form-select"                   
-                            v-model="deliveryInformation.length_unit"
-                        >
-                            <option value="cm">cm</option>
-                            <option value="in">in</option>
-                        </select>
+                        <label for="long-chile" class="form-label">Largo*</label>
+                        <div class="input-group">
+                            <input 
+                                type="text"
+                                class="form-control input-data-unit"    
+                                placeholder="0,0"
+                                id="long-chile"
+                                v-model="deliveryInformation.length"
+                                @input="handleNumericInput('length')"
+                            >
+                            <span class="input-group-text">cm</span>
+                        </div>
                     </div>
                 </div>
                 <div class="row-child-dim">
@@ -295,7 +271,7 @@
                             v-model="deliveryInformation.weight_unit"
                         >
                             <option value="g">g</option>
-                            <option value="Kg">Kg</option>
+                            <option value="kg">Kg</option>
                         </select>
                     </div>
                 </div>
@@ -306,19 +282,13 @@
             <div class="col-lg-5 col-md-12">
                 <div>
                     <label for="statusItem" class="form-label">Estado*</label>
-                    <select
+                    <select-dbm-static
                         id="statusItem"
-                        class="form-select"        
-                        v-model="productInfo.status"
-                    >
-                        <option disabled selected value="">
-                            Seleccione un estado
-                        </option>
-                        <option value="Usado en buen estado">
-                            Usado en buen estado
-                        </option>
-                        <option value="Sin uso">Sin uso</option>
-                    </select>
+                        :items="stateUse"                              
+                        :selected="productInfo.status"
+                        @update:selected-static="updateSelectedState"
+                        placeholder="Seleccione un estado"
+                    />
                 </div>
             </div>
             <div class="col-lg-7 col-md-12" v-if="productInfo.status !== 'Sin uso'">
@@ -597,7 +567,7 @@
                                 id="number"
                                 class="form-control"
                                 placeholder="Ingresa el número"
-                                v-model="productInfo.delivery_information.adddress_number"
+                                v-model="productInfo.delivery_information.address_number"
                             />
                         </div>
                         <div>
@@ -864,6 +834,10 @@ const rangeAge = ref([
     {id: 3, value: 3, name:"12 a 24 Meses"},
     {id: 4, value: 4, name:"2 a 6 Años"},
 ]);
+const stateUse = ref([
+        {id: 1, value: "Usado en buen estado", name:"Usado en buen estado"},
+        {id: 2, value: "Sin uso", name:"Sin uso"},
+    ]);
 const productInfo = ref({});
 const deliveryInformation = ref({});
 
@@ -916,6 +890,12 @@ const updateSelectedGender = (newGender) => {
 const updateSelectedRangeAge = (newRangeAge) => {
     productInfo.value.age_filter_id = newRangeAge;
 };
+
+// Handle state update
+const updateSelectedState = (newState) => {
+    productInfo.value.status = newState;
+};
+
 
 //Photos 
 const isDragActive = ref(false);
@@ -1216,7 +1196,8 @@ const fetchData = async (product_id) => {
         userBankAccount.value = productInfo.value.user.bank_detail.account_number;
         userBankAccountType.value = productInfo.value.user.bank_detail.account_type;
         userRut.value = productInfo.value.user.bank_detail.rut;  
-        deliveryInformation.value = response.data.delivery_information;  
+        deliveryInformation.value = productInfo.value.delivery_information;  
+        console.log("Info producto", productInfo.value);
     } catch (error) {
         console.error("Error fetching data:", error);
     }

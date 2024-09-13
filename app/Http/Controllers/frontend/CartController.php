@@ -94,11 +94,8 @@ class CartController extends Controller
                         'slug' => $product->slug,
                         'quantity' => 1,
                         'name' => $product->name,
-                        'price' => $product->price,  
-                        'length' => $product->length,  
-                        'width' => $product->width,  
-                        'height' => $product->height,  
-                        'weight' => $product->weight,  
+                        'price' => $product->price, 
+
                         'delivery_information' => [
                             'option' => $deliveryInformation->option,
                             'region' => $deliveryInformation->region,
@@ -108,6 +105,10 @@ class CartController extends Controller
                             'address' => $deliveryInformation->address,
                             'address_number' => $deliveryInformation->address_number,
                             'dpto_house' => $deliveryInformation->dpto_house,
+                            'length' => $deliveryInformation->length,  
+                            'width' => $deliveryInformation->width,  
+                            'height' => $deliveryInformation->height,  
+                            'weight' => $deliveryInformation->weight,  
                         ],
                         // 'galleries' => $galleries->isNotEmpty() ? [
                         //     'url' => $galleries->first()->url,

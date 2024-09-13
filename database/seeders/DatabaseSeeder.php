@@ -6,6 +6,7 @@ namespace Database\Seeders;
 
 use App\Models\Author;
 use App\Models\AuthorImage;
+use App\Models\BankDetail;
 use App\Models\Order;
 use App\Models\Post;
 use App\Models\PostCategory;
@@ -37,7 +38,7 @@ class DatabaseSeeder extends Seeder
             'birthdate' => '',
             'phone' => '',
         ])->assignRole('admin');
-        User::factory()->create([
+        $user = User::factory()->create([
             'name'  => 'User',
             'lastname'  => 'Test',
             'email' => 'test@dbm.cl', 
@@ -46,6 +47,15 @@ class DatabaseSeeder extends Seeder
             'birthdate' => '',
             'phone' => '',
         ])->assignRole('customer');
+        // Creating bank details for the user
+        BankDetail::create([
+            'user_id' => $user->id,
+            'full_name' => 'Usuario Test',
+            'bank' => 'Banco Santander',
+            'account_number' => '123456789',
+            'rut' => '12.345.678-9',
+            'account_type' => 'Cuenta Corriente',
+        ]);
         $this->call(CategoriesTableSeeder::class);       
         $this->call(GenderTableSeeder::class);       
         $this->call(AgeFiltersTableSeeder::class);
@@ -70,7 +80,7 @@ class DatabaseSeeder extends Seeder
                 'chile_office' => '',
                 'address' => 'Calle Beethoven',
                 'address_number' => 23,
-                'dpto_house' => '',
+                'dpto_house' => 'Condominio X',
                 'recover_price' => '',
             ]);
             $deliveryInformation->save(); // Save the delivery information
