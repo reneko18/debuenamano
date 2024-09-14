@@ -87,6 +87,10 @@ Route::get('/autores',[AuthorController::class, 'archive'])->name('author.index'
 //Post Categories
 Route::get('/categorias-posts',[PostCategoryController::class, 'archive'])->name('postcategories.archive');
 
+//Rutas para entrar a post de un autor o de una categoria
+Route::get('/entradas/autor/{author}',[PostController::class, 'authorPost'])->name('authorpost.index');
+Route::get('/entradas/categoria/{postcategory}',[PostController::class, 'categoryPost'])->name('categorypost.index');
+
 //Test API Chilexpress Route
 Route::get('/chilexpress',[ChilexpressController::class, 'index'])->name('api.index');
 

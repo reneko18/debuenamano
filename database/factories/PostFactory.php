@@ -20,17 +20,19 @@ class PostFactory extends Factory
     {
         $createdAt = fake()->dateTimeBetween('-1 year', 'now');
 
+        $title = fake()->unique()->realTextBetween(5,10);
+
         return [
-            'title' => fake()->realTextBetween(5,10),
+            'title' => $title,
             'content' => fake()->realText(500),
             'main_img' => 'images/post-main-image/portada_16952527881695900087.jpg',
             'caption_img' => fake()->realTextBetween(10,25),
             'author_id' => fake()->numberBetween(1,10),
-            'slug' => Str::slug(fake()->realTextBetween(5,10)),
-            'meta_title' => fake()->realTextBetween(5,10),
+            'slug' => Str::slug($title),
+            'meta_title' => $title,
             'meta_description' => fake()->realText(180),
             'created_at' => $createdAt,
-            'updated_at' => $createdAt, // Assuming you want updated_at to be the same as created_at initially
+            'updated_at' => $createdAt,
         ];
     }
 }

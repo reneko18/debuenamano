@@ -46,6 +46,33 @@ class Post extends Model
         ->orderBy('created_at', $order); // Apply ordering
     }
 
+    /*Scope Filters Authors*/ 
+    public function scopeWithAuthorFilters($query,$postcategories,$order = 'desc')
+    {
+            $postcategories = is_array($postcategories) ? $postcategories : [$postcategories];
+    
+        return $query->when(count($postcategories), function ($query) use ($postcategories) {
+            $query->whereHas('postcategories', function ($query) use ($postcategories) {
+                $query->whereIn('post_category_id', $postcategories);
+            });
+        })
+        ->orderBy('created_at', $order); // Apply ordering
+    }
+
+    /* Scope Filters Categories */
+    public function scopeWithCategoryFilters($query, $authors, $order = 'desc')
+    {
+        $authors = is_array($authors) ? $authors : [$authors];
+
+        return $query->when(count($authors), function ($query) use ($authors) {
+            $query->whereHas('author', function ($query) use ($authors) {
+                $query->whereIn('id', $authors); 
+            });
+        })
+        ->orderBy('created_at', $order); // Apply ordering
+    }
+
+
     public function getRouteKeyName()
     {
         return 'slug';

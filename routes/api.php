@@ -112,11 +112,15 @@ Route::get('/postscategories/all', [PostCategoryController::class,'adminindex'])
 Route::post('/postcategory/store', [PostCategoryController::class,'store']);
 Route::delete('/postcategory/delete/{id}', [PostCategoryController::class, 'destroy']);
 
+Route::get('/postcategory/post/{category}',[PostCategoryController::class,'getCategoryPosts']);
+
 //API Authors
 Route::get('/authors', [AuthorController::class,'index']);
 Route::get('/authors/all', [AuthorController::class,'adminindex']);
 Route::delete('/author/delete/{id}', [AuthorController::class, 'destroy']);
 Route::post('/author/store', [AuthorController::class,'store']);
+
+Route::get('/author/post/{author}',[AuthorController::class,'getAuthorPosts']);
 
 //API User Dashboard
 Route::get('/user/{user}', [UserController::class,'index']);

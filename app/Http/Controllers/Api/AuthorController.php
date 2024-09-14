@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Author;
+use App\Models\Post;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
@@ -79,4 +80,30 @@ class AuthorController extends Controller
 
         return response()->json(['message' => 'Author deleted successfully']);
     }
+
+    // public function getAuthorPosts(Author $author)
+    // {
+
+    //     $posts = $author->posts()->with('author','postcategories')->withAuthorFilters(           
+    //         request()->input('postcategories', []),    
+    //         request()->input('order', 'desc')      
+    //     )->paginate(6);    
+     
+    //     return response()->json($posts);
+    // }
+
+    public function getAuthorPosts(Author $author)
+    {
+        // Use the Post model to filter posts by author_id and apply the custom scope
+        $posts = Post::where('author_id', $author->id)
+            ->with('author', 'postcategories')
+            ->withAuthorFilters(
+                request()->input('postcategories', []),
+                request()->input('order', 'desc')
+            )
+            ->paginate(6);
+
+        return response()->json($posts);
+    }
+    
 }

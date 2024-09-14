@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\PostCategory;
 use App\Http\Controllers\Controller;
+use App\Models\Post;
 use Illuminate\Http\Request;
 
 class PostCategoryController extends Controller
@@ -53,4 +54,38 @@ class PostCategoryController extends Controller
 
         return response()->json(['message' => 'Post Category deleted successfully']);
     }
+
+    // public function getCategoryPosts(PostCategory $postCategory)
+    // {
+    //     $posts = Post::whereHas('postcategories', function ($query) use ($postCategory) {
+    //         $query->where('post_category_id', $postCategory->id);
+    //     })
+    //         ->with('author', 'postcategories')
+    //         ->withCategoryFilters(
+    //             request()->input('authors', []),  
+    //             request()->input('order', 'desc') 
+    //         )
+    //         ->paginate(6); 
+
+    //     return response()->json($posts);
+    // }
+
+    public function getCategoryPosts($slug)
+    {
+        $postCategory = PostCategory::where('slug', $slug)->firstOrFail();
+        
+        // Now perform the query using $postCategory
+        $posts = Post::whereHas('postcategories', function ($query) use ($postCategory) {
+            $query->where('post_category_id', $postCategory->id);
+        })
+        ->with('author', 'postcategories')
+        ->withCategoryFilters(
+            request()->input('authors', []),  
+            request()->input('order', 'desc')
+        )
+        ->paginate(6); 
+
+        return response()->json($posts);
+    }
+
 }

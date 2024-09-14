@@ -17,4 +17,9 @@ class PostCategory extends Model
     {
         return $this->belongsToMany(Post::class, 'post_category', 'post_category_id', 'post_id');
     }
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
 }

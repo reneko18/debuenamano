@@ -165,4 +165,17 @@ class PostController extends Controller
         $posts = Post::get();
         return view('post.archive', compact('posts'));
     }
+
+    public function authorPost(Author $author)
+    {
+        $authorSlug = $author->slug;        
+        return view('post.author', compact('authorSlug','author'));
+    }
+
+    public function categoryPost($slug)
+    {
+        $postCategory = PostCategory::where('slug', $slug)->firstOrFail();
+        $postCategorySlug = $postCategory->slug;        
+        return view('post.category', compact('postCategorySlug','postCategory'));
+    }
 }

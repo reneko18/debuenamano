@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Author>
@@ -16,9 +17,12 @@ class AuthorFactory extends Factory
      */
     public function definition()
     {
+        $firstName = fake()->unique()->firstName(null);
+        $lastName = fake()->unique()->lastName();
         return [
-            'firstname' => fake()->firstName(null),
-            'lastname' => fake()->lastName(),
+            'firstname' => $firstName,
+            'lastname' => $lastName,
+            'slug' => Str::slug($firstName . " " . $lastName),
             'main_img' => 'images/author_profil/author-profil.jpg',
         ];
     }

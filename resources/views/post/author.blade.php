@@ -1,10 +1,7 @@
 @extends('includes.baseform')
 @section('title')
-  Blog - De Buena Mano
+{{ $author->firstname }} {{ $author->lastname }} - De Buena Mano
 @endsection
-@push('post-seo')
-    <meta name="description" content="">    
-@endpush
 
 @section('content')
     <section class="container-fluid first-sec-blog">
@@ -22,14 +19,15 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ route('inicio') }}">Inicio</a></li>
-                <li class="breadcrumb-item active">Blog</li>
+                <li class="breadcrumb-item"><a href="{{ route('post.blog') }}">Blog</a></li>
+                <li class="breadcrumb-item active">{{ $author->firstname }} {{ $author->lastname }}</li>
             </ol>
         </nav>
         </div>
     </section>
     <section>
         <div id="app">
-            <posts-loop />
+            <authors-loop :author-slug="'{{ $authorSlug }}'" />
         </div>
     </section>
 @endsection

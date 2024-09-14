@@ -16,7 +16,7 @@
                       </option>
                   </select>
               </div>
-              <div class="col">
+              <!-- <div class="col">
                   <label for="aut-blog" class="mb-3">Autores</label>
                   <select
                       id="aut-blog"
@@ -28,7 +28,7 @@
                           {{ aut.firstname }} {{ aut.lastname }}
                       </option>
                   </select>
-              </div>
+              </div> -->
               <div class="col">
                   <label for="order-blog" class="mb-3">Ordenar por</label>
                   <select
@@ -53,18 +53,18 @@
         </div>
       </div>
       <div class="row row-post-loop" id="blog">
-          <div class="col-post" v-for="post in posts.data">
+          <div class="col-post" v-for="post in postsData.data">
               <div class="card">
                   <div class="card-header-blog">
                       <a :href="'/entradas/' + post.slug" class="link-post-archive">
-                          <img :src="post.main_img" class="card-img-blog" alt="" />
+                          <img :src="'/' + post.main_img" class="card-img-blog" alt="" />
                       </a>
                   </div>
                   <div class="card-body">
                       <div class="meta-content d-flex justify-content-between">
                           <div class="author">
                               <a :href="'/entradas/autor/' + post.author.slug">
-                                <img :src="post.author.main_img" alt="imagen-autor">                             
+                                <img :src="'/' + post.author.main_img" alt="imagen-autor">                             
                                 <span
                                     >{{ post.author.firstname }}
                                     {{ post.author.lastname }}
@@ -87,8 +87,8 @@
           </div>
           <div class="d-flex justify-content-center mb-100">
               <Bootstrap5Pagination
-                  :data="posts"   
-                  @pagination-change-page="loadPosts"
+                  :data="postsData"   
+                  @pagination-change-page="loadPostsAuthor"
               />
           </div>
       </div>
@@ -100,12 +100,20 @@ import axios from 'axios';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 
+const props = defineProps({
+authorSlug: {
+    type: Object,
+    default: () => {},
+},
+});
+
+
 // State
-const posts = ref([]);
+const postsData = ref([]);
 const postscats = ref([]);
-const authors = ref([]);
+// const authors = ref([]);
 const selected = reactive({
-  authors: [],
+//   authors: [],
   postcategories: [],
   order: 'desc', // Default order
 });
@@ -114,13 +122,12 @@ const selected = reactive({
 const currentPageResults = ref(""); 
 const totalResults = ref(null); 
 
-// Methods
-const loadPosts = async (page = 1) => {
+const loadPostsAuthor = async (page = 1) => {
   try {
-    const response = await axios.get('/api/posts?page=' + page, {
+    const response = await axios.get(`/api/author/post/${props.authorSlug}?page=${page}`, {
       params: selected,
     });
-    posts.value = response.data;
+    postsData.value = response.data;
     if(response.data.to === null){
         currentPageResults.value = 0
     } else {
@@ -134,6 +141,7 @@ const loadPosts = async (page = 1) => {
   }
 };
 
+
 const loadPostsCats = async () => {
   try {
     const response = await axios.get('/api/postscategories', {
@@ -145,16 +153,16 @@ const loadPostsCats = async () => {
   }
 };
 
-const loadAuthors = async () => {
-  try {
-    const response = await axios.get('/api/authors', {
-      params: _.omit(selected, 'authors'),
-    });
-    authors.value = response.data;
-  } catch (error) {
-    console.log(error);
-  }
-};
+// const loadAuthors = async () => {
+//   try {
+//     const response = await axios.get('/api/authors', {
+//       params: _.omit(selected, 'authors'),
+//     });
+//     authors.value = response.data;
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
 
 const truncatedContent = (content) => {
   const maxLength = 200;
@@ -178,18 +186,18 @@ const formatDate = (date) => {
 
 // Lifecycle hooks
 onMounted(() => {
-  loadPosts();
+  loadPostsAuthor();
   loadPostsCats();
-  loadAuthors();
+//   loadAuthors();
 });
 
 // Watchers
 watch(
   () => selected,
   () => {
-    loadPosts();
+    loadPostsAuthor();
     loadPostsCats();
-    loadAuthors();
+    // loadAuthors();
   },
   { deep: true }
 );
