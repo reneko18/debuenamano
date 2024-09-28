@@ -21,6 +21,7 @@ body {
 
 /* MÁRGENES ****************************************************** */
 
+.mt-24  { margin-top: 24px;    }
 .mt-30  { margin-top: 30px;    }
 .mt-40  { margin-top: 40px;    }
 .mt-60  { margin-top: 60px;    }
@@ -245,6 +246,10 @@ h3 {
     font-size: 14px;
     font-weight: 700;
 }
+
+.txt-small { font-size: 13px; color: #747E67; margin-top: 10px; margin-bottom: 24px; display: block; line-height: 13px; }
+.txt-small svg { margin-right: 6px; }
+
 
 /* HEADER */
 
@@ -496,6 +501,8 @@ label {
 .modulo-resumen textarea {
     resize: none;
 }
+
+input[type=password] { margin-bottom: 5px!important; } 
 
 /*New Code Form*/
 .character-count-badge {
