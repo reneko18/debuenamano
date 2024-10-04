@@ -1,5 +1,8 @@
 <template>
     <div>
+        <div class="w-100 mb-3 flex justify-content-end">
+            <Button icon="pi pi-refresh" rounded raised @click="refreshData"/>
+        </div>
         <div class="search-box input-group">
             <input
                 type="text"
@@ -120,6 +123,7 @@ import { ref, onMounted } from "vue";
 import { FilterMatchMode } from "primevue/api";
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
+import Button from "primevue/button";
 
 const products = ref([]);
 
@@ -209,6 +213,10 @@ const updateAdminStatus = async (product) => {
         console.error("Error updating product:", error);
     }
 };
+
+function refreshData(){
+    fetchData();
+}
 
 onMounted(() => {
     fetchData();

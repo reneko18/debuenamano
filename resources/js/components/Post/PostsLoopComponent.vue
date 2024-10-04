@@ -71,7 +71,7 @@
                                 </span>
                               </a>  
                           </div>
-                          <span class="date">{{ formatDate(post.created_at) }}</span>
+                          <span class="date">{{ post.formattedCreatedAt }}</span>
                       </div>
                       <a :href="'/entradas/' + post.slug" class="link-post-archive"> 
                           <h2 class="card-title">{{ post.title }}</h2>
@@ -121,6 +121,10 @@ const loadPosts = async (page = 1) => {
       params: selected,
     });
     posts.value = response.data;
+    posts.value.data.forEach(post => {
+      post.formattedCreatedAt = post.formatted_created_at; // Now you have access to the formatted date
+    });
+
     if(response.data.to === null){
         currentPageResults.value = 0
     } else {
@@ -172,9 +176,9 @@ const truncatedContent = (content) => {
 };
 
 
-const formatDate = (date) => {
-  return format(new Date(date), "d 'de' MMMM yyyy", { locale: es });
-};
+// const formatDate = (date) => {
+//   return format(new Date(date), "d 'de' MMMM yyyy", { locale: es });
+// };
 
 // Lifecycle hooks
 onMounted(() => {

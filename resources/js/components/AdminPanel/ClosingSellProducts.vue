@@ -1,5 +1,8 @@
 <template>
     <div>
+        <div class="w-100 mb-3 flex justify-content-end">
+            <Button icon="pi pi-refresh" rounded raised @click="refreshData"/>
+        </div>
         <div class="search-box input-group">
             <input
                 type="text"
@@ -299,6 +302,10 @@ watch(pendingProductsLength, (newValue, oldValue) => {
     // Emit an event named 'update:pendingProductsLength' with the new value
     emit('update:pendingProductsLength', newValue);
 });
+
+function refreshData(){
+    fetchData();
+}
 
 onMounted(() => {
     fetchData();

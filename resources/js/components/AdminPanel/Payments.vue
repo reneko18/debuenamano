@@ -1,5 +1,8 @@
 <template>
     <div>
+        <div class="w-100 mb-3 flex justify-content-end">
+            <Button icon="pi pi-refresh" rounded raised @click="refreshData"/>
+        </div>
         <div class="search-box input-group">
             <input
                 type="text"
@@ -165,6 +168,10 @@ watch(() => props.refreshData, (newValue) => {
     shouldRefresh.value = false; // Reset the refresh flag
   }
 });
+
+function refreshData(){
+    fetchData();
+}
 
 onMounted(() => {
     fetchData();

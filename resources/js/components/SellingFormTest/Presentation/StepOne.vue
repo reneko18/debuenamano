@@ -147,7 +147,7 @@
                     />
                 </div>
             </div>
-            <div class="col-lg-7 col-md-12">                
+            <div class="col-lg-7 col-md-12 position-relative">                
                 <div class="row row-age-range" :class="errorMessageRange ? 'error-dbm' : ''">  
                     <label for="range-age" class="form-label">Rango de edad de tu articulo*</label>
                     <select-dbm-static
@@ -157,6 +157,27 @@
                         @update:selected-static="updateSelectedRangeAge"
                         placeholder="Seleccione un rango"                            
                     />
+                </div> 
+                <!-- Custom Tooltip -->
+                <div class="info-tool-rango" v-tooltip.top="'Si tu producto abarca mas de un rango, selecciona Todas las edades'">
+                    <svg
+                        version="1.1"
+                        id="info-svg"
+                        xmlns="http://www.w3.org/2000/svg"
+                        xmlns:xlink="http://www.w3.org/1999/xlink"
+                        x="0px"
+                        y="0px"
+                        viewBox="0 0 17 17"
+                        style="enable-background: new 0 0 17 17"
+                        xml:space="preserve"                        
+                    >
+                        <path
+                            class="st0"
+                            d="M8.5,16c4.1,0,7.5-3.4,7.5-7.5C16,4.4,12.6,1,8.5,1C4.4,1,1,4.4,1,8.5C1,12.6,4.4,16,8.5,16z"
+                        />
+                        <path class="st0" d="M8.5,11.5v-3" />
+                        <path class="st0" d="M8.5,5.5L8.5,5.5" />
+                    </svg>
                 </div>
                 <div v-if="errorMessageRange" class="invalid-dbm">
                     {{ errorMessageRange }}
@@ -200,6 +221,8 @@ import { useFormStore } from "../../../stores/valuesTwo";
 import { ref, watch , onMounted, defineEmits } from "vue";
 import SelectDbm from "../../Dbm/SelectDbm.vue";
 import SelectDbmStatic from "../../Dbm/SelectDbmStatic.vue";
+// import Tooltip from 'primevue/tooltip';
+
 
 const emit = defineEmits(["constant-emitted"]);
 

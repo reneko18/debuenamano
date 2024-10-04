@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Product extends Model
 {
@@ -136,6 +137,26 @@ protected $fillable = [
         }
 
         return $query;
+    }
+
+    public function getFormattedPublishedAt()
+    {
+        $publishedAt = Carbon::parse($this->published_at);
+        $now = Carbon::now();
+
+        if ($publishedAt->isToday()) {
+            return 'Hoy';
+        } elseif ($publishedAt->diffInDays($now) === 1) {
+            return 'hace 1 dia';
+        } elseif ($publishedAt->diffInDays($now) <= 7) {
+            return  'hace ' . $publishedAt->diffInDays($now) . ' dias';
+        } elseif ($publishedAt->diffInWeeks($now) === 1) {
+            return 'hace 1 semana';
+        } elseif ($publishedAt->diffInWeeks($now) <= 4) {
+            return 'hace ' . $publishedAt->diffInWeeks($now) . ' dias';
+        } else {
+            return 'el ' . $publishedAt->format('d/m/Y');
+        }
     }
 
 

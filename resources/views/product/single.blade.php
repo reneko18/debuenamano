@@ -29,7 +29,7 @@
                         <h1>{{$product->name}}</h1>
                         <div class="d-flex align-items-center mb-4 vendedor">
                             <img class="img-fluid mr-10" src="{{ asset('img/test-user-sp.png') }}" alt="test-user">
-                            <span><b>Publicado por {{ $product->user->name }} {{ $product->user->lastname }}</b> - hace dos semanas</span>
+                            <span><b>Publicado por {{ $product->user->name }} {{ $product->user->lastname }}</b> - {{ $formattedPublishedAt }}</span>
                         </div>
                         <div class="descripcion">					
                             <p> {{ $product->description }} </p>

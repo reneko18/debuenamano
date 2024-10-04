@@ -141,7 +141,7 @@
                             @input="handleNumericInput('stepThreeWeight')"
                         />
                     </div>
-                    <div class="col-dim position-relative">
+                    <div class="position-relative">
                         <label for="unwe-pro" class="form-label"></label>
                         <select-dbm-static
                             id="unwe-pro"
@@ -151,7 +151,7 @@
                             placeholder="Seleccione"
                         />
                         <!-- Custom Tooltip -->
-                        <div class="info-tool">
+                        <div class="info-tool" v-tooltip.top="' El peso del artículo es importante. Si no lo tienes a mano, te sugerimos buscar el dato en el sitio web del proveedor'">
                             <svg
                                 version="1.1"
                                 id="info-svg"
@@ -175,9 +175,7 @@
                         </div>
                         <div class="custom-tooltip" v-if="showTooltip">
                             <p>
-                                El peso del artículo es importante. Si no lo
-                                tienes a mano, te sugerimos buscar el dato en el
-                                sitio web del proveedor.
+                               
                             </p>                            
                         </div>
                     </div>
@@ -239,8 +237,20 @@ const nextStep = async () => {
 const handleNumericInput = (fieldName) => {
     // Get the current value from the corresponding data property
     let value = formData[fieldName];
-    // Apply the numeric filtering logic
-    value = value.replace(/[^0-9]/g, '');
+
+    // Replace any characters that are not digits or a comma
+    value = value.replace(/[^0-9,]/g, '');
+
+    // Allow only one comma
+    const parts = value.split(',');
+    if (parts.length > 2) {
+        // If there are multiple commas, keep only the first part and the first decimal
+        value = `${parts[0]},${parts[1].slice(0, 1)}`; // Keeping the first digit after the first comma
+    } else if (parts.length === 2) {
+        // If there's already one comma, limit the length of the part after the comma to one decimal
+        value = `${parts[0]},${parts[1].slice(0, 1)}`;
+    }
+
     // Update the corresponding data property
     formData[fieldName] = value;
 };

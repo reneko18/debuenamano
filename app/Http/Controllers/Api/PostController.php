@@ -13,15 +13,21 @@ class PostController extends Controller
 {
     public function index()
     {       
-
-        $posts = Post::with('author','postcategories')->withPostFilters( 
+        $posts = Post::with('author', 'postcategories')->withPostFilters( 
             request()->input('authors', []),            
             request()->input('postcategories', []),    
             request()->input('order', 'desc') // Default to ascending        
         )->paginate(6); 
-
+    
+        // Add formattedPublishedAt to each post
+        $posts->getCollection()->transform(function ($post) {
+            $post->formatted_created_at = $post->getFormattedCreatedAt();
+            return $post;
+        });
+    
         return response()->json($posts);
     }
+    
 
     public function store(Request $request)
     {

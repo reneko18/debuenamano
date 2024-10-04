@@ -764,66 +764,29 @@ label {
     margin-left: .6rem;
 }
 
-/*Tooltip*/
+/*Tooltip Medidas y Tooltip Rango*/
 .info-tool {
     position: absolute;
     top: -5px;
     right: 0;
 }
-.info-tool #info-svg {
+.info-tool-rango{
+    position: absolute;
+    top: -5px;
+    right: 12px;
+    padding: 0;
+    width: auto;
+}
+.info-tool #info-svg, .info-tool-rango #info-svg{
     width: 15px;
     height: 15px;
 }
-.info-tool #info-svg .st0 {
+.info-tool #info-svg .st0, .info-tool-rango #info-svg .st0{
     fill: none;
     stroke: #728c54;
     stroke-width: 2;
     stroke-linecap: round;
     stroke-linejoin: round;
-}
-
-.col-dim {
-    position: relative;
-}
-
-.custom-tooltip {
-    position: absolute;
-    background-color: #344026;
-    padding: 5px;
-    border-radius: 4px;
-    top: -100px;
-    transform: translateX(-32%);
-    width: 356px;
-    height: 89px;
-
-    /* Add a triangle at the bottom */
-    &::before {
-        content: "";
-        position: absolute;
-        border-width: 5px;
-        border-style: solid;
-        border-color: #333 transparent transparent transparent;
-        bottom: -10px;
-        left: 50%;
-        transform: translateX(-50%);
-    }
-    & p {
-        font-family: "Quicksand", sans-serif;
-        font-size: 13px;
-        font-weight: 400;
-        line-height: 19px;
-        color: #f9fafa;
-        margin-bottom: 0;
-    }
-
-    display: none;
-}
-
-.col-dim:hover .custom-tooltip {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 0 2rem;
 }
 
 .cont-dimen-1.resumen {

@@ -15,7 +15,8 @@ class SingleProductController extends Controller
 
     public function singleShow(Product $product)
     {
-        return view('product.single', compact('product'));
+        $formattedPublishedAt = $product->getFormattedPublishedAt();
+        return view('product.single', compact('product', 'formattedPublishedAt'));
     }
 
     public function loop()

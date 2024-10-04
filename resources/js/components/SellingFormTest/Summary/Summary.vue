@@ -1297,8 +1297,23 @@
     };
 
     const handleNumericInput = (fieldName) => {
+        // Get the current value from the corresponding data property
         let value = formData[fieldName];
-        value = value.replace(/[^0-9]/g, '');
+
+        // Replace any characters that are not digits or a comma
+        value = value.replace(/[^0-9,]/g, '');
+
+        // Allow only one comma
+        const parts = value.split(',');
+        if (parts.length > 2) {
+            // If there are multiple commas, keep only the first part and the first decimal
+            value = `${parts[0]},${parts[1].slice(0, 1)}`; // Keeping the first digit after the first comma
+        } else if (parts.length === 2) {
+            // If there's already one comma, limit the length of the part after the comma to one decimal
+            value = `${parts[0]},${parts[1].slice(0, 1)}`;
+        }
+
+        // Update the corresponding data property
         formData[fieldName] = value;
     };
 

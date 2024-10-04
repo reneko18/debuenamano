@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Post extends Model
 {
@@ -72,6 +73,25 @@ class Post extends Model
         ->orderBy('created_at', $order); // Apply ordering
     }
 
+    public function getFormattedCreatedAt()
+    {
+        $createdAt = Carbon::parse($this->created_at);
+        $now = Carbon::now();
+
+        if ($createdAt->isToday()) {
+            return 'Hoy';
+        } elseif ($createdAt->diffInDays($now) === 1) {
+            return 'hace 1 dia';
+        } elseif ($createdAt->diffInDays($now) <= 7) {
+            return  'hace ' . $createdAt->diffInDays($now) . ' dias';
+        } elseif ($createdAt->diffInWeeks($now) === 1) {
+            return 'hace 1 semana';
+        } elseif ($createdAt->diffInWeeks($now) <= 4) {
+            return 'hace ' . $createdAt->diffInWeeks($now) . ' dias';
+        } else {
+            return 'el ' . $createdAt->format('d/m/Y');
+        }
+    }
 
     public function getRouteKeyName()
     {

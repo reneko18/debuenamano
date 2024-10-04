@@ -5,6 +5,7 @@ import { createApp } from "vue";
 import { createPinia } from "pinia";
 
 import PrimeVue from "primevue/config";
+import Tooltip from 'primevue/tooltip';
 import ToastService from 'primevue/toastservice';
 import ConfirmationService from 'primevue/confirmationservice';
 import Toast from 'primevue/toast';
@@ -85,6 +86,7 @@ import AddProfilPhotoUser from "./views/AddProfilPhotoUser.vue"
 app.use(pinia);
 app.use(vueClickOutsideElement);
 app.use(router);
+app.directive('tooltip', Tooltip);
 app.component("new-selling-form-product", NewSellingForm);
 app.component("selling-form-product-two", SellingFormTwo);
 app.component("Bootstrap5Pagination", Bootstrap5Pagination);
