@@ -11,6 +11,8 @@ use App\Models\ProductGallery;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
+use App\Mail\ProductCreatedEmail;
+use Illuminate\Support\Facades\Mail;
 
 
 use Illuminate\Support\Str;
@@ -336,7 +338,14 @@ class ProductControllerTest extends Controller
         $product->current_step = '9';
         $product->publish_status = $request->input('status');
 
+        // Save the product
         $product->save();
+
+        // Retrieve the authenticated user
+        $user = $request->user();
+
+        // Send an email notification about the product creation
+        Mail::to($request->user()->email)->send(new ProductCreatedEmail($product, $user));
 
         // Optionally, you can return a response indicating success or failure
         return response()->json(['message' => 'Product updated successfully'], 200);

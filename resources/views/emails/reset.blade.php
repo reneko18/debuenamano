@@ -12,15 +12,15 @@
             </div>
             <div style="padding: 10% 5%">
                 <p style="font-size: 13px; color: #151A0F; line-height:21px;">Hola {{ $user->name }} {{ $user->lastname }}!</p>
-                <p style="font-size: 13px; color: #151A0F; line-height:21px;">¡Qué alegría tenerte en De Buena Mano! 🎉 Aquí creemos en darles una segunda vida a los productos para bebés y niños, y ahora eres parte de esta misión.</p>
-                <p style="font-size: 13px; color: #151A0F; line-height:21px;">
-                    Explora nuestra plataforma, encuentra lo que necesitas o vende eso que ya no usas. ¡Nos encanta que estés aquí para hacer la reutilización algo grande!
+                <p style="font-size: 13px; color: #151A0F; line-height:21px;">Hiciste una solicitud para restablecer tu contraseña. Haz clic en el siguiente enlace para restablecerla:</p>
+                <p style="font-size: 13px; color: #344026; line-height:21px; font-weight: 700;">
+                    <a href="{{ url('password/reset', $token) }}" style="color: #344026; text-decoration: none;">Restablecer Contraseña</a>
                 </p>
                 <p style="font-size: 13px; color: #151A0F; line-height:21px;">
-                    Si tienes alguna duda, estamos para ayudarte.
+                    Si no solicitaste un restablecimiento de contraseña, ignora este mensaje.
                 </p>
                 <p style="font-size: 13px; color: #151A0F; line-height:21px;">
-                    ¡Feliz compra y venta!<br>
+                    ¡Saludos!<br>
                     El equipo de De Buena Mano 🌟
                 </p>
             </div>

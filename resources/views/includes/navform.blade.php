@@ -8,10 +8,26 @@
     </button>
     <div class="collapse navbar-collapse justify-content-end" id="navbarFormt">
       <ul class="navbar-nav">
-        <li class="nav-item"><a class="nav-link" href="{{ route('loop.index')}}">Comprar</a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ route('formtest.show')}}">Vender</a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ route('nosotros')}}">Somos</a></li> 
-        <li class="nav-item"><a class="nav-link" href="{{ route('post.blog')}}">Blog</a></li>   
+        <li class="nav-item">
+          <a class="nav-link {{ Route::is('loop.index') ? 'activo' : '' }}" href="{{ route('loop.index')}}">
+            Comprar
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {{ Route::is('formtest.show') ? 'activo' : '' }}" href="{{ route('formtest.show')}}">
+            Vender
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {{ Route::is('nosotros') ? 'activo' : '' }}" href="{{ route('nosotros')}}">
+            Somos
+          </a>
+        </li> 
+        <li class="nav-item">
+          <a class="nav-link {{ Route::is('post.blog') ? 'activo' : '' }}" href="{{ route('post.blog')}}">
+            Blog
+          </a>
+        </li>   
       </ul>
     </div>     
   </div>

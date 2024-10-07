@@ -8,9 +8,8 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
-use App\Models\User;
 
-class WelcomeEmail extends Mailable
+class PasswordResetEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -19,12 +18,14 @@ class WelcomeEmail extends Mailable
      *
      * @return void
      */
-    public $user;
-    public $password;
 
-    public function __construct(User $user)
+    public $user;
+    public $token;
+
+    public function __construct($user, $token)
     {
-        $this->user = $user;        
+        $this->user = $user;
+        $this->token = $token;
     }
 
     /**
@@ -35,8 +36,8 @@ class WelcomeEmail extends Mailable
     public function envelope()
     {
         return new Envelope(
-            subject: '¡Bienvenido/a a De Buena Mano!', // Set your desired email subject
-            to: $this->user->email, // Set the recipient's email address
+            subject: 'Reiniciar contraseña',
+            to: $this->user->email,
         );
     }
 
@@ -48,8 +49,8 @@ class WelcomeEmail extends Mailable
     public function content()
     {
         return new Content(
-            view: 'emails.welcome', // Set the Blade view file for the email content
-            with: ['user' => $this->user] // Pass data to the view
+            view: 'emails.reset',
+            with: ['user' => $this->user, 'token' => $this->token],
         );
     }
 

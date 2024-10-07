@@ -2,15 +2,16 @@
 
 namespace App\Mail;
 
+use App\Models\Product;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
-use App\Models\User;
 
-class WelcomeEmail extends Mailable
+class ProductCreatedEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -20,11 +21,12 @@ class WelcomeEmail extends Mailable
      * @return void
      */
     public $user;
-    public $password;
+    public $product;
 
-    public function __construct(User $user)
+    public function __construct(Product $product, User $user)
     {
-        $this->user = $user;        
+        $this->user = $user;
+        $this->product = $product;
     }
 
     /**
@@ -35,8 +37,8 @@ class WelcomeEmail extends Mailable
     public function envelope()
     {
         return new Envelope(
-            subject: '¡Bienvenido/a a De Buena Mano!', // Set your desired email subject
-            to: $this->user->email, // Set the recipient's email address
+            subject: 'Producto creado',
+            to: $this->user->email,
         );
     }
 
@@ -48,8 +50,8 @@ class WelcomeEmail extends Mailable
     public function content()
     {
         return new Content(
-            view: 'emails.welcome', // Set the Blade view file for the email content
-            with: ['user' => $this->user] // Pass data to the view
+            view: 'emails.productcreated',
+            with: ['user' => $this->user,'product' => $this->product]
         );
     }
 

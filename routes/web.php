@@ -8,6 +8,7 @@ use App\Http\Controllers\admin\PostCategoryController;
 use App\Http\Controllers\admin\PostController;
 use App\Http\Controllers\admin\ProductController;
 use App\Http\Controllers\admin\UserController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\frontend\SellingFormController;
 use App\Http\Controllers\frontend\ShopController;
 use App\Http\Controllers\frontend\SingleProductController;
@@ -143,5 +144,5 @@ Route::get('/terminos-y-condiciones',[PagesController::class,'terms'])->name('te
 //Ruta Landing
 Route::get('/landing',[PagesController::class,'landing'])->name('landing');
 
-
-
+//Ruta Forget password
+Route::post('/password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.reset.email');

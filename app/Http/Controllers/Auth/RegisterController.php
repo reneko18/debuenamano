@@ -12,6 +12,9 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Spatie\Permission\Models\Role;
 
+use App\Mail\WelcomeEmail;
+use Illuminate\Support\Facades\Mail;
+
 class RegisterController extends Controller
 {
     /*
@@ -92,6 +95,8 @@ class RegisterController extends Controller
         if ($customerRole) {
             $user->assignRole($customerRole);
         }
+
+        Mail::to($user->email)->send(new WelcomeEmail($user));
 
         event(new Registered($user));
 

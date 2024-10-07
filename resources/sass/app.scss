@@ -258,24 +258,60 @@ h3 {
     margin: 0;
 }
 
-.top-header .iconos li {
+.top-header .iconos li:not(.dropdown li) {
     display: inline-block;
     margin-left: 16px;
 }
 
-.top-header .iconos li a svg {
+.top-header .iconos svg {
     height: 16px;
     width: auto;
-    fill: #fff;
 }
 
-.top-header .iconos li a:hover path {
-    fill: #d29c37;
-    stroke: #d29c37;
+.top-header .iconos .st0{
+    fill: none;
+    stroke: #fff;
+    stroke-linecap:round;
+    stroke-linejoin:round;
 }
 
 .top-header .iconos .user{
     cursor: pointer;
+}
+
+.top-header .iconos .user:after{
+    display: none;
+}
+
+.top-header .dropdown-menu.show{
+    top: 12px !important;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+.top-header .dropdown-toggle.show .st0{
+    stroke: #D29C37;
+}
+.top-header .dropdown-menu .dropdown-item{
+    height: 44px;
+    line-height: 34px;
+}
+.top-header .dropdown-menu .dropdown-item:hover,.top-header .dropdown-menu .dropdown-item.active{
+    color: #F9FAFA;
+    background-color: #D29C37;
+}
+
+.top-header .cart-section span{
+    position:absolute;
+    width:16px;
+    height:16px;
+    border-radius:50%;
+    background-color: #D29C37;
+    color: #344026;
+    font-size:12px;
+    font-weight: 700;
+    text-align: center;
+    top:-2px;
+    left:12px;
 }
 
 .header {
@@ -377,7 +413,7 @@ h3 {
 }
 
 .header .navbar-nav .nav-item .nav-link:hover,
-.header .navbar-nav .nav-item .nav-link .activo,
+.header .navbar-nav .nav-item .nav-link.activo,
 .header .navbar-nav .nav-item .icono-buscar:hover {
     background-color: #728c54;
     color: #fff;
